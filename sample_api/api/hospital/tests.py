@@ -49,6 +49,7 @@ class RendezvousTestCase(TestCase):
 
 class DoctorSingleTestCase(TestCase):
     def setUp(self):
+        self.factory = RequestFactory()
         Doctor.objects.create(name="Deniz", lastname="Yilmaz", age="38")
         Doctor.objects.create(name="Firat", lastname="Tekin", age="29")
         Doctor.objects.create(name="Selin", lastname="Kir", age="41")
@@ -87,6 +88,12 @@ class DoctorSingleTestCase(TestCase):
                                content_type="application/json")
         expected = b'{"status": "FAIL", "message": "doctor does not exist"}'
         self.assertEqual(expected, resp.content)
+		
+    def test_doctor_single_post(self):
+        request = self.factory.post('/hospital/doctor/',json.dumps({"name": "Kemal", "lastname": "Kemalettin", "age":"122"}), content_type = 'application/json')
+        response = doctor_single(request, 9)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.content, JsonResponse({"status": "OK", "message": ""}).content)
 
     def tearDown(self):
         Doctor.objects.all().delete()
@@ -103,13 +110,20 @@ class DepartmentTestCase(TestCase):
 		response = department_single(request, 1)
 		self.assertEqual(response.status_code, 200)
 		self.assertEqual(response.content, JsonResponse({"name": "yuz kafa bas"}).content)
-	
-	def test_put_method(self):
+		
+	def test_get_all(self):
+		request = self.factory.get('/hospital/department/')
+		response = department(request)
+		self.assertEqual(response.status_code, 200)
+		self.assertEqual(response.content, JsonResponse({"departments": [{"name": "yuz kafa bas"}, {"name": "deliler kismi"}]}, safe=False).content)
+		
+	def test_put_method(self): 
 		request = self.factory.put('/hospital/department/', json.dumps({"name": "tirnak burun sac"}), content_type = 'application/json')
 		response = department_single(request, 1)
 		self.assertEqual(response.status_code, 200)
 		department = Department.objects.filter(id = int(1)).first()
 		self.assertEqual("tirnak burun sac", department.name)
+		
 
 	def tearDown(self):
 		Department.objects.all().delete()
