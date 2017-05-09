@@ -8,18 +8,41 @@ from .views import department_single, department
 from .models import Department
 from .views import patient_single, patient
 from .models import Patient
+from .views import rendezvous_single, rendezvous
+from .models import Rendezvous
+from .models import Doctor
 from django.http import JsonResponse
 import json
 
-class Test1(TestCase):
-	def test_rendezvous_get(self):
-		result = subprocess.getoutput('http --json GET http://127.0.0.1:8000/hospital/rendezvous/1/')
-		expected='{"Patient": "qwer qwerty", "Doctor Name": "Kazim Kazim", "Time": "2017-04-23 22:07:39.117858+00:00"}'
-		self.assertEqual(expected,result)
-	def test_rendezvous_post(self):
-		result = subprocess.getoutput('http --json POST http://127.0.0.1:8000/hospital/rendezvous/ patient_id=3 doctor_id=1')
-		expected='{"status": "OK", "message": "rendezvous added"}'
-		self.assertEqual(expected,result)
+class RendezvousTestCase(TestCase):
+	def setUp(self):
+		self.factory = RequestFactory()
+		d=Doctor.objects.create(name = "Erdal",lastname= "bakkal",age=44)
+		p=Patient.objects.create(name = "Scobby",lastname= "Dobby",age=12)
+		Rendezvous.objects.create(doctor=d,patient=p)
+		
+	
+	def test_post_method(self):
+		request = self.factory.post('/hospital/rendezvous/',json.dumps({"patient_id":"1","doctor_id":"1"}), content_type = 'application/json')
+		response = rendezvous(request)
+		self.assertEqual(response.status_code, 200)
+		request = self.factory.get('/hospital/rendezvous/')
+		response = rendezvous_single(request, 1)
+		self.assertEqual(response.status_code, 200)
+		rendez = Rendezvous.objects.filter(id = int(2)).first()
+		self.assertEqual("Erdal bakkal", rendez.doctor.name+" "+rendez.doctor.lastname)
+		self.assertEqual("Scobby Dobby", rendez.patient.name+" "+rendez.patient.lastname)
+
+	def test_get_method(self):
+		request = self.factory.get('/hospital/rendezvous/')
+		response = rendezvous_single(request, 1)
+		self.assertEqual(response.status_code, 200)
+		rendezvous = Rendezvous.objects.filter(id = int(1)).first()
+		self.assertEqual("Erdal bakkal", rendezvous.doctor.name+" "+rendezvous.doctor.lastname)
+		self.assertEqual("Scobby Dobby", rendezvous.patient.name+" "+rendezvous.patient.lastname)
+
+	def tearDown(self):
+		Department.objects.all().delete()
 
 
 
