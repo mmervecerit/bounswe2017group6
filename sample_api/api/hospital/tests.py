@@ -142,5 +142,6 @@ class DoctorPostCase(TestCase):
 		request = self.factory.post('/hospital/doctor/',json.dumps({"name":"ahmet","lastname":"kısa","age":32}), content_type = 'application/json')
 		response = doctor(request)
 		self.assertEqual(response.status_code, 200)
+		self.assertEqual(response.content, JsonResponse({"status": "OK", "message": ""}).content)
 	def tearDown(self):
 		Department.objects.all().delete()
