@@ -164,11 +164,11 @@ def patient(request):
     print("patient")
     if request.method == "GET":
         patients = Patient.objects.all()
-    	response = {}
-    	response["patients"] = []
-    	for p in patients:
-    		response["patients"].append({"name":p.name, "lastname": p.lastname, "age": p.age});
-    	return JsonResponse(response)
+        response = {}
+        response["patients"] = []
+        for p in patients:
+            response["patients"].append({"name":p.name, "lastname": p.lastname, "age": p.age});
+        return JsonResponse(response)
     elif request.method == "POST":
         print("post patient")
         try:
@@ -181,7 +181,21 @@ def patient(request):
             return JsonResponse({"status":"FAIL", "message":"wrong data format"})
 @csrf_exempt
 def rendezvous(request):
-    if request.method == "POST":
+    if request.method == "GET":
+        rendezvous=Rendezvous.objects.all()
+        dep = {}
+        dep_records=[]
+        for e in rendezvous:
+            nam=e.doctor.name+" "+e.doctor.lastname
+            nam2=e.patient.name+" "+e.patient.lastname
+            tim=e.date
+            record={"Doctor name and lastname":nam,"Patient name and lastname":nam2,"time":tim}
+            dep_records.append(record)
+          
+        
+        dep["rendezvous"]=dep_records
+        return JsonResponse(dep)
+    elif request.method == "POST":
         try:
             data = json.loads(request.body.decode("utf-8"))
             print(data["doctor_id"]+ " "+data["patient_id"])
