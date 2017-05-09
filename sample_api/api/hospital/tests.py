@@ -110,17 +110,17 @@ class PatientTestCase(TestCase):
 		self.assertEqual("Salih", patient.name)
 
 	def test_post_method(self):
-		request = self.factory.post('/hospital/patient', json.dumps({"name": "Muhittin", "lastname" : "Yılmaz" , "age" : 50}), content_type = 'application/json')
+		request = self.factory.post('/hospital/patient', json.dumps({"name": "Muhittin", "lastname" : "Yilmaz" , "age" : 50}), content_type = 'application/json')
 		response = patient(request)
 		self.assertEqual(response.status_code, 200)
-	 	self.assertEqual(response.content, JsonResponse({"name": "Muhittin", "lastname" : "Yılmaz" , "age" : 50}).content)
+	 	self.assertEqual(response.content, JsonResponse({"name": "Muhittin", "lastname" : "Yilmaz" , "age" : 50}).content)
 
 	def test_delete_method(self):
-		request = self.factory.delete('/hospital/patient',json.dumps({"name": "Kazım"}), content_type = 'application/json')
+		request = self.factory.delete('/hospital/patient',json.dumps({"name": "Kazim"}), content_type = 'application/json')
 		response = patient_single(request, 1)
 		self.assertEqual(response.status_code, 200)
 		patient = Patient.objects.filter(id = int(1)).first()
-		self.assertEqual(response.content, JsonResponse({"name": "Kazım"}).content)
+		self.assertEqual(response.content, JsonResponse({"name": "Kazim"}).content)
 
 	def tearDown(self):
 		Patient.objects.all().delete()
