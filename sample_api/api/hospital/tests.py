@@ -134,3 +134,13 @@ class PatientTestCase(TestCase):
 
 	def tearDown(self):
 		Patient.objects.all().delete()
+		
+class DoctorPostCase(TestCase):
+	def setUp(self):
+		self.factory = RequestFactory()
+	def test_post_method(self):
+		request = self.factory.post('/hospital/doctor/',json.dumps({"name":"ahmet","lastname":"kısa","age":32}), content_type = 'application/json')
+		response = doctor(request)
+		self.assertEqual(response.status_code, 200)
+	def tearDown(self):
+		Department.objects.all().delete()
