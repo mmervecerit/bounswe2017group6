@@ -130,6 +130,7 @@ def department(request):
 
 @csrf_exempt
 def department_single(request, department_id):
+    # Given an id, returns a json response contatining the name of the department having the given id.
     if request.method == "GET":
         print(request)
         department = Department.objects.filter(id = int(department_id))
@@ -137,6 +138,7 @@ def department_single(request, department_id):
             department = department.first()
         return JsonResponse({"name": department.name})
 
+    # Given an id and a parameter of type name, replaces the name of the department having the given id with the given name.
     elif request.method == "PUT":
         data = json.loads(request.body.decode("utf-8"))
         department = Department.objects.filter(id = int(department_id))
