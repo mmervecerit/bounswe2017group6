@@ -35,6 +35,7 @@ def doctor_single(request, doctor_id):
             doctor = doctor.first()
         return JsonResponse({"name": doctor.name, "lastname": doctor.lastname,
                              "age": doctor.age})
+    # Posts a single doctor with the fields name,lastname and age returns error message if the format is wrong
     elif request.method == "POST":
         print("post doctor")
         try:
@@ -161,7 +162,7 @@ def department_single(request, department_id):
 
 @csrf_exempt
 def patient(request):
-    print("patient")
+    # Returns all patients as a dictionary with the patient's name,lastname and age
     if request.method == "GET":
         patients = Patient.objects.all()
         response = {}
