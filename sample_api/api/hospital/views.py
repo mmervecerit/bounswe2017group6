@@ -155,7 +155,7 @@ def department_single(request, department_id):
     elif request.method == "DELETE":
         department = Department.objects.filter(id = int(department_id))
         if department.exists():
-            department.delete() 
+            department.delete()
             return JsonResponse({"status":"OK", "message":""})
         else:
             return JsonResponse({"status":"FAIL", "message":"department does not exist"})
@@ -192,8 +192,8 @@ def rendezvous(request):
             tim=e.date
             record={"Doctor name and lastname":nam,"Patient name and lastname":nam2,"time":tim}
             dep_records.append(record)
-          
-        
+
+
         dep["rendezvous"]=dep_records
         return JsonResponse(dep)
     elif request.method == "POST":
@@ -227,7 +227,7 @@ def rendezvous(request):
                 active = "Yes"
             record={"Doctor Name":r.doctor.name + " " + r.doctor.lastname,"Patient":r.patient.name+" "+r.patient.lastname, "Date":date, "Is Active":active}
             ren_records.append(record)
-        
+
         ren["rendezvous"]=ren_records
         return JsonResponse(ren)
 
@@ -238,7 +238,9 @@ def rendezvous_single(request,rendezvous_id):
         rendezvous=Rendezvous.objects.filter(id = int(rendezvous_id))
         if rendezvous.exists():
             rendezvous=rendezvous.first()
-        return JsonResponse({"Doctor Name":rendezvous.doctor.name + " " + rendezvous.doctor.lastname,"Patient":rendezvous.patient.name+" "+rendezvous.patient.lastname,"Time":str(rendezvous.date)})
+            return JsonResponse({"Doctor Name":rendezvous.doctor.name + " " + rendezvous.doctor.lastname,"Patient":rendezvous.patient.name+" "+rendezvous.patient.lastname,"Time":str(rendezvous.date)})
+        else:
+            return JsonResponse({"status":"FAIL", "message":"rendezvous does not exist"})
     elif request.method == "DELETE":
         # deletes a rendezvous by its id
         rendezvous = Rendezvous.objects.filter(id = int(rendezvous_id))
