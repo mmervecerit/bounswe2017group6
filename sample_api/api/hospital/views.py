@@ -76,6 +76,7 @@ def doctor_single(request, doctor_id):
 
 @csrf_exempt
 def patient_single(request, patient_id):
+    # Given an id, returns a json response contatining the name, lastname and age of the patient having the given id.
     if request.method == "GET":
         print(request)
         patient = Patient.objects.filter(id=int(patient_id))
@@ -85,6 +86,9 @@ def patient_single(request, patient_id):
             return JsonResponse({"status":"FAIL", "message":"patient does not exist"})
         return JsonResponse({"name":patient.name, "lastname":patient.lastname, "age":patient.age})
 
+    # Given an id and at most 3 parameters of type name, lastname and age; replaces the name and/or the lastname and/or the age
+    # of the patient having the given id with the given name, i.e if someone wants to change only age of a patient, they give only age as parameter, and only age
+    # of the patient changes, the name and lastname remains the same.
     elif request.method == "PUT":
         data = json.loads(request.body.decode("utf-8"))
         print(patient_id)
