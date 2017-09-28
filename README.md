@@ -1,6 +1,6 @@
-# bounswe2017group6
+# Cmpe 352/451 Group 6
 
-Welcome to our github page! You can access our research via our [Wiki page](https://github.com/bounswe/bounswe2017group6/wiki/).
+Welcome to our github page! You can see our [Wiki page](https://github.com/bounswe/bounswe2017group6/wiki/) here.
 
 ## Team Members
 
