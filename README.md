@@ -5,7 +5,7 @@ Welcome to our github page! You can access our research via our [Wiki page](http
 ## Team Members
 
 * [Merve Cerit (Communicator)]()
-* [Gokce Uludogan]()
+* [Gökçe Uludoğan](https://github.com/bounswe/bounswe2017group6/wiki/G%C3%B6k%C3%A7e-Uludo%C4%9Fan)
 * [Baris Ucakturk]()
 * [Onur Orhan]()
 * [Burak Tomruk]()
