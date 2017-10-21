@@ -1,108 +1,333 @@
-
+<!--
 
   <div class="row text-center" style="margin: 40px;">
       <h2>Connect with people based on your interests!</h2>
   </div>
 
 
-  <div class="row-fluid col-md-offset-2 col-md-4">
-
-      <img class="img-responsive" src="../../assets/map.jpg">
-
-
-
-  </div>
-
-
-  <div ng-controller="LoginCtrl" class="col-md-offset-1 col-md-3">
-
-    <div class="panel panel-default " style="margin: 40px auto 0;" >
-            <div class="panel-heading text-center">
-                 <h3>Sign in</h3>
+-->
+<div class="jumbotron jumbotron-main jumbotron-fluid" id="home">
+    <div id="particles-js"><canvas class="particles-js-canvas-el" width="1209" height="319" style="width: 100%; height: 100%;"></canvas></div><!-- /.particles div -->
+    <div class="container center-vertically-holder">
+      <div class="center-upper" >
+        <div class="col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3 text-center">
+        <!--
+          <h1 class="scaleReveal" data-sr-id="15" style="min-height: 100vh; visibility: visible;  -webkit-transform: translateY(0) scale(1); opacity: 1;transform: translateY(0) scale(1); opacity: 1;-webkit-transition: -webkit-transform 1.5s cubic-bezier(0.6, 0.2, 0.1, 1) 0.05s, opacity 1.5s cubic-bezier(0.6, 0.2, 0.1, 1) 0.05s; transition: transform 1.5s cubic-bezier(0.6, 0.2, 0.1, 1) 0.05s, opacity 1.5s cubic-bezier(0.6, 0.2, 0.1, 1) 0.05s; ">
+          
+          </h1>-->
+          <!--<hr class="bottomReveal" data-sr-id="1" style="; visibility: visible;  -webkit-transform: translateY(0) scale(1); opacity: 1;transform: translateY(0) scale(1); opacity: 1;-webkit-transition: -webkit-transform 1.5s cubic-bezier(0.6, 0.2, 0.1, 1) 0.05s, opacity 1.5s cubic-bezier(0.6, 0.2, 0.1, 1) 0.05s; transition: transform 1.5s cubic-bezier(0.6, 0.2, 0.1, 1) 0.05s, opacity 1.5s cubic-bezier(0.6, 0.2, 0.1, 1) 0.05s; ">-->
+          <h3 class="bottomReveal" data-sr-id="2" style="margin-top:150px;  visibility: visible;  -webkit-transform: translateY(0) scale(1); opacity: 1;transform: translateY(0) scale(1); opacity: 1;-webkit-transition: -webkit-transform 1.5s cubic-bezier(0.6, 0.2, 0.1, 1) 0.05s, opacity 1.5s cubic-bezier(0.6, 0.2, 0.1, 1) 0.05s; transition: transform 1.5s cubic-bezier(0.6, 0.2, 0.1, 1) 0.05s, opacity 1.5s cubic-bezier(0.6, 0.2, 0.1, 1) 0.05s; ">Connect with people based on your interests!</h3>
+          <a href="#ideology" data-id="ideology" class="scroll-link">
+            <div class="scroll-indicator rotateBottomReveal" data-sr-id="40" style="; visibility: visible;  -webkit-transform: translateY(0) scale(1) rotateX(0); opacity: 1;transform: translateY(0) scale(1) rotateX(0); opacity: 1;-webkit-transition: -webkit-transform 1.5s cubic-bezier(0.6, 0.2, 0.1, 1) 0.05s, opacity 1.5s cubic-bezier(0.6, 0.2, 0.1, 1) 0.05s; transition: transform 1.5s cubic-bezier(0.6, 0.2, 0.1, 1) 0.05s, opacity 1.5s cubic-bezier(0.6, 0.2, 0.1, 1) 0.05s; ">
+              <span class="ion-mouse"></span><br>
+              <span class="ion-android-arrow-down arrow-scroll-indicator"></span>
             </div>
-       
-              
-                <div class="panel-body">
-                    
-               
-                     <form id="login-form">
-                      <div class="login-container " ">
-                        <div class="row">
-                          <div class="col-md-12">
-                            <div class="form-group">
-                              <label>Email</label>
-                              <i class="fa fa-email"></i> 
-                              <input type="email" name="email" ng-model="user.username" required class="form-control">                              
-                              <div ng-show="myForm.email.$error.email" class="error">Invalid email!</div>
-                              <div ng-show="myForm.email.$error.required &amp;&amp; myForm.email.$touched" class="error">Required!</div>
-                            </div>
-                          </div>
-                          <div class="col-md-12">
-                            <div class="form-group">
-                              <label>Password</label>
-                              <i class="fa fa-lock"></i>
-                              <input type="password" name="pass" ng-model="user.password" required class="form-control">
-                              <div ng-show="myForm.pass.$error.required &amp;&amp; myForm.pass.$touched" class="error">Required!</div>
-                            </div>
-                          </div>
-                          <div class="col-md-12">
+          </a>
+           <div ng-controller="LoginCtrl" class="col-md-offset-2 col-md-8">
 
-                            <div class="form-group text-center">
-                                <div class="checkbox pull-left">
-                                  <label><input type="checkbox" class="pull-left" value="">Remember me</label>
-                                </div>
-                               
-                            </div>
-                           
-                          </div>  
-                          </div>
-                          <div class="col-md-12">
-                            <div class="form-group text-center">
-                              <a ng-click="login(user)"  class="btn btn-block btn-social btn-vimeo" ng-disabled="myForm.$invalid">
-                                <span class="fa fa-sign-in"></span> Sign in 
-                              </a>
-                              <div class="clearfix"></div>
-                            </div>
-                          </div>
-
-                        <br/>
-
-                         <div class="col-md-12">
-                            <div class="form-group text-center">
-                              <a ng-click="loginWithFacebook()" class="btn btn-block btn-social btn-facebook">
-                                <span class="fa fa-facebook"></span> Sign in with Facebook
-                              </a>
-                            </div>
-                          </div>
+            <div class="panel panel-default " style="margin: 40px auto 0;" >
                         
-                         <div class="col-md-12">
-                            <div class="form-group text-center">
-                              <a ng-click="loginWithGoogle()" class="btn btn-block btn-social btn-google">
-                                <span class="fa fa-google"></span> Sign in with Google
-                              </a>
-                            </div>
-                          </div>
+                        <div class="panel-heading text-center">
+                             <ul class="nav nav-tabs" role="tablist">
+                              <li role="tab" class="big pull-left" data-toggle="tab" ng-class="{'active': tabName=='signin'}" ng-click="tabName='signin'">Sign in</li>
+                              <li role="tab" class="big pull-right" data-toggle="tab" ng-class="{'active': tabName=='signup'}" ng-click="tabName='signup'">Sign up
+                              </li>
+                            </ul>
                         </div>
-                        <div class="col-md-12">
-                            <div class="form-group text-center">
-                              If you don't have account yet, <a href="#signup">Sign up</a>
-                            </div>
-                          
-                        </div>
+                                 
+                      
+                        <div class="panel-body">
+                            
+                            <div class="tab-content" ng-switch="tabName">
 
+                              <div class="tab-panefade " id="login"  ng-switch-when="signin">
+                           
+                                <form id="login-form">
+                                  <div class="login-container " ">
+                                    <div class="row">
+                                      <div class="col-md-12">
+                                        <div class="form-group">
+                                          <label>Email</label>
+                                          <i class="fa fa-email"></i> 
+                                          <input type="email" name="email" ng-model="user.username" required class="form-control">                              
+                                          <div ng-show="myForm.email.$error.email" class="error">Invalid email!</div>
+                                          <div ng-show="myForm.email.$error.required &amp;&amp; myForm.email.$touched" class="error">Required!</div>
+                                        </div>
+                                      </div>
+                                      <div class="col-md-12">
+                                        <div class="form-group">
+                                          <label>Password</label>
+                                          <i class="fa fa-lock"></i>
+                                          <input type="password" name="pass" ng-model="user.password" required class="form-control">
+                                          <div ng-show="myForm.pass.$error.required &amp;&amp; myForm.pass.$touched" class="error">Required!</div>
+                                        </div>
+                                      </div>
 
-                        <div class="row">
-                          <div class="col-md-12">
-                            <div ng-show="showError" class="alert alert-danger">Wrong credentials!</div>
-                            <div ng-show="showSuccess" class="alert alert-success">Login Successful!</div>
-                          </div>
-                        </div>
-                      </div>
-                    </form>
+                                      <div class="col-md-12">
+
+                                        <div class="form-group text-center">
+                                            <div class="checkbox pull-left">
+                                              <label><input type="checkbox" class="pull-left" value="">Remember me</label>
+                                            </div>  
+                                        </div> 
+                                      </div>  
+                                    
+                                      <div class="col-md-12">
+                                        <div class="form-group text-center">
+                                          <a ng-click="login(user)"  class="btn btn-block btn-success" ng-disabled="myForm.$invalid">
+                                            <span class="fa fa-sign-in"></span> Sign in 
+                                          </a>
+                                          <div class="clearfix"></div>
+                                        </div>
+                                      </div>
+                                       <div class="col-md-12">
+                                        <div class="form-group text-center">
+                                           <a href="/timeline" style="color: blue;">Continue without Login</a>
+                                        </div>
+                                      
+                                    </div>
+                                    <br/>
+                                    <!--
+                                     <div class="col-md-12">
+
+                                        <div class="form-group text-center">
+
+                                          <a ng-click="loginWithFacebook" ng-hide="loggedIn" class="btn btn-block btn-social btn-facebook">
+                                            <span class="fa fa-facebook"></span> Sign in with Facebook
+                                          </a>
+                                        </div>
+                                      </div>
+                                       
+                                    
+                                     <div class="col-md-12">
+                                        <div class="form-group text-center">
+                                          <a ng-click="loginWithGoogle()" class="btn btn-block btn-social btn-google">
+                                            <span class="fa fa-google"></span> Sign in with Google
+                                          </a>
+                                        </div>
+                                      </div>
+                                    -->
+                                   
+                                  
+                                    </div>
+                                    <div class="row">
+                                      <div class="col-md-12">
+                                        <div ng-show="showError" class="alert alert-danger">Wrong credentials!</div>
+                                        <div ng-show="showSuccess" class="alert alert-success">Login Successful!</div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </form>
+                             
                      
-             
-            </div>
-       
-    </div>
+                              </div>
+                               <div class="tab-pane fade in active" id="signup"  ng-switch-when="signup">
+                           
+                                <form id="login-form">
+                                  <div class="login-container " ">
+                                    <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                          <label>First Name</label>
+                                          <input name="fname" ng-model="user.firstname" required class="form-control">                              
+                                          <div ng-show="myForm.fname.$error.required &amp;&amp; myForm.fname.$touched" class="error">Required!</div>
+                                        </div>
+                                      </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                          <label>Last Name</label>
+                                          <input name="lname" ng-model="user.lastname" required class="form-control">                              
+                                          <div ng-show="myForm.lname.$error.required &amp;&amp; myForm.lname.$touched" class="error">Required!</div>
+                                        </div>
+                                      </div>
+                                      <div class="col-md-12">
+                                        <div class="form-group">
+                                          <label>Email</label>
+                                          <i class="fa fa-email"></i> 
+                                          <input type="email" name="email" ng-model="user.username" required class="form-control">                              
+                                          <div ng-show="myForm.email.$error.email" class="error">Invalid email!</div>
+                                          <div ng-show="myForm.email.$error.required &amp;&amp; myForm.email.$touched" class="error">Required!</div>
+                                        </div>
+                                      </div>
+                                      <div class="col-md-12">
+                                        <div class="form-group">
+                                          <label>Password</label>
+                                          <i class="fa fa-lock"></i>
+                                          <input type="password" name="pass" ng-model="user.password" required class="form-control">
+                                          <div ng-show="myForm.pass.$error.required &amp;&amp; myForm.pass.$touched" class="error">Required!</div>
+                                        </div>
+                                      </div>
 
-  </div>
+                                    
+                                    
+                                      <div class="col-md-12">
+                                        <div class="form-group text-center">
+                                          <a ng-click="signup(user)"  class="btn btn-block btn-success" ng-disabled="myForm.$invalid">
+                                            <span class="fa fa-sign-in"></span> Sign up
+                                          </a>
+                                          <div class="clearfix"></div>
+                                        </div>
+                                      </div>
+
+                                    <br/>
+                                      <!--
+                                     <div class="col-md-12">
+                                        <div class="form-group text-center">
+                                          <a ng-click="loginWithFacebook()" class="btn btn-block btn-social btn-facebook">
+                                            <span class="fa fa-facebook"></span> Sign in with Facebook
+                                          </a>
+                                        </div>
+                                      </div>
+                                    
+                                     <div class="col-md-12">
+                                        <div class="form-group text-center">
+                                          <a ng-click="loginWithGoogle()" class="btn btn-block btn-social btn-google">
+                                            <span class="fa fa-google"></span> Sign in with Google
+                                          </a>
+                                        </div>
+                                      </div>
+                                    
+                                    <div class="col-md-12">
+                                        <div class="form-group text-center">
+                                          If you don't have account yet, <a href="#signup">Sign up</a>
+                                        </div>
+                                      
+                                    </div>
+                                    -->
+                                    </div>
+                                    <div class="row">
+                                      <div class="col-md-12">
+                                        <div ng-show="showError" class="alert alert-danger">Wrong credentials!</div>
+                                        <div ng-show="showSuccess" class="alert alert-success">Sign up Successful!</div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </form>
+                             
+                     
+                              </div>
+               
+                            </div>
+
+                        </div>
+                </div>              
+              </div>
+        </div>
+      </div>
+    </div>
+</div>
+  
+
+<script type="text/javascript">
+  
+particlesJS("particles-js", {
+    "particles": {
+    "number": {
+      "value": 80,
+      "density": {
+        "enable": true,
+        "value_area": 800
+      }
+    },
+    "color": {
+      "value": "#ffffff"
+    },
+    "shape": {
+      "type": "circle",
+      "stroke": {
+        "width": 0,
+        "color": "#000000"
+      },
+      "polygon": {
+        "nb_sides": 5
+      },
+      "image": {
+        "src": "img/github.svg",
+        "width": 100,
+        "height": 100
+      }
+    },
+    "opacity": {
+      "value": 0.5,
+      "random": false,
+      "anim": {
+        "enable": false,
+        "speed": 1,
+        "opacity_min": 0.1,
+        "sync": false
+      }
+    },
+    "size": {
+      "value": 3,
+      "random": true,
+      "anim": {
+        "enable": false,
+        "speed": 40,
+        "size_min": 0.1,
+        "sync": false
+      }
+    },
+    "line_linked": {
+      "enable": true,
+      "distance": 150,
+      "color": "#ffffff",
+      "opacity": 0.4,
+      "width": 1
+    },
+    "move": {
+      "enable": true,
+      "speed": 6,
+      "direction": "none",
+      "random": false,
+      "straight": false,
+      "out_mode": "out",
+      "bounce": false,
+      "attract": {
+        "enable": false,
+        "rotateX": 600,
+        "rotateY": 1200
+      }
+    }
+  },
+  "interactivity": {
+    "detect_on": "canvas",
+    "events": {
+      "onhover": {
+        "enable": true,
+        "mode": "grab"
+      },
+      "onclick": {
+        "enable": true,
+        "mode": "push"
+      },
+      "resize": true
+    },
+    "modes": {
+      "grab": {
+        "distance": 140,
+        "line_linked": {
+          "opacity": 1
+        }
+      },
+      "bubble": {
+        "distance": 400,
+        "size": 40,
+        "duration": 2,
+        "opacity": 8,
+        "speed": 3
+      },
+      "repulse": {
+        "distance": 200,
+        "duration": 0.4
+      },
+      "push": {
+        "particles_nb": 4
+      },
+      "remove": {
+        "particles_nb": 2
+      }
+    }
+  },
+  "retina_detect": true
+});
+</script>
