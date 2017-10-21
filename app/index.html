@@ -1,29 +1,48 @@
 <html>
   <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <base href="/">
     <title>InterestHub</title>
-    <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
-    <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="bower_components/bootstrap-social/bootstrap-social.css" rel="stylesheet">
+    <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css">
+    <link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="node_modules/bootstrap-social/bootstrap-social.css" rel="stylesheet">
+  
     <link href="css/style.css" rel="stylesheet">
-    <script src="bower_components/jquery/dist/jquery.js"></script>
-    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
-    <script src="bower_components/angular/angular.min.js"></script>
-    <script src="bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
-    <script type="text/javascript" src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
-    <script src="bower_components/angular-route/angular-route.min.js"></script>
+        <script src="node_modules/jquery/dist/jquery.js"></script>
+            <script src="node_modules/bootstrap/dist/js/bootstrap.js"></script>
+
+
+    <script src="node_modules/angular/angular.min.js"></script>
+     
+    <script src="node_modules/angular-route/angular-route.min.js"></script>
+
+   <script src="node_modules/angular-ui-bootstrap/dist/ui-bootstrap.js"></script>
+   <script src="node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js"></script>
+
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script> 
+    <script src="https://threejs.org/examples/js/libs/stats.min.js"></script>
+
     <script src="app.js" type="text/javascript"></script>
     <script src="app.routes.js" type="text/javascript"></script>
     <script src="modules/home/home.controller.js" type="text/javascript"></script>
     <script src="modules/nav/nav.controller.js" type="text/javascript"></script>
     <script src="modules/login/login.controller.js" type="text/javascript"></script>
+    <script src="modules/profile/profile.controller.js" type="text/javascript"></script>
+    <script src="modules/timeline/timeline.controller.js" type="text/javascript"></script>
+        <script src="modules/modal/modal.service.js" type="text/javascript"></script>
 
+    
+    <!--
+    
+  -->
   </head>
   
   <body ng-app="interestHub" style="background-color: #ECECEA;">
         <div class="container-fluid">
             <div class="row">
-            <nav ng-controller="NavCtrl" class="navbar navbar-inverse">
+            <nav ng-controller="NavCtrl" class="navbar navbar-inverse navbar-fixed-top">
                <div class="col-md-8 col-md-offset-2"> 
                <div class="navbar-header">
                   <a class="navbar-brand" href="/"> <img src="assets/logo.png" class="logo" alt="InterestHub"></a>
@@ -44,12 +63,13 @@
                 </div>
             </nav>
               </div>
-            <div ng-view>
-            </div>
+            
 
         </div>
+        <div ng-view>
+            </div>
         <footer>
-          <div class="footer navbar-fixed-bottom navbar-inverse" >
+          <div class="footer navbar-inverse navbar-fixed-bottom" >
               <div class="col-md-10 col-md-offset-1 text-center">
                   <h4 >Coded with <i class="fa fa-heart red" style="color: #BC0213;"></i> by InterestHub</h4>
               </div>   
