@@ -113,8 +113,8 @@ public class UserGroups extends Fragment {
 }
 class UserGroupListAdapter extends BaseAdapter{
 
-    private static String[] text1={"Emre","ERen"};
-    private static String[] text2={"asdasdas","asdasd"};
+    private static String[] text1={"Emre","Merve","Baris"};
+    private static String[] text2={"Eren","Cerit","Ucakturk"};
 
     private Activity mainActivity;
     public UserGroupListAdapter(Activity mainActivity){
