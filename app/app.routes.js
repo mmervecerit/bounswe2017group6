@@ -12,7 +12,7 @@
               .when('/', {
                   templateUrl: 'modules/home/home.view.html',
                   controller: 'HomeCtrl'
-                  
+                                  
               })
               .when('/home', {
                   templateUrl: 'modules/home/home.view.html',
@@ -37,10 +37,15 @@
                   controller: 'RegisterCtrl',
                   controllerAs: 'model'
               })
+              .when('/timeline', {
+                  templateUrl: 'modules/timeline/timeline.view.html',
+                  controller: 'TimelineCtrl'
+              });
+/*
               .otherwise({
                   redirectTo: '/'
               });
-
+*/
             
           
         });
