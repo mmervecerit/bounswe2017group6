@@ -9,5 +9,6 @@
     * Please make sure that `interesthub_admin` role has required priviliges on `interesthub` database.
     * For more details, you may look /backend-app/interesthub/interesthub/settings.py.
   * `$ pip3 install -r requirements.txt`
+* `$ python3 manage.py migrate`
 * `$ python3 manage.py runserver`
 * Go to `http://127.0.0.1:8000/`
