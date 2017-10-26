@@ -1,8 +1,12 @@
 ## Installation
 
 *NOTE: Requires [Node.js](http://nodejs.org/).*
+* Navigate to frontend-app directory
+* Install server dependencies using `$ npm install`
 * Navigate to app directory
-* `$ npm install -g bower`
-* `$ bower install`
-* `$ python -m SimpleHTTPServer <port-number>`(port-number is 8000 by default)
-* Go to  `localhost:<port-number>/` 
+* Install frontend dependencies using `$ npm install`
+* Go back to frontend-app directory
+* `$ nodemon server.js`
+* Go to  `localhost:8080/` 
+
+*In case of getting the error `nodemon: command not found` install it globally `$ npm install nodemon -g`*
