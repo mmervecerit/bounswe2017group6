@@ -1,7 +1,6 @@
 package com.cmpe451.interesthub.fragments;
 
 import android.app.Activity;
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,9 +15,6 @@ import android.widget.TextView;
 
 import com.cmpe451.interesthub.MainActivity;
 import com.cmpe451.interesthub.R;
-import com.cmpe451.interesthub.RequestHandler;
-
-import org.w3c.dom.Text;
 
 /**
  * A simple {@link Fragment} subclass.
