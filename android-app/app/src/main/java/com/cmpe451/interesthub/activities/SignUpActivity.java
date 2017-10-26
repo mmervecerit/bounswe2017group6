@@ -1,14 +1,17 @@
-package com.cmpe451.interesthub;
+package com.cmpe451.interesthub.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class SignUpActivity extends AppCompatActivity {
+import com.cmpe451.interesthub.R;
+import com.cmpe451.interesthub.activities.baseActivities.BaseActivity;
+
+public class SignUpActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +37,7 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent intent= new Intent(view.getContext(), MainActivity.class);
+                Intent intent= new Intent(view.getContext(), UserActivity.class);
                 startActivity(intent);
 
             }
@@ -51,5 +54,11 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });*/
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        return true;
+    }
+
 
 }

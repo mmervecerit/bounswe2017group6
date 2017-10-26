@@ -1,25 +1,27 @@
-package com.cmpe451.interesthub;
+package com.cmpe451.interesthub.activities;
 
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 
-import com.cmpe451.interesthub.FragmentViewer.ViewPagerAdapter;
+import com.cmpe451.interesthub.InterestHub;
+import com.cmpe451.interesthub.activities.baseActivities.BaseActivity;
+import com.cmpe451.interesthub.adapters.ViewPagerAdapter;
+import com.cmpe451.interesthub.R;
 
-public class MainActivity extends AppCompatActivity {
+public class UserActivity extends BaseActivity {
 
-private TabLayout tabLayout;
-private ViewPagerAdapter viewPagerAdapter;
-private ViewPager viewPager;
-@Override
-protected void onCreate(Bundle savedInstanceState) {
+    private TabLayout tabLayout;
+    private ViewPagerAdapter viewPagerAdapter;
+    private ViewPager viewPager;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
+        InterestHub hb = (InterestHub)getApplication();
+        hb.getSessionController();
 
         tabLayout = (TabLayout) findViewById(R.id.TabLayout);
         viewPager = (ViewPager) findViewById(R.id.ViewPager);
@@ -75,10 +77,6 @@ protected void onCreate(Bundle savedInstanceState) {
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.options, menu);
-        return true;
-    }
+
+
 }

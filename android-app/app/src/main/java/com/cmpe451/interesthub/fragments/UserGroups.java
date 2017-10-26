@@ -1,6 +1,5 @@
 package com.cmpe451.interesthub.fragments;
 
-import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,18 +7,26 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
-import com.cmpe451.interesthub.MainActivity;
+import com.cmpe451.interesthub.InterestHub;
 import com.cmpe451.interesthub.R;
+import com.cmpe451.interesthub.activities.UserActivity;
+import com.cmpe451.interesthub.adapters.UserGroupListAdapter;
+import com.cmpe451.interesthub.models.Dummy;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link UserGroups.OnFragmentInteractionListener} interface
+ * {@link OnFragmentInteractionListener} interface
  * to handle interaction events.
  * Use the {@link UserGroups#newInstance} factory method to
  * create an instance of this fragment.
@@ -73,13 +80,25 @@ public class UserGroups extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_user_groups, container, false);
-        ListView list = view.findViewById(R.id.userGroupListView);
-        UserGroupListAdapter adapter = new UserGroupListAdapter((MainActivity)getActivity());
-        list.setAdapter(adapter);
-        //RequestHandler requestHandler = new RequestHandler();
-        Log.d("REQUEST","SENDREQUEsT");
-        //requestHandler.getHttpRequest("http://localhost:8000/dummy/");
+        final ListView list = view.findViewById(R.id.userGroupListView);
+        final List<Dummy> dummyList = new ArrayList<Dummy>();
+        InterestHub hub = (InterestHub) ((UserActivity) getActivity()).getApplication();
+        hub.getApiService().getDummy().enqueue(new Callback<List<Dummy>>() {
+                    @Override
+                    public void onResponse(Call<List<Dummy>> call, Response<List<Dummy>> response) {
+                         for(Dummy d : response.body())
+                                dummyList.add(d);
 
+                        UserGroupListAdapter adapter = new UserGroupListAdapter((UserActivity)getActivity(),dummyList);
+                        list.setAdapter(adapter);
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Dummy>> call, Throwable t) {
+
+                     }
+        });
         return view;
     }
 
@@ -105,45 +124,5 @@ public class UserGroups extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
-    }
-}
-class UserGroupListAdapter extends BaseAdapter{
-
-    private static String[] text1={"Emre","Merve","Baris"};
-    private static String[] text2={"Eren","Cerit","Ucakturk"};
-
-    private Activity mainActivity;
-    public UserGroupListAdapter(Activity mainActivity){
-        this.mainActivity = mainActivity;
-    }
-
-
-    @Override
-    public int getCount() {
-        return text1.length;
-    }
-
-    @Override
-    public Object getItem(int i) {
-        return null;
-    }
-
-    @Override
-    public long getItemId(int i) {
-        return 0;
-    }
-
-    @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        view = mainActivity.getLayoutInflater().inflate(R.layout.user_group_list_layout,null );
-        ImageView  image= (ImageView) view.findViewById(R.id.imageView_user_group_list);
-        TextView  text1= (TextView) view.findViewById(R.id.textView_user_group_list);
-        TextView text2= (TextView) view.findViewById(R.id.textView2_user_group_list);
-
-        text1.setText(this.text1[i]);
-        text2.setText(this.text2[i]);
-
-
-        return view;
     }
 }

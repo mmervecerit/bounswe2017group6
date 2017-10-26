@@ -1,30 +1,38 @@
-package com.cmpe451.interesthub;
+package com.cmpe451.interesthub.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class LoginActivity extends AppCompatActivity {
+import com.cmpe451.interesthub.InterestHub;
+import com.cmpe451.interesthub.R;
+import com.cmpe451.interesthub.activities.baseActivities.BaseActivity;
+
+public class LoginActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("INFO","login activity");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         Button b=(Button) findViewById(R.id.button);
         final EditText e = (EditText) findViewById(R.id.editText);
         final EditText e2 = (EditText) findViewById(R.id.editText2);
         final TextView t = (TextView) findViewById(R.id.textView);
+        InterestHub hb = (InterestHub)getApplication();
+        hb.getSessionController();
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 if(e.getText().toString().equals("baris")){
                     if(e2.getText().toString().equals("1234")){
-                        Intent intent= new Intent(view.getContext(), MainActivity.class);
+                        Intent intent= new Intent(view.getContext(), UserActivity.class);
                         startActivity(intent);
                     }
                 }
@@ -54,6 +62,13 @@ public class LoginActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });*/
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        return true;
     }
 
 }
