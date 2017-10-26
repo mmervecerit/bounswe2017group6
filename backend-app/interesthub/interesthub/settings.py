@@ -25,7 +25,10 @@ SECRET_KEY = ')j@45g3v80u3eh5yc_9@1t+k)1yjvbf6d7m^u&y*zv3%_14ysm'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['34.209.230.231']
+ALLOWED_HOSTS = [
+    '34.209.230.231', 
+    '127.0.0.1', 
+    'localhost']
 
 
 # Application definition
@@ -84,8 +87,12 @@ WSGI_APPLICATION = 'interesthub.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'interesthub',
+        'USER': 'interesthub_admin',
+        'PASSWORD': 'psqlp4ss',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
