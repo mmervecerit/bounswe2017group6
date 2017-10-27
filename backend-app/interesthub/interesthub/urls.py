@@ -17,11 +17,15 @@ from django.contrib import admin
 from django.conf.urls import url, include
 from rest_framework import routers
 from dummy import views
+from components.views import TitleViewSet, SubtitleViewSet, TextAreaViewSet 
 
 router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
 router.register(r'groups', views.GroupViewSet)
 router.register(r'dummy', views.DummyTextViewSet)
+router.register(r'titles', TitleViewSet)
+router.register(r'subtitles', SubtitleViewSet)
+router.register(r'text-areas', TextAreaViewSet)
 
 urlpatterns = [
     url(r'^', include(router.urls)),
