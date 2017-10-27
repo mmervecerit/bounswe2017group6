@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.conf.urls import url, include
 from rest_framework import routers
 from dummy import views
-from components.views import TitleViewSet, SubtitleViewSet, TextAreaViewSet 
+from components.views import TitleViewSet, SubtitleViewSet, TextAreaViewSet, ImageViewSet, VideoViewSet
 
 router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
@@ -26,6 +26,8 @@ router.register(r'dummy', views.DummyTextViewSet)
 router.register(r'titles', TitleViewSet)
 router.register(r'subtitles', SubtitleViewSet)
 router.register(r'text-areas', TextAreaViewSet)
+router.register(r'images', ImageViewSet)
+router.register(r'videos', VideoViewSet)
 
 urlpatterns = [
     url(r'^', include(router.urls)),
