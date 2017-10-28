@@ -9,3 +9,5 @@ class InterestGroup(models.Model):
     contents = models.ManyToManyField(Content)
     content_types = models.ManyToManyField(ContentType)
 
+    def __str__(self):
+        return self.name
