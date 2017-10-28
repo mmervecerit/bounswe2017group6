@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.cmpe451.interesthub.fragments.UserEvents;
 import com.cmpe451.interesthub.fragments.UserGroups;
 import com.cmpe451.interesthub.fragments.UserProfile;
 import com.cmpe451.interesthub.fragments.UserTimelineFragment;
@@ -12,10 +13,10 @@ import com.cmpe451.interesthub.fragments.UserTimelineFragment;
  * Created by eren on 19.10.2017.
  */
 
-public class ViewPagerAdapter extends FragmentStatePagerAdapter {
+public class UserFragmentsAdapter extends FragmentStatePagerAdapter {
 
 
-    public ViewPagerAdapter(FragmentManager fm){
+    public UserFragmentsAdapter(FragmentManager fm){
         super(fm);
     }
 
@@ -26,7 +27,9 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
             return new UserTimelineFragment();
         else if (position==1)
             return new UserGroups();
-        return new UserProfile();
+        else if (position==2)
+            return new UserEvents();
+        else return new UserProfile();
 
     }
 

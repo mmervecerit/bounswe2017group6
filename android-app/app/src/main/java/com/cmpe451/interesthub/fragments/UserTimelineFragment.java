@@ -5,17 +5,13 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.cmpe451.interesthub.R;
+import com.cmpe451.interesthub.activities.UserActivity;
+import com.cmpe451.interesthub.adapters.UserGroupListAdapter;
+import com.cmpe451.interesthub.adapters.UserTimelineListAdapter;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link UserTimelineFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link UserTimelineFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class UserTimelineFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -61,7 +57,11 @@ public class UserTimelineFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_user_timeline, container, false);
+        View view = inflater.inflate(R.layout.fragment_user_timeline, container, false);
+        UserTimelineListAdapter adapter = new UserTimelineListAdapter((UserActivity)getActivity());
+        final ListView list = view.findViewById(R.id.user_timeline_list);
+        list.setAdapter(adapter);
+        return view;
     }
     /**
      * This interface must be implemented by activities that contain this

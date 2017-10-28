@@ -7,22 +7,18 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
 import com.cmpe451.interesthub.R;
-import com.cmpe451.interesthub.activities.UserActivity;
-import com.cmpe451.interesthub.adapters.UserGroupListAdapter;
-import com.cmpe451.interesthub.adapters.UserHomeListAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link UserProfile.OnFragmentInteractionListener} interface
+ * {@link UserEvents.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link UserProfile#newInstance} factory method to
+ * Use the {@link UserEvents#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class UserProfile extends Fragment {
+public class UserEvents extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -34,7 +30,7 @@ public class UserProfile extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public UserProfile() {
+    public UserEvents() {
         // Required empty public constructor
     }
 
@@ -44,12 +40,11 @@ public class UserProfile extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment UserProfile.
+     * @return A new instance of fragment UserEvents.
      */
-
     // TODO: Rename and change types and number of parameters
-    public static UserProfile newInstance(String param1, String param2) {
-        UserProfile fragment = new UserProfile();
+    public static UserEvents newInstance(String param1, String param2) {
+        UserEvents fragment = new UserEvents();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -70,12 +65,7 @@ public class UserProfile extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_user_profile, container, false);
-        final ListView list = view.findViewById(R.id.home_list_view);
-        UserHomeListAdapter adapter = new UserHomeListAdapter((UserActivity)getActivity());
-        list.setAdapter(adapter);
-
-        return view;
+        return inflater.inflate(R.layout.fragment_user_events, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
