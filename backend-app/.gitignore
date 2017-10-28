@@ -25,3 +25,6 @@ var/
 *.egg
 
 *.vscode
+
+interesthub/.idea/
+venv/
