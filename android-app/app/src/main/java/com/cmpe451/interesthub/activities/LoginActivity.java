@@ -20,10 +20,10 @@ public class LoginActivity extends BaseActivity {
         Log.d("INFO","login activity");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        Button b=(Button) findViewById(R.id.button);
-        final EditText e = (EditText) findViewById(R.id.editText);
-        final EditText e2 = (EditText) findViewById(R.id.editText2);
-        final TextView t = (TextView) findViewById(R.id.textView);
+        Button b=(Button) findViewById(R.id.button8);
+        final EditText e = (EditText) findViewById(R.id.editText8);
+        final EditText e2 = (EditText) findViewById(R.id.editText9);
+        final TextView t = (TextView) findViewById(R.id.textView6);
         InterestHub hb = (InterestHub)getApplication();
         hb.getSessionController();
         b.setOnClickListener(new View.OnClickListener() {

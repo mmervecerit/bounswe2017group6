@@ -18,19 +18,17 @@ public class SignUpActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        Button b2=(Button) findViewById(R.id.button2);
-        Button b3=(Button) findViewById(R.id.button3);
-        Button b4=(Button) findViewById(R.id.button4);
+        Button b2=(Button) findViewById(R.id.button);
+        Button b3=(Button) findViewById(R.id.button2);
+        Button b4=(Button) findViewById(R.id.button3);
 
-        final EditText e = (EditText) findViewById(R.id.editText);
-        final EditText e2 = (EditText) findViewById(R.id.editText2);
-        final EditText e3 = (EditText) findViewById(R.id.editText3);
-        final EditText e4 = (EditText) findViewById(R.id.editText4);
+        final EditText e = (EditText) findViewById(R.id.editText3);
+        final EditText e2 = (EditText) findViewById(R.id.editText4);
+        final EditText e3 = (EditText) findViewById(R.id.editText7);
+        final EditText e4 = (EditText) findViewById(R.id.editText10);
 
         final TextView t2 = (TextView) findViewById(R.id.textView2);
-        final TextView t3 = (TextView) findViewById(R.id.textView3);
-        final TextView t4 = (TextView) findViewById(R.id.textView4);
-        final TextView t5 = (TextView) findViewById(R.id.textView5);
+
 
 
         b4.setOnClickListener(new View.OnClickListener() {
