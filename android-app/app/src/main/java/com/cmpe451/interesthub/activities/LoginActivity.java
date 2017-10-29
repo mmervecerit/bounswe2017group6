@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.cmpe451.interesthub.InterestHub;
 import com.cmpe451.interesthub.R;
 import com.cmpe451.interesthub.activities.baseActivities.BaseActivity;
-import com.cmpe451.interesthub.models.Group;
 import com.cmpe451.interesthub.models.User;
 
 import java.util.List;
@@ -38,10 +37,37 @@ public class LoginActivity extends BaseActivity {
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
+                hub.getApiService().getUsers().enqueue(new Callback<List<User>>() {
+                    @Override
+                    public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+                        Log.d("Login","aldık");
 
-                if(e.getText().toString().equals("Eric")){
+                        final List<User> groupList =  response.body();
+                        for (int i = 0 ; i< groupList.size() ; i++  ){
+                            if(groupList.get(i).getUsername().toString().equals(e.getText().toString())){
+                                hub.getSessionController().setUser((User) response.body().get(i));
+                                Intent intent= new Intent(view.getContext(), UserActivity.class);
+                                startActivity(intent);
+                            }
+                        }
+                        Log.d("error", "hocam error");
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<User>> call, Throwable t) {
+
+                    }
+                });
+
+
+
+
+
+
+
+                /*if(e.getText().toString().equals("Eric")){
                     if(e2.getText().toString().equals("1234")){
-                        hub.getApiService().getSpesificUser("http://34.209.230.231:8000/users/2/").enqueue(new Callback<User>() {
+                        hub.getApiService().getUsers().enqueue(new Callback<User>() {
                             @Override
                             public void onResponse(Call<User> call, Response<User> response) {
                                 Log.d("Login ", "Login response succesfull");
@@ -86,7 +112,7 @@ public class LoginActivity extends BaseActivity {
 
                     }
                 }
-
+*/
             }
         });
         t.setOnClickListener(new View.OnClickListener() {
