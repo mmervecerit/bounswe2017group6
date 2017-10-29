@@ -27,18 +27,18 @@
         android:text="Sign up with Google" />
 
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/FirstName"
         style="@style/editText_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
         android:hint="First Name"
-        android:layout_above="@+id/editText4"
+        android:layout_above="@+id/SecondName"
         android:layout_centerHorizontal="true" />
 
     <EditText
-        android:id="@+id/editText4"
+        android:id="@+id/SecondName"
         style="@style/editText_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -56,12 +56,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/button2"
         android:layout_marginTop="41dp"
-        android:layout_toLeftOf="@+id/editText3"
-        android:layout_toStartOf="@+id/editText3"
+        android:layout_toLeftOf="@+id/FirstName"
+        android:layout_toStartOf="@+id/FirstName"
         android:text="TextView" />
 
     <EditText
-        android:id="@+id/editText7"
+        android:id="@+id/Email"
         style="@style/editText_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -69,12 +69,12 @@
         android:ems="10"
         android:hint="E-mail"
         android:inputType="textEmailAddress"
-        android:layout_below="@+id/editText4"
+        android:layout_below="@+id/SecondName"
         android:layout_toRightOf="@+id/textView2"
         android:layout_toEndOf="@+id/textView2" />
 
     <EditText
-        android:id="@+id/editText10"
+        android:id="@+id/Password"
         style="@style/editText_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -82,7 +82,7 @@
         android:hint="Password"
         android:ems="10"
         android:inputType="textPassword"
-        android:layout_below="@+id/editText7"
+        android:layout_below="@+id/Email"
         android:layout_toRightOf="@+id/textView2"
         android:layout_toEndOf="@+id/textView2" />
 
@@ -94,7 +94,7 @@
         android:layout_marginTop="43dp"
         android:text="Sign up"
         android:textAllCaps="true"
-        android:layout_below="@+id/editText10"
+        android:layout_below="@+id/Password"
         android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

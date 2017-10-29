@@ -25,8 +25,10 @@ public class UserActivity extends BaseActivity {
         InterestHub hub = (InterestHub)getApplication();
 
         User user = hub.getSessionController().getUser();
-        for(Group g : user.getGroupList()){
-            Log.d("USER ACTIVITY SSESSION CHECK ",g.getName());
+        if(user != null) {
+            for (Group g : user.getGroupList()) {
+                Log.d("USER ACTIVITY SSESSION CHECK ", g.getName());
+            }
         }
 
         tabLayout = (TabLayout) findViewById(R.id.TabLayout);
