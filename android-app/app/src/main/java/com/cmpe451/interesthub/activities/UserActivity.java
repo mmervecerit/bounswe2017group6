@@ -10,6 +10,8 @@ import com.cmpe451.interesthub.InterestHub;
 import com.cmpe451.interesthub.activities.baseActivities.BaseActivity;
 import com.cmpe451.interesthub.adapters.UserFragmentsAdapter;
 import com.cmpe451.interesthub.R;
+import com.cmpe451.interesthub.models.Group;
+import com.cmpe451.interesthub.models.User;
 
 public class UserActivity extends BaseActivity {
 
@@ -20,8 +22,12 @@ public class UserActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
-        InterestHub hb = (InterestHub)getApplication();
-        hb.getSessionController();
+        InterestHub hub = (InterestHub)getApplication();
+
+        User user = hub.getSessionController().getUser();
+        for(Group g : user.getGroupList()){
+            Log.d("USER ACTIVITY SSESSION CHECK ",g.getName());
+        }
 
         tabLayout = (TabLayout) findViewById(R.id.TabLayout);
         viewPager = (ViewPager) findViewById(R.id.ViewPager);
