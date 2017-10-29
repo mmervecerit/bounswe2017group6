@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import viewsets
-from components.models import Title, Subtitle, TextArea, Image, Video
-from components.serializers import TitleSerializer, SubtitleSerializer, TextAreaSerializer, ImageSerializer, VideoSerializer
+from components.models import *
+from components.serializers import *
 
 # Create your views here.
 class TitleViewSet(viewsets.ModelViewSet):
@@ -23,3 +23,7 @@ class ImageViewSet(viewsets.ModelViewSet):
 class VideoViewSet(viewsets.ModelViewSet):
     queryset = Video.objects.all()
     serializer_class = VideoSerializer
+
+class ComponentViewSet(viewsets.ModelViewSet):
+    queryset = Component.objects.all()
+    serializer_class = ComponentSerializer

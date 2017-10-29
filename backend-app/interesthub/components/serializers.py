@@ -1,4 +1,4 @@
-from .models import Title, Subtitle, TextArea, Image, Video
+from .models import *
 from rest_framework import serializers
 
 class TitleSerializer(serializers.HyperlinkedModelSerializer):
@@ -25,3 +25,7 @@ class VideoSerializer(serializers.HyperlinkedModelSerializer):
         model = Video
         fields = ('id', 'url')
 
+class ComponentSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Component
+        fields = ("id", "component_type", "order", "small_text", "long_text", "url")
