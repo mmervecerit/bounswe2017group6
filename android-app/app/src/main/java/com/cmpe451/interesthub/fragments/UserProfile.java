@@ -4,14 +4,18 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 
+import com.cmpe451.interesthub.InterestHub;
 import com.cmpe451.interesthub.R;
 import com.cmpe451.interesthub.activities.UserActivity;
 import com.cmpe451.interesthub.adapters.UserGroupListAdapter;
+import com.cmpe451.interesthub.adapters.UserHomeGroupListAdapter;
 import com.cmpe451.interesthub.adapters.UserHomeListAdapter;
 
 /**
@@ -27,7 +31,9 @@ public class UserProfile extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    InterestHub hub;
+    Button userProfileGroups;
+    Button userProfileTimeline;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -64,17 +70,42 @@ public class UserProfile extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        hub = (InterestHub) getActivity().getApplication();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         View view = inflater.inflate(R.layout.fragment_user_profile, container, false);
         final ListView list = view.findViewById(R.id.home_list_view);
         UserHomeListAdapter adapter = new UserHomeListAdapter((UserActivity)getActivity());
         list.setAdapter(adapter);
+        userProfileGroups = view.findViewById(R.id.user_profile_groups);
+        userProfileTimeline = view.findViewById(R.id.user_profile_timeline);
 
+        userProfileGroups.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Log.d("BUTTON","groups button pressed");
+                UserHomeGroupListAdapter adapter = new UserHomeGroupListAdapter((UserActivity)getActivity(),hub.getSessionController().getUser().getGroupList());
+                list.setAdapter(adapter);
+
+
+            }
+        });
+
+        userProfileTimeline.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                UserHomeListAdapter adapter = new UserHomeListAdapter((UserActivity)getActivity());
+                list.setAdapter(adapter);
+
+            }
+        });
         return view;
     }
 

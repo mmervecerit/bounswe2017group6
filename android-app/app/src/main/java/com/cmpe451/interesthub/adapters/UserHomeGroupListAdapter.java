@@ -15,14 +15,14 @@ import com.cmpe451.interesthub.models.Group;
 import java.util.List;
 
 
-public class UserGroupListAdapter extends BaseAdapter {
+public class UserHomeGroupListAdapter extends BaseAdapter {
 
     Context context;
-    List<Dummy> list;
+    List<Group> list;
     private UserActivity userActivity;
     private String[] t1,t2;
 
-    public UserGroupListAdapter(UserActivity userActivity,List<Dummy> list){
+    public UserHomeGroupListAdapter(UserActivity userActivity, List<Group> list){
         this.list = list;
         this.userActivity = userActivity;
         this.context= context;
@@ -54,7 +54,7 @@ public class UserGroupListAdapter extends BaseAdapter {
         TextView text1= (TextView) view.findViewById(R.id.textView_user_group_list);
         TextView text2= (TextView) view.findViewById(R.id.textView2_user_group_list);
         text1.setText(String.valueOf(list.get(i).getId()));
-        text2.setText(list.get(i).getText());
+        text2.setText(list.get(i).getName());
 
 
         return view;
