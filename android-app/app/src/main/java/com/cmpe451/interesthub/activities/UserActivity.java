@@ -22,6 +22,9 @@ public class UserActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setLogo(R.mipmap.ic_launcher);
+        getSupportActionBar().setDisplayUseLogoEnabled(true);
         InterestHub hub = (InterestHub)getApplication();
 
         User user = hub.getSessionController().getUser();

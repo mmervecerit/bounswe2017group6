@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Interesthub</string>
+    <string name="app_name"> Interest Hub</string>
     <string name="title_activity_main_screen">MainScreen</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_sign_up">SignUpActivity</string>
