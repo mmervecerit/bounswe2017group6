@@ -12,6 +12,14 @@ import android.widget.TextView;
 import com.cmpe451.interesthub.InterestHub;
 import com.cmpe451.interesthub.R;
 import com.cmpe451.interesthub.activities.baseActivities.BaseActivity;
+import com.cmpe451.interesthub.models.Group;
+import com.cmpe451.interesthub.models.User;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginActivity extends BaseActivity {
 
@@ -26,14 +34,56 @@ public class LoginActivity extends BaseActivity {
         final TextView t = (TextView) findViewById(R.id.textView6);
         InterestHub hb = (InterestHub)getApplication();
         hb.getSessionController();
+        final InterestHub hub = (InterestHub) getApplication();
         b.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(final View view) {
 
-                if(e.getText().toString().equals("baris")){
+                if(e.getText().toString().equals("Eric")){
                     if(e2.getText().toString().equals("1234")){
-                        Intent intent= new Intent(view.getContext(), UserActivity.class);
-                        startActivity(intent);
+                        hub.getApiService().getSpesificUser("http://34.209.230.231:8000/users/2/").enqueue(new Callback<User>() {
+                            @Override
+                            public void onResponse(Call<User> call, Response<User> response) {
+                                Log.d("Login ", "Login response succesfull");
+
+                                hub.getSessionController().setUser(response.body());
+                                final List<String> groupList = response.body().getGroupListResponse();
+                                for(int i = 0 ;i< groupList.size();i++){
+                                    final int finalI = i;
+                                    hub.getApiService().getSpesificGroup(groupList.get(i)).enqueue(new Callback<Group>() {
+                                        @Override
+                                        public void onResponse(Call<Group> call, Response<Group> response) {
+                                            hub.getSessionController().getUser().addGroupList( response.body());
+                                            if(finalI == groupList.size()-1){
+
+                                                Log.d("SESSION ", "intent acılıyooor");
+                                                Intent intent= new Intent(view.getContext(), UserActivity.class);
+                                                startActivity(intent);
+
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<Group> call, Throwable t) {
+
+                                        }
+                                    });
+
+                                }
+
+
+
+                            }
+
+                            @Override
+                            public void onFailure(Call<User> call, Throwable t) {
+
+                            }
+                        });
+
+
+
+
                     }
                 }
 

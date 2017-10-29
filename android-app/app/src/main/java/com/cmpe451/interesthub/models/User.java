@@ -62,7 +62,11 @@ public class User {
         return groupList;
     }
     public void addGroupList(Group group) {
+
+
        if(groupList == null) groupList = new ArrayList<Group>();
+
+       Log.d("USER",group.getName() + " is adding");
         groupList.add(group);
     }
     public void setGroupList(List<Group> groupList) {

@@ -57,36 +57,40 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/button5"
+                    android:id="@+id/user_profile_timeline"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="TIMELINE"
-                    android:textSize="10sp" />
+                    android:textSize="10sp"
+                    style="@style/button_style"/>
 
                 <Button
-                    android:id="@+id/button10"
+                    android:id="@+id/user_profile_groups"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="FOLLOWING GROUPS"
-                    android:textSize="9sp" />
+                    android:textSize="9sp"
+                    style="@style/button_style" />
 
                 <Button
-                    android:id="@+id/button7"
+                    android:id="@+id/user_profile_following"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="FOLLOWERS"
-                    android:textSize="10sp" />
+                    android:textSize="10sp"
+                    style="@style/button_style"/>
 
                 <Button
-                    android:id="@+id/button6"
+                    android:id="@+id/user_profile_followers"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="FOLLOWING"
-                    android:textSize="10sp" />
+                    android:textSize="10sp"
+                    style="@style/button_style" />
             </LinearLayout>
 
             <ListView

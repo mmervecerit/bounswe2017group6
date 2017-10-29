@@ -24,4 +24,9 @@ public interface ApiService {
 
     @GET
     Call<Group> getSpesificGroup(@Url String url);
+
+
+    @GET
+    Call<User> getSpesificUser(@Url String url);
+
 }
