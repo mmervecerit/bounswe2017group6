@@ -10,7 +10,7 @@ class InterestGroupSerializer(serializers.HyperlinkedModelSerializer):
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
-        fields = ('url', 'id', 'username', 'email', 'groups')
+        fields = ('url', 'id', 'username', 'email')
 
 class GroupSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

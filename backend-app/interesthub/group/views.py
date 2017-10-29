@@ -21,11 +21,12 @@ class GroupContentList(APIView):
         return Response(serializer.data)
     def post(self, request, pk, format=None):
         igroup = InterestGroup.objects.get(pk=pk)
-        print(request.data)
+        # print(request.data)
         serializer = ContentSerializer(igroup.contents, many=False, data=request.data)
         if serializer.is_valid():
-            serializer.create(request.data)
-            return Response(serializer.data)
+            s = serializer.create(request.data)
+            igroup.contents.add(s)
+            return Response(ContentSerializer(s, many=False, context={"request": request}).data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class GroupContentTypeList(APIView):
@@ -35,17 +36,18 @@ class GroupContentTypeList(APIView):
         return Response(serializer.data)
     def post(self, request, pk, format=None):
         igroup = InterestGroup.objects.get(pk=pk)
-        serializer = ContentTypeSerializer(igroup.content_types, many=True, context={'request': request})
-        return Response(serializer.data)
+        serializer = ContentTypeSerializer(igroup.content_types, many=True, data=request.data)
+        if serializer.is_valid():
+            s = serializer.create(request.data)
+            igroup.content_types.add(s)
+            return Response(ContentTypeSerializer(s, many=False, context={"request": request}).data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class GroupMembersList(APIView):
     def get(self, request, pk, format=None):
         igroup = InterestGroup.objects.get(pk=pk)
-        serializer = InterestGroupSerializer(igroup.members, many=True, context={'request': request})
-        return Response(serializer.data)
-    def post(self, request, pk, format=None):
-        igroup = InterestGroup.objects.get(pk=pk)
-        serializer = ContentTypeSerializer(igroup.content_types, many=True, context={'request': request})
+        serializer = UserSerializer(igroup.members, many=True, context={'request': request})
+        print(serializer.data)
         return Response(serializer.data)
 
 class UserViewSet(viewsets.ModelViewSet):
