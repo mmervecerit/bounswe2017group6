@@ -7,6 +7,22 @@ import com.cmpe451.interesthub.models.User;
  */
 
 public class SessionController {
+    boolean isLoggedIn = false;
+    User user ;
 
+    public User getUser() {
+        return user;
+    }
 
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public boolean isLoggedIn() {
+        return isLoggedIn;
+    }
+
+    public void setLoggedIn(boolean loggedIn) {
+        isLoggedIn = loggedIn;
+    }
 }

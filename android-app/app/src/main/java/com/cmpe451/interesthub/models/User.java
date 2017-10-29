@@ -1,29 +1,45 @@
 package com.cmpe451.interesthub.models;
 
+import android.util.Log;
+
+import com.google.gson.annotations.SerializedName;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by eren on 28.10.2017.
  */
 
 public class User {
+    boolean loaded = false;
 
-    String name;
-    String lastname;
+    @SerializedName("id")
+    long id;
+    @SerializedName("username")
+    String username;
+    @SerializedName("email")
     String email;
+    @SerializedName("groups")
+    List<String> groupListResponse;
 
-    public String getName() {
-        return name;
+    List<Group> groupList = new ArrayList<Group>();
+
+
+    public long getId() {
+        return id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setId(long id) {
+        this.id = id;
     }
 
-    public String getLastname() {
-        return lastname;
+    public String getUsername() {
+        return username;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getEmail() {
@@ -32,5 +48,32 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public List<String> getGroupListResponse() {
+        return groupListResponse;
+    }
+
+    public void setGroupListResponse(List<String> groupListResponse) {
+        this.groupListResponse = groupListResponse;
+    }
+
+    public List<Group> getGroupList() {
+        return groupList;
+    }
+    public void addGroupList(Group group) {
+       if(groupList == null) groupList = new ArrayList<Group>();
+        groupList.add(group);
+    }
+    public void setGroupList(List<Group> groupList) {
+        this.groupList = groupList;
+    }
+
+    public boolean isLoaded() {
+        return loaded;
+    }
+
+    public void setLoaded(boolean loaded) {
+        this.loaded = loaded;
     }
 }

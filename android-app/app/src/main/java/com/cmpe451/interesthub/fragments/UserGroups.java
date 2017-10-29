@@ -14,6 +14,7 @@ import com.cmpe451.interesthub.R;
 import com.cmpe451.interesthub.activities.UserActivity;
 import com.cmpe451.interesthub.adapters.UserGroupListAdapter;
 import com.cmpe451.interesthub.models.Dummy;
+import com.cmpe451.interesthub.models.Group;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,12 +84,13 @@ public class UserGroups extends Fragment {
         final ListView list = view.findViewById(R.id.userGroupListView);
         final List<Dummy> dummyList = new ArrayList<Dummy>();
         InterestHub hub = (InterestHub) ((UserActivity) getActivity()).getApplication();
+        Log.d("RESPONSE","request is wanting from BACKEND");
         hub.getApiService().getDummy().enqueue(new Callback<List<Dummy>>() {
                     @Override
                     public void onResponse(Call<List<Dummy>> call, Response<List<Dummy>> response) {
                          for(Dummy d : response.body())
                                 dummyList.add(d);
-
+                        Log.d("RESPONSE","SUCCESFUL FROM BACKEND");
                         UserGroupListAdapter adapter = new UserGroupListAdapter((UserActivity)getActivity(),dummyList);
                         list.setAdapter(adapter);
 
@@ -96,9 +98,15 @@ public class UserGroups extends Fragment {
 
                     @Override
                     public void onFailure(Call<List<Dummy>> call, Throwable t) {
-
+                        Log.d("RESPONSE","ERROR FROM BACKEND " +t.getMessage());
                      }
         });
+        if(hub.getSessionController().isLoggedIn()) {
+            Log.d("session", hub.getSessionController().getUser().getUsername());
+            for (Group g : hub.getSessionController().getUser().getGroupList()) {
+                Log.d("session", g.getName());
+            }
+        }
         return view;
     }
 

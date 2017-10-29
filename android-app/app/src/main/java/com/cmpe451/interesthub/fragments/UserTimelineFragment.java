@@ -1,16 +1,28 @@
 package com.cmpe451.interesthub.fragments;
 
 import android.os.Bundle;
+import android.os.NetworkOnMainThreadException;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.cmpe451.interesthub.InterestHub;
 import com.cmpe451.interesthub.R;
 import com.cmpe451.interesthub.activities.UserActivity;
 import com.cmpe451.interesthub.adapters.UserGroupListAdapter;
 import com.cmpe451.interesthub.adapters.UserTimelineListAdapter;
+import com.cmpe451.interesthub.models.Group;
+import com.cmpe451.interesthub.models.User;
+
+import java.io.IOException;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class UserTimelineFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
@@ -61,6 +73,44 @@ public class UserTimelineFragment extends Fragment {
         UserTimelineListAdapter adapter = new UserTimelineListAdapter((UserActivity)getActivity());
         final ListView list = view.findViewById(R.id.user_timeline_list);
         list.setAdapter(adapter);
+
+        final InterestHub hub = (InterestHub) ((UserActivity) getActivity()).getApplication();
+        hub.getApiService().getUsers().enqueue(new Callback<List<User>>() {
+            @Override
+            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+                Log.d("USER RESPONSE","SUCCESFULL");
+                final User user = response.body().get(0);
+                Log.d(user.getUsername(),user.getEmail());
+                for(String s : user.getGroupListResponse()){
+
+                    hub.getApiService().getSpesificGroup(s).enqueue(new Callback<Group>() {
+                        @Override
+                        public void onResponse(Call<Group> call, Response<Group> response) {
+                           // Log.d("RESPOONSE" , response.body().getName());
+                            user.addGroupList(response.body());
+                            hub.getSessionController().setUser(user);
+                            hub.getSessionController().setLoggedIn(true);
+                        }
+
+                        @Override
+                        public void onFailure(Call<Group> call, Throwable t) {
+                            Log.d("RESPOONSE" , "error");
+                        }
+                    });
+
+                }
+
+
+
+
+            }
+
+            @Override
+            public void onFailure(Call<List<User>> call, Throwable t) {
+                Log.d("USER RESPONSE","ERROR");
+            }
+        });
+
         return view;
     }
     /**

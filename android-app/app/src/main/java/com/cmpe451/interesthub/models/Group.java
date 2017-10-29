@@ -1,5 +1,7 @@
 package com.cmpe451.interesthub.models;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 /**
@@ -7,9 +9,13 @@ import java.util.List;
  */
 
 public class Group {
+    @SerializedName("id")
+    long id;
+    @SerializedName("url")
+    String url;
+    @SerializedName("name")
     String name;
-    List<User> users;
-    List<Content> contents;
+
 
     public String getName() {
         return name;
@@ -19,19 +25,19 @@ public class Group {
         this.name = name;
     }
 
-    public List<User> getUsers() {
-        return users;
+    public long getId() {
+        return id;
     }
 
-    public void setUsers(List<User> users) {
-        this.users = users;
+    public void setId(long id) {
+        this.id = id;
     }
 
-    public List<Content> getContents() {
-        return contents;
+    public String getUrl() {
+        return url;
     }
 
-    public void setContents(List<Content> contents) {
-        this.contents = contents;
+    public void setUrl(String url) {
+        this.url = url;
     }
 }
