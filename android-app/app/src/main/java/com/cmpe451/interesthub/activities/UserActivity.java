@@ -8,13 +8,13 @@ import android.util.Log;
 
 import com.cmpe451.interesthub.InterestHub;
 import com.cmpe451.interesthub.activities.baseActivities.BaseActivity;
-import com.cmpe451.interesthub.adapters.ViewPagerAdapter;
+import com.cmpe451.interesthub.adapters.UserFragmentsAdapter;
 import com.cmpe451.interesthub.R;
 
 public class UserActivity extends BaseActivity {
 
     private TabLayout tabLayout;
-    private ViewPagerAdapter viewPagerAdapter;
+    private UserFragmentsAdapter viewPagerAdapter;
     private ViewPager viewPager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,9 +25,10 @@ public class UserActivity extends BaseActivity {
 
         tabLayout = (TabLayout) findViewById(R.id.TabLayout);
         viewPager = (ViewPager) findViewById(R.id.ViewPager);
-        viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        viewPagerAdapter = new UserFragmentsAdapter(getSupportFragmentManager());
         viewPager.setAdapter(viewPagerAdapter);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -42,10 +43,12 @@ public class UserActivity extends BaseActivity {
 
             }
         });
+
         final TabLayout.Tab home = tabLayout.newTab();
         final TabLayout.Tab group = tabLayout.newTab();
         final TabLayout.Tab events = tabLayout.newTab();
         final TabLayout.Tab profile = tabLayout.newTab();
+
         home.setText("Home");
         profile.setText("Profile");
         group.setText("Groups");
@@ -73,6 +76,7 @@ public class UserActivity extends BaseActivity {
 
             }
         });
+
         tabLayout.setTabTextColors(Color.WHITE,Color.WHITE);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 

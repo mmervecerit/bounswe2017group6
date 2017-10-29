@@ -39,17 +39,15 @@ public class LoginActivity extends BaseActivity {
 
             }
         });
-        t.setOnLongClickListener(new View.OnLongClickListener() {
+        t.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onLongClick(View view) {
+            public void onClick(View view) {
 
                 Intent intent= new Intent(view.getContext(), SignUpActivity.class);
                 startActivity(intent);
 
-                return true;
+
             }
-
-
         });
  /*       Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

@@ -1,21 +1,29 @@
 package com.cmpe451.interesthub.fragments;
 
 import android.os.Bundle;
+import android.os.NetworkOnMainThreadException;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
+import com.cmpe451.interesthub.InterestHub;
 import com.cmpe451.interesthub.R;
+import com.cmpe451.interesthub.activities.UserActivity;
+import com.cmpe451.interesthub.adapters.UserGroupListAdapter;
+import com.cmpe451.interesthub.adapters.UserTimelineListAdapter;
+import com.cmpe451.interesthub.models.Group;
+import com.cmpe451.interesthub.models.User;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link UserTimelineFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link UserTimelineFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.io.IOException;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class UserTimelineFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -61,7 +69,49 @@ public class UserTimelineFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_user_timeline, container, false);
+        View view = inflater.inflate(R.layout.fragment_user_timeline, container, false);
+        UserTimelineListAdapter adapter = new UserTimelineListAdapter((UserActivity)getActivity());
+        final ListView list = view.findViewById(R.id.user_timeline_list);
+        list.setAdapter(adapter);
+
+        final InterestHub hub = (InterestHub) ((UserActivity) getActivity()).getApplication();
+        hub.getApiService().getUsers().enqueue(new Callback<List<User>>() {
+            @Override
+            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+                Log.d("USER RESPONSE","SUCCESFULL");
+                final User user = response.body().get(0);
+                Log.d(user.getUsername(),user.getEmail());
+                for(String s : user.getGroupListResponse()){
+
+                    hub.getApiService().getSpesificGroup(s).enqueue(new Callback<Group>() {
+                        @Override
+                        public void onResponse(Call<Group> call, Response<Group> response) {
+                           // Log.d("RESPOONSE" , response.body().getName());
+                            user.addGroupList(response.body());
+                            hub.getSessionController().setUser(user);
+                            hub.getSessionController().setLoggedIn(true);
+                        }
+
+                        @Override
+                        public void onFailure(Call<Group> call, Throwable t) {
+                            Log.d("RESPOONSE" , "error");
+                        }
+                    });
+
+                }
+
+
+
+
+            }
+
+            @Override
+            public void onFailure(Call<List<User>> call, Throwable t) {
+                Log.d("USER RESPONSE","ERROR");
+            }
+        });
+
+        return view;
     }
     /**
      * This interface must be implemented by activities that contain this
