@@ -10,7 +10,7 @@ class ContentType(models.Model):
     modified_date = models.DateTimeField(auto_now=True)
     name = models.CharField(max_length=40, blank=True, null=True)
     components = ArrayField(
-        models.CharField(max_length=3, blank=True),
+        models.CharField(max_length=10, blank=True),
         size=15,
     )
 
