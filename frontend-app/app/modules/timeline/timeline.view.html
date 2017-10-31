@@ -14,28 +14,30 @@
         </div>--><!-- /.panel -->
 
         <div class="panel panel-theme rounded shadow">
-            <div class="panel-heading">
-                <div class="pull-left">
-                    <h3 class="panel-title">Groups</h3>
+                <div class="panel panel-info">
+                <div class="panel-heading">
+                    <div class="pull-left">
+                        <h3 class="panel-title">Groups</h3>
+                    </div>
+                    
+                    <div class="clearfix"></div>
+                </div><!-- /.panel-heading -->
                 </div>
-                
-                <div class="clearfix"></div>
-            </div><!-- /.panel-heading -->
-            <div class="panel-body no-padding rounded">
-                <ul class="list-group no-margin">
-                    <li class="list-group-item"> Django girls</li>
-                    <li class="list-group-item"> Python Istanbul</li>
-                    <li class="list-group-item"> Lorem ipsum</li>
-                    <li class="list-group-item"><a class="" ng-click="open()"><i class="fa fa-plus"></i> Create New Group</a></li>
-
-                </ul>
-
+                <div class="panel-body no-padding rounded">
+                    <ul class="list-group no-margin">
+                        <li class="list-group-item"><a href="/group-timeline" >Django girls</a></li>
+                        <li class="list-group-item"> <a href="/group-timeline">Python Istanbul</a></li>
+                        <li class="list-group-item"> <a href="/group-timeline">Lorem ipsum</a></li>
+                        <li class="list-group-item"><a class="" ng-click="open()"><i class="fa fa-plus"></i> Create New Group</a></li>
+    
+                    </ul>
+    
+                   
+    
+                </div><!-- /.panel-body -->
                
-
-            </div><!-- /.panel-body -->
-           
-          
-        </div><!-- /.panel -->
+              
+            </div><!-- /.panel -->
 
     </div>
    
@@ -127,19 +129,29 @@
         </div>
 
         <div class="col-md-4">
-            <div class="panel panel-info">
-                 <div class="panel-heading">
-                <div class="pull-left">
-                    <h3 class="panel-title">Upcoming Events</h3>
-                </div>
-               
-            </div><!-- /.panel-heading -->
-            <div class="panel-body rounded">
-                    
-                
-                   
-             
-            </div>
+                            
+                            <div class="panel panel-info">
+                                 <div class="panel-heading">
+                                <div class="pull-left">
+                                    <h3 class="panel-title">Upcoming Events</h3>
+            
+                                </div>
+                               
+                            </div><!-- /.panel-heading -->
+            
+                                        <p class="input-group" style="margin:10px;">
+                                          <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+                                          <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default" ng-click="openModal()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                          </span>
+                                        </p>
+                                
+                                    <hr />
+            
+                                    <!-- <button type="button" style="margin:5px; width:250px;"class="btn btn-primary">Add an Event</button> -->
+                                    
+                            </div>
+            
                 
             </div>
         </div>
@@ -150,3 +162,10 @@
 
 
 </div>
+
+
+
+
+<style>
+
+</style>
