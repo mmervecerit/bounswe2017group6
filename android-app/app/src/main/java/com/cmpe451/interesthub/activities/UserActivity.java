@@ -21,7 +21,7 @@ public class UserActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_activity);
+        setContentView(R.layout.user_activity_layout);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setLogo(R.mipmap.ic_launcher);
         getSupportActionBar().setDisplayUseLogoEnabled(true);
@@ -46,7 +46,6 @@ public class UserActivity extends BaseActivity {
             }
             @Override
             public void onPageSelected(int position) {
-                Log.d("PageListener", String.valueOf(position));
             }
 
             @Override

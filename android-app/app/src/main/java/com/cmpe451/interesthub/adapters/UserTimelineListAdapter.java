@@ -1,59 +1,64 @@
 package com.cmpe451.interesthub.adapters;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cmpe451.interesthub.R;
-import com.cmpe451.interesthub.activities.UserActivity;
-import com.cmpe451.interesthub.models.Dummy;
+import com.cmpe451.interesthub.models.Content;
 
 import java.util.List;
 
-public class UserTimelineListAdapter extends BaseAdapter {
+public class UserTimelineListAdapter extends RecyclerView.Adapter<UserTimelineListAdapter.ViewHolder> {
 
-    Context context;
-    List<Dummy> list;
-    private UserActivity userActivity;
+    private List<Content> itemList;
+    private Context context;
 
-    public UserTimelineListAdapter(UserActivity userActivity){
-        this.list = list;
-        this.userActivity = userActivity;
-        this.context= context;
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
+        public TextView postHeader;
+        public ImageView postImage;
+        public TextView postContent;
+        public ViewHolder(View itemView) {
+            super(itemView);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                }
+            });
+            postHeader = (TextView) itemView.findViewById(R.id.post_header);
+            postImage = (ImageView) itemView.findViewById(R.id.country_photo);
+            postContent = (TextView) itemView.findViewById(R.id.post_content);
+        }
     }
+        public UserTimelineListAdapter(Context context, List<Content> itemList) {
+            this.itemList = itemList;
+            this.context = context;
+        }
 
+        @Override
+        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
+            View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.post_layout, null);
+            ViewHolder rcv = new ViewHolder(layoutView);
+            return rcv;
+        }
 
+        @Override
+        public void onBindViewHolder(ViewHolder holder, int position) {
+            holder.postHeader.setText(itemList.get(position).getHeader());
+            holder.postImage.setImageResource(R.drawable.ic_mr_button_grey);
+            holder.postContent.setText("PostContent "+position);
+        }
 
-    @Override
-    public int getCount() {
-        return 10;
-    }
+        @Override
+        public int getItemCount() {
+            return this.itemList.size();
 
-    @Override
-    public Object getItem(int i) {
-        return null;
-    }
-
-    @Override
-    public long getItemId(int i) {
-        return 0;
-    }
-
-    @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        view = userActivity.getLayoutInflater().inflate(R.layout.user_group_list_layout,null );
-        ImageView image= (ImageView) view.findViewById(R.id.imageView_user_group_list);
-        TextView text1= (TextView) view.findViewById(R.id.textView_user_group_list);
-        TextView text2= (TextView) view.findViewById(R.id.textView2_user_group_list);
-        text1.setText("Post Header: "+ i);
-        text2.setText("Post Content: "+ i);
-
-
-        return view;
-    }
+        }
 }

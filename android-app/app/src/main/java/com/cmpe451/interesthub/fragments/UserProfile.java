@@ -1,22 +1,29 @@
 package com.cmpe451.interesthub.fragments;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.cmpe451.interesthub.InterestHub;
 import com.cmpe451.interesthub.R;
 import com.cmpe451.interesthub.activities.UserActivity;
+import com.cmpe451.interesthub.adapters.UserFragmentsAdapter;
 import com.cmpe451.interesthub.adapters.UserGroupListAdapter;
 import com.cmpe451.interesthub.adapters.UserHomeGroupListAdapter;
 import com.cmpe451.interesthub.adapters.UserHomeListAdapter;
+import com.cmpe451.interesthub.adapters.UserProfileTabsAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,6 +41,11 @@ public class UserProfile extends Fragment {
     InterestHub hub;
     Button userProfileGroups;
     Button userProfileTimeline;
+
+    private ViewPager viewPager;
+    private TabLayout tabLayout;
+    private UserProfileTabsAdapter viewPagerAdapter;
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -80,6 +92,69 @@ public class UserProfile extends Fragment {
         // Inflate the layout for this fragment
 
         View view = inflater.inflate(R.layout.fragment_user_profile, container, false);
+        TextView userName=view.findViewById(R.id.user_name);
+        userName.setText(hub.getSessionController().getUser().getUsername());
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+        mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+
+        tabLayout = (TabLayout) view.findViewById(R.id.TabLayoutProfile);
+        viewPager = (ViewPager) view.findViewById(R.id.ViewPagerProfile);
+        viewPagerAdapter = new UserProfileTabsAdapter(getFragmentManager());
+        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+        viewPager.setAdapter(viewPagerAdapter);
+        tabLayout.setupWithViewPager(viewPager);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+            @Override
+            public void onPageSelected(int position) {
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+        final TabLayout.Tab home = tabLayout.newTab();
+        final TabLayout.Tab group = tabLayout.newTab();
+        final TabLayout.Tab events = tabLayout.newTab();
+        final TabLayout.Tab profile = tabLayout.newTab();
+
+        home.setText("My Posts");
+        group.setText("Followers");
+        events.setText("Following");
+        profile.setText("Groups");
+
+        tabLayout.addTab(home,0);
+        tabLayout.addTab(group,1);
+        tabLayout.addTab(events,2);
+        tabLayout.addTab(profile,3);
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+        tabLayout.setTabTextColors(Color.BLACK,Color.BLACK);
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
+/*
         final ListView list = view.findViewById(R.id.home_list_view);
         UserHomeListAdapter adapter = new UserHomeListAdapter((UserActivity)getActivity());
         list.setAdapter(adapter);
@@ -106,6 +181,7 @@ public class UserProfile extends Fragment {
 
             }
         });
+        */
         return view;
     }
 

@@ -1,21 +1,33 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/lib/com.cmpe451.interesthub"
-    xmlns:app2="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.cmpe451.interesthub.fragments.UserGroups">
+    tools:context="com.cmpe451.interesthub.fragments.UserTimelineFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <ListView
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/userGroupListView"
         android:orientation="vertical">
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="8dp"
+            tools:context=".MainActivity">
 
-    </ListView>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/user_group_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical" />
 
+
+
+
+        </RelativeLayout>
+
+    </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/floatingActionButton"
@@ -28,11 +40,5 @@
         android:src="@drawable/ic_add_circle_black_24dp"
         android:tint="@color/colorWhite"
         android:visibility="visible"
-        app2:backgroundTint="@color/colorAccent"
-        app2:elevation="0dp"
-        app2:fabSize="mini"
-        app2:rippleColor="@color/colorWhite"
-        app:srcCompat="@drawable/ic_add_circle_black_24dp"
         tools:ignore="RtlHardcoded" />
-
 </FrameLayout>

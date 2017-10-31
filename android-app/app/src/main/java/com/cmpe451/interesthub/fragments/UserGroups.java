@@ -1,8 +1,12 @@
 package com.cmpe451.interesthub.fragments;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +15,7 @@ import android.widget.ListView;
 
 import com.cmpe451.interesthub.InterestHub;
 import com.cmpe451.interesthub.R;
+import com.cmpe451.interesthub.activities.GroupCreation;
 import com.cmpe451.interesthub.activities.UserActivity;
 import com.cmpe451.interesthub.adapters.UserGroupListAdapter;
 import com.cmpe451.interesthub.models.Dummy;
@@ -38,6 +43,8 @@ public class UserGroups extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    FloatingActionButton fab;
+    RecyclerView groupViewList;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -81,21 +88,33 @@ public class UserGroups extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_user_groups, container, false);
-        final ListView list = view.findViewById(R.id.userGroupListView);
-        final List<Dummy> dummyList = new ArrayList<Dummy>();
+        fab = view.findViewById(R.id.floatingActionButton);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent= new Intent(view.getContext(), GroupCreation.class);
+                startActivity(intent);
+            }
+        });
+        groupViewList = view.findViewById(R.id.user_group_recycler_view);
+        final List<Group> groupList = new ArrayList<Group>();
         InterestHub hub = (InterestHub) ((UserActivity) getActivity()).getApplication();
-        hub.getApiService().getDummy().enqueue(new Callback<List<Dummy>>() {
+        hub.getApiService().getGroup().enqueue(new Callback<List<Group>>() {
                     @Override
-                    public void onResponse(Call<List<Dummy>> call, Response<List<Dummy>> response) {
-                         for(Dummy d : response.body())
-                                dummyList.add(d);
-                        UserGroupListAdapter adapter = new UserGroupListAdapter((UserActivity)getActivity(),dummyList);
-                        list.setAdapter(adapter);
+                    public void onResponse(Call<List<Group>> call, Response<List<Group>> response) {
+                        Log.d("GROUPRESPOnse","basarili");
+                         for(Group d : response.body())
+                                groupList.add(d);
+                        final LinearLayoutManager ll = new LinearLayoutManager(((UserActivity)getActivity()));
+                        ll.setOrientation(LinearLayoutManager.VERTICAL);
+                        groupViewList.setLayoutManager(ll);
+                        UserGroupListAdapter adapter = new UserGroupListAdapter((UserActivity)getActivity(),groupList);
+                        groupViewList.setAdapter(adapter);
 
                     }
 
                     @Override
-                    public void onFailure(Call<List<Dummy>> call, Throwable t) {
+                    public void onFailure(Call<List<Group>> call, Throwable t) {
                      }
         });
        return view;

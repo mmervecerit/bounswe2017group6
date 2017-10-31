@@ -9,6 +9,7 @@ import java.util.List;
  */
 
 public class Group {
+    
     @SerializedName("id")
     long id;
     @SerializedName("url")

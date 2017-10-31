@@ -7,7 +7,7 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-    <RelativeLayout
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -35,72 +35,42 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/textView10"
+                        android:id="@+id/user_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="0.25"
+                        android:layout_gravity="center"
+                        android:textAlignment="center"
+                        android:textSize="19sp"
+                        android:layout_marginTop="20dp"
                         android:text="TextView" />
 
                     <TextView
-                        android:id="@+id/textView9"
+                        android:id="@+id/user_desc"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="TextView" />
+                        android:text="" />
                 </LinearLayout>
 
             </LinearLayout>
 
-            <LinearLayout
+            <android.support.design.widget.TabLayout
+
+                android:id="@+id/TabLayoutProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite" />
+            <android.support.v4.view.ViewPager
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:id="@+id/ViewPagerProfile"
+                android:layout_below="@+id/TabLayoutProfile"
 
-                <Button
-                    android:id="@+id/user_profile_timeline"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="TIMELINE"
-                    android:textSize="10sp"
-                    style="@style/button_style"/>
-
-                <Button
-                    android:id="@+id/user_profile_groups"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="FOLLOWING GROUPS"
-                    android:textSize="9sp"
-                    style="@style/button_style" />
-
-                <Button
-                    android:id="@+id/user_profile_following"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="FOLLOWERS"
-                    android:textSize="10sp"
-                    style="@style/button_style"/>
-
-                <Button
-                    android:id="@+id/user_profile_followers"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="FOLLOWING"
-                    android:textSize="10sp"
-                    style="@style/button_style" />
-            </LinearLayout>
-
-            <ListView
-                android:id="@+id/home_list_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="4" />
+                />
 
         </LinearLayout>
 
-    </RelativeLayout>
+    </android.support.design.widget.CoordinatorLayout>
 
 </FrameLayout>
