@@ -7,6 +7,7 @@
     function LoginCtrl($scope, $location, $rootScope)
     {
         $scope.login = login;
+		$scope.tabName="signin";
         $scope.loginWithFacebook = loginWithFacebook;
         $scope.loginWithGoogle = loginWithGoogle;
 
