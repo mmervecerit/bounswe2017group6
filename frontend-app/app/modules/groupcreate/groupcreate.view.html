@@ -1,0 +1,108 @@
+
+
+<div ng-controller="GroupCtrl" class="container bootstrap snippets">
+<div class="row" style="margin-top: 60px;" ng-model="user" ng-init="user.fullname='Gokce Uludogan'; user.job='Student'">
+    <div class="col-lg-3 col-md-3 col-sm-4">
+        <div class="panel rounded shadow">
+            <div class="panel-body">
+                <div class="inner-all" >
+                    <ul class="list-unstyled">
+                        <li class="text-center">
+                            <img data-no-retina="" class="img-circle img-responsive img-bordered-primary" src="https://scontent-frt3-2.xx.fbcdn.net/v/t1.0-9/16174471_10210225282420728_2157042507789656179_n.jpg?oh=55c32619210a9bcbd2342cdc0a001fa3&oe=5A6D079F" alt="John Doe">
+                        </li>
+                        <li class="text-center">
+                            <h4 class="text-capitalize">{{user.fullname}}</h4>
+                            <p class="text-muted text-capitalize">{{user.job}}</p>
+                        </li>
+                        <li>
+                            <a href="" class="btn btn-info text-center btn-block">Follow</a>
+                        </li>
+                        <li><br></li>
+                        <li>
+                            <div class="btn-group-vertical btn-block">
+                                <a href="" class="btn btn-default"><i class="fa fa-cog pull-right"></i>Edit Account</a>
+                                <a href="" class="btn btn-default"><i class="fa fa-sign-out pull-right"></i>Logout</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div><!-- /.panel -->
+
+        <div class="panel panel-theme rounded shadow">
+            <div class="panel-heading">
+                <div class="pull-left">
+                    <h3 class="panel-title">Contact</h3>
+                </div>
+                <div class="pull-right" ng-init="user.facebook='https://www.facebook.com/uludogangokce'; user.twitter='https://twitter.com/kybisss'">
+                    <a href="user.facebook" ng-show="user.facebook" class="btn btn-sm btn-info"><i class="fa fa-facebook"></i></a>
+                    <a href="user.twitter" ng-show="user.twitter" class="btn btn-sm btn-info"><i class="fa fa-twitter"></i></a>
+                    <a href="user.google" ng-show="user.google" class="btn btn-sm btn-info"><i class="fa fa-google-plus"></i></a>
+                </div>
+                <div class="clearfix"></div>
+            </div><!-- /.panel-heading -->
+            <div class="panel-body no-padding rounded">
+                <ul class="list-group no-margin">
+                    <li class="list-group-item"><i class="fa fa-envelope mr-5"></i> {{user.email}}</li>
+                    <li class="list-group-item"><i class="fa fa-globe mr-5"></i> {{user.website}}</li>
+                    <li class="list-group-item"><i class="fa fa-phone mr-5"></i> {{user.phone}}</li>
+                </ul>
+                 
+            </div><!-- /.panel-body -->
+        </div><!-- /.panel -->
+
+    </div>
+    
+    <div class="divider"></div>
+	
+	
+    <!--
+    <div class="panel rounded shadow">
+        <form action="...">
+            <textarea class="form-control input-lg no-border" rows="2" placeholder="What are you doing?..."></textarea>
+        </form>
+        <div class="panel-footer">
+            <button class="btn btn-success pull-right mt-5">POST</button>
+            <ul class="nav nav-pills">
+                <li><a href="#"><i class="fa fa-user"></i></a></li>
+                <li><a href="#"><i class="fa fa-map-marker"></i></a></li>
+                <li><a href="#"><i class="fa fa-camera"></i></a></li>
+                <li><a href="#"><i class="fa fa-smile-o"></i></a></li>
+            </ul>--><!-- /.nav nav-pills -->
+        <!--</div>--><!-- /.panel-footer -->
+    <!--</div>
+    --><!-- /.panel -->
+    <div class="col-lg-6 col-md-6 col-sm-8">
+		
+		<div class="panel panel-theme rounded shadow"> 
+			<div class="panel-body"> 
+				<h1 style="text-align:center">Create Group</h1>
+				<div class="inner-all">
+				
+				<form id="groupform">
+					<div class="form-group">
+						<label for="groupname">Group Name:</label>
+						<input type="text" class="form-control" ng-model="group.name">
+					</div>
+					<div class="form-group">
+					  <label for="groupdesc">Group Description:</label>
+					  <textarea class="form-control" rows="5" ></textarea>
+					</div>
+					<div class="custom-file">
+					<label for="file">Group Icon:</label>
+						<input type="file" id="file"  class="custom-file-input" accept="image/*">
+						<span class="custom-file-control"></span>
+					</div>
+					
+					<br></br>
+					
+					
+				  <button type="submit" ng-click="add(group)" class="btn btn-default">Create Group</button>
+				</form>
+				</div>
+			</div>
+		
+		</div>
+	</div>
+	
+</div>
