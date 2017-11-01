@@ -39,6 +39,7 @@ router.register(r'component',ComponentViewSet)
 
 urlpatterns = [   
     # url(r'^group-content/', GroupContentList.as_view()),
+    url(r'user-groups/(?P<pk>[0-9]+)/$', UserGroupList.as_view()),
     url(r'group-contents/(?P<pk>[0-9]+)/$', GroupContentList.as_view()),
     url(r'group-members/(?P<pk>[0-9]+)/$', GroupMembersList.as_view()),
     url(r'group-ctypes/(?P<pk>[0-9]+)/$', GroupContentTypeList.as_view()),

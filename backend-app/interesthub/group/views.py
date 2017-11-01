@@ -59,3 +59,12 @@ class UserViewSet(viewsets.ModelViewSet):
 class GroupViewSet(viewsets.ModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
+
+class UserGroupList(APIView):
+    def get(self, request, pk, format=None):
+        # groups = InterestGroup.objects.all()
+        user = User.objects.get(pk=pk)
+        groups = user.interestgroup_set.all()
+        serializer = InterestGroupSerializer(groups, many=True, context={'request': request})
+        print(serializer.data)
+        return Response(serializer.data)
