@@ -50,6 +50,19 @@
                 controller: 'GuestTimelineCtrl'
             })
 
+			  .when('/groupcreate', {
+                  templateUrl: 'modules/groupcreate/groupcreate.view.html',
+                  controller: 'GroupCtrl'
+              })
+			  .when('/templatecreate', {
+                  templateUrl: 'modules/templatecreate/templatecreate.view.html',
+                  controller: 'TemplateCreateCtrl'
+              })
+			  .when('/postcreate', {
+                  templateUrl: 'modules/postcreate/postcreate.view.html',
+                  controller: 'PostCreateCtrl'
+              })
+			  
               .otherwise({
                   redirectTo: '/'
               });
