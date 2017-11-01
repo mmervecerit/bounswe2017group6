@@ -33,7 +33,7 @@
                 </div>
                  <div class="panel-body no-padding rounded">
                         <ul class="list-group no-margin" ng-repeat="group in groups">
-                            <li class="list-group-item"><a href="/group-timeline">{{group.name}}</a></li>
+                            <li class="list-group-item"><a ng-click="groupTimeline(group)">{{group.name}}</a></li>
                             <!--<li class="list-group-item"> Django girls</li>
                             <li class="list-group-item"> Python Istanbul</li>
                             <li class="list-group-item"> Lorem ipsum</li>

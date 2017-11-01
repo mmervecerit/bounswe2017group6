@@ -14,25 +14,26 @@
         return api;
 
         
-        function createPost(post){
+        function createPost(groupId,post){
             
-            return $http.post('http://34.209.230.231:8000/group-contents/',post);
+            return $http.post('http://34.209.230.231:8000/group-contents/'+groupId,post);
         }
 
-        function updatePost(postID, post){
-            return $http.put('http://34.209.230.231:8000/group-contents/'+postID, post);
+        function updatePost(groupId,postID, post){
+            return $http.put('http://34.209.230.231:8000/group-contents/'+groupId+"/"+postID, post);
         }
 
-        function deletePost(postID){
-            return $http.delete('http://34.209.230.231:8000/group-contents/'+postID);
+        function deletePost(groupId,postID){
+            return $http.delete('http://34.209.230.231:8000/group-contents/'+groupId+"/"+postID);
         }
 
-        function getPost(postID){
-            return $http.get('http://34.209.230.231:8000/group-contents/'+postID);
+        function getPost(groupId,postID){
+            return $http.get('http://34.209.230.231:8000/group-contents/'+groupId+"/"+postID);
         }
         
-        function getAllPosts(){
-            return $http.get('http://34.209.230.231:8000/group-contents/1/');
+        function getAllPosts(groupId){
+            console.log(groupId);
+            return $http.get('http://34.209.230.231:8000/group-contents/'+groupId);
         }
 
     }

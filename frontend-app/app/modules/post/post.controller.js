@@ -15,8 +15,10 @@
 
         function init() {
             console.log("Post int");
+            console.log($rootScope.group);
+
             PostService
-                .getAllPosts()
+                .getAllPosts($rootScope.group.id)
                 .then(handleSuccess, handleError);
 
         }
