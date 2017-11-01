@@ -25,7 +25,19 @@
                   /*resolve: {
                       loggedin: checkLoggedin
                   }*/
-              })
+              }).when('/group-timeline', {
+                 templateUrl: 'modules/group-timeline/group-timeline.view.html',
+                 controller: 'GroupTimelineCtrl'
+             })
+              .when('/group-timeline/:id', {
+                 templateUrl: 'modules/group-timeline/group-timeline.view.html',
+                 controller: 'GroupTimelineCtrl',
+                
+             })
+             .when('/guest-timeline', {
+                 templateUrl: 'modules/guest-timeline/guest-timeline.view.html',
+                 controller: 'GuestTimelineCtrl'
+             })
           
               .when('/login', {
                   templateUrl: 'modules/login/login.view.html',
@@ -41,35 +53,27 @@
                   templateUrl: 'modules/timeline/timeline.view.html',
                   controller: 'TimelineCtrl'
               })
-              .when('/group-timeline', {
-                templateUrl: 'modules/group-timeline/group-timeline.view.html',
-                controller: 'GroupTimelineCtrl'
-            })
-            .when('/guest-timeline', {
-                templateUrl: 'modules/guest-timeline/guest-timeline.view.html',
-                controller: 'GuestTimelineCtrl'
-            })
-
-			  .when('/groupcreate', {
+        .when('/groupcreate', {
                   templateUrl: 'modules/groupcreate/groupcreate.view.html',
                   controller: 'GroupCtrl'
               })
-			  .when('/templatecreate', {
+        .when('/templatecreate', {
                   templateUrl: 'modules/templatecreate/templatecreate.view.html',
                   controller: 'TemplateCreateCtrl'
               })
-			  .when('/postcreate', {
+        .when('/postcreate', {
                   templateUrl: 'modules/postcreate/postcreate.view.html',
                   controller: 'PostCreateCtrl'
-              })
-			  
+              });
+/*
               .otherwise({
                   redirectTo: '/'
               });
-
+*/
             
           
         });
+
     /*
     var checkLoggedin = function($q, $timeout, $http, $location, $rootScope)
     {

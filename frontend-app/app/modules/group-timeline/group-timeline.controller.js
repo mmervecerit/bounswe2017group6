@@ -6,6 +6,7 @@
     
     function GroupTimelineCtrl($scope,  $rootScope, $location)
     {
+      console.log("adfksdf");
 
       $scope.tab = {};
 

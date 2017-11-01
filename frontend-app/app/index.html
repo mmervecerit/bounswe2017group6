@@ -10,40 +10,43 @@
     <link href="node_modules/bootstrap-social/bootstrap-social.css" rel="stylesheet">
   
     <link href="css/style.css" rel="stylesheet">
-        <script src="node_modules/jquery/dist/jquery.js"></script>
-            <script src="node_modules/bootstrap/dist/js/bootstrap.js"></script>
-            
-     <script type="text/javascript" src="http://code.jquery.com/jquery-1.8.3.js"></script>
-            
+    <script src="node_modules/jquery/dist/jquery.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.js"></script>
+
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.3.js"></script>
     <script src="node_modules/angular/angular.min.js"></script>
      
     <script src="node_modules/angular-route/angular-route.min.js"></script>
-
-   <script src="node_modules/angular-ui-bootstrap/dist/ui-bootstrap.js"></script>
-   <script src="node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js"></script>
-
-<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script> 
+    <script src="node_modules/angular-ui-bootstrap/dist/ui-bootstrap.js"></script>
+    <script src="node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script> 
     <script src="https://threejs.org/examples/js/libs/stats.min.js"></script>
 
     <script src="app.js" type="text/javascript"></script>
     <script src="app.routes.js" type="text/javascript"></script>
+    <script src="app.config.js" type="text/javascript"></script>
+
     <script src="modules/home/home.controller.js" type="text/javascript"></script>
     <script src="modules/nav/nav.controller.js" type="text/javascript"></script>
     <script src="modules/login/login.controller.js" type="text/javascript"></script>
     <script src="modules/profile/profile.controller.js" type="text/javascript"></script>
     <script src="modules/timeline/timeline.controller.js" type="text/javascript"></script>
+    <script src="modules/group/group.controller.js" type="text/javascript"></script>
+    <script src="modules/group/group.services.js" type="text/javascript"></script>
+    <script src="modules/postcreate/postcreate.controller.js" type="text/javascript"></script>
+    <script src="modules/templatecreate/templatecreate.controller.js" type="text/javascript"></script>
+    <script src="modules/user/user.controller.js" type="text/javascript"></script>
+    <script src="modules/user/user.service.js" type="text/javascript"></script>
     <script src="modules/group-timeline/group-timeline.controller.js" type="text/javascript"></script>
     <script src="modules/guest-timeline/guest-timeline.controller.js" type="text/javascript"></script>
-        <script src="modules/modal/modal.service.js" type="text/javascript"></script>
-	<script src="modules/timeline/groupmodal.controller.js" type="text/javascript"></script>
-	<script src="modules/groupcreate/groupcreate.controller.js" type="text/javascript"></script>
-	<script src="modules/postcreate/postcreate.controller.js" type="text/javascript"></script>
-	<script src="modules/templatecreate/templatecreate.controller.js" type="text/javascript"></script>
-	<script src="modules/group/group.controller.js" type="text/javascript"></script>
-	<script src="modules/group/group.services.js" type="text/javascript"></script>
-        
-    
-    <!--
+        <script src="modules/post/post.controller.js" type="text/javascript"></script>
+
+        <script src="modules/post/post.services.js" type="text/javascript"></script>
+<script src="modules/content/content.controller.js" type="text/javascript"></script>
+
+        <script src="modules/content/content.services.js" type="text/javascript"></script>
+
+  <!--
     
   -->
   </head>
@@ -56,17 +59,14 @@
                <div class="navbar-header">
                   <a class="navbar-brand" href="/"> <img src="assets/logo.png" class="logo" alt="InterestHub"></a>
                </div>
-               <form class="navbar-form navbar-left" ng-click="search()">
+               <form  class="navbar-form navbar-left" ng-click="search()">
                   <input type="text" class="form-control col-lg-8" id="keyword" name="keyword" placeholder="Search"/>
                 </form>
-              <ul class="nav navbar-nav navbar-right">
+              <ul  class="nav navbar-nav navbar-right">
                 <!-- For these items we should use ng-show directive to show them related user type. For example, if the user is guest, then we show search, sign in and register items, etc. -->  
                 <li><a href="/timeline">Timeline</a></li>
                 <li><a href="/profile">Profile</a></li>
-                <!-- <li><a href="/group-timeline">Groups</a></li> -->
-                <li><a href="/settings">Settings</a></li>
-                <li><a href="/login">Sign in</a></li>
-                <li><a ng-click="logout()">Logout</a></li>
+              
 
               </ul>   
                 </div>
@@ -77,13 +77,15 @@
         </div>
         <div ng-view>
             </div>
+            <!--
         <footer>
-          <div class="footer navbar-inverse navbar-fixed-bottom" >
+          <div class="footer navbar-inverse " >
               <div class="col-md-10 col-md-offset-1 text-center">
                   <h4 >Coded with <i class="fa fa-heart red" style="color: #BC0213;"></i> by InterestHub</h4>
               </div>   
           </div>
       </footer>
+      -->
 
   <!-- 
  style="background-color: #45ABFF;"

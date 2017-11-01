@@ -19,10 +19,12 @@
                         </li>
                         <li><br></li>
                         <li>
+                            <!--
                             <div class="btn-group-vertical btn-block">
                                 <a href="" class="btn btn-default"><i class="fa fa-cog pull-right"></i>Edit Account</a>
                                 <a href="" class="btn btn-default"><i class="fa fa-sign-out pull-right"></i>Logout</a>
                             </div>
+                            -->
                         </li>
                     </ul>
                 </div>
@@ -65,8 +67,9 @@
                     <ul class="dropdown-menu pull-right no-border" role="menu">
                         <li class="active"><a href="#"><i class="fa fa-fw fa-clock-o"></i> <span>Timeline</span></a></li>
                         <li><a href="#"><i class="fa fa-fw fa-user"></i> <span>About</span></a></li>
+                        <!--
                         <li><a href="#"><i class="fa fa-fw fa-users"></i><span>Friends </span><small>(23)</small></a></li>
-                        <li><a href="#"><i class="fa fa-fw fa-users"></i> <span>Groups</span> <small>(7)</small></a></li>
+                        <li><a href="#"><i class="fa fa-fw fa-users"></i> <span>Groups</span> <small>(7)</small></a></li>-->
                     </ul>
                 </div>
                 <img  src="http://bootdey.com/img/Content/flores-amarillas-wallpaper.jpeg" class="img-responsive full-width" alt="cover" style="max-height:200px;">
@@ -74,8 +77,9 @@
             <ul class="list-unstyled no-padding hidden-sm hidden-xs cover-menu" ng-init="tab='timeline'">
                 <li  ng-click="tab = 'timeline'" ng-class="{'active': tab == 'timeline'}"><a href="#"><i class="fa fa-fw fa-clock-o"></i> <span>Timeline</span></a></li>
                 <li ng-click="tab = 'about'" ng-class="{'active': tab == 'about'}" ><a href="#"><i class="fa fa-fw fa-user"></i> <span>About</span></a></li>
+                <!--
                 <li ng-click="tab = 'friends'" ng-class="{'active': tab == 'friends'}"> <a href="#"><i class="fa fa-fw fa-users"></i><span> Friends </span><small>(23)</small></a></li>
-                <li  ng-click="tab = 'groups'" ng-class="{'active': tab == 'groups'}"><a href="#"><i class="fa fa-fw fa-users"></i><span>Groups</span><small>(7)</small></a></li>
+                <li  ng-click="tab = 'groups'" ng-class="{'active': tab == 'groups'}"><a href="#"><i class="fa fa-fw fa-users"></i><span>Groups</span><small>(7)</small></a></li>-->
 
                 
             </ul>
@@ -100,33 +104,14 @@
     --><!-- /.panel -->
     <div class="row activity" ng-show="tab == 'timeline'">
         <div class="col-md-8" >
-                 <div class="panel panel-info">
-                    <div class="panel-body">
-                        <form action="...">
-                            <textarea class="form-control input-lg no-border" rows="2" placeholder="Write something"></textarea>
-                        </form>
-                    </div>
-                    <div class="panel-footer">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-link"><i class="fa fa-map-marker"></i></button>
-                            <button type="button" class="btn btn-link"><i class="fa fa-users"></i></button>
-                            <button type="button" class="btn btn-link"><i class="fa fa-camera"></i></button>
-                            <button type="button" class="btn btn-link"><i class="fa fa-video-camera"></i></button>
-                            <button type="button" class="btn btn-link"><i class="fa fa-calendar-o"></i></button>
-                        </div>
-                        
-                        <div class="pull-right">
-                            <button type="button" class="btn btn-success">submit</button>
-                        </div>  
-                    </div>
-                </div>
+               
                <div class="panel panel-info">
                 <div class="panel-heading">
-                    <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="img-rounded">
+                    <img src="https://scontent-frt3-2.xx.fbcdn.net/v/t1.0-9/16174471_10210225282420728_2157042507789656179_n.jpg?oh=55c32619210a9bcbd2342cdc0a001fa3&oe=5A6D079F" class="img-rounded">
                     <div class="pull-right text-right">
                         <i class="fa fa-calendar"></i><br> 3 hours ago
                     </div>
-                    <div><strong>John Doe</strong></div>
+                    <div><strong>Gokce Uludogan</strong></div>
                     <div class="small"><i class="fa fa-map-marker"></i> Medellin, Colombia</div>
                 </div>
                 <div class="panel-body">
@@ -138,7 +123,7 @@
                         </div>
                         <div class="pull-right"><strong>1.789</strong> People liked this</div>      
                     </div>  
-                    
+                    <!--
                     <div class="media">
                         <a class="pull-left" href="#">
                             <img class="media-object img-rounded" src="https://bootdey.com/img/Content/avatar/avatar1.png">
@@ -171,7 +156,7 @@
                             <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
                         </div>
                     </div>
-                    
+                    -->
                 </div>
                 <div class="panel-footer">
                     <input  class="form-control" placeholder="Write a comment...">
