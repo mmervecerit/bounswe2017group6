@@ -5,9 +5,8 @@ from django.contrib.auth.models import User
 # Create your models here.
 class InterestGroup(models.Model):
     name = models.CharField(max_length=60)
-    image = models.CharField(max_length=500)
-    description = models.TextField()
-
+    image = models.CharField(max_length=500, null=True)
+    description = models.TextField(null=True, blank=True)
     members = models.ManyToManyField(User)
     contents = models.ManyToManyField(Content, related_name="group_content")
     content_types = models.ManyToManyField(ContentType, related_name="group_contenttype")
