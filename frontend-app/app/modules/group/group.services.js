@@ -32,7 +32,7 @@
         }
         
         function getAllGroups(){
-            return $http.get('http://34.209.230.231:8000/group');
+            return $http.get('http://34.209.230.231:8000/group/');
         }
 
     }

@@ -6,8 +6,9 @@
 
 
 -->
+
 <div class="jumbotron jumbotron-main jumbotron-fluid" id="home">
-    <div id="particles-js"><canvas class="particles-js-canvas-el" width="1209" height="319" style="width: 100%; height: 100%;"></canvas></div><!-- /.particles div -->
+    <div id="particles-js"><canvas class="particles-js-canvas-el" style="width: 100%; height: 100%;"></canvas></div><!-- /.particles div -->
     <div class="container center-vertically-holder">
       <div class="center-upper" >
         <div class="col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3 text-center">
@@ -23,9 +24,9 @@
               <span class="ion-android-arrow-down arrow-scroll-indicator"></span>
             </div>
           </a>
-           <div ng-controller="LoginCtrl" class="col-md-offset-2 col-md-8">
+           <div ng-controller="LoginCtrl" class="col-sm-8 col-sm-offset-2 col-md-offset-2 col-md-8">
 
-            <div class="panel panel-default " style="margin: 40px auto 0;" >
+            <div class="panel panel-default " style="margin:  auto 0;" >
                         
                         <div class="panel-heading text-center">
                              <ul class="nav nav-tabs" role="tablist">
@@ -43,13 +44,13 @@
                               <div class="tab-panefade " id="login"  ng-switch-when="signin">
                            
                                 <form id="login-form">
-                                  <div class="login-container ">
+                                  <div class="login-container " ">
                                     <div class="row">
                                       <div class="col-md-12">
                                         <div class="form-group">
                                           <label>Email</label>
                                           <i class="fa fa-email"></i> 
-                                          <input type="email" name="email" ng-model="user.username" required class="form-control">                              
+                                          <input type="email" name="email" ng-model="user.email" required class="form-control">                              
                                           <div ng-show="myForm.email.$error.email" class="error">Invalid email!</div>
                                           <div ng-show="myForm.email.$error.required &amp;&amp; myForm.email.$touched" class="error">Required!</div>
                                         </div>
@@ -82,7 +83,8 @@
                                       </div>
                                        <div class="col-md-12">
                                         <div class="form-group text-center">
-                                           <a href="/guest-timeline" style="color: blue;">Continue without Login</a>
+                                          <!-- <a ng-click="continueWithoutLogin()" style="color: blue;">Continue without Login</a>-->
+                                          <a href="/guest-timeline" style="color: blue;">Continue without Login</a>
                                         </div>
                                       
                                     </div>
@@ -144,7 +146,7 @@
                                         <div class="form-group">
                                           <label>Email</label>
                                           <i class="fa fa-email"></i> 
-                                          <input type="email" name="email" ng-model="user.username" required class="form-control">                              
+                                          <input type="email" name="email" ng-model="user.email" required class="form-control">                              
                                           <div ng-show="myForm.email.$error.email" class="error">Invalid email!</div>
                                           <div ng-show="myForm.email.$error.required &amp;&amp; myForm.email.$touched" class="error">Required!</div>
                                         </div>
