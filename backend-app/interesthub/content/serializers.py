@@ -13,19 +13,18 @@ class ContentTypeSerializer(serializers.HyperlinkedModelSerializer):
 class ContentSerializer(serializers.HyperlinkedModelSerializer):
     components = ComponentSerializer(many=True)
     owner = UserSerializer(read_only=True, allow_null=False, many=False)
+    owner_id = serializers.IntegerField()
+    content_type_id = serializers.IntegerField()
     content_type = ContentTypeSerializer(read_only=True, allow_null=True, many=False)
-    # owner = serializers.HyperlinkedRelatedField(read_only=True, view_name='content_owner', allow_null=False)
-    # content_type = serializers.HyperlinkedRelatedField(read_only=True, view_name='content-contenttype', allow_null=True)
-    # content_type = ContentTypeSerializer(many=False)
-    # components = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
     class Meta:
         model = Content
-        fields = ("id", "content_type", "created_date", "modified_date", "components", "owner")
+        fields = ("id", "content_type", "created_date", "modified_date", "components", "owner", "owner_id", "content_type_id")
     
     def create(self, validated_data):
         print('val:', validated_data)
         components_data = validated_data.pop('components')
+        print('val:', validated_data)
         content = Content.objects.create(**validated_data)
         for component_data in components_data:
             Component.objects.create(content=content, **component_data)
