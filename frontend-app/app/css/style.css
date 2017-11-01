@@ -324,8 +324,7 @@ font-family: 'Roboto',sans-serif;
     -moz-border-bottom-colors: none;
     -moz-border-left-colors: none;
     border-image: none;
-    width: 49px;
-    height: 4px;
+    background-size: 100% 100%;
     text-align: center;
     position: relative;
     clear: both;
@@ -372,4 +371,57 @@ font-family: 'Roboto',sans-serif;
 
 .parallax-window {
     background: transparent;
+}
+
+
+.full button span {
+    background-color: limegreen;
+    border-radius: 32px;
+    color: black;
+  }
+  .ui-datepicker {
+      font-family:Garamond;
+      font-size: 11px;
+      margin-left:10px;
+   }
+
+
+
+
+   /* .full button span {
+    background-color: limegreen;
+    border-radius: 32px;
+    color: black;
+  }
+  .ui-datepicker {
+      font-family:Garamond;
+      font-size: 11px;
+      margin-left:10px;
+   } */
+   .my-datepicker {
+      font-family:Garamond;
+      font-size: 11px;
+      margin-left:10px;
+      width:220;
+   }
+   .dropdown-menu table {
+      height: 300px;
+      width: 350px;
+    }
+
+
+button.followButton.following{
+background-color: #57A957;
+background-repeat: repeat-x;
+text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+border-color: #57A957 #57A957 #3D773D;
+border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+color:#fff;
+}
+button.followButton.unfollow{
+background-color: #C43C35;
+background-repeat: repeat-x;
+text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+border-color: #C43C35 #C43C35 #882A25;
+border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 }

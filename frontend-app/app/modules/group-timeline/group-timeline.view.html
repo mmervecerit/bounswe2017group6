@@ -1,0 +1,267 @@
+<div ng-controller="GroupTimelineCtrl" class="container bootstrap snippets">
+    
+    <div class="row background-container" style="margin-top: 60px;">
+        <div class="col-lg-3 col-md-3 col-sm-4">
+    
+            <div class="panel panel-theme rounded shadow">
+                <div class="panel panel-info">
+                <div class="panel-heading">
+                    <div class="pull-left">
+                        <h3 class="panel-title">Groups</h3>
+                    </div>
+                    
+                    <div class="clearfix"></div>
+                </div><!-- /.panel-heading -->
+                </div>
+                <div class="panel-body no-padding rounded">
+                    <ul class="list-group no-margin">
+                        <li class="list-group-item"><a href="/group-timeline">Django girls</a></li>
+                        <li class="list-group-item"> <a href="/group-timeline">Python Istanbul</a></li>
+                        <li class="list-group-item"> <a href="/group-timeline">Lorem ipsum</a></li>
+                        <li class="list-group-item"><a class="" ng-click="open()"><i class="fa fa-plus"></i> Create New Group</a></li>
+    
+                    </ul>
+    
+                   
+    
+                </div><!-- /.panel-body -->
+               
+              
+            </div><!-- /.panel -->
+    
+        </div>
+       
+        <div class="col-lg-9 col-md-9 col-sm-8">
+    
+    
+        <div class="row activity">
+    
+                   
+            <div class="col-md-12" >
+                    <div class="profile-cover">
+                            <div class="cover rounded shadow no-overflow">
+                                <div class="inner-cover">
+
+                                    <div class="btn-group cover-menu-mobile hidden-lg hidden-md">
+                                        <button type="button" class="btn btn-theme btn-sm dropdown-toggle" data-toggle="dropdown">
+                                            <i class="fa fa-bars"></i>
+                                        </button>
+                                        <ul class="dropdown-menu pull-right no-border" role="menu">
+                                            <li class="active"><a href="#"><i class="fa fa-fw fa-clock-o"></i> <span>Timeline</span></a></li>
+                                            <li><a href="#"><i class="fa fa-fw fa-user"></i> <span>About</span></a></li>
+                                 
+                                        </ul>
+                                    </div>
+                                    <img  src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Python_logo_and_wordmark.svg/2000px-Python_logo_and_wordmark.svg.png" class="img-responsive full-width" alt="cover" style="max-height:200px;">
+                                </div>
+                                <ul class="list-unstyled no-padding hidden-sm hidden-xs cover-menu" ng-init="tab='timeline'">
+                                    <li  ng-click="tab = 'timeline'" ng-class="{'active': tab == 'timeline'}"><a href="#"><i class="fa fa-fw fa-clock-o"></i> <span>Timeline</span></a></li>
+                                    <li ng-click="tab = 'about'" ng-class="{'active': tab == 'about'}" ><a href="#"><i class="fa fa-fw fa-user"></i> <span>About</span></a></li>
+                                
+                    
+                                    
+                                </ul>
+                            </div><!-- /.cover -->
+                        </div><!-- /.profile-cover -->
+            </div>
+            <div class="divider"></div>
+            <div class="row activity" ng-show="tab == 'timeline'">                  
+            <div class="col-md-8">
+
+                <div class="panel panel-info" style="margin-top:5%;">
+                        <div class="panel-body">
+                            <form action="...">
+                                <textarea class="form-control input-lg no-border" rows="2" placeholder="Write something"></textarea>
+                            </form>
+                        </div>
+                        <div class="panel-footer">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-link"><i class="fa fa-map-marker"></i></button>
+                                <button type="button" class="btn btn-link"><i class="fa fa-users"></i></button>
+                                <button type="button" class="btn btn-link"><i class="fa fa-camera"></i></button>
+                                <button type="button" class="btn btn-link"><i class="fa fa-video-camera"></i></button>
+                                <button type="button" class="btn btn-link"><i class="fa fa-calendar-o"></i></button>
+                            </div>
+                            
+                            <div class="pull-right">
+                                <button type="button" class="btn btn-success">post</button>
+                            </div>  
+                        </div>
+                    </div>
+
+
+
+                   <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <img src="https://bootdey.com/img/Content/avatar/avatar2.png" class="img-rounded">
+                        <div class="pull-right text-right">
+                            <i class="fa fa-calendar"></i><br> 3 hours ago
+                        </div>
+                        <div><strong>John Doe</strong></div>
+                        <div class="small"><i class="fa fa-map-marker"></i> Medellin, Colombia</div>
+                    </div>
+                    <div class="panel-body">
+                        <img src="https://lorempixel.com/500/333/nature/2" class="img-responsive">
+                        <div class="actions">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-link"><i class="fa fa-thumbs-o-up"></i> Like</button>
+                                <button type="button" class="btn btn-link"><i class="fa fa-share"></i> Share</button>
+                            </div>
+                            <div class="pull-right"><strong>1.789</strong> People liked this</div>      
+                        </div>  
+                        
+                        <div class="media">
+                            <a class="pull-left" href="#">
+                                <img class="media-object img-rounded" src="https://bootdey.com/img/Content/avatar/avatar2.png">
+                            </a>
+                            <div class="media-body">
+                                <div class="pull-right small">3 hours ago</div>
+                                <h4 class="media-heading">Media heading</h4>
+                                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="media">
+                            <a class="pull-left" href="#">
+                                <img class="media-object img-rounded" src="https://bootdey.com/img/Content/avatar/avatar2.png">
+                            </a>
+                            <div class="media-body">
+                                <div class="pull-right small">3 hours ago</div>
+                                <h4 class="media-heading">Media heading</h4>
+                                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="media">
+                            <a class="pull-left" href="#">
+                                <img class="media-object img-rounded" src="https://bootdey.com/img/Content/avatar/avatar2.png">
+                            </a>
+                            <div class="media-body">
+                                <div class="pull-right small">3 hours ago</div>
+                                <h4 class="media-heading">Media heading</h4>
+                                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="panel-footer">
+                        <input  class="form-control" placeholder="Write a comment...">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+            <div>
+                 <button style="width:250px; margin:10px;" class="btn followButton" rel="6">Follow</button>
+                </div>
+                
+                <div class="panel panel-info">
+                     <div class="panel-heading">
+                    <div class="pull-left">
+                        <h3 class="panel-title">Upcoming Events</h3>
+
+                    </div>
+                   
+                </div><!-- /.panel-heading -->
+
+                            <p class="input-group" style="margin:10px;">
+                              <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+                              <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="openModal()"><i class="glyphicon glyphicon-calendar"></i></button>
+                              </span>
+                            </p>
+                    
+                        <hr />
+
+                        <!-- <button type="button" style="margin:5px; width:250px;"class="btn btn-primary">Add an Event</button> -->
+                        
+                </div>
+
+                    
+                <div class="panel panel-info">
+                        <div class="panel-heading">
+                          <h3 class="panel-title">Group Members</h3>
+                        </div>
+                        <div class="panel-body">
+                          
+                        <div class="row">
+                            <div class="col-md-4"><a href="/profile" class="thumbnail"><img src="https://scontent-frt3-2.xx.fbcdn.net/v/t1.0-9/16174471_10210225282420728_2157042507789656179_n.jpg?oh=55c32619210a9bcbd2342cdc0a001fa3&oe=5A6D079F" alt=""></a></div>
+                            <div class="col-md-4"><a href="/profile" class="thumbnail"><img src="assets/user.png" alt=""></a></div>
+                             <div class="col-md-4"><a href="/profile" class="thumbnail"><img src="assets/user.png" alt=""></a></div>
+                        </div>
+                          
+                        <div class="row">
+                                <div class="col-md-4"><a href="/profile" class="thumbnail"><img src="assets/user.png" alt=""></a></div>
+                                <div class="col-md-4"><a href="/profile" class="thumbnail"><img src="assets/user.png" alt=""></a></div>
+                                 <div class="col-md-4"><a href="/profile" class="thumbnail"><img src="assets/user.png" alt=""></a></div>
+                            </div>
+                          
+                            <div class="row">
+                                    <div class="col-md-4"><a href="/profile" class="thumbnail"><img src="assets/user.png" alt=""></a></div>
+                                    <div class="col-md-4"><a href="/profile" class="thumbnail"><img src="assets/user.png" alt=""></a></div>
+                                     <div class="col-md-4"><a href="/profile" class="thumbnail"><img src="assets/user.png" alt=""></a></div>
+                                </div>
+                      
+                          <div class="clearfix"></div>
+                          <a class="btn btn-primary" href="#">View All Members</a>
+                        </div>
+                      </div>
+
+                    </div>
+
+            </div>
+
+            <div class="row activity" ng-show="tab == 'about'">               
+                    <div class="col-md-12">
+                            <div class="panel panel-info" style="margin:20px;">
+                                    <div class="panel-body">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                        
+                                    </div> 
+            
+                    </div>
+                        </div>
+                            </div>
+           
+        </div>
+
+        </div>
+        </div>
+    
+    
+    </div>
+    
+          <script type="text/javascript">
+          
+          
+          $('button.followButton').live('click', function(e){
+        e.preventDefault();
+        $button = $(this);
+        if($button.hasClass('following')){
+                        
+            $button.removeClass('following');
+            $button.removeClass('unfollow');
+            $button.text('Follow');
+        } else {
+                        
+            $button.addClass('following');
+            $button.text('Following');
+        }
+    });
+    
+    $('button.followButton').hover(function(){
+         $button = $(this);
+        if($button.hasClass('following')){
+            $button.addClass('unfollow');
+            $button.text('Unfollow');
+        }
+    }, function(){
+        if($button.hasClass('following')){
+            $button.removeClass('unfollow');
+            $button.text('Following');
+        }
+    });   
+          
+          
+          
+          </script>
+

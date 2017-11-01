@@ -40,12 +40,20 @@
               .when('/timeline', {
                   templateUrl: 'modules/timeline/timeline.view.html',
                   controller: 'TimelineCtrl'
-              });
-/*
+              })
+              .when('/group-timeline', {
+                templateUrl: 'modules/group-timeline/group-timeline.view.html',
+                controller: 'GroupTimelineCtrl'
+            })
+            .when('/guest-timeline', {
+                templateUrl: 'modules/guest-timeline/guest-timeline.view.html',
+                controller: 'GuestTimelineCtrl'
+            })
+
               .otherwise({
                   redirectTo: '/'
               });
-*/
+
             
           
         });
