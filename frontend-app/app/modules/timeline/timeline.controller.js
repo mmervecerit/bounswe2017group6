@@ -7,6 +7,7 @@
     function TimelineCtrl($scope) {
 
 
+    	
     	$scope.today = function() {
             $scope.dt = new Date();
           };
@@ -90,12 +91,6 @@
         
             return '';
           }
-					
-	 
-		}
-	};
-	
-	
 		    	
  
 	}

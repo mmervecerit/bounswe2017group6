@@ -1,8 +1,26 @@
 <div ng-controller="GroupTimelineCtrl" class="container bootstrap snippets">
     
     <div class="row background-container" style="margin-top: 60px;">
-        <div class="col-lg-3 col-md-3 col-sm-4">
-    
+        <div class="col-lg-3 col-md-3 col-sm-4" ng-controller="GroupCtrl">
+            <div class="panel rounded shadow">
+            <div class="panel-body">
+                <div class="inner-all" >
+                    <ul class="list-unstyled">
+                       
+                        <li class="text-center">
+                            <h4 class="text-capitalize">{{group.name}}</h4>
+                        </li>
+                        <li>
+                            <p>{{group.description}}</p>
+                        </li>
+                        <li>
+                            <a href="" class="btn btn-info text-center btn-block">Join</a>
+                        </li>
+ 
+                    </ul>
+                </div>
+            </div>
+            </div>
             <div class="panel panel-theme rounded shadow">
                 <div class="panel panel-info">
                 <div class="panel-heading">
@@ -13,21 +31,23 @@
                     <div class="clearfix"></div>
                 </div><!-- /.panel-heading -->
                 </div>
-                <div class="panel-body no-padding rounded">
-                    <ul class="list-group no-margin">
-                        <li class="list-group-item"><a href="/group-timeline">Django girls</a></li>
-                        <li class="list-group-item"> <a href="/group-timeline">Python Istanbul</a></li>
-                        <li class="list-group-item"> <a href="/group-timeline">Lorem ipsum</a></li>
-                        <li class="list-group-item"><a class="" ng-click="open()"><i class="fa fa-plus"></i> Create New Group</a></li>
-    
-                    </ul>
-    
-                   
-    
-                </div><!-- /.panel-body -->
-               
+                 <div class="panel-body no-padding rounded">
+                        <ul class="list-group no-margin" ng-repeat="group in groups">
+                            <li class="list-group-item"><a href="/group-timeline">{{group.name}}</a></li>
+                            <!--<li class="list-group-item"> Django girls</li>
+                            <li class="list-group-item"> Python Istanbul</li>
+                            <li class="list-group-item"> Lorem ipsum</li>
+                            -->
+                        </ul>
+                         <ul class="list-group no-margin">
+                            <li class="list-group-item"><a class="" href="/groupcreate"><i class="fa fa-plus"></i> Create New Group</a></li>
+                       </ul>
+
+                    </div><!-- /.panel-body -->
+                       
               
             </div><!-- /.panel -->
+
     
         </div>
        
@@ -65,13 +85,13 @@
                         </div><!-- /.profile-cover -->
             </div>
             <div class="divider"></div>
-            <div class="row activity" ng-show="tab == 'timeline'">                  
-            <div class="col-md-8">
-
-                <div class="panel panel-info" style="margin-top:5%;">
+            <div class="row activity" ng-show="tab == 'timeline'" >                  
+            <div class="col-md-8" >
+                <div ng-controller="PostCtrl">
+                    <div class="panel panel-info" style="margin-top:5%;" >
                         <div class="panel-body">
                             <form action="...">
-                                <textarea class="form-control input-lg no-border" rows="2" placeholder="Write something"></textarea>
+                                <textarea class="form-control input-lg no-border" rows="2" placeholder="Write something" ng-model="post1.long_text"></textarea>
                             </form>
                         </div>
                         <div class="panel-footer">
@@ -83,76 +103,80 @@
                                 <button type="button" class="btn btn-link"><i class="fa fa-calendar-o"></i></button>
                             </div>
                             
-                            <div class="pull-right">
-                                <button type="button" class="btn btn-success">post</button>
+                            <div class="pull-right" >
+                                <button type="button" class="btn btn-success" ng-click="add(post1)">post</button>
                             </div>  
                         </div>
                     </div>
 
 
 
-                   <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <img src="https://bootdey.com/img/Content/avatar/avatar2.png" class="img-rounded">
-                        <div class="pull-right text-right">
-                            <i class="fa fa-calendar"></i><br> 3 hours ago
-                        </div>
-                        <div><strong>John Doe</strong></div>
-                        <div class="small"><i class="fa fa-map-marker"></i> Medellin, Colombia</div>
-                    </div>
-                    <div class="panel-body">
-                        <img src="https://lorempixel.com/500/333/nature/2" class="img-responsive">
-                        <div class="actions">
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-link"><i class="fa fa-thumbs-o-up"></i> Like</button>
-                                <button type="button" class="btn btn-link"><i class="fa fa-share"></i> Share</button>
+                   <div class="panel panel-info" ng-repeat="post in posts">
+                        <div class="panel-heading">
+                            <img src="https://bootdey.com/img/Content/avatar/avatar2.png" class="img-rounded">
+                            <div class="pull-right text-right">
+                                <i class="fa fa-calendar"></i><br> {{post.created_date}}
                             </div>
-                            <div class="pull-right"><strong>1.789</strong> People liked this</div>      
-                        </div>  
-                        
-                        <div class="media">
-                            <a class="pull-left" href="#">
-                                <img class="media-object img-rounded" src="https://bootdey.com/img/Content/avatar/avatar2.png">
-                            </a>
-                            <div class="media-body">
-                                <div class="pull-right small">3 hours ago</div>
-                                <h4 class="media-heading">Media heading</h4>
-                                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
-                            </div>
+                            <div><strong>{{post.owner.username}}</strong></div>
+                            <!--<div class="small"><i class="fa fa-map-marker"></i> Medellin, Colombia</div>-->
                         </div>
-                        
-                        <div class="media">
-                            <a class="pull-left" href="#">
-                                <img class="media-object img-rounded" src="https://bootdey.com/img/Content/avatar/avatar2.png">
-                            </a>
-                            <div class="media-body">
-                                <div class="pull-right small">3 hours ago</div>
-                                <h4 class="media-heading">Media heading</h4>
-                                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
+                        <div class="panel-body">
+                            <div id="components" ng-repeat="component in post.components">
+                                <p>{{component.long_text}}</p>
+                               
                             </div>
-                        </div>
-                        
-                        <div class="media">
-                            <a class="pull-left" href="#">
-                                <img class="media-object img-rounded" src="https://bootdey.com/img/Content/avatar/avatar2.png">
-                            </a>
-                            <div class="media-body">
-                                <div class="pull-right small">3 hours ago</div>
-                                <h4 class="media-heading">Media heading</h4>
-                                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
+                             <div class="actions">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-link"><i class="fa fa-thumbs-o-up"></i> Like</button>
+                                        <button type="button" class="btn btn-link"><i class="fa fa-share"></i> Share</button>
+                                    </div>
+                                    <div class="pull-right"><strong>{{post.likes}}</strong> People liked this</div>      
+                                </div>  
+                            <!--
+                            <div class="media">
+                                <a class="pull-left" href="#">
+                                    <img class="media-object img-rounded" src="https://bootdey.com/img/Content/avatar/avatar2.png">
+                                </a>
+                                <div class="media-body">
+                                    <div class="pull-right small">3 hours ago</div>
+                                    <h4 class="media-heading">Media heading</h4>
+                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
+                                </div>
                             </div>
+                            
+                            <div class="media">
+                                <a class="pull-left" href="#">
+                                    <img class="media-object img-rounded" src="https://bootdey.com/img/Content/avatar/avatar2.png">
+                                </a>
+                                <div class="media-body">
+                                    <div class="pull-right small">3 hours ago</div>
+                                    <h4 class="media-heading">Media heading</h4>
+                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="media">
+                                <a class="pull-left" href="#">
+                                    <img class="media-object img-rounded" src="https://bootdey.com/img/Content/avatar/avatar2.png">
+                                </a>
+                                <div class="media-body">
+                                    <div class="pull-right small">3 hours ago</div>
+                                    <h4 class="media-heading">Media heading</h4>
+                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
+                                </div>
+                            </div>
+                            -->
                         </div>
-                        
-                    </div>
-                    <div class="panel-footer">
-                        <input  class="form-control" placeholder="Write a comment...">
+                        <div class="panel-footer">
+                            <input  class="form-control" placeholder="Write a comment...">
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="col-md-4">
-            <div>
+            <!--<div>
                  <button style="width:250px; margin:10px;" class="btn followButton" rel="6">Follow</button>
-                </div>
+                </div>-->
                 
                 <div class="panel panel-info">
                      <div class="panel-heading">

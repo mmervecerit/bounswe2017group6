@@ -6,7 +6,7 @@
     
     function HomeCtrl($scope,  $rootScope, $location)
     {
-
+      
         /*
         FB.login(function(response) {
               if (response.status === 'connected') {

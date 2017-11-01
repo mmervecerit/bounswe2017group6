@@ -13,31 +13,30 @@
             </div>
         </div>--><!-- /.panel -->
 
-        <div class="panel panel-theme rounded shadow">
-                <div class="panel panel-info">
-                <div class="panel-heading">
-                    <div class="pull-left">
-                        <h3 class="panel-title">Groups</h3>
-                    </div>
-                    
-                    <div class="clearfix"></div>
-                </div><!-- /.panel-heading -->
+        <div class="panel panel-theme rounded shadow" ng-controller="GroupCtrl">
+            <div class="panel-heading">
+                <div class="pull-left">
+                    <h3 class="panel-title">Groups</h3>
                 </div>
-                <div class="panel-body no-padding rounded">
-                    <ul class="list-group no-margin">
-                        <li class="list-group-item"><a href="/group-timeline" >Django girls</a></li>
-                        <li class="list-group-item"> <a href="/group-timeline">Python Istanbul</a></li>
-                        <li class="list-group-item"> <a href="/group-timeline">Lorem ipsum</a></li>
-                    <li class="list-group-item"><a href="/groupcreate" class="" ng-click=""><i class="fa fa-plus"></i> Create New Group</a></li>
-    
-                    </ul>
-    
+                
+                <div class="clearfix"></div>
+            </div><!-- /.panel-heading -->
+            <div class="panel-body no-padding rounded">
+                <ul class="list-group no-margin" ng-repeat="group in groups">
+              <!--<li class="list-group-item"><a href="/group-timeline/{{group.id}}">{{group.name}}</a></li>-->
+
+                   <li class="list-group-item"><a ng-click="groupTimeline(group)">{{group.name}}</a></li>
+
                    
-    
-                </div><!-- /.panel-body -->
-               
-              
-            </div><!-- /.panel -->
+                </ul>
+                 <ul class="list-group no-margin">
+                    <li class="list-group-item"><a class="" href="/groupcreate"><i class="fa fa-plus"></i> Create New Group</a></li>
+               </ul>
+
+            </div><!-- /.panel-body -->
+           
+          
+        </div><!-- /.panel -->
 
     </div>
    
@@ -48,110 +47,103 @@
 
                
         <div class="col-md-8" >
-                 <div class="panel panel-info">
-                    <div class="panel-body">
-                        <form action="...">
-                            <textarea class="form-control input-lg no-border" rows="2" placeholder="Write something"></textarea>
-                        </form>
-                    </div>
-                    <div class="panel-footer">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-link"><i class="fa fa-map-marker"></i></button>
-                            <button type="button" class="btn btn-link"><i class="fa fa-users"></i></button>
-                            <button type="button" class="btn btn-link"><i class="fa fa-camera"></i></button>
-                            <button type="button" class="btn btn-link"><i class="fa fa-video-camera"></i></button>
-                            <button type="button" class="btn btn-link"><i class="fa fa-calendar-o"></i></button>
+                <div ng-controller="ContentCtrl">
+                    
+
+
+                   <div class="panel panel-info" ng-repeat="post in posts">
+                        <div class="panel-heading">
+                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="img-rounded">
+                            <div class="pull-right text-right">
+                                <i class="fa fa-calendar"></i><br> {{post.created_date}}
+                            </div>
+                            <div><strong>{{post.owner.username}}</strong></div>
+                            <!--<div class="small"><i class="fa fa-map-marker"></i> Medellin, Colombia</div>-->
                         </div>
-                        
-                        <div class="pull-right">
-                            <button type="button" class="btn btn-success">post</button>
-                        </div>  
+                        <div class="panel-body">
+                            <div id="components" ng-repeat="component in post.components">
+                                <p>{{component.long_text}}</p>
+                               
+                            </div>
+                             <div class="actions">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-link"><i class="fa fa-thumbs-o-up"></i> Like</button>
+                                        <button type="button" class="btn btn-link"><i class="fa fa-share"></i> Share</button>
+                                    </div>
+                                    <div class="pull-right"><strong>{{post.likes}}</strong> People liked this</div>      
+                                </div>  
+                            <!--
+                            <div class="media">
+                                <a class="pull-left" href="#">
+                                    <img class="media-object img-rounded" src="https://bootdey.com/img/Content/avatar/avatar2.png">
+                                </a>
+                                <div class="media-body">
+                                    <div class="pull-right small">3 hours ago</div>
+                                    <h4 class="media-heading">Media heading</h4>
+                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="media">
+                                <a class="pull-left" href="#">
+                                    <img class="media-object img-rounded" src="https://bootdey.com/img/Content/avatar/avatar2.png">
+                                </a>
+                                <div class="media-body">
+                                    <div class="pull-right small">3 hours ago</div>
+                                    <h4 class="media-heading">Media heading</h4>
+                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="media">
+                                <a class="pull-left" href="#">
+                                    <img class="media-object img-rounded" src="https://bootdey.com/img/Content/avatar/avatar2.png">
+                                </a>
+                                <div class="media-body">
+                                    <div class="pull-right small">3 hours ago</div>
+                                    <h4 class="media-heading">Media heading</h4>
+                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
+                                </div>
+                            </div>
+                            -->
+                        </div>
+                        <div class="panel-footer">
+                            <input  class="form-control" placeholder="Write a comment...">
+                        </div>
                     </div>
                 </div>
-               <div class="panel panel-info">
-                <div class="panel-heading">
-                    <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="img-rounded">
-                    <div class="pull-right text-right">
-                        <i class="fa fa-calendar"></i><br> 3 hours ago
-                    </div>
-                    <div><strong>John Doe</strong></div>
-                    <div class="small"><i class="fa fa-map-marker"></i> Medellin, Colombia</div>
-                </div>
-                <div class="panel-body">
-                    <img src="https://lorempixel.com/500/333/nature/2" class="img-responsive">
-                    <div class="actions">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-link"><i class="fa fa-thumbs-o-up"></i> Like</button>
-                            <button type="button" class="btn btn-link"><i class="fa fa-share"></i> Share</button>
-                        </div>
-                        <div class="pull-right"><strong>1.789</strong> People liked this</div>      
-                    </div>  
-                    
-                    <div class="media">
-                        <a class="pull-left" href="#">
-                            <img class="media-object img-rounded" src="https://bootdey.com/img/Content/avatar/avatar1.png">
-                        </a>
-                        <div class="media-body">
-                            <div class="pull-right small">3 hours ago</div>
-                            <h4 class="media-heading">Media heading</h4>
-                            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="media">
-                        <a class="pull-left" href="#">
-                            <img class="media-object img-rounded" src="https://bootdey.com/img/Content/avatar/avatar1.png">
-                        </a>
-                        <div class="media-body">
-                            <div class="pull-right small">3 hours ago</div>
-                            <h4 class="media-heading">Media heading</h4>
-                            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="media">
-                        <a class="pull-left" href="#">
-                            <img class="media-object img-rounded" src="https://bootdey.com/img/Content/avatar/avatar1.png">
-                        </a>
-                        <div class="media-body">
-                            <div class="pull-right small">3 hours ago</div>
-                            <h4 class="media-heading">Media heading</h4>
-                            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
-                        </div>
-                    </div>
-                    
-                </div>
-                <div class="panel-footer">
-                    <input  class="form-control" placeholder="Write a comment...">
-                </div>
-            </div>
 
         </div>
 
         <div class="col-md-4">
-                            
-                            <div class="panel panel-info">
-                                 <div class="panel-heading">
-                                <div class="pull-left">
-                                    <h3 class="panel-title">Upcoming Events</h3>
-            
-                                </div>
-                               
-                            </div><!-- /.panel-heading -->
-            
-                                        <p class="input-group" style="margin:10px;">
-                                          <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
-                                          <span class="input-group-btn">
-                                            <button type="button" class="btn btn-default" ng-click="openModal()"><i class="glyphicon glyphicon-calendar"></i></button>
-                                          </span>
-                                        </p>
-                                
-                                    <hr />
-            
-                                    <!-- <button type="button" style="margin:5px; width:250px;"class="btn btn-primary">Add an Event</button> -->
-                                    
-                            </div>
-            
+             
+            <div class="panel panel-info">
+                 <div class="panel-heading">
+                <div class="pull-left">
+                    <h3 class="panel-title">Upcoming Events</h3>
+
+                </div>
+               
+            </div><!-- /.panel-heading -->
+
+                        <p class="input-group" style="margin:10px;">
+                          <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+                          <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="openModal()"><i class="glyphicon glyphicon-calendar"></i></button>
+                          </span>
+                        </p>
+                
+                    <hr />
+
+                    <!-- <button type="button" style="margin:5px; width:250px;"class="btn btn-primary">Add an Event</button> -->
+                    
+            </div>
+            <div class="panel-body rounded">
+                    
+                
+                   
+             
+            </div>
                 
             </div>
         </div>
@@ -162,10 +154,3 @@
 
 
 </div>
-
-
-
-
-<style>
-
-</style>
