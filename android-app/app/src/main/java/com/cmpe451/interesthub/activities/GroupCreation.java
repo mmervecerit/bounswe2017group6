@@ -31,9 +31,11 @@ public class GroupCreation extends AppCompatActivity {
         final EditText groupName;
         final EditText groupDes;
         final EditText groupTags;
+        final EditText groupIcon;
 
         groupName = (EditText)findViewById(R.id.group_name);
         groupDes = (EditText)findViewById(R.id.group_desc);
+        groupIcon = (EditText)findViewById(R.id.group_icon);
         Button createButton = (Button)findViewById(R.id.group_create_button);
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,7 +52,8 @@ public class GroupCreation extends AppCompatActivity {
                     toast.show();
                     return;
                 }
-               hub.getApiService().addGroup(groupName.getText().toString()).enqueue(new Callback<Group>() {
+               hub.getApiService().addGroup(groupName.getText().toString(),
+                       groupDes.getText().toString(),groupIcon.getText().toString()).enqueue(new Callback<Group>() {
                    @Override
                    public void onResponse(Call<Group> call, Response<Group> response) {
                        Toast toast = Toast.makeText(GroupCreation.this, groupName.getText() + " is created!", Toast.LENGTH_SHORT);

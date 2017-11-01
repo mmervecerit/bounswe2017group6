@@ -74,16 +74,12 @@ public class UserTimelineFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_user_timeline, container, false);
-        List<Content> list = new ArrayList<Content>();
-        list.add(new Content("EMRERM"));
-        list.add(new Content("EMRRRERERENREN"));
-        list.add(new Content("EMRRRERERENREN"));
-        list.add(new Content("EMRRRERERENREN"));
+
         final LinearLayoutManager ll = new LinearLayoutManager(((UserActivity)getActivity()));
         ll.setOrientation(LinearLayoutManager.VERTICAL);
 
 
-        UserTimelineListAdapter adapter = new UserTimelineListAdapter(getActivity().getApplicationContext(),list);
+        UserTimelineListAdapter adapter = new UserTimelineListAdapter(getActivity().getApplicationContext());
         postList = (RecyclerView)view.findViewById(R.id.recycler_view);
         postList.setLayoutManager(ll);
 

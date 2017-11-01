@@ -1,5 +1,8 @@
 package com.cmpe451.interesthub.services;
 
+import com.cmpe451.interesthub.models.Component;
+import com.cmpe451.interesthub.models.Content;
+import com.cmpe451.interesthub.models.ContentType;
 import com.cmpe451.interesthub.models.Dummy;
 import com.cmpe451.interesthub.models.Group;
 import com.cmpe451.interesthub.models.User;
@@ -42,5 +45,16 @@ public interface ApiService {
 
     @POST("group/")
     @FormUrlEncoded
-    Call<Group> addGroup (@Field("name") String name);
+    Call<Group> addGroup (@Field("name") String name,@Field("description") String desc,@Field("image") String image);
+
+    @GET("component/")
+    Call<List<Component>> getComponentList();
+
+
+    @GET("content-type/")
+    Call<List<ContentType>> getContentTypeList();
+
+
+    @GET("content/")
+    Call<List<Content>> getContentList();
 }

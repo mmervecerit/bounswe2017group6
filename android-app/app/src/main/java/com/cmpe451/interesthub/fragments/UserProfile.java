@@ -1,6 +1,8 @@
 package com.cmpe451.interesthub.fragments;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -24,6 +27,11 @@ import com.cmpe451.interesthub.adapters.UserGroupListAdapter;
 import com.cmpe451.interesthub.adapters.UserHomeGroupListAdapter;
 import com.cmpe451.interesthub.adapters.UserHomeListAdapter;
 import com.cmpe451.interesthub.adapters.UserProfileTabsAdapter;
+import com.squareup.picasso.Picasso;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -93,9 +101,20 @@ public class UserProfile extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_user_profile, container, false);
         TextView userName=view.findViewById(R.id.user_name);
+
         userName.setText(hub.getSessionController().getUser().getUsername());
+        TextView userDesc=view.findViewById(R.id.user_desc);
+
+        userDesc.setText(hub.getSessionController().getUser().getEmail());
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        ImageView profileImg = view.findViewById(R.id.profile_image);
+
+
+        Picasso.with(getContext())
+                .load("https://avatars1.githubusercontent.com/u/15267081?s=460&v=4")
+                .resize(200,200).into(profileImg);
+
 
         tabLayout = (TabLayout) view.findViewById(R.id.TabLayoutProfile);
         viewPager = (ViewPager) view.findViewById(R.id.ViewPagerProfile);
