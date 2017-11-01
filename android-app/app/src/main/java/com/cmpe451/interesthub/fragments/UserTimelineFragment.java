@@ -2,6 +2,9 @@ package com.cmpe451.interesthub.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.view.ContextThemeWrapper;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,9 +15,11 @@ import com.cmpe451.interesthub.InterestHub;
 import com.cmpe451.interesthub.R;
 import com.cmpe451.interesthub.activities.UserActivity;
 import com.cmpe451.interesthub.adapters.UserTimelineListAdapter;
+import com.cmpe451.interesthub.models.Content;
 import com.cmpe451.interesthub.models.Group;
 import com.cmpe451.interesthub.models.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -26,6 +31,8 @@ public class UserTimelineFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    RecyclerView postList;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -67,9 +74,20 @@ public class UserTimelineFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_user_timeline, container, false);
-        UserTimelineListAdapter adapter = new UserTimelineListAdapter((UserActivity)getActivity());
-        final ListView list = view.findViewById(R.id.user_timeline_list);
-        list.setAdapter(adapter);
+        List<Content> list = new ArrayList<Content>();
+        list.add(new Content("EMRERM"));
+        list.add(new Content("EMRRRERERENREN"));
+        list.add(new Content("EMRRRERERENREN"));
+        list.add(new Content("EMRRRERERENREN"));
+        final LinearLayoutManager ll = new LinearLayoutManager(((UserActivity)getActivity()));
+        ll.setOrientation(LinearLayoutManager.VERTICAL);
+
+
+        UserTimelineListAdapter adapter = new UserTimelineListAdapter(getActivity().getApplicationContext(),list);
+        postList = (RecyclerView)view.findViewById(R.id.recycler_view);
+        postList.setLayoutManager(ll);
+
+        postList.setAdapter(adapter);
 
         final InterestHub hub = (InterestHub) ((UserActivity) getActivity()).getApplication();
         hub.getApiService().getUsers().enqueue(new Callback<List<User>>() {
