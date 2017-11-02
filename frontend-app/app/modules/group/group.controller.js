@@ -48,11 +48,13 @@
         
         function add(group)
         {
+			
             GroupService
                 .createGroup(group)
                 .then(handleSuccess, handleError);
             
-
+			//window.location = "/group-timeline/"+group.name;
+			
             console.log("added");
         }      
 
