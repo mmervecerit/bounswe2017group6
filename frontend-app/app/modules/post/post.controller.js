@@ -7,7 +7,7 @@
     
     function PostCtrl($scope,  $rootScope, $location, PostService)
     {
-        $scope.createPost = createPost;
+        //$scope.createPost = createPost;
         $scope.remove = remove;
         $scope.update = update;
         $scope.add    = add;
@@ -25,11 +25,11 @@
         
         init();
         
-
+/*
         function createPost(){
             $location.path('/postcreate');
         }
-
+*/
         function remove(post)
         {
             PostService
@@ -45,7 +45,7 @@
                 .updatePost(post._id, post)
                 .then(handleSuccess, handleError);
         }
-        
+        /*
         function add(post)
         {
             PostService
@@ -54,11 +54,33 @@
             
 
             console.log("added");
-        }      
+        } */     
+		var componentList;
+		function add(content)
+        {
+			
+			if(content.long_text!=null){
+				componentList={"owner_id":1,"content_type_id":1, "components":[{ "component_type": "text", "order": 1, "small_text": null, "long_text":content.long_text , "url": "" }]};
+  
+			/*var component = {component_type:"text", order:1, long_text:content.text};
+				ContentService
+					.createComponent(component)
+					.then(handleSuccess, handleError);
+			*/
+			console.log(componentList);
+			
+            PostService
+                .createPost($rootScope.group.id, componentList)
+                .then(handleSuccess, handleError);
+				
+            }
+
+            
+        }
 
         function handleSuccess(response) {
             $scope.posts = response.data; 
-                   	            console.log(posts);
+            console.log($scope.posts);
 
         }
 

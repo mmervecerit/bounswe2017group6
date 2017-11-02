@@ -91,7 +91,7 @@
                     <div class="panel panel-info" style="margin-top:5%;" >
                         <div class="panel-body">
                             <form action="...">
-                                <textarea class="form-control input-lg no-border" rows="2" placeholder="Write something" ng-model="post1.long_text"></textarea>
+                                <textarea class="form-control input-lg no-border" rows="2" placeholder="Write something" ng-model="content.long_text"></textarea>
                             </form>
                         </div>
                         <div class="panel-footer">
@@ -104,10 +104,12 @@
                             </div>
                             
                             <div class="pull-right" >
-                                <button type="button" class="btn btn-success" ng-click="add(post1)">post</button>
+								<button type="button" class="btn btn-success" onclick="window.location.href='/templatecreate'">Create A Template</button>
+								<button type="button" class="btn btn-success" ng-click="add(content)">Post</button>
                             </div>  
                         </div>
                     </div>
+					
 
 
 

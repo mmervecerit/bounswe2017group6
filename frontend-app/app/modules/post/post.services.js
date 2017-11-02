@@ -16,7 +16,7 @@
         
         function createPost(groupId,post){
             
-            return $http.post('http://34.209.230.231:8000/group-contents/'+groupId,post);
+            return $http.post('http://34.209.230.231:8000/group-contents/'+groupId+'/',post);
         }
 
         function updatePost(groupId,postID, post){
