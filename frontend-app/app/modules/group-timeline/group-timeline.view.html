@@ -7,11 +7,16 @@
                 <div class="inner-all" >
                     <ul class="list-unstyled">
                        
-                        <li class="text-center">
-                            <h4 class="text-capitalize">{{group.name}}</h4>
-                        </li>
                         <li>
-                            <p>{{group.description}}</p>
+                            <div class=row>
+                            <div class="col-md-4" style="margin-top:20px;"><h4 class="text-capitalize text-right"><strong>{{group.name}}</strong></h4></div>
+                            <div class="col-md-4"><img src="{{group.image}}" style="margin-left: 10px; width: auto; height: auto;max-width: 60x;max-height: 60px"/></div>                                                  
+                        </div>
+                        </li>
+                        <hr/>
+                        <li>
+                            <p></p>
+                            <p><strong>Description:</strong> {{group.description}}</p>
                         </li>
                         <li>
                             <a href="" class="btn btn-info text-center btn-block">Join</a>
@@ -33,11 +38,10 @@
                 </div>
                  <div class="panel-body no-padding rounded">
                         <ul class="list-group no-margin" ng-repeat="group in groups">
-                            <li class="list-group-item"><a ng-click="groupTimeline(group)">{{group.name}}</a></li>
-                            <!--<li class="list-group-item"> Django girls</li>
-                            <li class="list-group-item"> Python Istanbul</li>
-                            <li class="list-group-item"> Lorem ipsum</li>
-                            -->
+                            <li class="list-group-item"><a ng-click="groupTimeline(group)">{{group.name}}</a>
+                            <img src="{{group.image}}" style="margin-left: 10px; width: auto; height: auto;max-width: 40x;max-height: 40px"/>
+                            </li>
+
                         </ul>
                          <ul class="list-group no-margin">
                             <li class="list-group-item"><a class="" href="/groupcreate"><i class="fa fa-plus"></i> Create New Group</a></li>
@@ -117,7 +121,7 @@
                         <div class="panel-heading">
                             <img src="https://bootdey.com/img/Content/avatar/avatar2.png" class="img-rounded">
                             <div class="pull-right text-right">
-                                <i class="fa fa-calendar"></i><br> {{post.created_date}}
+                                <i class="fa fa-calendar"></i><br> {{post.created_date | limitTo:10}}
                             </div>
                             <div><strong>{{post.owner.username}}</strong></div>
                             <!--<div class="small"><i class="fa fa-map-marker"></i> Medellin, Colombia</div>-->
@@ -180,7 +184,7 @@
                  <button style="width:250px; margin:10px;" class="btn followButton" rel="6">Follow</button>
                 </div>-->
                 
-                <div class="panel panel-info">
+                <div class="panel panel-info" style="margin-top:20px;">
                      <div class="panel-heading">
                     <div class="pull-left">
                         <h3 class="panel-title">Upcoming Events</h3>

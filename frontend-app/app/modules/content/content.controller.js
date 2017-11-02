@@ -56,7 +56,7 @@
 
         function handleSuccess(response) {
             $scope.posts = response.data; 
-                   	            console.log(posts);
+                   	            //console.log(posts);
 
         }
 
