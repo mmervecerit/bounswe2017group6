@@ -12,6 +12,9 @@ import android.widget.TextView;
 import com.cmpe451.interesthub.InterestHub;
 import com.cmpe451.interesthub.R;
 import com.cmpe451.interesthub.activities.baseActivities.BaseActivity;
+import com.cmpe451.interesthub.models.Component;
+import com.cmpe451.interesthub.models.Content;
+import com.cmpe451.interesthub.models.ContentType;
 import com.cmpe451.interesthub.models.User;
 
 import java.util.List;
@@ -24,7 +27,10 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d("INFO","login activity");
+
+
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         Button b=(Button) findViewById(R.id.button8);
@@ -32,6 +38,36 @@ public class LoginActivity extends BaseActivity {
         final EditText e2 = (EditText) findViewById(R.id.editText9);
         final TextView t = (TextView) findViewById(R.id.textView6);
         InterestHub hb = (InterestHub)getApplication();
+
+
+        //
+        /*
+        Content request exmaple
+
+
+            hb.getApiService().getContentList().enqueue(new Callback<List<Content>>() {
+                @Override
+                public void onResponse(Call<List<Content>> call, Response<List<Content>> response) {
+                    for(Content c : response.body()){
+                        ContentType ctype =c.getContentType();
+                        for(Component cc:c.getComponents()){
+                            Log.d(String.valueOf(c.getId()),cc.getComponent_type());
+                        }
+
+                        Log.d(String.valueOf(c.getId()),ctype.getName());
+                        Log.d(c.getOwner().getUsername(),c.getCreatedDate()+ " " + c.getModifiedDate());
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<List<Content>> call, Throwable t) {
+
+                }
+            });
+          */
+        //
+
         hb.getSessionController();
         final InterestHub hub = (InterestHub) getApplication();
         b.setOnClickListener(new View.OnClickListener() {

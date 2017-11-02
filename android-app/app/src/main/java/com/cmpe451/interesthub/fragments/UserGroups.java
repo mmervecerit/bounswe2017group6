@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.cmpe451.interesthub.InterestHub;
 import com.cmpe451.interesthub.R;
@@ -103,12 +104,18 @@ public class UserGroups extends Fragment {
                     @Override
                     public void onResponse(Call<List<Group>> call, Response<List<Group>> response) {
                         Log.d("GROUPRESPOnse","basarili");
+                        if(!response.isSuccessful()){
+
+                            Toast toast = Toast.makeText(getActivity(), "An error occurred!", Toast.LENGTH_SHORT);
+                            toast.show();
+                            return ;
+                        }
                          for(Group d : response.body())
                                 groupList.add(d);
                         final LinearLayoutManager ll = new LinearLayoutManager(((UserActivity)getActivity()));
                         ll.setOrientation(LinearLayoutManager.VERTICAL);
                         groupViewList.setLayoutManager(ll);
-                        UserGroupListAdapter adapter = new UserGroupListAdapter((UserActivity)getActivity(),groupList);
+                        UserGroupListAdapter adapter = new UserGroupListAdapter(getContext(),groupList);
                         groupViewList.setAdapter(adapter);
 
                     }

@@ -86,14 +86,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:text="Group Icon"
+                android:text="Group Icon URL"
                 android:textSize="18sp" />
 
-            <Button
-                android:layout_width="268dp"
-                android:layout_marginLeft="10dp"
+            <EditText
+                android:id="@+id/group_icon"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Browse" />
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="textMultiLine" />
         </LinearLayout>
 
 

@@ -32,7 +32,7 @@ public class UserTimelineListAdapter extends RecyclerView.Adapter<UserTimelineLi
                 }
             });
             postHeader = (TextView) itemView.findViewById(R.id.post_header);
-            postImage = (ImageView) itemView.findViewById(R.id.country_photo);
+            postImage = (ImageView) itemView.findViewById(R.id.groupIcon);
             postContent = (TextView) itemView.findViewById(R.id.post_content);
         }
     }
@@ -40,6 +40,10 @@ public class UserTimelineListAdapter extends RecyclerView.Adapter<UserTimelineLi
             this.itemList = itemList;
             this.context = context;
         }
+    public UserTimelineListAdapter(Context context) {
+
+        this.context = context;
+    }
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -51,14 +55,17 @@ public class UserTimelineListAdapter extends RecyclerView.Adapter<UserTimelineLi
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
-            holder.postHeader.setText(itemList.get(position).getHeader());
-            holder.postImage.setImageResource(R.drawable.ic_mr_button_grey);
+            //holder.postHeader.setText(itemList.get(position).getHeader());
+            holder.postImage.setImageResource(R.drawable.placeholder);
             holder.postContent.setText("PostContent "+position);
+            //TODO
+
+            holder.postHeader.setText("Post Header "+position);
         }
 
         @Override
         public int getItemCount() {
-            return this.itemList.size();
+            return this.itemList==null ? 5 : itemList.size();
 
         }
 }

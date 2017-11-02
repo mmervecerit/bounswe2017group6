@@ -7,11 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.cmpe451.interesthub.R;
-import com.cmpe451.interesthub.models.Content;
 import com.cmpe451.interesthub.models.Group;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -22,8 +21,9 @@ public class UserGroupListAdapter extends RecyclerView.Adapter<UserGroupListAdap
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView countryName;
-        public ImageView countryPhoto;
+        public TextView groupDesc;
+        public TextView groupName;
+        public ImageView groupIcon;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -33,8 +33,9 @@ public class UserGroupListAdapter extends RecyclerView.Adapter<UserGroupListAdap
 
                 }
             });
-            countryName = (TextView) itemView.findViewById(R.id.country_name);
-            countryPhoto = (ImageView) itemView.findViewById(R.id.country_photo);
+            groupName = (TextView) itemView.findViewById(R.id.name);
+            groupDesc = (TextView) itemView.findViewById(R.id.desc);
+            groupIcon = (ImageView) itemView.findViewById(R.id.groupIcon);
         }
     }
     public UserGroupListAdapter(Context context, List<Group> itemList) {
@@ -52,8 +53,19 @@ public class UserGroupListAdapter extends RecyclerView.Adapter<UserGroupListAdap
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.countryName.setText(itemList.get(position).getName());
-        holder.countryPhoto.setImageResource(R.drawable.ic_mr_button_grey);
+        holder.groupName.setText(itemList.get(position).getName());
+        if(itemList.get(position).getDesc()!=null)
+            holder.groupDesc.setText(itemList.get(position).getDesc());
+        if(itemList.get(position).getImage()==null)
+            holder.groupIcon.setImageResource(R.drawable.prosmall);
+        else{
+
+            Picasso.with(context)
+                    .load(itemList.get(position).getImage())
+                    .resize(200,200).into(holder.groupIcon);
+
+        }
+
     }
 
     @Override

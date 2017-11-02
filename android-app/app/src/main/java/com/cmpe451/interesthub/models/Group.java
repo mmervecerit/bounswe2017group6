@@ -17,6 +17,27 @@ public class Group {
     @SerializedName("name")
     String name;
 
+    @SerializedName("description")
+    String desc;
+
+    @SerializedName("image")
+    String image;
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
 
     public String getName() {
         return name;
