@@ -4,6 +4,8 @@
 
 <div class="row background-container" style="margin-top: 60px;">
     <div class="col-lg-3 col-md-3 col-sm-4">
+        <div ng-include src='"modules/group/grouppanel.view.html"' ng-controller='GroupCtrl'></div>
+
         <!--
         <div class="panel rounded shadow">
             <div class="panel-body">
@@ -12,7 +14,7 @@
                 </div>
             </div>
         </div>--><!-- /.panel -->
-
+        <!--
         <div class="panel panel-theme rounded shadow" ng-controller="GroupCtrl">
            <div class="panel panel-info">
             <div class="panel-heading">
@@ -21,14 +23,14 @@
                 </div>
             </div>
                 <div class="clearfix"></div>
-            </div><!-- /.panel-heading -->
+            </div>
             <div class="panel-body no-padding rounded">
                 <ul class="list-group no-margin" ng-repeat="group in groups">
-              <!--<li class="list-group-item"><a href="/group-timeline/{{group.id}}">{{group.name}}</a></li>-->
 
-                   <li class="list-group-item"><a ng-click="groupTimeline(group)">{{group.name}}</a>
+                     <li class="list-group-item"><a href="/group/{{group.id}}">{{group.name}}</a>
                     <img src="{{group.image}}" style="margin-left: 10px; width: auto; height: auto;max-width: 40x;max-height: 40px"/>                    
                     </li>
+
 
                    
                 </ul>
@@ -36,10 +38,10 @@
                     <li class="list-group-item"><a class="" href="/groupcreate"><i class="fa fa-plus"></i> Create New Group</a></li>
                </ul>
 
-            </div><!-- /.panel-body -->
+            </div>
            
           
-        </div><!-- /.panel -->
+        </div>-->
 
     </div>
    
