@@ -35,6 +35,10 @@
                  controller: 'GroupTimelineCtrl',
                 
              })
+              .when('/user/:id', {
+                 templateUrl: 'modules/profile/profile.view.html',
+                 controller: 'ProfileCtrl'
+              })
              .when('/guest-timeline', {
                  templateUrl: 'modules/guest-timeline/guest-timeline.view.html',
                  controller: 'GuestTimelineCtrl'
