@@ -22,6 +22,8 @@ from group.views import GroupContentList
 from content.views import ContentViewSet, ContentTypeViewSet
 from components.views import ComponentViewSet
 from group.views import *
+from comment.views import *
+from upDown.views import *
 from rest_framework.urlpatterns import format_suffix_patterns
 
 router = routers.DefaultRouter()
@@ -31,6 +33,8 @@ router.register(r'users', UserViewSet)
 router.register(r'group', InterestGroupViewSet)
 router.register(r'dummy', views.DummyTextViewSet)
 router.register(r'component',ComponentViewSet)
+router.register(r'upDown',UpDownViewSet)
+router.register(r'comment',CommentViewSet)
 # router.register(r'titles', TitleViewSet)
 # router.register(r'subtitles', SubtitleViewSet)
 # router.register(r'text-areas', TextAreaViewSet)
