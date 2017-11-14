@@ -72,13 +72,22 @@
         <!--</div>--><!-- /.panel-footer -->
     <!--</div>
     --><!-- /.panel -->
-    <div class="col-lg-6 col-md-6 col-sm-8">
+        <div class="col-lg-6 col-md-6 col-sm-8">
 		
 		<div class="panel panel-theme rounded shadow"> 
 			<div class="panel-body"> 
-				<h1 style="text-align:center">Create Template</h1>
+				<h1 class="text-capitalize ng-binding text-center">Create Template</h1>
 				<div class="inner-all">
-				
+				  <div class="rowactivity">
+					  <div class="col-lg-6 col-md-6 col-sm-8">
+					  <h4 class="text-capitalize ng-binding text-center">Template Name</h4>
+					  </div>
+            <div class="col-lg-5 col-md-5 col-sm-7">
+					  <input type="text" class="form-control" ng-model="tempname" name="" placeholder="">
+					  </div>
+					  </div>
+            <br></br>
+            <br></br>
 					<fieldset  data-ng-repeat="choice in choices">
 					  <div class="rowactivity">
 					  <div class="col-lg-6 col-md-6 col-sm-8">
@@ -87,21 +96,41 @@
 					  <div class="col-lg-5 col-md-5 col-sm-7">
 					  <select class="form-control" ng-model="choice.type">
 						 <option>Text</option>
-						 <option>TextArea</option>
+						 <option>Text Area</option>
+						<option>Numerical</option>
 						 <option>Date</option>
 						 <option>Video</option>
 						 <option>Image</option>
-					  </select>
+						<option>Dropdown Box</option>
+						<option>Check Box</option>
+					</select>
 					  </div>
 					  <div class="col-lg-1 col-md-1 col-sm-1">
 					  <button class="btn btn-danger"  ng-click="removeChoice(choice)">-</button>
 					  </div>
 					  </div>
+            
+            <div class="rowactivity" ng-if="(choice.type=='Check Box' || choice.type=='Dropdown Box')">
+            <br></br>
+                <fieldset data-ng-repeat="x in choice.selection">
+                  <div class="rowactivity">
+                  <div class="col-lg-6 col-md-6 col-sm-8">
+                  </div>
+					        <div class="col-lg-5 col-md-5 col-sm-7">
+					        <input type="text" class="form-control" ng-model="x.name" name="" placeholder="">
+					        </div>
+                  <div class="col-lg-1 col-md-1 col-sm-1">
+					      <button class="btn btn-danger"  ng-click="removeSelection(choice,selection)">-</button>
+					      </div>
+                  </div>
+                </fieldset>
+            <button class="pull-right btn btn-success" ng-click="addNewSelection(choice)">Add selection</button>
+            </div>
 					  <br></br>
 				   </fieldset>
 				   <button class="btn btn-success" ng-click="addNewChoice()">Add fields</button>
 				   <button class="btn btn-success" ng-click="">Create</button>
-				   
+				  
 				   
 					
 				</div>
