@@ -12,7 +12,6 @@
         $scope.update = update;
         $scope.add    = add;
       	$scope.tab = {};
-        $scope.groupTimeline = groupTimeline;
         function init() {
             console.log("group int");
             GroupService
@@ -20,12 +19,7 @@
                 .then(handleSuccess, handleError);
         }
         init();
-        function groupTimeline(group){
-          
-            console.log(group.name);
-            $location.path('/group-timeline/'+group.name);
-              $rootScope.group = group;
-        }
+       
         function createGroup(){
             $location.path('/groupcreate');
         }

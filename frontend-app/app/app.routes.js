@@ -29,7 +29,8 @@
                  templateUrl: 'modules/group-timeline/group-timeline.view.html',
                  controller: 'GroupTimelineCtrl'
              })
-              .when('/group-timeline/:id', {
+              
+              .when('/group/:id', {
                  templateUrl: 'modules/group-timeline/group-timeline.view.html',
                  controller: 'GroupTimelineCtrl',
                 
