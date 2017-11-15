@@ -16,7 +16,7 @@
         function init() {
             console.log("Post int");
             ContentService
-                .getAllPosts()
+                .getAllContents()
                 .then(handleSuccess, handleError);
 
         }
@@ -31,7 +31,7 @@
         function remove(post)
         {
             ContentService
-                .deletePost(post._id)
+                .deleteContent(post._id)
                 .then(handleSuccess, handleError);
         }
         
@@ -40,14 +40,14 @@
        
 
             ContentService
-                .updatePost(post._id, post)
+                .updateContent(post._id, post)
                 .then(handleSuccess, handleError);
         }
         
         function add(post)
         {
             ContentService
-                .createPost(post)
+                .createContent(post)
                 .then(handleSuccess, handleError);
             
 
@@ -55,7 +55,18 @@
         }      
 
         function handleSuccess(response) {
-            $scope.posts = response.data; 
+            $scope.posts = response.data;
+            var arrayLength = $scope.posts.length;
+            for (var i = 0; i < arrayLength; i++) {
+                console.log($scope.posts[i].content_type);
+                var components = $scope.posts[i].components;
+                for(var j = 0 ; j < components.length; j++ ){
+                    console.log(components[j].component_type);
+                }
+    //Do something
+            }
+            
+
                    	            //console.log(posts);
 
         }

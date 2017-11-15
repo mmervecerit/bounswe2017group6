@@ -6,6 +6,7 @@
     
     function HomeCtrl($scope,  $rootScope, $location)
     {
+      $rootScope.apiAddress = "http://34.209.230.231:8000/";
       
         /*
         FB.login(function(response) {
