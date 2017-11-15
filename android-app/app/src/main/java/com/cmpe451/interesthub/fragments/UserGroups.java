@@ -11,11 +11,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.cmpe451.interesthub.InterestHub;
 import com.cmpe451.interesthub.R;
+import com.cmpe451.interesthub.activities.GroupActivity;
 import com.cmpe451.interesthub.activities.GroupCreation;
 import com.cmpe451.interesthub.activities.UserActivity;
 import com.cmpe451.interesthub.adapters.UserGroupListAdapter;
@@ -115,8 +117,22 @@ public class UserGroups extends Fragment {
                         final LinearLayoutManager ll = new LinearLayoutManager(((UserActivity)getActivity()));
                         ll.setOrientation(LinearLayoutManager.VERTICAL);
                         groupViewList.setLayoutManager(ll);
-                        UserGroupListAdapter adapter = new UserGroupListAdapter(getContext(),groupList);
+                        final UserGroupListAdapter adapter = new UserGroupListAdapter(getContext(),groupList);
                         groupViewList.setAdapter(adapter);
+                        adapter.setClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                int pos = groupViewList.indexOfChild(view);
+                                Intent intent = new Intent(getContext(), GroupActivity.class);
+                                intent.putExtra("groupName", String.valueOf(groupList.get(pos).getName()));
+                                intent.putExtra("groupId", groupList.get(pos).getId());
+                                Log.d("STARTACTIVITY",String.valueOf(groupList.get(pos).getName())+" "+groupList.get(pos).getId());
+                                startActivity(intent);
+                            }
+                        });
+
+
+
 
                     }
 

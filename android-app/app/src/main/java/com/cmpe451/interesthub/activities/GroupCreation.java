@@ -36,10 +36,11 @@ public class GroupCreation extends AppCompatActivity {
         groupName = (EditText)findViewById(R.id.group_name);
         groupDes = (EditText)findViewById(R.id.group_desc);
         groupIcon = (EditText)findViewById(R.id.group_icon);
-        Button createButton = (Button)findViewById(R.id.group_create_button);
+        final Button createButton = (Button)findViewById(R.id.group_create_button);
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                createButton.setEnabled(false);
                 if(groupName.getText().toString().equals("") )
                 {
                     Toast toast = Toast.makeText(GroupCreation.this, "Enter Group Name", Toast.LENGTH_SHORT);
@@ -60,13 +61,14 @@ public class GroupCreation extends AppCompatActivity {
                        toast.show();
                        Intent intent= new Intent(GroupCreation.this, UserActivity.class);
                        startActivity(intent);
-
+                       createButton.setEnabled(true);
                    }
 
                    @Override
                    public void onFailure(Call<Group> call, Throwable t) {
                        Toast toast = Toast.makeText(GroupCreation.this, "An error occured!", Toast.LENGTH_SHORT);
                        toast.show();
+                       createButton.setEnabled(true);
                    }
                });
             }

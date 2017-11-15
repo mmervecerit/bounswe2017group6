@@ -14,6 +14,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Url;
 
 /**
@@ -31,14 +32,12 @@ public interface ApiService {
     @GET
     Call<Group> getSpesificGroup(@Url String url);
 
-
     @GET
     Call<User> getSpesificUser(@Url String url);
 
     @POST("users/")
     @FormUrlEncoded
     Call <User> addUser (@Field("username") String username,@Field("email") String email);
-
 
     @GET("group/")
     Call<List<Group>> getGroup();
@@ -50,11 +49,12 @@ public interface ApiService {
     @GET("component/")
     Call<List<Component>> getComponentList();
 
-
     @GET("content-type/")
     Call<List<ContentType>> getContentTypeList();
 
-
     @GET("content/")
     Call<List<Content>> getContentList();
+
+    @GET("group-contents/{group_id}/")
+    Call<List<Content>> getGroupContents(@Path(value = "group_id", encoded = true) long userId);
 }

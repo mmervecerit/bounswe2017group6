@@ -80,6 +80,7 @@ public class UserTimelineFragment extends Fragment {
 
 
         UserTimelineListAdapter adapter = new UserTimelineListAdapter(getActivity().getApplicationContext());
+
         postList = (RecyclerView)view.findViewById(R.id.recycler_view);
         postList.setLayoutManager(ll);
 
