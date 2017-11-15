@@ -8,7 +8,7 @@ from components.models import Component
 class ContentTypeSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = ContentType
-        fields = ("id", "name", "components")
+        fields = ("id", "name", "components", "component_names")
 
 class ContentSerializer(serializers.HyperlinkedModelSerializer):
     # components = ComponentSerializer(many=True)
