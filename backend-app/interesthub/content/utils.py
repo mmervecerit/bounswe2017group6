@@ -21,6 +21,23 @@ model_mapping = {
     'video': VideoComponent,
 }
 
+def retrieve_content_set(items, context):
+    res = []
+    for content in items:
+        serializer = ContentSerializer(content, many=False, context=context)
+        result = serializer.data
+        # print(result)
+
+        components = []
+        for component in content.components.all():
+            print(component)
+            components.append( retrieve_component(component) )
+
+        result['components'] = components
+        res.append(result)
+
+    return res
+
 def retrieve_content(pk, context):
     content = Content.objects.get(pk=pk)
     serializer = ContentSerializer(content, many=False, context=context)
@@ -54,7 +71,7 @@ def create_content(data):
             _, error = create_component(component.copy(), perform_create=False)
             if error!=None:
                 error["error2"] = "error at %d th component"%component["order"]
-                return Response(error, status=status.HTTP_400_BAD_REQUEST )
+                return (None, error)
 
     except Exception as e:
         print(str(e))
@@ -69,7 +86,7 @@ def create_content(data):
 
         result["components"].append(comp_result)
     
-    return (result, None)
+    return (result, None, content)
 
 def update_content(pk, data):
     pass

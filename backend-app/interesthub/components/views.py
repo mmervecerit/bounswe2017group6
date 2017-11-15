@@ -35,7 +35,19 @@ class Component2ViewSet(APIView):
         component = Component.objects.get(pk=pk)
         result = retrieve_component(component)
         return Response(result)
-    def post(self, request, pk, format=None):
+    # def post(self, request, pk, format=None):
+    #     data = request.data
+    #     result, error = create_component(data)
+    #     if error == None:
+    #         return Response(result)
+
+
+class ComponentAllViewSet(APIView):
+    # def get(self, request, pk, format=None):
+    #     component = Component.objects.get(pk=pk)
+    #     result = retrieve_component(component)
+    #     return Response(result)
+    def post(self, request, format=None):
         data = request.data
         result, error = create_component(data)
         if error == None:

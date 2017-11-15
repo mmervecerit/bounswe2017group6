@@ -18,13 +18,25 @@ class ContentTypeViewSet(viewsets.ModelViewSet):
 
 
 class ContentViewSet(APIView):
-
     def get(self, request, pk, format=None):
         result = retrieve_content(pk,{"request": request})
         return Response(result)
-    
-    def post(self, request, pk, format=None):
-        result, error = create_content(request.data)
+
+    # def post(self, request, pk, format=None):
+    #     result, error, item = create_content(request.data)
+    #     if error == None:
+    #         return Response(result)
+    #     else:
+    #         return Response(error, status=status.HTTP_400_BAD_REQUEST)
+
+class ContentAllViewSet(APIView):
+    def get(self, request, format=None):
+        items = Content.objects.all()
+        result = retrieve_content_set(items,{"request": request})
+        return Response(result)
+
+    def post(self, request, format=None):
+        result, error, item = create_content(request.data)
         if error == None:
             return Response(result)
         else:
