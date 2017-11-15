@@ -21,6 +21,8 @@ from group.views import GroupContentList
 from content.views import ContentViewSet, ContentTypeViewSet, ContentAllViewSet
 from components.views import ComponentViewSet, Component2ViewSet, ComponentAllViewSet
 from group.views import *
+from comment.views import *
+from upDown.views import *
 from rest_framework.urlpatterns import format_suffix_patterns
 from rest_framework_jwt.views import obtain_jwt_token
 
@@ -30,6 +32,8 @@ router.register(r'content-type', ContentTypeViewSet)
 router.register(r'users', UserViewSet)
 router.register(r'group', InterestGroupViewSet)
 router.register(r'dummy', views.DummyTextViewSet)
+router.register(r'upDown',UpDownViewSet)
+router.register(r'comment',CommentViewSet)
 # router.register(r'component',ComponentViewSet)
 
 urlpatterns = [   

@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'group',
     'content',
     'components',
+    'comment',
+    'upDown'
 ]
 
 REST_FRAMEWORK = {
