@@ -12,6 +12,10 @@ public class ContentType {
     String name;
     List<String> components;
 
+
+
+    List<String> component_names;
+
     public long getId() {
         return id;
     }
@@ -34,5 +38,12 @@ public class ContentType {
 
     public void setComponents(List<String> components) {
         this.components = components;
+    }
+    public List<String> getComponent_names() {
+        return component_names;
+    }
+
+    public void setComponent_names(List<String> component_names) {
+        this.component_names = component_names;
     }
 }

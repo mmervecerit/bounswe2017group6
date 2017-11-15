@@ -2,10 +2,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
-    android:textSize="18sp"
+    android:textSize="15sp"
     android:padding="5dp"
-    android:text="Post"
-    android:textColor="#6b6c7b"
-    android:textStyle="bold"
+    android:text="Long Text"
+    android:textColor="#363746"
     android:layout_centerInParent="true"
     xmlns:android="http://schemas.android.com/apk/res/android" />

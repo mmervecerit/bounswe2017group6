@@ -2,6 +2,7 @@ package com.cmpe451.interesthub.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Debug;
 import android.support.v7.widget.RecyclerView;
@@ -75,14 +76,26 @@ public class UserGroupListAdapter extends RecyclerView.Adapter<UserGroupListAdap
         holder.groupName.setText(itemList.get(position).getName());
         if(itemList.get(position).getDesc()!=null)
             holder.groupDesc.setText(itemList.get(position).getDesc());
-        if(itemList.get(position).getImage()==null ||itemList.get(position).getImage().equals("") )
+        if(itemList.get(position).getImage()==null || itemList.get(position).getImage().equals("") )
             holder.groupIcon.setImageResource(R.drawable.prosmall);
         else{
-
-            Picasso.with(context)
+            Log.d("IMAGE","image load "+itemList.get(position).getImage());
+            /*Picasso.with(context)
                     .load(itemList.get(position).getImage())
                     .resize(200,200).into(holder.groupIcon);
+            */
+            Picasso.Builder builder = new Picasso.Builder(context);
+            builder.listener(new Picasso.Listener()
+            {
 
+
+                @Override
+                public void onImageLoadFailed(Picasso picasso, Uri uri, Exception exception)
+                {
+                    Log.d("IMAGE",exception.toString());
+                }
+            });
+            builder.build().load(itemList.get(position).getImage()).into(holder.groupIcon);
         }
 
     }

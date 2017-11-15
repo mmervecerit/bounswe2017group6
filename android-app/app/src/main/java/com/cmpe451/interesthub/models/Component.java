@@ -9,9 +9,15 @@ public class Component {
     long id;
     String component_type;
     int order;
-    String small_text;
-    String long_text;
-    String url;
+    TypeData type_data;
+
+    public TypeData getType_data() {
+        return type_data;
+    }
+
+    public void setType_data(TypeData type_data) {
+        this.type_data = type_data;
+    }
 
     public long getId() {
         return id;
@@ -37,27 +43,4 @@ public class Component {
         this.order = order;
     }
 
-    public String getSmall_text() {
-        return small_text;
-    }
-
-    public void setSmall_text(String small_text) {
-        this.small_text = small_text;
-    }
-
-    public String getLong_text() {
-        return long_text;
-    }
-
-    public void setLong_text(String long_text) {
-        this.long_text = long_text;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-}
+   }

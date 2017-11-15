@@ -1,25 +1,19 @@
 package com.cmpe451.interesthub.adapters;
 
 import android.content.Context;
-import android.media.Image;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cmpe451.interesthub.R;
-import com.cmpe451.interesthub.models.Component;
 import com.cmpe451.interesthub.models.Content;
 import com.cmpe451.interesthub.models.ContentType;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -114,13 +108,13 @@ public class UserTimelineListAdapter extends RecyclerView.Adapter<RecyclerView.V
             }
             else if(viewType == 1){
                 View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.post_layout2, null);
-                TextView t1= (TextView) LayoutInflater.from(parent.getContext()).inflate(R.layout.post_item2,null);
-                TextView t2= (TextView) LayoutInflater.from(parent.getContext()).inflate(R.layout.post_item2,null);
+                TextView t1= (TextView) LayoutInflater.from(parent.getContext()).inflate(R.layout.post_component_text,null);
+                TextView t2= (TextView) LayoutInflater.from(parent.getContext()).inflate(R.layout.post_component_text,null);
                 CardView def = (CardView) LayoutInflater.from(parent.getContext()).inflate(R.layout.post_layout_def, null);
                 t2.setTextSize(10);
 
                 LinearLayout l = (LinearLayout) def.findViewById(R.id.content);
-                ImageView img = (ImageView) LayoutInflater.from(parent.getContext()).inflate(R.layout.post_item1,null);
+                ImageView img = (ImageView) LayoutInflater.from(parent.getContext()).inflate(R.layout.post_component_image,null);
                 img.setAdjustViewBounds(true);
                 l.addView(t1);
                 l.addView(img);
@@ -130,8 +124,8 @@ public class UserTimelineListAdapter extends RecyclerView.Adapter<RecyclerView.V
                 return rcv;
             }else{
                 View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.post_layout2, null);
-                TextView t1= (TextView) LayoutInflater.from(parent.getContext()).inflate(R.layout.post_item2,null);
-                TextView t2= (TextView) LayoutInflater.from(parent.getContext()).inflate(R.layout.post_item2,null);
+                TextView t1= (TextView) LayoutInflater.from(parent.getContext()).inflate(R.layout.post_component_text,null);
+                TextView t2= (TextView) LayoutInflater.from(parent.getContext()).inflate(R.layout.post_component_text,null);
                 CardView def = (CardView) LayoutInflater.from(parent.getContext()).inflate(R.layout.post_layout_def, null);
                 t2.setTextSize(10);
                 LinearLayout l = (LinearLayout) def.findViewById(R.id.content);
