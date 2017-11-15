@@ -27,32 +27,7 @@
             </div>
             </div>
             <div ng-include src='"modules/group/grouppanel.view.html"' ng-controller='GroupCtrl'></div>
-            <!--
-            <div class="panel panel-theme rounded shadow">
-                <div class="panel panel-info">
-                <div class="panel-heading">
-                    <div class="pull-left">
-                        <h3 class="panel-title">Groups</h3>
-                    </div>
-                    
-                    <div class="clearfix"></div>
-                </div>
-                </div>
-                 <div class="panel-body no-padding rounded">
-                        <ul class="list-group no-margin" ng-repeat="group in groups">
-                            <li class="list-group-item"><a ng-click="groupTimeline(group)">{{group.name}}</a>
-                            <img src="{{group.image}}" style="margin-left: 10px; width: auto; height: auto;max-width: 40x;max-height: 40px"/>
-                            </li>
-
-                        </ul>
-                         <ul class="list-group no-margin">
-                            <li class="list-group-item"><a class="" href="/groupcreate"><i class="fa fa-plus"></i> Create New Group</a></li>
-                       </ul>
-
-                    </div>
-                       
-              
-            </div>--><!-- /.panel -->
+    
 
     
         </div>
@@ -134,8 +109,57 @@
                             <!--<div class="small"><i class="fa fa-map-marker"></i> Medellin, Colombia</div>-->
                         </div>
                         <div class="panel-body">
-                            <div id="components" ng-repeat="component in post.components">
-                                <p>{{component.long_text}}</p>
+                            <div id="components" ng-repeat="component in post.content_type.components | orderBy: 'post.components.order' ">
+                                <div  ng-if="component=='text'">
+                                    <p>
+                                        <strong><label>{{post.content_type.component_names[$index]}}:</label></strong>
+                                        {{post.components[$index].type_data.data}} 
+                                    </p>
+                                </div>
+                                <div ng-if="component=='longtext'">
+                                   <p>
+                                        <strong><label>{{post.content_type.component_names[$index]}}:</label></strong>
+                                        {{post.components[$index].type_data.data}} 
+                                    </p>
+                                </div>
+                                <div ng-if="component=='number'">
+                                     <p>
+                                        <strong><label>{{post.content_type.component_names[$index]}}:</label></strong>
+                                        {{post.components[$index].type_data.data}} 
+                                    </p>
+                                </div>
+                                <div ng-if="component=='datetime'">
+                                    <p>
+                                        <strong><label>{{post.content_type.component_names[$index]}}:</label></strong>
+                                        {{post.components[$index].type_data.data}} 
+                                    </p>
+                                </div>
+                                <div ng-if="component=='video'">
+                                     <p>
+                                        <strong><label>{{post.content_type.component_names[$index]}}</label></strong>:
+                                        <a ng-href="{{post.components[$index].type_data.data}}">{{post.components[$index].type_data.data}}</a> 
+                                    </p>
+                                </div>
+                                <div ng-if="component'image'">
+                                    <p>
+                                        <strong><label>{{post.content_type.component_names[$index]}}</label></strong>
+                                        <img ng-src="{{post.components[$index].type_data.data}}"></p> 
+                                    </p>
+                                </div>
+                                <div ng-if="component=='dropdown'">
+                                     <p>
+                                        <strong><label>{{post.content_type.component_names[$index]}}</label></strong>:
+                                        {{post.components[$index].type_data.data}} 
+                                    </p>
+                                </div>
+                                <div ng-if="component=='radiobutton'">
+                                     <p>
+                                        <strong><label>{{post.content_type.component_names[$index]}}</label></strong>:
+                                        {{post.components[$index].type_data.data}} 
+                                    </p>
+                                </div>
+
+                                
                                
                             </div>
                              <div class="actions">
@@ -255,9 +279,9 @@
                                         
                                     </div> 
             
-                    </div>
-                        </div>
                             </div>
+                    </div>
+            </div>
            
         </div>
 
@@ -265,50 +289,6 @@
         </div>
 
         <div ng-include src='"modules/templatecreate/templatecreate.view.html"' ng-controller='TemplateCreateCtrl'></div>
-        <!--
-<div class="modal fade" data-modal-color="" id="modalColor" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Modal title</h4>
-            </div>
-            <div class="modal-body">
-             <div class="inner-all">
-                
-                    <fieldset  data-ng-repeat="choice in choices">
-                      <div class="rowactivity">
-                      <div class="col-lg-6 col-md-6 col-sm-8">
-                      <input type="text" class="form-control" ng-model="choice.name" name="" placeholder="">
-                      </div>
-                      <div class="col-lg-5 col-md-5 col-sm-7">
-                      <select class="form-control" ng-model="choice.type">
-                         <option>Text</option>
-                         <option>TextArea</option>
-                         <option>Date</option>
-                         <option>Video</option>
-                         <option>Image</option>
-                      </select>
-                      </div>
-                      <div class="col-lg-1 col-md-1 col-sm-1">
-                      <button class="btn btn-danger"  ng-click="removeChoice(choice)">-</button>
-                      </div>
-                      </div>
-                      <br></br>
-                   </fieldset>
-                   <button class="btn btn-success" ng-click="addNewChoice()">Add fields</button>
-                   <button class="btn btn-success" ng-click="">Create</button>
-                   
-                   
-                    
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-link">Save changes</button>
-                <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>-->
 
     </div>
 
@@ -316,40 +296,34 @@
           <script type="text/javascript">
           
           
-          $('button.followButton').live('click', function(e){
-        e.preventDefault();
-        $button = $(this);
-        if($button.hasClass('following')){
-                        
-            $button.removeClass('following');
-            $button.removeClass('unfollow');
-            $button.text('Follow');
-        } else {
-                        
-            $button.addClass('following');
-            $button.text('Following');
-        }
-    });
-    
-    $('button.followButton').hover(function(){
-         $button = $(this);
-        if($button.hasClass('following')){
-            $button.addClass('unfollow');
-            $button.text('Unfollow');
-        }
-    }, function(){
-        if($button.hasClass('following')){
-            $button.removeClass('unfollow');
-            $button.text('Following');
-        }
-    });  
-    /*
-    $('body').on('click', '#btn-color-targets > .btn', function(){
-        var color = $(this).data('target-color');
-        $('#modalColor').attr('data-modal-color', color);
-    }); 
-      */    
-          
+            $('button.followButton').live('click', function(e){
+                e.preventDefault();
+                $button = $(this);
+                if($button.hasClass('following')){
+                                
+                    $button.removeClass('following');
+                    $button.removeClass('unfollow');
+                    $button.text('Follow');
+                } else {
+                                
+                    $button.addClass('following');
+                    $button.text('Following');
+                }
+            });
+            
+            $('button.followButton').hover(function(){
+                 $button = $(this);
+                if($button.hasClass('following')){
+                    $button.addClass('unfollow');
+                    $button.text('Unfollow');
+                }
+            }, function(){
+                if($button.hasClass('following')){
+                    $button.removeClass('unfollow');
+                    $button.text('Following');
+                }
+            });  
+
           
           </script>
 
