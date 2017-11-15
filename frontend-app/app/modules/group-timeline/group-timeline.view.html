@@ -95,11 +95,38 @@
             <div class="col-md-8" >
                 <div ng-controller="PostCtrl">
                     <div class="panel panel-info" style="margin-top:5%;" >
-                        <div class="panel-body">
+                        <uib-tabset active="active">
+                      <uib-tab index="0" heading="Post">
+                      <div class="panel-body">
                             <form action="...">
                                 <textarea class="form-control input-lg no-border" rows="2" placeholder="Write something" ng-model="content.long_text"></textarea>
                             </form>
                         </div>
+                      </uib-tab>
+                      <uib-tab index="1" heading="Event">
+                      <div class="panel-body">
+                            <form action="...">
+                            <div class="row-activity">
+                            <h4>Event Name</h4>
+                            </div>
+                            <div class="row-activity">
+                            <input class="form-control input-lg no-border" placeholder="" ng-model="content.text"></input>
+                            </div>
+                            <div class="row-activity">
+                            <h4>Description</h4>
+                            </div>
+                            <div class="row-activity">
+                            <textarea class="form-control input-lg no-border" placeholder="" ng-model="content.long_text"></textarea>
+                            </div>
+                            
+                                
+                            </form>
+                        </div>
+                      </uib-tab>
+                      <uib-tab index="$index + 2" ng-repeat="tab in tabs" heading="{{tab.title}}">
+                        {{tab.content}}
+                      </uib-tab>
+                    </uib-tabset>
                         <div class="panel-footer">
                             <div class="btn-group">
                                 <button type="button" class="btn btn-link"><i class="fa fa-map-marker"></i></button>
