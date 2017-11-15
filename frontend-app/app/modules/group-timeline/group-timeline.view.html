@@ -110,7 +110,11 @@
                             </div>
                             
                             <div class="pull-right" >
-								<button type="button" class="btn btn-success" onclick="window.location.href='/templatecreate'">Create A Template</button>
+
+								<!--<button type="button" class="btn btn-success" onclick="window.location.href='/templatecreate'">Create A Template</button>-->
+                            <div class="btn-demo" id="btn-color-targets">
+                                        <a href="#modalColor" data-target-color="lightblue" data-toggle="modal" class="btn btn-default ">New Template</a>
+                            </div>
 								<button type="button" class="btn btn-success" ng-click="add(content)">Post</button>
                             </div>  
                         </div>
@@ -259,8 +263,53 @@
         </div>
         </div>
     
-    
+        
+<div class="modal fade" data-modal-color="" id="modalColor" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Modal title</h4>
+            </div>
+            <div class="modal-body">
+             <div class="inner-all">
+                
+                    <fieldset  data-ng-repeat="choice in choices">
+                      <div class="rowactivity">
+                      <div class="col-lg-6 col-md-6 col-sm-8">
+                      <input type="text" class="form-control" ng-model="choice.name" name="" placeholder="">
+                      </div>
+                      <div class="col-lg-5 col-md-5 col-sm-7">
+                      <select class="form-control" ng-model="choice.type">
+                         <option>Text</option>
+                         <option>TextArea</option>
+                         <option>Date</option>
+                         <option>Video</option>
+                         <option>Image</option>
+                      </select>
+                      </div>
+                      <div class="col-lg-1 col-md-1 col-sm-1">
+                      <button class="btn btn-danger"  ng-click="removeChoice(choice)">-</button>
+                      </div>
+                      </div>
+                      <br></br>
+                   </fieldset>
+                   <button class="btn btn-success" ng-click="addNewChoice()">Add fields</button>
+                   <button class="btn btn-success" ng-click="">Create</button>
+                   
+                   
+                    
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-link">Save changes</button>
+                <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+            </div>
+        </div>
     </div>
+</div>
+
+    </div>
+
     
           <script type="text/javascript">
           
@@ -291,7 +340,12 @@
             $button.removeClass('unfollow');
             $button.text('Following');
         }
-    });   
+    });  
+
+    $('body').on('click', '#btn-color-targets > .btn', function(){
+        var color = $(this).data('target-color');
+        $('#modalColor').attr('data-modal-color', color);
+    }); 
           
           
           
