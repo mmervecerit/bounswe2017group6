@@ -5,27 +5,27 @@
         .module("interestHub")
         .controller("PostCtrl", PostCtrl);
     
-    function PostCtrl($scope,  $rootScope, $location, PostService)
-    {
+    function PostCtrl($scope,  $rootScope, $location, PostService, $routeParams)
+
+    {    
+
         //$scope.createPost = createPost;
         $scope.remove = remove;
         $scope.update = update;
         $scope.add    = add;
       	$scope.tab = {};
-
         function init() {
-            console.log("Post int");
-            console.log($rootScope.group);
+       
 
             PostService
-                .getAllPosts($rootScope.group.id)
+                .getAllPosts($routeParams.id)
                 .then(handleSuccess, handleError);
 
         }
         
         init();
-        
-/*
+    
+/*  
         function createPost(){
             $location.path('/postcreate');
         }
@@ -67,7 +67,7 @@
 					.createComponent(component)
 					.then(handleSuccess, handleError);
 			*/
-			console.log(componentList);
+			//console.log(componentList);
 			
             PostService
                 .createPost($rootScope.group.id, componentList)
@@ -80,13 +80,13 @@
 
         function handleSuccess(response) {
             $scope.posts = response.data; 
-            console.log($scope.posts);
+            //console.log($scope.posts);
 
         }
 
         function handleError(error) {
             $scope.error = error;
-            console.log(error);
+            //console.log(error);
         }
 
         

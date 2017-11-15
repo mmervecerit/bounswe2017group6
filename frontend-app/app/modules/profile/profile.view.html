@@ -1,7 +1,7 @@
 
 
 <div ng-controller="ProfileCtrl" class="container bootstrap snippets">
-<div class="row" style="margin-top: 60px;" ng-model="user" ng-init="user.fullname='Gokce Uludogan'; user.job='Student'">
+<div class="row" style="margin-top: 60px;" ng-model="user" >
     <div class="col-lg-3 col-md-3 col-sm-4">
         <div class="panel rounded shadow">
             <div class="panel-body">
@@ -11,7 +11,7 @@
                             <img data-no-retina="" class="img-circle img-responsive img-bordered-primary" src="https://scontent-frt3-2.xx.fbcdn.net/v/t1.0-9/16174471_10210225282420728_2157042507789656179_n.jpg?oh=55c32619210a9bcbd2342cdc0a001fa3&oe=5A6D079F" alt="John Doe">
                         </li>
                         <li class="text-center">
-                            <h4 class="text-capitalize">{{user.fullname}}</h4>
+                            <h4 class="text-capitalize">{{user.username}}</h4>
                             <p class="text-muted text-capitalize">{{user.job}}</p>
                         </li>
                         <li>
@@ -36,7 +36,7 @@
                 <div class="pull-left">
                     <h3 class="panel-title">Contact</h3>
                 </div>
-                <div class="pull-right" ng-init="user.facebook='https://www.facebook.com/uludogangokce'; user.twitter='https://twitter.com/kybisss'">
+                <div class="pull-right">
                     <a href="user.facebook" ng-show="user.facebook" class="btn btn-sm btn-info"><i class="fa fa-facebook"></i></a>
                     <a href="user.twitter" ng-show="user.twitter" class="btn btn-sm btn-info"><i class="fa fa-twitter"></i></a>
                     <a href="user.google" ng-show="user.google" class="btn btn-sm btn-info"><i class="fa fa-google-plus"></i></a>

@@ -29,11 +29,16 @@
                  templateUrl: 'modules/group-timeline/group-timeline.view.html',
                  controller: 'GroupTimelineCtrl'
              })
-              .when('/group-timeline/:id', {
+              
+              .when('/group/:id', {
                  templateUrl: 'modules/group-timeline/group-timeline.view.html',
                  controller: 'GroupTimelineCtrl',
                 
              })
+              .when('/user/:id', {
+                 templateUrl: 'modules/profile/profile.view.html',
+                 controller: 'ProfileCtrl'
+              })
              .when('/guest-timeline', {
                  templateUrl: 'modules/guest-timeline/guest-timeline.view.html',
                  controller: 'GuestTimelineCtrl'

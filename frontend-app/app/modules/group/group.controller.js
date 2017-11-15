@@ -5,30 +5,27 @@
         .module("interestHub")
         .controller("GroupCtrl", GroupCtrl);
     
-    function GroupCtrl($scope,  $rootScope, $location, GroupService)
+    function GroupCtrl($scope,  $rootScope, $location, GroupService, $window)
     {
         $scope.createGroup = createGroup;
         $scope.remove = remove;
         $scope.update = update;
         $scope.add    = add;
       	$scope.tab = {};
-        $scope.groupTimeline = groupTimeline;
         function init() {
             console.log("group int");
             GroupService
                 .getAllGroups()
                 .then(handleSuccess, handleError);
+            console.log("asdfadsf");    
+
         }
         init();
-        function groupTimeline(group){
-          
-            console.log(group.name);
-            $location.path('/group-timeline/'+group.name);
-              $rootScope.group = group;
-        }
+       
         function createGroup(){
             $location.path('/groupcreate');
         }
+       
 
         function remove(group)
         {
@@ -48,18 +45,23 @@
         
         function add(group)
         {
+            console.log(group);
+            console.log("add init");
 			
             GroupService
                 .createGroup(group)
-                .then(handleSuccess, handleError);
-            
-			//window.location = "/group-timeline/"+group.name;
-			
+                
             console.log("added");
+
+           
+			
+        
+
         }      
+        
 
         function handleSuccess(response) {
-            $scope.groups = response.data;
+            $rootScope.groups = response.data;
         	
         }
 

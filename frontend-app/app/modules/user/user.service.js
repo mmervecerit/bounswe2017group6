@@ -13,26 +13,26 @@
         };
         return api;
 
-        
+            
         function createUser(user){
             
-            return $http.post('http://34.209.230.231:8000/users/',user);
+            return $http.post('https://cors-anywhere.herokuapp.com/http://34.209.230.231:8000/users/',user);
         }
 
         function updateUser(userID, user){
-            return $http.put('http://34.209.230.231:8000/users/'+userID, user);
+            return $http.put('https://cors-anywhere.herokuapp.com/http://34.209.230.231:8000/users/'+userID, user);
         }
 
         function deleteUser(userID){
-            return $http.delete('http://34.209.230.231:8000/users/'+userID);
+            return $http.delete('https://cors-anywhere.herokuapp.com/http://34.209.230.231:8000/users/'+userID);
         }
 
         function getUser(userID){
-            return $http.get('http://34.209.230.231:8000/users/'+userID);
+            return $http.get('https://cors-anywhere.herokuapp.com/http://34.209.230.231:8000/users/'+userID);
         }
         
         function getAllUsers(){
-            return $http.get('http://34.209.230.231:8000/users/');
+            return $http.get('https://cors-anywhere.herokuapp.com/http://34.209.230.231:8000/users/');
         }
 
     }

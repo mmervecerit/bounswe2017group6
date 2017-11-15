@@ -11,7 +11,7 @@ class ContentTypeSerializer(serializers.HyperlinkedModelSerializer):
         fields = ("id", "name", "components")
 
 class ContentSerializer(serializers.HyperlinkedModelSerializer):
-    components = ComponentSerializer(many=True)
+    # components = ComponentSerializer(many=True)
     owner = UserSerializer(read_only=True, allow_null=False, many=False)
     owner_id = serializers.IntegerField()
     content_type_id = serializers.IntegerField()
@@ -19,31 +19,29 @@ class ContentSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Content
-        fields = ("id", "content_type", "created_date", "modified_date", "components", "owner", "owner_id", "content_type_id")
+        fields = ("id", "content_type", "created_date", "modified_date", "owner", "owner_id", "content_type_id")
     
-    def create(self, validated_data):
-        print('val:', validated_data)
-        components_data = validated_data.pop('components')
-        print('val:', validated_data)
-        content = Content.objects.create(**validated_data)
-        for component_data in components_data:
-            Component.objects.create(content=content, **component_data)
-        return content
+    # def create(self, validated_data):
+    #     print('val:', validated_data)
+    #     # components_data = validated_data.pop('components')
+    #     print('val:', validated_data)
+    #     content = Content.objects.create(**validated_data)
+    #     # for component_data in components_data:
+    #     #     Component.objects.create(content=content, **component_data)
+    #     return content
 
-    def update(self, instance, validated_data):
-        components_data = validated_data.pop('components')
-        print(instance)
-        # instance.owner = validated_data.get('owner_id', instance.owner)
-        instance.content_type = validated_data.get('content_type', instance.content_type)
-        for component_data in components_data:
-            if component_data.get('id', -1) == -1:
-                Component.objects.create(content=content, **component_data)
-            else:
-                comp = Component.objects.get(pk=component_data.get('id'))
-                comp.component_type = component_data.get('component_type', comp.component_type)
-                comp.small_text = component_data.get('small_text', comp.small_text)
-                comp.order = component_data.get('order', comp.order)
-                comp.long_text = component_data.get('long_text', comp.long_text)
-                comp.url = component_data.get('url', comp.url)
-                comp.save()
+    # def update(self, instance, validated_data):
+    #     components_data = validated_data.pop('components')
+    #     print(instance)
+    #     # instance.owner = validated_data.get('owner_id', instance.owner)
+    #     instance.content_type = validated_data.get('content_type', instance.content_type)
+    #     for component_data in components_data:
+    #         if component_data.get('id', -1) == -1:
+    #             Component.objects.create(content=content, **component_data)
+    #         else:
+    #             comp = Component.objects.get(pk=component_data.get('id'))
+    #             comp.component_type = component_data.get('component_type', comp.component_type)
+    #             comp.order = component_data.get('order', comp.order)
+    #             comp.order = component_data.get('name', comp.name)
+    #             comp.save()
 
