@@ -66,13 +66,56 @@
                             <!--<div class="small"><i class="fa fa-map-marker"></i> Medellin, Colombia</div>-->
                         </div>
                         <div class="panel-body">
-                            <div id="components" ng-repeat="component in post.components">
-                                <div ng-if="component.component_type=='text'">
-                                    <p>{{component.type_data.data}}</p>
+                            <div id="components" ng-repeat="component in post.content_type.components | orderBy: 'post.components.order' ">
+                                <div  ng-if="component=='text'">
+                                    <p>
+                                        <strong><label>{{post.content_type.component_names[$index]}}:</label></strong>
+                                        {{post.components[$index].type_data.data}} 
+                                    </p>
                                 </div>
-                                <div ng-if="component.component_type=='longtext'">
-                                    <p>{{component.type_data.data}}</p>
+                                <div ng-if="component=='longtext'">
+                                   <p>
+                                        <strong><label>{{post.content_type.component_names[$index]}}:</label></strong>
+                                        {{post.components[$index].type_data.data}} 
+                                    </p>
                                 </div>
+                                <div ng-if="component=='number'">
+                                     <p>
+                                        <strong><label>{{post.content_type.component_names[$index]}}:</label></strong>
+                                        {{post.components[$index].type_data.data}} 
+                                    </p>
+                                </div>
+                                <div ng-if="component=='datetime'">
+                                    <p>
+                                        <strong><label>{{post.content_type.component_names[$index]}}:</label></strong>
+                                        {{post.components[$index].type_data.data}} 
+                                    </p>
+                                </div>
+                                <div ng-if="component=='video'">
+                                     <p>
+                                        <strong><label>{{post.content_type.component_names[$index]}}</label></strong>:
+                                        <a ng-href="{{post.components[$index].type_data.data}}">{{post.components[$index].type_data.data}}</a> 
+                                    </p>
+                                </div>
+                                <div ng-if="component'image'">
+                                    <p>
+                                        <strong><label>{{post.content_type.component_names[$index]}}</label></strong>
+                                        <img ng-src="{{post.components[$index].type_data.data}}"></p> 
+                                    </p>
+                                </div>
+                                <div ng-if="component=='dropdown'">
+                                     <p>
+                                        <strong><label>{{post.content_type.component_names[$index]}}</label></strong>:
+                                        {{post.components[$index].type_data.data}} 
+                                    </p>
+                                </div>
+                                <div ng-if="component=='radiobutton'">
+                                     <p>
+                                        <strong><label>{{post.content_type.component_names[$index]}}</label></strong>:
+                                        {{post.components[$index].type_data.data}} 
+                                    </p>
+                                </div>
+
                                 
                                
                             </div>
