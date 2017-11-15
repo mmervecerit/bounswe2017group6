@@ -47,11 +47,11 @@
                     <form id="groupform">
                         <div class="form-group">
                             <label for="groupname">Group Name:</label>
-                            <input type="text" class="form-control" ng-model="group.name">
+                            <input type="text" class="form-control" ng-model="newgroup.name">
                         </div>
                         <div class="form-group">
                           <label for="groupdesc">Group Description:</label>
-                          <textarea class="form-control" rows="5" ng-model="group.description"></textarea>
+                          <textarea class="form-control" rows="5" ng-model="newgroup.description"></textarea>
                         </div>
                         <!-- <div class="custom-file">
                         <label for="file">Group Icon:</label>
@@ -60,7 +60,7 @@
                         </div> -->
                         <div class="form-group">
                                 <label for="groupicon">Group Icon:</label>
-                                <input type="text" class="form-control" ng-model="group.image">
+                                <input type="text" class="form-control" ng-model="newgroup.image">
                         </div>
                         <br></br>
                         
@@ -71,7 +71,7 @@
             </div>
             <div class="modal-footer">
                 <!--<button type="button" class="btn btn-link" ng-click="add(group)" >Create Group</button>-->
-                <button id ="createGroup" type="button" class="btn btn-link" ng-click="add(group)">Create Group</button>
+                <button id ="createGroup" type="button" class="btn btn-link" ng-click="add(newgroup)">Create Group</button>
             </div>
         </div>
     </div>
