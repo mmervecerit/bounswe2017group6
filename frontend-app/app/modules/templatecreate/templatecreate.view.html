@@ -1,28 +1,12 @@
-<div ng-controller="TemplateCreateCtrl" class="container bootstrap snippets">
-
-
-        <!--<div class="col-lg-6 col-md-6 col-sm-8">-->
-        
-        <div class="modal fade" data-modal-color="" id="modalColor" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" data-modal-color="lightblue" id="myTemplate" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Create Template</h4>
+                <h4 class="modal-title">New Template</h4>
             </div>
             <div class="modal-body">
              <div class="inner-all">
                 
-                <div class="inner-all">
-                  <div class="rowactivity">
-                      <div class="col-lg-6 col-md-6 col-sm-8">
-                      <h4 class="text-capitalize ng-binding text-center">Template Name</h4>
-                      </div>
-            <div class="col-lg-5 col-md-5 col-sm-7">
-                      <input type="text" class="form-control" ng-model="tempname" name="" placeholder="">
-                      </div>
-                      </div>
-            <br></br>
-            <br></br>
                     <fieldset  data-ng-repeat="choice in choices">
                       <div class="rowactivity">
                       <div class="col-lg-6 col-md-6 col-sm-8">
@@ -31,115 +15,29 @@
                       <div class="col-lg-5 col-md-5 col-sm-7">
                       <select class="form-control" ng-model="choice.type">
                          <option>Text</option>
-                         <option>Text Area</option>
-                        <option>Numerical</option>
+                         <option>TextArea</option>
                          <option>Date</option>
                          <option>Video</option>
                          <option>Image</option>
-                        <option>Dropdown Box</option>
-                        <option>Check Box</option>
-                    </select>
+                      </select>
                       </div>
                       <div class="col-lg-1 col-md-1 col-sm-1">
                       <button class="btn btn-danger"  ng-click="removeChoice(choice)">-</button>
                       </div>
                       </div>
-            
-            <div class="rowactivity" ng-if="(choice.type=='Check Box' || choice.type=='Dropdown Box')">
-            <br></br>
-                <fieldset data-ng-repeat="x in choice.selection">
-                  <div class="rowactivity">
-                  <div class="col-lg-6 col-md-6 col-sm-8">
-                  </div>
-                            <div class="col-lg-5 col-md-5 col-sm-7">
-                            <input type="text" class="form-control" ng-model="x.name" name="" placeholder="">
-                            </div>
-                  <div class="col-lg-1 col-md-1 col-sm-1">
-                          <button class="btn btn-danger"  ng-click="removeSelection(choice,selection)">-</button>
-                          </div>
-                  </div>
-                </fieldset>
-            <button class="pull-right btn btn-success" ng-click="addNewSelection(choice)">Add selection</button>
-            </div>
-                      <br></br>
-                   </fieldset>
-                  
-                  
-                   
-                    
-                </div>        
-            </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-success" ng-click="addNewChoice()">Add fields</button>
-                <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="">Create</button>
-            </div>
-        </div>
-    </div>
-</div>
-        <div class="panel panel-theme rounded shadow"> 
-            <div class="panel-body"> 
-                <h1 class="text-capitalize ng-binding text-center">Create Template</h1>
-                <div class="inner-all">
-                  <div class="rowactivity">
-                      <div class="col-lg-6 col-md-6 col-sm-8">
-                      <h4 class="text-capitalize ng-binding text-center">Template Name</h4>
-                      </div>
-            <div class="col-lg-5 col-md-5 col-sm-7">
-                      <input type="text" class="form-control" ng-model="tempname" name="" placeholder="">
-                      </div>
-                      </div>
-            <br></br>
-            <br></br>
-                    <fieldset  data-ng-repeat="choice in choices">
-                      <div class="rowactivity">
-                      <div class="col-lg-6 col-md-6 col-sm-8">
-                      <input type="text" class="form-control" ng-model="choice.name" name="" placeholder="">
-                      </div>
-                      <div class="col-lg-5 col-md-5 col-sm-7">
-                      <select class="form-control" ng-model="choice.type">
-                         <option>Text</option>
-                         <option>Text Area</option>
-                        <option>Numerical</option>
-                         <option>Date</option>
-                         <option>Video</option>
-                         <option>Image</option>
-                        <option>Dropdown Box</option>
-                        <option>Check Box</option>
-                    </select>
-                      </div>
-                      <div class="col-lg-1 col-md-1 col-sm-1">
-                      <button class="btn btn-danger"  ng-click="removeChoice(choice)">-</button>
-                      </div>
-                      </div>
-            
-            <div class="rowactivity" ng-if="(choice.type=='Check Box' || choice.type=='Dropdown Box')">
-            <br></br>
-                <fieldset data-ng-repeat="x in choice.selection">
-                  <div class="rowactivity">
-                  <div class="col-lg-6 col-md-6 col-sm-8">
-                  </div>
-                            <div class="col-lg-5 col-md-5 col-sm-7">
-                            <input type="text" class="form-control" ng-model="x.name" name="" placeholder="">
-                            </div>
-                  <div class="col-lg-1 col-md-1 col-sm-1">
-                          <button class="btn btn-danger"  ng-click="removeSelection(choice,selection)">-</button>
-                          </div>
-                  </div>
-                </fieldset>
-            <button class="pull-right btn btn-success" ng-click="addNewSelection(choice)">Add selection</button>
-            </div>
                       <br></br>
                    </fieldset>
                    <button class="btn btn-success" ng-click="addNewChoice()">Add fields</button>
                    <button class="btn btn-success" ng-click="">Create</button>
-                  
+                   
                    
                     
                 </div>
             </div>
-        
+            <div class="modal-footer">
+                <button type="button" class="btn btn-link">Save changes</button>
+                <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+            </div>
         </div>
     </div>
-    
 </div>

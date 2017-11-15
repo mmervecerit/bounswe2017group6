@@ -20,7 +20,7 @@
 
       }
       $scope.choices = [{id: '1'}];
-  
+      
   $scope.addNewChoice = function() {
     var newItemNo = $scope.choices.length+1;
     $scope.choices.push({'id':newItemNo});

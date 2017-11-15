@@ -67,7 +67,13 @@
                         </div>
                         <div class="panel-body">
                             <div id="components" ng-repeat="component in post.components">
-                                <p>{{component.long_text}}</p>
+                                <div ng-if="component.component_type=='text'">
+                                    <p>{{component.type_data.data}}</p>
+                                </div>
+                                <div ng-if="component.component_type=='longtext'">
+                                    <p>{{component.type_data.data}}</p>
+                                </div>
+                                
                                
                             </div>
                              <div class="actions">

@@ -112,9 +112,10 @@
                             <div class="pull-right" >
 
 								<!--<button type="button" class="btn btn-success" onclick="window.location.href='/templatecreate'">Create A Template</button>-->
-                            <div class="btn-demo" id="btn-color-targets">
-                                        <a href="#modalColor" data-target-color="lightblue" data-toggle="modal" class="btn btn-default ">New Template</a>
-                            </div>
+                           
+                            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myTemplate">
+                                New Template
+                            </button>                            
 								<button type="button" class="btn btn-success" ng-click="add(content)">Post</button>
                             </div>  
                         </div>
@@ -262,8 +263,9 @@
 
         </div>
         </div>
-    
-        
+
+        <div ng-include src='"modules/templatecreate/templatecreate.view.html"' ng-controller='TemplateCreateCtrl'></div>
+        <!--
 <div class="modal fade" data-modal-color="" id="modalColor" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -306,7 +308,7 @@
             </div>
         </div>
     </div>
-</div>
+</div>-->
 
     </div>
 
@@ -341,12 +343,12 @@
             $button.text('Following');
         }
     });  
-
+    /*
     $('body').on('click', '#btn-color-targets > .btn', function(){
         var color = $(this).data('target-color');
         $('#modalColor').attr('data-modal-color', color);
     }); 
-          
+      */    
           
           
           </script>
