@@ -8,6 +8,7 @@ from content.serializers import ContentSerializer, ContentTypeSerializer
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
 from rest_framework import status
+from content.utils import retrieve_content_set, create_content
 
 # Create your views here.
 class InterestGroupViewSet(ModelViewSet):
@@ -17,17 +18,17 @@ class InterestGroupViewSet(ModelViewSet):
 class GroupContentList(APIView):
     def get(self, request, pk, format=None):
         igroup = InterestGroup.objects.get(pk=pk)
-        serializer = ContentSerializer(igroup.contents, many=True, context={'request': request})
-        return Response(serializer.data)
+        data = retrieve_content_set(igroup.contents.all(), context={'request':request})
+        return Response(data)
+    
     def post(self, request, pk, format=None):
         igroup = InterestGroup.objects.get(pk=pk)
-        # print(request.data)
-        serializer = ContentSerializer(igroup.contents, many=False, data=request.data)
-        if serializer.is_valid():
-            s = serializer.create(request.data)
-            igroup.contents.add(s)
-            return Response(ContentSerializer(s, many=False, context={"request": request}).data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        result, error, item = create_content(request.data)
+        if error == None:
+            igroup.contents.add(item)
+            return Response(result)
+        else:
+            return Response(error, status=status.HTTP_400_BAD_REQUEST)
 
 class GroupContentTypeList(APIView):
     def get(self, request, pk, format=None):
