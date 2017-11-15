@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.cmpe451.interesthub.InterestHub;
 import com.cmpe451.interesthub.R;
 import com.cmpe451.interesthub.adapters.UserTimelineListAdapter;
+import com.cmpe451.interesthub.adapters.UserTimelineListCustomAdapter;
 import com.cmpe451.interesthub.models.Component;
 import com.cmpe451.interesthub.models.Content;
 import com.cmpe451.interesthub.models.Group;
@@ -64,13 +65,12 @@ public class GroupActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Content>> call, Response<List<Content>> response) {
                 contentList = new ArrayList<Content>();
+                Log.d("SUCCSEFUL","calling group coıntents");
                 for(Content c : response.body()){
                    contentList.add(c);
                     if(c.getComponents()==null || c.getComponents().size()==0)
                         Log.d("null","null component");
-                    for(Component cc : c.getComponents()){
-                        Log.d("compomnnet", cc.getLong_text());
-                    }
+
                 }
                 setPost();
 
@@ -78,7 +78,7 @@ public class GroupActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<Content>> call, Throwable t) {
-
+                Log.d("FAIL","failuer when calilng group contents");
             }
         });
 
@@ -87,9 +87,19 @@ public class GroupActivity extends AppCompatActivity {
         final LinearLayoutManager ll = new LinearLayoutManager(this);
         ll.setOrientation(LinearLayoutManager.VERTICAL);
 
+        List<String> s1 = new ArrayList<String>();
+        s1.add("image");
+        s1.add("image");
+        s1.add("title");
+        List<String> s2 = new ArrayList<String>();
+        s2.add("title");
+        s2.add("image");
+        s2.add("text");
+        List<String> s3 = new ArrayList<String>();
+        s3.add("datetime");
 
-        UserTimelineListAdapter adapter = new UserTimelineListAdapter(getApplicationContext(),contentList);
-
+        //UserTimelineListCustomAdapter adapter = new UserTimelineListCustomAdapter(getApplicationContext(),s1,s2,s3);
+        UserTimelineListCustomAdapter adapter = new UserTimelineListCustomAdapter(getApplicationContext(),contentList);
         contentView = (RecyclerView) findViewById(R.id.spesific_group_recycler_view);
         contentView.setLayoutManager(ll);
 

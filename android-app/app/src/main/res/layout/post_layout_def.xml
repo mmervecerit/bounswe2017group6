@@ -6,7 +6,8 @@
     android:layout_height="wrap_content"
     card_view:cardUseCompatPadding="true"
     card_view:cardCornerRadius="8dp"
-    android:layout_marginBottom="16dp">
+    android:layout_marginBottom="16dp"
+    >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -14,9 +15,30 @@
         android:id="@+id/card_def_relative_layout">
         <LinearLayout
             android:id="@+id/content"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/content"
+            android:background="@color/cardview_comment"
+            android:orientation="vertical">
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Add Comment" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Comment" />
 
 
         </LinearLayout>

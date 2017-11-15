@@ -56,5 +56,8 @@ public interface ApiService {
     Call<List<Content>> getContentList();
 
     @GET("group-contents/{group_id}/")
-    Call<List<Content>> getGroupContents(@Path(value = "group_id", encoded = true) long userId);
+    Call<List<Content>> getGroupContents(@Path(value = "group_id", encoded = true) long groupId);
+
+    @GET("group-ctypes/{group_id}/")
+    Call<List<ContentType>> getGroupContentTypes(@Path(value = "group_id", encoded = true) long groupId);
 }
