@@ -1,31 +1,32 @@
 from .models import *
 from rest_framework import serializers
 
-class TitleSerializer(serializers.HyperlinkedModelSerializer):
+class TextSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = Title
-        fields = ('text',)
+        model = TextComponent
+        fields = ('id', 'data',)
 
-class SubtitleSerializer(serializers.HyperlinkedModelSerializer):
+class LongTextSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = Subtitle
-        fields = ('text',)
+        model = LongTextComponent
+        fields = ('id', 'data',)
 
-class TextAreaSerializer(serializers.HyperlinkedModelSerializer):
+class NumberSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = Title
-        fields = ('text',)
+        model = NumberComponent
+        fields = ('id', 'data',)
         
-class ImageSerializer(serializers.HyperlinkedModelSerializer):
+class DateTimeSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = Image
-        fields = ('id', 'url')
+        model = DateTimeComponent
+        fields = ('id', 'data')
+
 class VideoSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = Video
-        fields = ('id', 'url')
+        model = VideoComponent
+        fields = ('id', 'data')
 
 class ComponentSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Component
-        fields = ("id", "component_type", "order", "small_text", "long_text", "url")
+        fields = ("id", "component_type", "order")

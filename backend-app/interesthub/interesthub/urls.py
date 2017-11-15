@@ -17,25 +17,20 @@ from django.contrib import admin
 from django.conf.urls import url, include
 from rest_framework import routers
 from dummy import views
-from components.views import TitleViewSet, SubtitleViewSet, TextAreaViewSet, ImageViewSet, VideoViewSet
 from group.views import GroupContentList
 from content.views import ContentViewSet, ContentTypeViewSet
-from components.views import ComponentViewSet
+from components.views import ComponentViewSet, Component2ViewSet
 from group.views import *
 from rest_framework.urlpatterns import format_suffix_patterns
+from rest_framework_jwt.views import obtain_jwt_token
 
 router = routers.DefaultRouter()
-router.register(r'content', ContentViewSet)
+# router.register(r'content', ContentViewSet)
 router.register(r'content-type', ContentTypeViewSet)
 router.register(r'users', UserViewSet)
 router.register(r'group', InterestGroupViewSet)
 router.register(r'dummy', views.DummyTextViewSet)
 router.register(r'component',ComponentViewSet)
-# router.register(r'titles', TitleViewSet)
-# router.register(r'subtitles', SubtitleViewSet)
-# router.register(r'text-areas', TextAreaViewSet)
-# router.register(r'images', ImageViewSet)
-# router.register(r'videos', VideoViewSet)
 
 urlpatterns = [   
     # url(r'^group-content/', GroupContentList.as_view()),
@@ -43,6 +38,9 @@ urlpatterns = [
     url(r'group-contents/(?P<pk>[0-9]+)/$', GroupContentList.as_view()),
     url(r'group-members/(?P<pk>[0-9]+)/$', GroupMembersList.as_view()),
     url(r'group-ctypes/(?P<pk>[0-9]+)/$', GroupContentTypeList.as_view()),
+    url(r'content/(?P<pk>[0-9]+)/$', ContentViewSet.as_view()),
+    url(r'component2/(?P<pk>[0-9]+)/$', Component2ViewSet.as_view()),
+    url(r'^login/', obtain_jwt_token),
     url(r'^admin/', admin.site.urls),
     url(r'^api-auth/', include('rest_framework.urls'))
 ]
