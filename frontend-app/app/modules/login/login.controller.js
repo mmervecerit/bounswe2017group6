@@ -4,7 +4,7 @@
         .module("interestHub")
         .controller("LoginCtrl", LoginCtrl);
     
-    function LoginCtrl($scope, $location, $rootScope, UserService)
+    function LoginCtrl($scope, $location, $rootScope, UserService, LoginService, $localStorage)
     {
 
         $scope.login = login;
@@ -21,16 +21,30 @@
 
         function login(user)
         {
-            for(var i = 0; i < $scope.users.length ; i++){
-                if($scope.users[i].email == user.email){
-                    $rootScope.role = true;
-                    $rootScope.currentUser = user.username;
-                    console.log(user.email)
-                                $location.path('/timeline');
-                                console.log("adsfasdf");
-                                break;
-                }
-            } 
+
+            LoginService
+            .getToken(user)
+            .then(function(res){
+                $scope.userToken = res.data.token; 
+                console.log($scope.userToken);
+                $location.path('/timeline');
+ 
+                $localStorage.token=res.data.token;
+                $localStorage.user=user;
+                $localStorage.isLogged=true;
+
+                $rootScope.username={};
+                $rootScope.username.params=$localStorage.user.username;
+                
+            },function(error){
+                $scope.error = error;
+            });
+
+            //.then(handleSuccess, handleError);
+
+
+
+
             /*
             if(user)
             UserService
@@ -48,6 +62,7 @@
                 );*/
         }
 
+
         function continueWithoutLogin(){
              $rootScope.role = false;
 
@@ -60,6 +75,7 @@
             $scope.tabName="signin";
 
         }
+
 
         function loginWithFacebook(){
             console.log("facebook");
