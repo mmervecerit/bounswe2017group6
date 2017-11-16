@@ -70,36 +70,62 @@
             <div class="col-md-8" >
                 <div ng-controller="PostCtrl">
                     <div class="panel panel-info" style="margin-top:5%;" >
-                        <uib-tabset active="active">
+                     <uib-tabset active="active">
                       <uib-tab index="0" heading="Post">
                       <div class="panel-body">
                             <form action="...">
-                                <textarea class="form-control input-lg no-border" rows="2" placeholder="Write something" ng-model="content.long_text"></textarea>
+                                <textarea class="form-control input-lg no-border" rows="2" placeholder="Write something" ng-model="content.comps['Post']"></textarea>
                             </form>
                         </div>
                       </uib-tab>
-                      <uib-tab index="1" heading="Event">
-                      <div class="panel-body">
+                      
+                      <uib-tab index="$index + 1" ng-repeat="tab in templates" heading="{{tab.name}}" select="typeSelect(tab.id)">
+                        <div class="panel-body">
                             <form action="...">
-                            <div class="row-activity">
-                            <h4>Event Name</h4>
-                            </div>
-                            <div class="row-activity">
-                            <input class="form-control input-lg no-border" placeholder="" ng-model="content.text"></input>
-                            </div>
-                            <div class="row-activity">
-                            <h4>Description</h4>
-                            </div>
-                            <div class="row-activity">
-                            <textarea class="form-control input-lg no-border" placeholder="" ng-model="content.long_text"></textarea>
-                            </div>
-                            
-                                
+							<div ng-repeat="component in tab.components track by $index">
+							
+								<div class="row-activity">
+								<h4>{{tab.component_names[$index]}}</h4>
+								
+								</div>
+								<div ng-if="component=='text'"class="row-activity">
+								<input class="form-control input-lg no-border" placeholder="" ng-model="content.comps[tab.component_names[$index]]"></input>
+								</div>
+								<div ng-if="component=='longtext'"class="row-activity">
+								<textarea class="form-control input-lg no-border" placeholder="" ng-model="content.comps[tab.component_names[$index]]"></textarea>
+								</div>
+								<div ng-if="component=='number'"class="row-activity">
+								<input type="number" class="form-control input-lg no-border" placeholder="" ng-model="content.comps[tab.component_names[$index]]"></input>
+								</div>
+								<div ng-if="component=='video'"class="row-activity">
+								<input class="form-control input-lg no-border" placeholder="" ng-model="content.comps[tab.component_names[$index]]"></input>
+								</div>
+								<div ng-if="component=='datetime'"class="row-activity">
+								<div class="container">
+									<div class="row">
+										<div class='col-sm-6'>
+											<div class="form-group">
+												<div class='input-group date' id='datetimepicker1'>
+													<input type='text' class="form-control" />
+													<span class="input-group-addon">
+														<span class="glyphicon glyphicon-calendar"></span>
+													</span>
+												</div>
+											</div>
+										</div>
+										<script type="text/javascript">
+											$(function () {
+												$('#datetimepicker1').datetimepicker();
+											});
+										</script>
+									</div>
+								</div>
+								</div>
+								
+							</div>                         
+                            </div>    
                             </form>
                         </div>
-                      </uib-tab>
-                      <uib-tab index="$index + 2" ng-repeat="tab in tabs" heading="{{tab.title}}">
-                        {{tab.content}}
                       </uib-tab>
                     </uib-tabset>
                         <div class="panel-footer">
