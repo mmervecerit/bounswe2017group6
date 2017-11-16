@@ -38,6 +38,14 @@
                  controller: 'GroupTimelineCtrl',
                  requireAuth: true                 
              })
+             
+             .when('/user/:id', {
+                templateUrl: 'modules/profile/profile.view.html',
+                 controller: 'ProfileCtrl',
+                 requireAuth: true                 
+                 
+            })
+             
              .when('/guest-timeline', {
                  templateUrl: 'modules/guest-timeline/guest-timeline.view.html',
                  controller: 'GuestTimelineCtrl'
