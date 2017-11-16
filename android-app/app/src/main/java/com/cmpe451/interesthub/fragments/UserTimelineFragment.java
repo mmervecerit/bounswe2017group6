@@ -1,5 +1,6 @@
 package com.cmpe451.interesthub.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.view.ContextThemeWrapper;
@@ -33,7 +34,7 @@ public class UserTimelineFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    private Context context;
     RecyclerView postList;
 
     // TODO: Rename and change types of parameters
@@ -69,6 +70,7 @@ public class UserTimelineFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        context= getActivity().getBaseContext();
     }
 
     @Override
@@ -89,7 +91,7 @@ public class UserTimelineFragment extends Fragment {
                     contentList.add(c);
 
                 }
-                UserTimelineListCustomAdapter adapter = new UserTimelineListCustomAdapter(getActivity().getApplicationContext(),contentList);
+                UserTimelineListCustomAdapter adapter = new UserTimelineListCustomAdapter(context,contentList);
 
                 postList = (RecyclerView)view.findViewById(R.id.recycler_view);
                 postList.setLayoutManager(ll);

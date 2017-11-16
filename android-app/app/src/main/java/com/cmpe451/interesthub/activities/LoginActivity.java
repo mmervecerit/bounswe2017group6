@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cmpe451.interesthub.InterestHub;
 import com.cmpe451.interesthub.R;
@@ -15,6 +16,7 @@ import com.cmpe451.interesthub.activities.baseActivities.BaseActivity;
 import com.cmpe451.interesthub.models.Component;
 import com.cmpe451.interesthub.models.Content;
 import com.cmpe451.interesthub.models.ContentType;
+import com.cmpe451.interesthub.models.Token;
 import com.cmpe451.interesthub.models.User;
 
 import java.util.List;
@@ -37,7 +39,6 @@ public class LoginActivity extends BaseActivity {
         final EditText e = (EditText) findViewById(R.id.editText8);
         final EditText e2 = (EditText) findViewById(R.id.editText9);
         final TextView t = (TextView) findViewById(R.id.textView6);
-        InterestHub hb = (InterestHub)getApplication();
 
 
         //
@@ -68,9 +69,40 @@ public class LoginActivity extends BaseActivity {
           */
         //
 
-        hb.getSessionController();
         final InterestHub hub = (InterestHub) getApplication();
-        b.setOnClickListener(new View.OnClickListener() {
+       b.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(final View view) {
+               hub.getApiService().login(e.getText().toString(),e2.getText().toString()).enqueue(new Callback<Token>() {
+                   @Override
+                   public void onResponse(Call<Token> call, Response<Token> response) {
+                      if(response==null || response.body() == null || response.body().getToken().equals(null))
+                      {
+                          Log.d("TOKEN","ERROR");
+                          Toast toast = Toast.makeText(getBaseContext(), "Login Failed", Toast.LENGTH_LONG);
+                          toast.show();
+                          return;
+                      }
+                      else{
+                          Log.d("TOKEN",response.body().getToken());
+                          User user = new User();
+                          user.setUsername(e.getText().toString());
+                          user.setId(1);
+                          user.setEmail("admin@interesthub.com");
+                          hub.getSessionController().setUser(user);
+                          Intent intent= new Intent(view.getContext(), UserActivity.class);
+                          startActivity(intent);
+                      }
+                   }
+
+                   @Override
+                   public void onFailure(Call<Token> call, Throwable t) {
+
+                   }
+               });
+           }
+       });
+       /* b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
                 hub.getApiService().getUsers().enqueue(new Callback<List<User>>() {
@@ -86,71 +118,21 @@ public class LoginActivity extends BaseActivity {
                                 startActivity(intent);
                             }
                         }
-                        Log.d("error", "hocam error");
+
                     }
 
                     @Override
                     public void onFailure(Call<List<User>> call, Throwable t) {
-
+                        Toast toast = Toast.makeText(getBaseContext(), "Login Failed", Toast.LENGTH_LONG);
+                        toast.show();
                     }
                 });
 
 
-
-
-
-
-
-                /*if(e.getText().toString().equals("Eric")){
-                    if(e2.getText().toString().equals("1234")){
-                        hub.getApiService().getUsers().enqueue(new Callback<User>() {
-                            @Override
-                            public void onResponse(Call<User> call, Response<User> response) {
-                                Log.d("Login ", "Login response succesfull");
-
-                                hub.getSessionController().setUser(response.body());
-                                final List<String> groupList = response.body().getGroupListResponse();
-                                for(int i = 0 ;i< groupList.size();i++){
-                                    final int finalI = i;
-                                    hub.getApiService().getSpesificGroup(groupList.get(i)).enqueue(new Callback<Group>() {
-                                        @Override
-                                        public void onResponse(Call<Group> call, Response<Group> response) {
-                                            hub.getSessionController().getUser().addGroupList( response.body());
-                                            if(finalI == groupList.size()-1){
-
-                                                Log.d("SESSION ", "intent acılıyooor");
-                                                Intent intent= new Intent(view.getContext(), UserActivity.class);
-                                                startActivity(intent);
-
-                                            }
-                                        }
-
-                                        @Override
-                                        public void onFailure(Call<Group> call, Throwable t) {
-
-                                        }
-                                    });
-
-                                }
-
-
-
-                            }
-
-                            @Override
-                            public void onFailure(Call<User> call, Throwable t) {
-
-                            }
-                        });
-
-
-
-
-                    }
-                }
-*/
             }
         });
+
+        */
         t.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

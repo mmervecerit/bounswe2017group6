@@ -22,6 +22,8 @@ import com.cmpe451.interesthub.models.Content;
 import com.cmpe451.interesthub.models.TypeData;
 import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +42,7 @@ public class UserTimelineListCustomAdapter extends RecyclerView.Adapter<Recycler
         public List<ImageView> image = new ArrayList<ImageView>();
         public List<CalendarView> datetime = new ArrayList<CalendarView>();
         public List<VideoView> video = new ArrayList<VideoView>();
+        public List<TextView> number = new ArrayList<TextView>();
         public ViewHolder(View itemView,List<String> list) {
             super(itemView);
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -69,7 +72,11 @@ public class UserTimelineListCustomAdapter extends RecyclerView.Adapter<Recycler
                    image.add((ImageView) l.getChildAt(i));
 
                }else if(s.equals("video")){
-                   video.add((VideoView) l.getChildAt(i));
+                   //video.add((VideoView) l.getChildAt(i));
+                   image.add((ImageView) l.getChildAt(i));
+               }
+               else if(s.equals("number")){
+                   number.add((TextView) l.getChildAt(i));
 
                }
                else if (s.equals("datetime")){
@@ -119,14 +126,19 @@ public class UserTimelineListCustomAdapter extends RecyclerView.Adapter<Recycler
                    } else if (s.equals("longtext")) {
                        l.addView((TextView) LayoutInflater.from(parent.getContext()).inflate(R.layout.post_component_longtext, null));
 
-                   } else if (s.equals("image") ) {
+                   } else if (s.equals("image") || (s.equals("video") ) ) {
                        ImageView img = (ImageView) LayoutInflater.from(parent.getContext()).inflate(R.layout.post_component_image, null);
                        img.setAdjustViewBounds(true);
                        l.addView(img);
-                   }else if (s.equals("video") ) {
+                   }/*else if (s.equals("video") ) {
                        VideoView vid = (VideoView) LayoutInflater.from(parent.getContext()).inflate(R.layout.post_component_video, null);
                        l.addView(vid);
-                   } else if(s.equals("datetime")){
+                   }*/
+                   else if (s.equals("number")) {
+                       l.addView((TextView) LayoutInflater.from(parent.getContext()).inflate(R.layout.post_component_number, null));
+
+                   }
+                   else if(s.equals("datetime")){
                        l.addView((CalendarView) LayoutInflater.from(parent.getContext()).inflate(R.layout.post_component_datetime, null));
 
                    }
@@ -151,7 +163,7 @@ public class UserTimelineListCustomAdapter extends RecyclerView.Adapter<Recycler
             //holder.postHeader.setText(itemList.get(position).getHeader());
 
         if(contentList.get(position).getComponents()!=null || contentList.get(position).getComponents().size()!=0 ){
-            int texti=0,longtexti=0,imagei=0,datetimei=0,videoi=0;
+            int texti=0,longtexti=0,imagei=0,datetimei=0,videoi=0,numberi=0;
             for(int i=0;i<contentList.get(position).getComponents().size();i++){
                 Component c = contentList.get(position).getComponents().get(i);
                 TypeData data = c.getType_data();
@@ -165,20 +177,29 @@ public class UserTimelineListCustomAdapter extends RecyclerView.Adapter<Recycler
                 } else if (c.getComponent_type().equals("longtext")) {
                     ((ViewHolder)holder).longtext.get(longtexti).setText(data.getData());
                     longtexti++;
+                }
+                else if (c.getComponent_type().equals("number")) {
+                    ((ViewHolder)holder).number.get(numberi).setText(data.getData());
+                    numberi++;
                 } else if (c.getComponent_type().equals("image") ) {
                     Picasso.with(context)
                             .load(data.getData())
                             .resize(200,200).into(((ViewHolder)holder).image.get(imagei));
                     imagei++;
                 }else if (c.getComponent_type().equals("video")) {
+                    /*
                     Log.d("VIDEO",data.getData());
                     VideoView mVideoView = ((ViewHolder)holder).video.get(videoi);
                     mVideoView.setMediaController(new MediaController(context));
+                   // mVideoView.setVideoURI();
                     mVideoView.requestFocus();
                     mVideoView.start();
 
 
                      videoi++;
+                     */
+                    ((ViewHolder)holder).image.get(imagei).setImageResource(R.drawable.placeholder);
+                    imagei++;
                 } else if(c.getComponent_type().equals("datetime")){
 
                 }

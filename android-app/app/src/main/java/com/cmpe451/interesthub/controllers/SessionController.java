@@ -7,6 +7,16 @@ import com.cmpe451.interesthub.models.User;
  */
 
 public class SessionController {
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    String token="";
+
     boolean isLoggedIn = false;
     User user ;
 

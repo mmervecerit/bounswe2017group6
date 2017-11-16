@@ -103,9 +103,11 @@ public class UserProfile extends Fragment {
         TextView userName=view.findViewById(R.id.user_name);
 
         userName.setText(hub.getSessionController().getUser().getUsername());
-        TextView userDesc=view.findViewById(R.id.user_desc);
+        if(!hub.getSessionController().getUser().getEmail().equals(null)){
+            TextView userDesc=view.findViewById(R.id.user_desc);
+            userDesc.setText(hub.getSessionController().getUser().getEmail());
 
-        userDesc.setText(hub.getSessionController().getUser().getEmail());
+        }
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         ImageView profileImg = view.findViewById(R.id.profile_image);
