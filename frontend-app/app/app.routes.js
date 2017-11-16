@@ -21,24 +21,23 @@
               })
               .when('/profile', {
                   templateUrl: 'modules/profile/profile.view.html',
-                  controller: 'ProfileCtrl'
+                  controller: 'ProfileCtrl',
+                  requireAuth: true
+                  
                   /*resolve: {
                       loggedin: checkLoggedin
                   }*/
               }).when('/group-timeline', {
                  templateUrl: 'modules/group-timeline/group-timeline.view.html',
-                 controller: 'GroupTimelineCtrl'
+                 controller: 'GroupTimelineCtrl',
+                 requireAuth: true                 
              })
               
               .when('/group/:id', {
                  templateUrl: 'modules/group-timeline/group-timeline.view.html',
                  controller: 'GroupTimelineCtrl',
-                
+                 requireAuth: true                 
              })
-              .when('/user/:id', {
-                 templateUrl: 'modules/profile/profile.view.html',
-                 controller: 'ProfileCtrl'
-              })
              .when('/guest-timeline', {
                  templateUrl: 'modules/guest-timeline/guest-timeline.view.html',
                  controller: 'GuestTimelineCtrl'
@@ -47,37 +46,60 @@
               .when('/login', {
                   templateUrl: 'modules/login/login.view.html',
                   controller: 'LoginCtrl',
-                  controllerAs: 'model'
+                  controllerAs: 'model',
+                  requireAuth: true                  
               })
               .when('/register', {
                   templateUrl: 'modules/register/register.view.html',
                   controller: 'RegisterCtrl',
-                  controllerAs: 'model'
+                  controllerAs: 'model',
+                  requireAuth: true                  
               })
               .when('/timeline', {
                   templateUrl: 'modules/timeline/timeline.view.html',
-                  controller: 'TimelineCtrl'
+                  controller: 'TimelineCtrl',
+                  requireAuth: true
+                  
               })
         .when('/groupcreate', {
                   templateUrl: 'modules/groupcreate/groupcreate.view.html',
-                  controller: 'GroupCtrl'
+                  controller: 'GroupCtrl',
+                  requireAuth: true                  
               })
         .when('/templatecreate', {
                   templateUrl: 'modules/templatecreate/templatecreate.view.html',
-                  controller: 'TemplateCreateCtrl'
+                  controller: 'TemplateCreateCtrl',
+                  requireAuth: true                  
               })
         .when('/postcreate', {
                   templateUrl: 'modules/postcreate/postcreate.view.html',
-                  controller: 'PostCreateCtrl'
+                  controller: 'PostCreateCtrl',
+                  requireAuth: true                  
               });
 /*
               .otherwise({
                   redirectTo: '/'
               });
 */
-            
+
           
-        });
+        })
+
+        .run(
+            
+            function($rootScope, $location, $localStorage) {
+                
+                        $rootScope.$on('$routeChangeStart', function(angularEvent, newUrl) {
+                
+                            if (newUrl.requireAuth && !$localStorage.token) {
+                                // User isn’t authenticated
+                                $location.path("/home");
+                            }
+                
+                        });
+                    }
+
+            );
 
     /*
     var checkLoggedin = function($q, $timeout, $http, $location, $rootScope)
