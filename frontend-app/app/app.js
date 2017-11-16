@@ -1,4 +1,4 @@
 
 
-var app = angular.module('interestHub', ["ngRoute","ui.bootstrap"]);
+var app = angular.module('interestHub', ["ngRoute","ui.bootstrap",'ngStorage']);
 
