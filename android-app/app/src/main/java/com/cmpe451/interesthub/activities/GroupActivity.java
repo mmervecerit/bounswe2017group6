@@ -87,18 +87,6 @@ public class GroupActivity extends AppCompatActivity {
         final LinearLayoutManager ll = new LinearLayoutManager(this);
         ll.setOrientation(LinearLayoutManager.VERTICAL);
 
-        List<String> s1 = new ArrayList<String>();
-        s1.add("image");
-        s1.add("image");
-        s1.add("title");
-        List<String> s2 = new ArrayList<String>();
-        s2.add("title");
-        s2.add("image");
-        s2.add("text");
-        List<String> s3 = new ArrayList<String>();
-        s3.add("datetime");
-
-        //UserTimelineListCustomAdapter adapter = new UserTimelineListCustomAdapter(getApplicationContext(),s1,s2,s3);
         UserTimelineListCustomAdapter adapter = new UserTimelineListCustomAdapter(getApplicationContext(),contentList);
         contentView = (RecyclerView) findViewById(R.id.spesific_group_recycler_view);
         contentView.setLayoutManager(ll);

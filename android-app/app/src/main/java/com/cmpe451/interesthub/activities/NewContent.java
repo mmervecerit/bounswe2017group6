@@ -18,7 +18,11 @@ import android.widget.TextView;
 
 import com.cmpe451.interesthub.InterestHub;
 import com.cmpe451.interesthub.R;
+import com.cmpe451.interesthub.models.Component;
+import com.cmpe451.interesthub.models.Content;
 import com.cmpe451.interesthub.models.ContentType;
+import com.cmpe451.interesthub.models.TypeData;
+import com.cmpe451.interesthub.services.ContentRequest;
 
 import org.w3c.dom.Text;
 
@@ -36,13 +40,15 @@ public class NewContent extends AppCompatActivity {
     ListView templateList ;
     LinearLayout template;
     List<ContentType> Clist;
+
+    InterestHub hub;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_content);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        hub = (InterestHub) getApplication();
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setVisibility(View.INVISIBLE);
         /*fab.setOnClickListener(new View.OnClickListener() {
@@ -93,8 +99,9 @@ public class NewContent extends AppCompatActivity {
 
     public void changeLayout(int pos){
         template.removeAllViews();
-        ContentType c = Clist.get(pos);
+        final ContentType c = Clist.get(pos);
         template.setOrientation(LinearLayout.VERTICAL);
+        final List<EditText> inputs = new ArrayList<>(c.getComponents().size());
         for(String s : c.getComponent_names()){
             LinearLayout l = new LinearLayout(getBaseContext());
             l.setOrientation(LinearLayout.HORIZONTAL);
@@ -102,6 +109,7 @@ public class NewContent extends AppCompatActivity {
             t.setText(s);
             l.addView(t);
             EditText e = new EditText(getBaseContext());
+            inputs.add(e);
             Toolbar.LayoutParams ll = new Toolbar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             e.setLayoutParams(ll);
             l.addView(e);
@@ -113,12 +121,45 @@ public class NewContent extends AppCompatActivity {
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Content content  = new Content();
+                content.setContentType(c);
+                content.setOwner(hub.getSessionController().getUser());
+                content.setContent_type_id(c.getId());
+                for(int i =0 ; i<inputs.size(); i++){
+                    Component comp = new Component();
+                    comp.setComponent_type(c.getComponents().get(i));
+                    comp.setOrder(i);
+                    TypeData t = new TypeData();
+                    t.setData(inputs.get(i).toString());
+                    comp.setType_data(t);
+
+                }
+
+                sendPost(content);
 
             }
+
         });
         template.addView(b);
 
 
+    }
+
+    private void sendPost(Content content) {
+        ContentRequest contentR = new ContentRequest();
+        contentR.setContent(content);
+        hub.getApiService().postContent(groupId,contentR).enqueue(new Callback<Content>() {
+            @Override
+            public void onResponse(Call<Content> call, Response<Content> response) {
+                Log.d("SUCCESS","asdas");
+
+            }
+
+            @Override
+            public void onFailure(Call<Content> call, Throwable t) {
+                Log.d("uweuwuew","osas");
+            }
+        });
     }
 
 }
