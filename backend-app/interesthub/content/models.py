@@ -53,3 +53,19 @@ class Content(models.Model):
     
     def __str__(self):
         return str(self.id)
+
+class Comment(models.Model):
+    text = models.TextField(null=False, blank=True)
+    owner = models.ForeignKey(User, blank=False, null=False, on_delete=models.CASCADE, related_name="comment_owner")
+    content = models.ForeignKey(Content, blank=False, null=False, on_delete=models.CASCADE)
+        
+    def __str__(self):
+        return str(self.id)
+
+class UpDown(models.Model):
+    owner = models.ForeignKey(User, blank=False, null=False, on_delete=models.CASCADE)
+    content = models.ForeignKey(Content, blank=False, null=False, on_delete=models.CASCADE)
+    isUp = models.BooleanField(default=True)
+        
+    def __str__(self):
+        return str(self.id)
