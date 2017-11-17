@@ -50,18 +50,23 @@
 			
             GroupService
                 .createGroup(group)
-                
+                .then(handleSuccessGroup, handleError);    
             console.log("added");
+         
 
            
 			
         
 
         }      
-        
+        function handleSuccessGroup(response) {
+            $scope.groups.push(response.data);
+
+        }
+
 
         function handleSuccess(response) {
-            $rootScope.groups = response.data;
+            $scope.groups = response.data;
         	
         }
 

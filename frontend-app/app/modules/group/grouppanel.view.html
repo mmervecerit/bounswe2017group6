@@ -8,7 +8,7 @@
                 <div class="clearfix"></div>
             </div>
             <div class="panel-body no-padding rounded">
-                <ul class="list-group no-margin" ng-repeat="group in groups">
+                <ul class="list-group no-margin" ng-repeat="group in groups | orderBy: 'name' | limitTo: 10 ">
 
                      <li class="list-group-item"><a href="/group/{{group.id}}">{{group.name}}</a>
                     <img src="{{group.image}}" style="margin-left: 10px; width: auto; height: auto;max-width: 40x;max-height: 40px"/>                    
@@ -63,14 +63,11 @@
                                 <input type="text" class="form-control" ng-model="newgroup.image">
                         </div>
                         <br></br>
-                        
-                        <!--
-                      <button type="submit" ng-click="add(group)" class="btn btn-success">Create Group</button>-->
+                       
                     </form>
                 </div>
             </div>
             <div class="modal-footer">
-                <!--<button type="button" class="btn btn-link" ng-click="add(group)" >Create Group</button>-->
                 <button id ="createGroup" type="button" class="btn btn-link" ng-click="add(newgroup)">Create Group</button>
             </div>
         </div>
@@ -81,15 +78,15 @@
 </div>
 <script type="text/javascript">
           
-    /*
-    $('body').on('click', '#btn-color-targets > .btn', function(){
-        var color = $(this).data('target-color');
-        $('#modalColor').attr('data-modal-color', color);
-    }); */
+
     
     $('#createGroup').click(function() {
         $('#myModal').modal('hide');
         console.log("modal hide");
+    });
+
+    $('#myModal').on('hidden.bs.modal', function () {
+     $(this).find('form').trigger('reset');
     });  
           
           
