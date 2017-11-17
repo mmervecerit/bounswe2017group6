@@ -9,6 +9,7 @@
 
 
   }]);
+
         angular.module("interestHub")
             .filter('cmdate', [
                 '$filter', function($filter) {

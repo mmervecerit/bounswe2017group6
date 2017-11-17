@@ -5,34 +5,34 @@
 
     function ContentService($http) {
         var api = {
-            createPost: createPost,
-            updatePost: updatePost,
-            deletePost: deletePost,
-            getPost: getPost,
-            getAllPosts: getAllPosts
+            createContent: createContent,
+            updateContent: updateContent,
+            deleteContent: deleteContent,
+            getContent: getContent,
+            getAllContents: getAllContents
         };
         return api;
 
         
-        function createPost(post){
+        function createContent(Content){
             
-            return $http.post('http://34.209.230.231:8000/content/',post);
+            return $http.Content('https://cors-anywhere.herokuapp.com/http://34.209.230.231:8000/content/',Content);
         }
 
-        function updatePost(postID, post){
-            return $http.put('http://34.209.230.231:8000/content/'+postID, post);
+        function updateContent(ContentID, Content){
+            return $http.put('https://cors-anywhere.herokuapp.com/http://34.209.230.231:8000/content/'+ContentID, Content);
         }
 
-        function deletePost(postID){
-            return $http.delete('http://34.209.230.231:8000/content/'+postID);
+        function deleteContent(ContentID){
+            return $http.delete('https://cors-anywhere.herokuapp.com/http://34.209.230.231:8000/content/'+ContentID);
         }
 
-        function getPost(postID){
-            return $http.get('http://34.209.230.231:8000/content/'+postID);
+        function getContent(ContentID){
+            return $http.get('https://cors-anywhere.herokuapp.com/http://34.209.230.231:8000/content/'+ContentID);
         }
         
-        function getAllPosts(){
-            return $http.get('http://34.209.230.231:8000/content/');
+        function getAllContents(){
+            return $http.get('https://cors-anywhere.herokuapp.com/http://34.209.230.231:8000/content/');
         }
 
     }

@@ -1,0 +1,12 @@
+<ImageView
+    android:id="@+id/groupIcon"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:layout_centerHorizontal="true"
+    android:contentDescription="act"
+    android:scaleType="fitCenter"
+    android:src="@drawable/placeholder"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    card_view:srcCompat="@android:drawable/ic_dialog_email" />
+

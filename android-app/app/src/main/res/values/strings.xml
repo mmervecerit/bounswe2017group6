@@ -18,4 +18,6 @@
         completions."
     </string>
     <string name="title_activity_group_creation">GroupCreation</string>
+    <string name="title_activity_group">GroupActivity</string>
+    <string name="title_activity_new_content">NewContent</string>
 </resources>

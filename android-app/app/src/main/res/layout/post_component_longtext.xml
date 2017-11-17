@@ -1,0 +1,10 @@
+<TextView android:id="@+id/post_header"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:textSize="15sp"
+    android:padding="5dp"
+    android:text="Long Text"
+    android:textColor="#363746"
+    android:layout_centerInParent="true"
+    xmlns:android="http://schemas.android.com/apk/res/android" />

@@ -1,5 +1,6 @@
 package com.cmpe451.interesthub.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.view.ContextThemeWrapper;
@@ -15,6 +16,8 @@ import com.cmpe451.interesthub.InterestHub;
 import com.cmpe451.interesthub.R;
 import com.cmpe451.interesthub.activities.UserActivity;
 import com.cmpe451.interesthub.adapters.UserTimelineListAdapter;
+import com.cmpe451.interesthub.adapters.UserTimelineListCustomAdapter;
+import com.cmpe451.interesthub.models.Component;
 import com.cmpe451.interesthub.models.Content;
 import com.cmpe451.interesthub.models.Group;
 import com.cmpe451.interesthub.models.User;
@@ -31,7 +34,7 @@ public class UserTimelineFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    private Context context;
     RecyclerView postList;
 
     // TODO: Rename and change types of parameters
@@ -67,25 +70,42 @@ public class UserTimelineFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        context= getActivity().getBaseContext();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_user_timeline, container, false);
-
-        final LinearLayoutManager ll = new LinearLayoutManager(((UserActivity)getActivity()));
-        ll.setOrientation(LinearLayoutManager.VERTICAL);
-
-
-        UserTimelineListAdapter adapter = new UserTimelineListAdapter(getActivity().getApplicationContext());
-        postList = (RecyclerView)view.findViewById(R.id.recycler_view);
-        postList.setLayoutManager(ll);
-
-        postList.setAdapter(adapter);
-
+        final View view = inflater.inflate(R.layout.fragment_user_timeline, container, false);
         final InterestHub hub = (InterestHub) ((UserActivity) getActivity()).getApplication();
+
+        hub.getApiService().getContentList().enqueue(new Callback<List<Content>>() {
+            @Override
+            public void onResponse(Call<List<Content>> call, Response<List<Content>> response) {
+                final LinearLayoutManager ll = new LinearLayoutManager(((UserActivity)getActivity()));
+                ll.setOrientation(LinearLayoutManager.VERTICAL);
+
+                List<Content> contentList = new ArrayList<Content>();
+                for(Content c : response.body()){
+                    contentList.add(c);
+
+                }
+                UserTimelineListCustomAdapter adapter = new UserTimelineListCustomAdapter(context,contentList);
+
+                postList = (RecyclerView)view.findViewById(R.id.recycler_view);
+                postList.setLayoutManager(ll);
+
+                postList.setAdapter(adapter);
+            }
+
+            @Override
+            public void onFailure(Call<List<Content>> call, Throwable t) {
+
+            }
+        });
+
+
         hub.getApiService().getUsers().enqueue(new Callback<List<User>>() {
             @Override
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {

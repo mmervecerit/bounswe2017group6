@@ -11,17 +11,42 @@ import java.util.List;
 
 public class Content {
 
+    @SerializedName("id")
     long id;
-
     @SerializedName("content_type")
     ContentType contentType;
 
+    long content_type_id;
+
     @SerializedName("created_date")
     Date createdDate;
+
     @SerializedName("modified_date")
     Date modifiedDate;
+
+    @SerializedName("components")
     List<Component> components;
+
     User owner;
+
+    long owner_id;
+
+    public long getOwner_id() {
+        return owner_id;
+    }
+
+    public void setOwner_id(long owner_id) {
+        this.owner_id = owner_id;
+    }
+
+    public long getContent_type_id() {
+        return content_type_id;
+    }
+
+    public void setContent_type_id(long content_type_id) {
+        this.content_type_id = content_type_id;
+    }
+
 
 
     public long getId() {

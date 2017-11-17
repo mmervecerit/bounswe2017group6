@@ -1,0 +1,93 @@
+ <div class="panel panel-theme rounded shadow">
+           <div class="panel panel-info">
+            <div class="panel-heading">
+                <div class="pull-left">
+                    <h3 class="panel-title">Groups</h3>
+                </div>
+            </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="panel-body no-padding rounded">
+                <ul class="list-group no-margin" ng-repeat="group in groups | orderBy: 'name' | limitTo: 10 ">
+
+                     <li class="list-group-item"><a href="/group/{{group.id}}">{{group.name}}</a>
+                    <img src="{{group.image}}" style="margin-left: 10px; width: auto; height: auto;max-width: 40x;max-height: 40px"/>                    
+                    </li>
+
+
+                   
+                </ul>
+                 <ul class="list-group no-margin">
+                    <li class="list-group-item">
+                        <!--<a class="" href="/groupcreate"><i class="fa fa-plus"></i> Create New Group</a>-->
+                        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+                        Create Group
+                        </button>
+                    </li>
+
+               </ul>
+
+            </div>
+           
+          
+</div>
+
+
+<div class="modal fade" data-modal-color="lightblue" id="myModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Create Group</h4>
+            </div>
+            <div class="modal-body">
+                <div class="inner-all">
+              
+                    
+                    <form id="groupform">
+                        <div class="form-group">
+                            <label for="groupname">Group Name:</label>
+                            <input type="text" class="form-control" ng-model="newgroup.name">
+                        </div>
+                        <div class="form-group">
+                          <label for="groupdesc">Group Description:</label>
+                          <textarea class="form-control" rows="5" ng-model="newgroup.description"></textarea>
+                        </div>
+                        <!-- <div class="custom-file">
+                        <label for="file">Group Icon:</label>
+                            <input type="file" id="file"  class="custom-file-input" accept="image/*">
+                            <span class="custom-file-control"></span>
+                        </div> -->
+                        <div class="form-group">
+                                <label for="groupicon">Group Icon:</label>
+                                <input type="text" class="form-control" ng-model="newgroup.image">
+                        </div>
+                        <br></br>
+                       
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id ="createGroup" type="button" class="btn btn-link" ng-click="add(newgroup)">Create Group</button>
+            </div>
+        </div>
+    </div>
+</div>    
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+          
+
+    
+    $('#createGroup').click(function() {
+        $('#myModal').modal('hide');
+        console.log("modal hide");
+    });
+
+    $('#myModal').on('hidden.bs.modal', function () {
+     $(this).find('form').trigger('reset');
+    });  
+          
+          
+</script>
