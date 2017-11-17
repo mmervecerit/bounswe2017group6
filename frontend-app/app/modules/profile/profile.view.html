@@ -34,20 +34,26 @@
         <div class="panel panel-theme rounded shadow">
             <div class="panel-heading">
                 <div class="pull-left">
-                    <h3 class="panel-title">Contact</h3>
+                    <h3 class="panel-title"><strong>About Me</strong></h3>
                 </div>
+                <!--
                 <div class="pull-right">
                     <a href="user.facebook" ng-show="user.facebook" class="btn btn-sm btn-info"><i class="fa fa-facebook"></i></a>
                     <a href="user.twitter" ng-show="user.twitter" class="btn btn-sm btn-info"><i class="fa fa-twitter"></i></a>
                     <a href="user.google" ng-show="user.google" class="btn btn-sm btn-info"><i class="fa fa-google-plus"></i></a>
                 </div>
-                <div class="clearfix"></div>
+                -->
+                <!--<div class="clearfix"></div>-->
             </div><!-- /.panel-heading -->
             <div class="panel-body no-padding rounded">
                 <ul class="list-group no-margin">
+                    <p>{{user.about}}</p>
+                    <p>I am senior computer engineering student. I love coding & science fiction!</p>
+                    <!--
                     <li class="list-group-item"><i class="fa fa-envelope mr-5"></i> {{user.email}}</li>
                     <li class="list-group-item"><i class="fa fa-globe mr-5"></i> {{user.website}}</li>
                     <li class="list-group-item"><i class="fa fa-phone mr-5"></i> {{user.phone}}</li>
+                    -->
                 </ul>
                  
             </div><!-- /.panel-body -->
@@ -67,6 +73,8 @@
                     <ul class="dropdown-menu pull-right no-border" role="menu">
                         <li class="active"><a href="#"><i class="fa fa-fw fa-clock-o"></i> <span>Timeline</span></a></li>
                         <li><a href="#"><i class="fa fa-fw fa-user"></i> <span>About</span></a></li>
+                        <li><a href="#"><i class="fa fa-fw fa-user"></i> <span>Follower</span></a></li>
+                        <li><a href="#"><i class="fa fa-fw fa-user"></i> <span>Following</span></a></li>
                         <!--
                         <li><a href="#"><i class="fa fa-fw fa-users"></i><span>Friends </span><small>(23)</small></a></li>
                         <li><a href="#"><i class="fa fa-fw fa-users"></i> <span>Groups</span> <small>(7)</small></a></li>-->
@@ -77,6 +85,9 @@
             <ul class="list-unstyled no-padding hidden-sm hidden-xs cover-menu" ng-init="tab='timeline'">
                 <li  ng-click="tab = 'timeline'" ng-class="{'active': tab == 'timeline'}"><a href="#"><i class="fa fa-fw fa-clock-o"></i> <span>Timeline</span></a></li>
                 <li ng-click="tab = 'about'" ng-class="{'active': tab == 'about'}" ><a href="#"><i class="fa fa-fw fa-user"></i> <span>About</span></a></li>
+                <li ng-click="tab = 'follower'" ng-class="{'active': tab == 'follower'}" ><a href="#"><i class="fa fa-fw fa-user"></i> <span>Follower</span></a></li>
+                <li ng-click="tab = 'following'" ng-class="{'active': tab == 'following'}" ><a href="#"><i class="fa fa-fw fa-user"></i> <span>Following</span></a></li>
+
                 <!--
                 <li ng-click="tab = 'friends'" ng-class="{'active': tab == 'friends'}"> <a href="#"><i class="fa fa-fw fa-users"></i><span> Friends </span><small>(23)</small></a></li>
                 <li  ng-click="tab = 'groups'" ng-class="{'active': tab == 'groups'}"><a href="#"><i class="fa fa-fw fa-users"></i><span>Groups</span><small>(7)</small></a></li>-->
@@ -187,6 +198,372 @@
         </div>
        
     </div>
+    <div class="row activity" ng-show="tab == 'about'" ng-init="edit = false">
+        <div class="col-md-12">
+
+            <div class="panel panel-default" ng-show="edit == false">
+                <div class="panel-body">
+                    <div class="box box-info">
+                        <div class="box-body">
+                            <div class="col-sm-6">
+                                <!--
+                                 <div  align="center"> <img alt="User Pic" src="https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg" id="profile-image1" class="img-circle img-responsive"> 
+                                
+                                      <input id="profile-image-upload" class="hidden" type="file">
+                                      <div style="color:#999;" >click here to change profile image</div>
+                                 </div>-->
+                                <h4 ><strong>Basic Information </strong></h4>
+                               
+                
+                            </div>
+                            <div class="col-sm-6">
+                                 <span class="pull-right">
+                                    <a ng-click="edit = true" data-original-title="Edit this user" data-toggle="tooltip" type="button" class="btn btn-info"><i class="glyphicon glyphicon-edit"></i>Edit Profile</a>
+                                    <!--<a data-original-title="Remove this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>-->
+                                </span>
+                            </div>
+                       
+                            <div class="clearfix"></div>
+                            <hr style="margin:5px 0 5px 0;">
+                                
+                                          
+                            <div class="col-sm-5 col-xs-6 tital">First Name:</div><div class="col-sm-7 col-xs-6 ">{{user.firstname}}</div>
+                            <div class="clearfix"></div>
+                            <div class="bot-border"></div>
+
+                            <div class="col-sm-5 col-xs-6 tital " >Last Name:</div><div class="col-sm-7">{{user.lastname}}</div>
+                            <div class="clearfix"></div>
+                            <div class="bot-border"></div>
+
+                            <div class="col-sm-5 col-xs-6 tital " >Birthdate:</div><div class="col-sm-7">{{user.birthdate}}</div>
+
+                            <div class="clearfix"></div>
+                            <div class="bot-border"></div>
+
+                            <div class="col-sm-5 col-xs-6 tital " >Gender:</div><div class="col-sm-7">{{user.gender}}</div>
+
+                            <div class="clearfix"></div>
+                            <div class="bot-border"></div>
+
+
+                            <div class="col-sm-5 col-xs-6 tital " >Location:</div><div class="col-sm-7">{{user.location}}</div>
+
+                            <div class="clearfix"></div>
+                            <div class="bot-border"></div>
+
+                            <div class="col-sm-7">
+                                <!--
+                                 <div  align="center"> <img alt="User Pic" src="https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg" id="profile-image1" class="img-circle img-responsive"> 
+                                
+                                      <input id="profile-image-upload" class="hidden" type="file">
+                                      <div style="color:#999;" >click here to change profile image</div>
+                                 </div>-->
+                                <h4 ><strong>Interests</strong></h4>
+                
+                            </div>   
+                            <div class="clearfix"></div>
+                            <div class="bot-border"></div>
+                            <div ng-repeat="interest in interests" ng-switch on="$index % 3">
+                                <div class="col-sm-5 interest" ng-switch-when="0">
+                                     <strong>#{{interests[$index]}}</strong>   
+                                </div>
+                                <div class="col-sm-5 interest" ng-switch-when="0">
+                                     <strong>#{{interests[$index+1]}}</strong>   
+                                </div>
+                                <div class="col-sm-2 interest" ng-switch-when="0">
+                                     <strong>#{{interests[$index+2]}}</strong>   
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="bot-border"></div>
+                            
+                            <div class="col-sm-7">
+                                <!--
+                                 <div  align="center"> <img alt="User Pic" src="https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg" id="profile-image1" class="img-circle img-responsive"> 
+                                
+                                      <input id="profile-image-upload" class="hidden" type="file">
+                                      <div style="color:#999;" >click here to change profile image</div>
+                                 </div>-->
+                                <h4 ><strong>Contact</strong></h4>
+                
+                            </div>    
+                            <div class="clearfix"></div>
+                            <div class="bot-border"></div>
+
+
+                                          
+                            <div class="col-sm-5 col-xs-6 tital " >Email:</div><div class="col-sm-7 col-xs-6 ">{{user.email}}</div>
+                            <div class="clearfix"></div>
+                            <div class="bot-border"></div>
+
+                            <div class="col-sm-5 col-xs-6 tital " >Phone:</div><div class="col-sm-7"> {{user.phone}}</div>
+                            <div class="clearfix"></div>
+                            <div class="bot-border"></div>
+
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>        
+            <div class="panel panel-default" ng-show="edit == true">
+                <div class="panel-body">
+                    <div class="box box-info">
+                        <div class="box-body">
+                            <div class="col-sm-6">
+                                <!--
+                                 <div  align="center"> <img alt="User Pic" src="https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg" id="profile-image1" class="img-circle img-responsive"> 
+                                
+                                      <input id="profile-image-upload" class="hidden" type="file">
+                                      <div style="color:#999;" >click here to change profile image</div>
+                                 </div>-->
+                                <h4 ><strong>Basic Information </strong></h4>
+                               
+                
+                            </div>
+                            <div class="col-sm-6">
+                                 <span class="pull-right">
+                                    <a ng-click="edit = true" data-original-title="Edit this user" data-toggle="tooltip" type="button" class="btn btn-info"><i class="glyphicon glyphicon-edit"></i>Edit Profile</a>
+                                    <!--<a data-original-title="Remove this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>-->
+                                </span>
+                            </div>
+                       
+                            <div class="clearfix"></div>
+                            <hr style="margin:5px 0 5px 0;">
+                                
+                                          
+                            <div class="col-sm-5 col-xs-6 tital " >First Name:</div>
+                            <div class="col-sm-7">
+                                <input type="username" name="firstname" ng-model="user.firstname" required class="form-control">    
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="bot-border"></div>
+
+                            <div class="col-sm-5 col-xs-6 tital " >Last Name:</div>
+                            <div class="col-sm-7"> 
+                                <input type="username" name="lastname" ng-model="user.lastname" required class="form-control">
+                            </div>
+                              <div class="clearfix"></div>
+                            <div class="bot-border"></div>
+
+                            <div class="col-sm-5 col-xs-6 tital " >Birthdate:</div>
+                            <div class="col-sm-7">
+
+                                <input id="date" type="date" name="birthdate" ng-model="user.birthdate" required class="form-control">
+                            </div>
+
+                            <div class="clearfix"></div>
+                            <div class="bot-border"></div>
+
+                            <div class="col-sm-5 col-xs-6 tital " >Gender:</div>
+                            <div class="col-sm-7">
+                                <label class="radio-inline">
+                                  <input type="radio" name="inlineRadioOptions" id="inlineRadio1" ng-model="user.gender"> Female
+                                </label>
+                                <label class="radio-inline">
+                                  <input type="radio" name="inlineRadioOptions" id="inlineRadio2" ng-model="user.gender"> Male
+                                </label>
+                                <label class="radio-inline">
+                                  <input type="radio" name="inlineRadioOptions" id="inlineRadio3" ng-model="user.gender"> Other
+                                </label>
+                            </div>
+
+                            <div class="clearfix"></div>
+                            <div class="bot-border"></div>
+
+
+                            <div class="col-sm-5 col-xs-6 tital " >Location:</div>
+                            <div class="col-sm-7">
+                                <input type="location" name="location" ng-model="user.location" required class="form-control">
+                            </div>
+
+                            <div class="clearfix"></div>
+                            <div class="bot-border"></div>
+
+
+                            <div class="col-sm-7">
+                                <!--
+                                 <div  align="center"> <img alt="User Pic" src="https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg" id="profile-image1" class="img-circle img-responsive"> 
+                                
+                                      <input id="profile-image-upload" class="hidden" type="file">
+                                      <div style="color:#999;" >click here to change profile image</div>
+                                 </div>-->
+                                <h4 ><strong>Interests</strong></h4>
+                
+                            </div>   
+                            <div class="clearfix"></div>
+                            <div class="bot-border"></div>
+                            <div ng-repeat="interest in interests" ng-switch on="$index % 3">
+                                <div class="col-sm-5 interest" ng-switch-when="0" ng-hide="interests[$index] == null">
+                                     <strong>#{{interests[$index]}}</strong> 
+                                     <a ng-click="removeInterest($index)" data-original-title="Remove this user" data-toggle="tooltip"><i class="glyphicon glyphicon-remove"></i></a>  
+                                </div>
+                                <div class="col-sm-5 interest" ng-switch-when="0" ng-hide="interests[$index+1] == null">
+                                     <strong>#{{interests[$index+1]}}</strong>
+                                     <a ng-click="removeInterest($index+1)" data-original-title="Remove this user" data-toggle="tooltip"><i class="glyphicon glyphicon-remove"></i></a>     
+                                </div>
+                                <div class="col-sm-2 interest" ng-switch-when="0" ng-hide="interests[$index+2] == null">
+                                     <strong>#{{interests[$index+2]}}</strong>
+                                     <a ng-click="removeInterest($index+2)" data-original-title="Remove this user" data-toggle="tooltip"><i class="glyphicon glyphicon-remove"></i></a>     
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="bot-border"></div>
+
+                            <div class="col-sm-12 col-xs-6 tital text-center">
+                                <input type="interest" name="interest" ng-model="interest" required-class="form-control">
+                                <button class="btn btn-success btn-default" ng-click="addInterest(interest)">Add interest</button>
+                            </div>
+                            
+                            <div class="clearfix"></div>
+                            <div class="bot-border"></div>
+                            
+                            <div class="col-sm-7">
+                                <!--
+                                 <div  align="center"> <img alt="User Pic" src="https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg" id="profile-image1" class="img-circle img-responsive"> 
+                                
+                                      <input id="profile-image-upload" class="hidden" type="file">
+                                      <div style="color:#999;" >click here to change profile image</div>
+                                 </div>-->
+                                <h4 ><strong>Contact</strong></h4>
+                
+                            </div>    
+                            <div class="clearfix"></div>
+                            <div class="bot-border"></div>
+
+
+                                          
+                            <div class="col-sm-5 col-xs-6 tital " >Email:</div>
+                            <div class="col-sm-7 col-xs-6 ">
+                               <input type="email" name="email" ng-model="user.email" required class="form-control">
+
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="bot-border"></div>
+
+                            <div class="col-sm-5 col-xs-6 tital " >Phone:</div>
+                            <div class="col-sm-7">
+                                <input type="phone" name="phone" ng-model="user.phone" required class="form-control">
+
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="bot-border"></div>
+                            <button ng-click="editUser(user)" class="btn btn-success btn-default center-block">Save changes </button> 
+                        </div>
+                    </div>
+                </div>
+            </div>        
+        </div>    
+    </div>
+     <div class="row activity" ng-show="tab == 'follower'">
+        <div class="col-md-12" >
+                  <div class="panel" id="followers">
+                    <div class="panel-heading">
+                      <h3 class="panel-title">
+                        <i class="icon md-check" aria-hidden="true"></i> Followers
+                      </h3>
+                    </div>
+                    <div class="panel-body">
+                      <ul class="list-group list-group-dividered list-group-full">
+                        <li class="list-group-item">
+                          <div class="media">
+                            <div class="media-left">
+                              <a class="avatar avatar-lg" href="javascript:void(0)">
+                                <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="">
+                                <i></i>
+                              </a>
+                            </div>
+                            <div class="media-body">
+                              <div class="pull-right">
+                                <button type="button" class="btn btn-info btn-sm waves-effect waves-light">Follow</button>
+                              </div>
+                              <div><h4><a class="name" href="javascript:void(0)">Willard Wood</a></h4></div>
+                              <small>Follows you</small>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                  </div>
+                </div>
+                        
+        </div>
+    </div>
+    <div class="row activity" ng-show="tab == 'following'">
+        <div class="col-md-12" >
+             <div class="panel" id="followers">
+                    <!--<div class="panel-heading">
+                      <h3 class="panel-title">
+                        <i class="icon md-check" aria-hidden="true"></i>
+                      </h3>
+                    </div>-->
+                    <div class="panel-body">
+                      <ul class="list-group list-group-dividered list-group-full">
+                        <li class="list-group-item">
+                          <div class="media">
+                            <div class="media-left">
+                              <a class="avatar avatar-lg " href="javascript:void(0)">
+                                <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="">
+                                <i></i>
+                              </a>
+                            </div>
+                            <div class="media-body">
+                              <div class="pull-right">
+                                <button type="button" class="btn btn-success btn-sm waves-effect waves-light">Following</button>
+                              </div>
+                              <div><h4><a class="name" href="javascript:void(0)">Willard Wood</a></div></h4>
+                              <small>Follows you</small>
+
+                            </div>
+                          </div>
+                        </li>
+                        <li class="list-group-item">
+                          <div class="media">
+                            <div class="media-left">
+                              <a class="avatar avatar-lg" href="javascript:void(0)">
+                                <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="">
+                                <i></i>
+                              </a>
+                            </div>
+                            <div class="media-body">
+                              <div class="pull-right">
+                                <button type="button" class="btn btn-success btn-sm waves-effect waves-light">Following</button>
+                              </div>
+                              <div><h4><a class="name" href="javascript:void(0)">Willard Wood</a></div></h4>
+                              <small>Follows you</small>
+                            </div>
+                          </div>
+                        </li>
+                        <li class="list-group-item">
+                          <div class="media">
+                            <div class="media-left">
+                              <a class="avatar avatar-lg" href="javascript:void(0)">
+                                <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="">
+                                <i></i>
+                              </a>
+                            </div>
+                            <div class="media-body">
+                              <div class="pull-right">
+                                <button type="button" class="btn btn-success btn-sm waves-effect waves-light">Following</button>
+                              </div>
+                              <div><h4><a class="name" href="javascript:void(0)">Willard Wood</a></div></h4>
+                              <small>Follows you</small>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                  </div>
+                </div>
+        
+        </div>
+    </div>
+
     </div>
     </div>
 </div>
+
+<script>
+    $(function() {
+        $('#profile-image1').on('click', function() {
+            $('#profile-image-upload').click();
+        });
+    });       
+</script> 
