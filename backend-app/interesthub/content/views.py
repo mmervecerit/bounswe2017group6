@@ -19,3 +19,11 @@ class ContentViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
     queryset = Content.objects.all()
     serializer_class = ContentSerializer
+
+class CommentViewSet(viewsets.ModelViewSet):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+
+class UpDownViewSet(viewsets.ModelViewSet):
+    queryset = UpDown.objects.all()
+    serializer_class = UpDownSerializer

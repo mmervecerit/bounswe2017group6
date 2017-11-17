@@ -46,8 +46,6 @@ INSTALLED_APPS = [
     'group',
     'content',
     'components',
-    'comment',
-    'upDown',
     'user',
 ]
 
