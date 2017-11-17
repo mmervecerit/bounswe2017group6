@@ -5,6 +5,15 @@
     <string name="title_activity_sign_up">SignUpActivity</string>
 
 
+        <string-array name="template_components">
+            <item>Text</item>
+            <item>Long Text</item>
+            <item>Image</item>
+            <item>Video</item>
+            <item>Date</item>
+            <item>Number</item>
+        </string-array>
+
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password (optional)</string>

@@ -21,34 +21,25 @@
         android:textSize="24sp"
         android:text="Choose Content Type" />
 
-    <LinearLayout
+    <android.support.v7.widget.RecyclerView
 
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_below="@id/new_post"
-        android:orientation="vertical"
         android:id="@+id/content_list_layout">
 
-        <ListView
-            android:id="@+id/content_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="vertical" />
 
+    </android.support.v7.widget.RecyclerView>
 
-
-
-    </LinearLayout>
-
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
         android:layout_below="@+id/content_list_layout"
-        android:id="@+id/template">
+        android:id="@+id/template_base">
 
 
 
 
-    </LinearLayout>
+    </RelativeLayout>
 </RelativeLayout>

@@ -20,6 +20,12 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 public class UserGroupListAdapter extends RecyclerView.Adapter<UserGroupListAdapter.ViewHolder> {
+    public interface OnItemClickListener {
+
+        void onItemClick(int pos);
+
+    }
+    private OnItemClickListener listener;
 
     private List<Group> itemList;
     private Context context;
@@ -27,10 +33,11 @@ public class UserGroupListAdapter extends RecyclerView.Adapter<UserGroupListAdap
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
+
+
         public TextView groupDesc;
         public TextView groupName;
         public ImageView groupIcon;
-
         public ViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -49,12 +56,10 @@ public class UserGroupListAdapter extends RecyclerView.Adapter<UserGroupListAdap
         }
     }
 
-    public void setClickListener(View.OnClickListener callback) {
-        mClickListener = callback;
-    }
-    public UserGroupListAdapter(Context context, List<Group> itemList) {
+    public UserGroupListAdapter(Context context, List<Group> itemList,OnItemClickListener listener) {
         this.itemList = itemList;
         this.context = context;
+        this.listener = listener;
     }
 
     @Override
@@ -72,7 +77,7 @@ public class UserGroupListAdapter extends RecyclerView.Adapter<UserGroupListAdap
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         holder.groupName.setText(itemList.get(position).getName());
         if(itemList.get(position).getDesc()!=null)
             holder.groupDesc.setText(itemList.get(position).getDesc());
@@ -97,6 +102,13 @@ public class UserGroupListAdapter extends RecyclerView.Adapter<UserGroupListAdap
             });
             builder.build().load(itemList.get(position).getImage()).into(holder.groupIcon);
         }
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.onItemClick(position);
+            }
+        });
 
     }
 

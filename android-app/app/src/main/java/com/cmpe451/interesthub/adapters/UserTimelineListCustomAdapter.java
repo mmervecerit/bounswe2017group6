@@ -43,6 +43,8 @@ public class UserTimelineListCustomAdapter extends RecyclerView.Adapter<Recycler
         public List<CalendarView> datetime = new ArrayList<CalendarView>();
         public List<VideoView> video = new ArrayList<VideoView>();
         public List<TextView> number = new ArrayList<TextView>();
+        public TextView owner;
+        public TextView date;
         public ViewHolder(View itemView,List<String> list) {
             super(itemView);
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -52,8 +54,10 @@ public class UserTimelineListCustomAdapter extends RecyclerView.Adapter<Recycler
                 }
             });
             CardView c = (CardView)itemView;
-            RelativeLayout r = (RelativeLayout) c.getChildAt(0);
-            LinearLayout l = (LinearLayout) r.getChildAt(0);
+            LinearLayout l = c.findViewById(R.id.content);
+            owner = (TextView) ((LinearLayout)c.findViewById(R.id.content_info)).getChildAt(0);
+            date = (TextView) ((LinearLayout)c.findViewById(R.id.content_info)).getChildAt(1);
+
            for(int i = 0 ; i<list.size();i++){
                String s = list.get(i);
 
@@ -160,9 +164,13 @@ public class UserTimelineListCustomAdapter extends RecyclerView.Adapter<Recycler
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-            //holder.postHeader.setText(itemList.get(position).getHeader());
+
+        //holder.postHeader.setText(itemList.get(position).getHeader());
 
         if(contentList.get(position).getComponents()!=null || contentList.get(position).getComponents().size()!=0 ){
+            ((ViewHolder)holder).owner.setText(contentList.get(position).getOwner().getUsername());
+            ((ViewHolder)holder).date.setText(contentList.get(position).getCreatedDate().toString());
+
             int texti=0,longtexti=0,imagei=0,datetimei=0,videoi=0,numberi=0;
             for(int i=0;i<contentList.get(position).getComponents().size();i++){
                 Component c = contentList.get(position).getComponents().get(i);
