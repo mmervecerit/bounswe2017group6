@@ -15,14 +15,16 @@ class DateTimeComponent(models.Model):
     data = models.DateTimeField()
 
 class VideoComponent(models.Model):
-    data = models.URLField()
+    data = models.URLField(null=True)
 
-# class ImageComponent(models.Model):
-#     data = 
+class ImageComponent(models.Model):
+    data = models.URLField(null=True)
 
-# class DropdownComponent(models.Model):
-    
-# class CheckBoxComponent(models.Model):
+class DropdownComponent(models.Model):
+    data = models.CharField(max_length=100, null=True)
+
+class CheckBoxComponent(models.Model):
+    data = models.CharField(max_length=100, null=True)
 
 class Component(models.Model):
     
@@ -42,6 +44,10 @@ class Component(models.Model):
     number = models.OneToOneField(NumberComponent, on_delete=models.CASCADE, null=True)
     datetime = models.OneToOneField(DateTimeComponent, on_delete=models.CASCADE, null=True)
     video = models.OneToOneField(VideoComponent, on_delete=models.CASCADE, null=True)
+    dropdown = models.OneToOneField(DropdownComponent, on_delete=models.CASCADE, null=True)
+    image = models.OneToOneField(ImageComponent, on_delete=models.CASCADE, null=True)
+    checkbox = models.OneToOneField(CheckBoxComponent, on_delete=models.CASCADE, null=True)
+
     content = models.ForeignKey(Content, on_delete=models.CASCADE, null=True, related_name="components")
 
     def __str__(self):

@@ -1,9 +1,11 @@
 from rest_framework import serializers
-from components.serializers import ComponentSerializer
+from components.serializers import ComponentSerializer, ComponentSerializer2
 from .models import Content, ContentType
 from django.contrib.auth.models import User
 from group.serializers import UserSerializer
 from components.models import Component
+from collections import OrderedDict
+from django.contrib.auth.models import User
 
 class ContentTypeSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -11,37 +13,76 @@ class ContentTypeSerializer(serializers.HyperlinkedModelSerializer):
         fields = ("id", "name", "components", "component_names")
 
 class ContentSerializer(serializers.HyperlinkedModelSerializer):
-    # components = ComponentSerializer(many=True)
+    components = ComponentSerializer2(many=True)
     owner = UserSerializer(read_only=True, allow_null=False, many=False)
-    owner_id = serializers.IntegerField()
-    content_type_id = serializers.IntegerField()
     content_type = ContentTypeSerializer(read_only=True, allow_null=True, many=False)
 
     class Meta:
         model = Content
-        fields = ("id", "content_type", "created_date", "modified_date", "owner", "owner_id", "content_type_id")
+        fields = ("id", "content_type", "created_date", "modified_date", "owner", 'components')
     
-    # def create(self, validated_data):
-    #     print('val:', validated_data)
-    #     # components_data = validated_data.pop('components')
-    #     print('val:', validated_data)
-    #     content = Content.objects.create(**validated_data)
-    #     # for component_data in components_data:
-    #     #     Component.objects.create(content=content, **component_data)
-    #     return content
+    def to_representation(self, obj):
+        response = OrderedDict()
+        response['owner'] = UserSerializer(obj.owner, context=self.context).data
+        response['content_type'] = ContentTypeSerializer(obj.content_type, context=self.context).data
+        response['components'] = ComponentSerializer2(obj.components.all(), many=True, context=self.context).data
+        response['created_date'] = str(obj.created_date)
+        response['modified_date'] = str(obj.modified_date)
+        return response
+    
+    def to_internal_value(self, data):
+        data = data.copy()
+        validated_data = OrderedDict()
 
-    # def update(self, instance, validated_data):
-    #     components_data = validated_data.pop('components')
-    #     print(instance)
-    #     # instance.owner = validated_data.get('owner_id', instance.owner)
-    #     instance.content_type = validated_data.get('content_type', instance.content_type)
-    #     for component_data in components_data:
-    #         if component_data.get('id', -1) == -1:
-    #             Component.objects.create(content=content, **component_data)
-    #         else:
-    #             comp = Component.objects.get(pk=component_data.get('id'))
-    #             comp.component_type = component_data.get('component_type', comp.component_type)
-    #             comp.order = component_data.get('order', comp.order)
-    #             comp.order = component_data.get('name', comp.name)
-    #             comp.save()
+        if not User.objects.filter(id=data['owner_id']).exists():
+            raise serializers.ValidationError("No user with given owner_id.")
+        validated_data["owner_id"] = data["owner_id"]
+        
+        if not ContentType.objects.filter(id=data['content_type_id']).exists():
+            raise serializers.ValidationError("No content type with given content_type_id.")
+        content_type = ContentType.objects.get(pk=data['content_type_id'])
+        validated_data["content_type_id"] = data["content_type_id"]
 
+        validated_data["components"] = []
+
+        if len(data["components"]) != len(content_type.components):
+            raise serializers.ValidationError("Number of components does not match with content type.")
+
+        for component in data["components"]:
+            serializer = ComponentSerializer2(data=component, context=self.context)
+            if not serializer.is_valid():
+                error = serializer.errors
+                raise serializer.ValidationError(error)
+            if component["component_type"] != content_type.components[component["order"]-1]:
+                raise serializers.ValidationError("Order of the components does not match with content type")
+
+            validated_data["components"].append(serializer.validated_data)
+
+        return validated_data
+    
+    def create(self, validated_data):
+        data = validated_data.copy()
+        content = Content.objects.create(owner_id=data["owner_id"], content_type_id=data["content_type_id"])
+        for comp_data in data["components"]:
+            serializer = ComponentSerializer2(data=comp_data, context=self.context)
+            if serializer.is_valid():
+                comp = serializer.create(serializer.validated_data)
+                comp.save()
+                content.components.add(comp)
+        content.save()
+        return content
+    
+    def update(self, instance, validated_data):
+        data = validated_data.copy()
+        instance.owner_id = data["owner_id"]
+        instance.content_type_id = data["content_type_id"]
+        instance.save()
+
+        if "components" in data:
+            for comp_data in data["components"]:
+                comp = instance.components.filter(order = comp_data["order"]).first()
+                serializer = ComponentSerializer2(comp, many=False, data=comp_data, context=self.context)
+                if serializer.is_valid():
+                    comp = serializer.update(comp, serializer.validated_data)
+        instance.save()
+        return instance
