@@ -16,23 +16,23 @@
         
         function createContent(Content){
             
-            return $http.Content('https://cors-anywhere.herokuapp.com/http://34.209.230.231:8000/content/',Content);
+            return $http.Content('https://limitless-sands-55256.herokuapp.com/http://34.209.230.231:8000/content/',Content);
         }
 
         function updateContent(ContentID, Content){
-            return $http.put('https://cors-anywhere.herokuapp.com/http://34.209.230.231:8000/content/'+ContentID, Content);
+            return $http.put('https://limitless-sands-55256.herokuapp.com/http://34.209.230.231:8000/content/'+ContentID, Content);
         }
 
         function deleteContent(ContentID){
-            return $http.delete('https://cors-anywhere.herokuapp.com/http://34.209.230.231:8000/content/'+ContentID);
+            return $http.delete('https://limitless-sands-55256.herokuapp.com/http://34.209.230.231:8000/content/'+ContentID);
         }
 
         function getContent(ContentID){
-            return $http.get('https://cors-anywhere.herokuapp.com/http://34.209.230.231:8000/content/'+ContentID);
+            return $http.get('https://limitless-sands-55256.herokuapp.com/http://34.209.230.231:8000/content/'+ContentID);
         }
         
         function getAllContents(){
-            return $http.get('https://cors-anywhere.herokuapp.com/http://34.209.230.231:8000/content/');
+            return $http.get('https://limitless-sands-55256.herokuapp.com/http://34.209.230.231:8000/content/');
         }
 
     }

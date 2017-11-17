@@ -93,9 +93,9 @@
 			
             PostService
                 .createPost($routeParams.id, $scope.req)
-                .then(handleSuccess, handleError);
+                .then(handleSuccessPost, handleError);
 				
-            
+            $scope.content={owner_id:'1',content_type_id:'',comps:[]};
 
             
         }
@@ -105,6 +105,14 @@
             //console.log($scope.posts);
 
         }
+		function handleSuccessPost(response){
+			console.log(response.data);
+			//$scope.posts.push(response.data); 
+			//console.log($scope.posts);
+			PostService
+                .getAllPosts($routeParams.id)
+                .then(handleSuccess, handleError);
+		}
 
         function handleError(error) {
             $scope.error = error;
@@ -136,6 +144,13 @@
 		  $scope.model = {
 		    name: 'Tabs'
 		};
+		
+		$scope.$on('AddTemplate', function(proc, response) {
+			console.log(response);
+			$scope.templates.push(response);
+		})
+		
+		
  
 	}
 })();

@@ -6,6 +6,7 @@
             </div>
             <div class="modal-body">
              <div class="inner-all">
+				<form id="templateForm">
 				  <div class="rowactivity">
 					  <div class="col-lg-6 col-md-6 col-sm-8">
 					  <h4 class="text-capitalize ng-binding text-center">Template Name</h4>
@@ -57,16 +58,31 @@
 					  <br></br>
 				   </fieldset>
 				   <button class="btn btn-success" ng-click="addNewChoice()">Add fields</button>
-				   <button class="btn btn-success" ng-click="createTemplate()">Create</button>
 				  
 				   
-					
+					</form>
 				</div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-link">Save changes</button>
+                <button type="button" id="createTemplate" ng-click="createTemplate()" class="btn btn-link">Save changes</button>
                 <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+          
+
+    
+    $('#createTemplate').click(function() {
+        $('#myTemplate').modal('hide');
+        console.log("modal hide");
+    });
+
+    $('#myTemplate').on('hidden.bs.modal', function () {
+     $(this).find('form').trigger('reset');
+    });  
+          
+          
+</script>
