@@ -9,6 +9,7 @@ from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
 from rest_framework import status
 from content.utils import retrieve_content_set, create_content
+from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
 # Create your views here.
 class InterestGroupViewSet(ModelViewSet):
@@ -52,14 +53,6 @@ class GroupMembersList(APIView):
         serializer = UserSerializer(igroup.members, many=True, context={'request': request})
         print(serializer.data)
         return Response(serializer.data)
-
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all().order_by('-date_joined')
-    serializer_class = UserSerializer
-
-class GroupViewSet(viewsets.ModelViewSet):
-    queryset = Group.objects.all()
-    serializer_class = GroupSerializer
 
 class UserGroupList(APIView):
     def get(self, request, pk, format=None):

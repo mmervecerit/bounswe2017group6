@@ -82,6 +82,7 @@
                       <uib-tab index="$index + 1" ng-repeat="tab in templates" heading="{{tab.name}}" select="typeSelect(tab.id)">
                         <div class="panel-body">
                             <form action="...">
+							
 							<div ng-repeat="component in tab.components track by $index">
 							
 								<div class="row-activity">
@@ -122,7 +123,11 @@
     								</div>
 								</div>
 								
+<<<<<<< HEAD
                             </div>    
+=======
+							</div>    
+>>>>>>> 87144bf343a0c3509bccb563a2754abc5b6edb4d
                             </form>
                         </div>
                       </uib-tab>
@@ -139,10 +144,10 @@
                             <div class="pull-right" >
 
                            
-                            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myTemplate">
+                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myTemplate">
                                 New Template
                             </button>                            
-								<button type="button" class="btn btn-success" ng-click="add(content)">Post</button>
+								<button type="button" id="createPost" class="btn btn-success" ng-click="add(content)">Post</button>
                             </div>  
                         </div>
                     </div>
@@ -160,7 +165,7 @@
                             <!--<div class="small"><i class="fa fa-map-marker"></i> Medellin, Colombia</div>-->
                         </div>
                         <div class="panel-body">
-                            <div id="components" ng-repeat="component in post.content_type.components | orderBy: 'post.components.order' ">
+                            <div id="components" ng-repeat="component in post.content_type.components | orderBy: 'post.components.order' track by $index">
                                 <div  ng-if="component=='text'">
                                     <p>
                                         <strong><label>{{post.content_type.component_names[$index]}}:</label></strong>
@@ -374,6 +379,7 @@
                     $button.text('Following');
                 }
             });  
+			
 
           
           </script>

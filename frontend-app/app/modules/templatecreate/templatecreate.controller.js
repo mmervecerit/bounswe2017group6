@@ -52,7 +52,11 @@
 	
   };
 		function handleSuccess(response) {
-            $scope.temps = response.data; 
+			
+			$scope.temps=response.data;
+			console.log($scope.temps);
+			$rootScope.$broadcast('AddTemplate', $scope.temps);
+			//$rootScope.PostCtrl.templates.push(response.data);
             //console.log($scope.posts);
 
         }
@@ -61,6 +65,7 @@
             $scope.error = error;
             //console.log(error);
         }
+
 
         
       

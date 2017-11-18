@@ -36,6 +36,12 @@ class ContentType(models.Model):
         size=15,
     )
 
+    component_names = ArrayField(
+        models.CharField(max_length=50, blank=False),
+        size=15,
+        null=True
+    )
+
     def __str__(self):
         return self.name
 
@@ -45,5 +51,21 @@ class Content(models.Model):
     content_type = models.ForeignKey(ContentType, blank=True, null=True, on_delete=models.CASCADE)
     owner = models.ForeignKey(User, blank=False, null=False, on_delete=models.CASCADE, related_name="content_owner")
     
+    def __str__(self):
+        return str(self.id)
+
+class Comment(models.Model):
+    text = models.TextField(null=False, blank=True)
+    owner = models.ForeignKey(User, blank=False, null=False, on_delete=models.CASCADE, related_name="comment_owner")
+    content = models.ForeignKey(Content, blank=False, null=False, on_delete=models.CASCADE)
+        
+    def __str__(self):
+        return str(self.id)
+
+class UpDown(models.Model):
+    owner = models.ForeignKey(User, blank=False, null=False, on_delete=models.CASCADE)
+    content = models.ForeignKey(Content, blank=False, null=False, on_delete=models.CASCADE)
+    isUp = models.BooleanField(default=True)
+        
     def __str__(self):
         return str(self.id)
