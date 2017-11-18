@@ -12,7 +12,7 @@
             
         function searchTag(input){
             
-            return $http.get('https://www.wikidata.org/w/api.php?action=wbsearchentities&format=json&language=en&type=item&continue=0&search=' + input);
+            return $http.get('https://limitless-sands-55256.herokuapp.com/https://www.wikidata.org/w/api.php?action=wbsearchentities&format=json&language=en&type=item&continue=0&search=' + input);
         }
 
       
