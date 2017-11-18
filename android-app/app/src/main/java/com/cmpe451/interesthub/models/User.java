@@ -12,18 +12,13 @@ import java.util.List;
  */
 
 public class User {
-    boolean loaded = false;
-
     @SerializedName("id")
     long id;
     @SerializedName("username")
     String username;
     @SerializedName("email")
     String email;
-    @SerializedName("groups")
-    List<String> groupListResponse;
 
-    List<Group> groupList = new ArrayList<Group>();
 
 
     public long getId() {
@@ -50,34 +45,5 @@ public class User {
         this.email = email;
     }
 
-    public List<String> getGroupListResponse() {
-        return groupListResponse;
-    }
 
-    public void setGroupListResponse(List<String> groupListResponse) {
-        this.groupListResponse = groupListResponse;
-    }
-
-    public List<Group> getGroupList() {
-        return groupList;
-    }
-    public void addGroupList(Group group) {
-
-
-       if(groupList == null) groupList = new ArrayList<Group>();
-
-       Log.d("USER",group.getName() + " is adding");
-        groupList.add(group);
-    }
-    public void setGroupList(List<Group> groupList) {
-        this.groupList = groupList;
-    }
-
-    public boolean isLoaded() {
-        return loaded;
-    }
-
-    public void setLoaded(boolean loaded) {
-        this.loaded = loaded;
-    }
 }

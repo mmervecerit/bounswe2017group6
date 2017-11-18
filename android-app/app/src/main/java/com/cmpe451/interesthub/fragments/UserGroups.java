@@ -117,19 +117,21 @@ public class UserGroups extends Fragment {
                         final LinearLayoutManager ll = new LinearLayoutManager(((UserActivity)getActivity()));
                         ll.setOrientation(LinearLayoutManager.VERTICAL);
                         groupViewList.setLayoutManager(ll);
-                        final UserGroupListAdapter adapter = new UserGroupListAdapter(getContext(),groupList);
-                        groupViewList.setAdapter(adapter);
-                        adapter.setClickListener(new View.OnClickListener() {
+                         UserGroupListAdapter.OnItemClickListener listener = new UserGroupListAdapter.OnItemClickListener() {
                             @Override
-                            public void onClick(View view) {
-                                int pos = groupViewList.indexOfChild(view);
+                            public void onItemClick(int pos) {
                                 Intent intent = new Intent(getContext(), GroupActivity.class);
                                 intent.putExtra("groupName", String.valueOf(groupList.get(pos).getName()));
                                 intent.putExtra("groupId", groupList.get(pos).getId());
+                                intent.putExtra("groupImg", groupList.get(pos).getImage());
                                 Log.d("STARTACTIVITY",String.valueOf(groupList.get(pos).getName())+" "+groupList.get(pos).getId());
                                 startActivity(intent);
                             }
-                        });
+                        };
+                        final UserGroupListAdapter adapter = new UserGroupListAdapter(getContext(),groupList,listener);
+                        groupViewList.setAdapter(adapter);
+
+
 
 
 

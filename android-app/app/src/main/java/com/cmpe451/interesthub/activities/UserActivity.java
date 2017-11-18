@@ -1,15 +1,25 @@
 package com.cmpe451.interesthub.activities;
 
+import android.app.FragmentManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.SearchView;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.Fragment;
 
 import com.cmpe451.interesthub.InterestHub;
 import com.cmpe451.interesthub.activities.baseActivities.BaseActivity;
 import com.cmpe451.interesthub.adapters.UserFragmentsAdapter;
 import com.cmpe451.interesthub.R;
+import com.cmpe451.interesthub.fragments.SearchFragment;
 import com.cmpe451.interesthub.models.Group;
 import com.cmpe451.interesthub.models.User;
 
@@ -18,6 +28,7 @@ public class UserActivity extends BaseActivity {
     private TabLayout tabLayout;
     private UserFragmentsAdapter viewPagerAdapter;
     private ViewPager viewPager;
+    private FrameLayout search;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,11 +39,14 @@ public class UserActivity extends BaseActivity {
         InterestHub hub = (InterestHub)getApplication();
 
         User user = hub.getSessionController().getUser();
-        if(user != null) {
-            for (Group g : user.getGroupList()) {
-                Log.d("USER ACTIVITY SSESSION CHECK ", g.getName());
-            }
-        }
+        search = (FrameLayout) findViewById(R.id.search_frame);
+        SearchFragment nextFrag= new SearchFragment();
+        android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.add(R.id.search_frame,nextFrag);
+        ft.commit();
+        search.setVisibility(View.GONE);
+
 
         tabLayout = (TabLayout) findViewById(R.id.TabLayout);
         viewPager = (ViewPager) findViewById(R.id.ViewPager);
@@ -90,7 +104,49 @@ public class UserActivity extends BaseActivity {
         tabLayout.setTabTextColors(Color.WHITE,Color.WHITE);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
+    }@Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_search, menu);
+        MenuItem item = menu.findItem(R.id.menu_search);
+        final SearchView searchView = (SearchView) item.getActionView();
+        searchView.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("clicked","SERACH");
+                tabLayout.setVisibility(View.GONE);
+
+                viewPager.setVisibility(View.GONE);
+                search.setVisibility(View.VISIBLE);
+            }
+        });
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                Log.d("clicked","SERACHclosed");
+                tabLayout.setVisibility(View.VISIBLE);
+                viewPager.setVisibility(View.VISIBLE);
+
+                search.setVisibility(View.GONE);
+                return false;
+            }
+        });
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                SearchFragment.changeAdapter(newText);
+                return false;
+            }
+        });
+
+        return true;
     }
+
 
 
 }

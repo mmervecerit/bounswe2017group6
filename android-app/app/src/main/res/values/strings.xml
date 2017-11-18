@@ -5,6 +5,15 @@
     <string name="title_activity_sign_up">SignUpActivity</string>
 
 
+    <string-array name="template_components">
+        <item>Text</item>
+        <item>Long Text</item>
+        <item>Image</item>
+        <item>Video</item>
+        <item>Date</item>
+        <item>Number</item>
+    </string-array>
+
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password (optional)</string>
@@ -20,4 +29,8 @@
     <string name="title_activity_group_creation">GroupCreation</string>
     <string name="title_activity_group">GroupActivity</string>
     <string name="title_activity_new_content">NewContent</string>
+    <string name="title_activity_search">SearchActivity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
