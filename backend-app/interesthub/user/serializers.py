@@ -19,11 +19,13 @@ class UserSerializerFull(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'username', 'email', 'profile')
+        write_only_fields = ('password', )
 
     def create(self, validated_data):
         data = validated_data.copy()
         profile_data = data.pop("profile")
         print(profile_data)
+        print(data)
         user = User.objects.create(**data)
         profile = UserProfile.objects.create(**profile_data, owner_id=user.id)
         print("create completed")

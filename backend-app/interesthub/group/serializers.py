@@ -6,4 +6,4 @@ from user.serializers import UserSerializer
 class InterestGroupSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = InterestGroup
-        fields = ('id', 'name', 'description', 'image')
+        fields = ('id', 'name', 'is_public', 'description', 'logo', 'cover_photo')
