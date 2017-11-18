@@ -37,7 +37,7 @@ class ContentSerializer(serializers.HyperlinkedModelSerializer):
     def to_internal_value(self, data):
         data = data.copy()
         validated_data = OrderedDict()
-
+        print("to_internal_value")
         try:
             if not User.objects.filter(id=data['owner_id']).exists():
                 raise serializers.ValidationError("No user with given owner_id.")
@@ -67,8 +67,11 @@ class ContentSerializer(serializers.HyperlinkedModelSerializer):
             if not self.partial:
                 raise serializer.ValidationError(str(e))
 
+        # print("to_internal_value")
+
         try:
-            validated_data["tags"] = []
+            if "tags" in data:
+                validated_data["tags"] = []
             for tag in data["tags"]:
                 t = Tag.objects.filter(label=tag["label"])
                 if t.exists():
@@ -124,6 +127,8 @@ class ContentSerializer(serializers.HyperlinkedModelSerializer):
                 if serializer.is_valid():
                     comp = serializer.update(comp, serializer.validated_data)
         instance.save()
+
+        print(data)
         
         if "tags" in data:
             tag_ids = []

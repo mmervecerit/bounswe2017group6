@@ -82,6 +82,7 @@ class InterestGroupSerializer(serializers.HyperlinkedModelSerializer):
         # super(InterestGroupSerializer, self).update(instance,data)
 
         if tags_data is not None:
+            print("None")
             tag_ids = []
             print(tags_data)
             for tag_data in tags_data:
