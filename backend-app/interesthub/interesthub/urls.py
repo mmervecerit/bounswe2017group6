@@ -30,27 +30,28 @@ from rest_framework.documentation import include_docs_urls
 
 router = routers.DefaultRouter()
 # router.register(r'content', ContentViewSet)
-router.register(r'content-type', ContentTypeViewSet)
+router.register(r'content-types', ContentTypeViewSet)
 router.register(r'users', UserViewSet)
-router.register(r'group', InterestGroupViewSet)
-router.register(r'dummy', views.DummyTextViewSet)
+router.register(r'groups', InterestGroupViewSet)
 
 router.register(r'upDown',UpDownViewSet)
 router.register(r'comment',CommentViewSet)
 # router.register(r'component',ComponentViewSet)
 
-router.register(r'component',ComponentViewSet)
-router.register(r'content',ContentViewSet)
+router.register(r'components',ComponentViewSet)
+router.register(r'contents',ContentViewSet)
 
 urlpatterns = [   
-    url(r'user-groups/(?P<pk>[0-9]+)/$', UserGroupList.as_view()),
-    url(r'group-contents/(?P<pk>[0-9]+)/$', GroupContentList.as_view()),
-    url(r'group-members/(?P<pk>[0-9]+)/$', GroupMembersList.as_view()),
-    url(r'group-ctypes/(?P<pk>[0-9]+)/$', GroupContentTypeList.as_view()),
+    url(r'user/(?P<pk>[0-9]+)/groups/$', UserGroupList.as_view()),
+    url(r'group/(?P<pk>[0-9]+)/contents', GroupContentList.as_view()),
+    url(r'group/(?P<pk>[0-9]+)/members', GroupMembersList.as_view()),
+    url(r'group/(?P<pk>[0-9]+)/content-types', GroupContentTypeList.as_view()),
     
-    url(r'^test/', TestView.as_view()),
+    # url(r'^test/', TestView.as_view()),
     url(r'^login/', obtain_jwt_token),
     url(r'^register/', UserRegisterView.as_view()),
+    url(r'^followers/', FollowerView.as_view()),
+    url(r'^followings/', FollowingView.as_view()),
 
     url(r'^admin/', admin.site.urls),
     url(r'^api-auth/', include('rest_framework.urls')),
