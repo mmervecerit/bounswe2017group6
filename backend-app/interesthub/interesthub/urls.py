@@ -16,12 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.conf.urls import url, include
 from rest_framework import routers
-from dummy import views
 from group.views import GroupContentList
 from content.views import *
 from components.views import ComponentViewSet
 from group.views import *
 from user.views import *
+from recommendation.views import *
 from rest_framework.urlpatterns import format_suffix_patterns
 from rest_framework_jwt.views import obtain_jwt_token
 from rest_framework.documentation import include_docs_urls
@@ -31,6 +31,7 @@ router = routers.DefaultRouter()
 router.register(r'content-types', ContentTypeViewSet)
 router.register(r'users', UserViewSet)
 router.register(r'groups', InterestGroupViewSet)
+router.register(r'tags', TagViewSet)
 
 router.register(r'upDown',UpDownViewSet)
 router.register(r'comment',CommentViewSet)
