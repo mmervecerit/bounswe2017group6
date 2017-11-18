@@ -80,8 +80,8 @@
         
                  
           var _selected;
-          $scope.newgroup = Object;
-          $scope.newgroup.tags = [{'label':'cycling'},{'label':'data science'}];
+          $scope.newgroup = {};
+          $scope.newgroup.tags = [];
           $scope.selected = undefined;
 
           $scope.ngModelOptionsSelected = function(value) {
