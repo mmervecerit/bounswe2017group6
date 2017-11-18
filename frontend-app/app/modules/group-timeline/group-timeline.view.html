@@ -85,44 +85,43 @@
 							<div ng-repeat="component in tab.components track by $index">
 							
 								<div class="row-activity">
-								<h4>{{tab.component_names[$index]}}</h4>
+								    <h4>{{tab.component_names[$index]}}</h4>
 								
 								</div>
 								<div ng-if="component=='text'"class="row-activity">
-								<input class="form-control input-lg no-border" placeholder="" ng-model="content.comps[tab.component_names[$index]]"></input>
+								    <input class="form-control input-lg no-border" placeholder="" ng-model="content.comps[tab.component_names[$index]]"></input>
 								</div>
 								<div ng-if="component=='longtext'"class="row-activity">
-								<textarea class="form-control input-lg no-border" placeholder="" ng-model="content.comps[tab.component_names[$index]]"></textarea>
+								    <textarea class="form-control input-lg no-border" placeholder="" ng-model="content.comps[tab.component_names[$index]]"></textarea>
 								</div>
 								<div ng-if="component=='number'"class="row-activity">
-								<input type="number" class="form-control input-lg no-border" placeholder="" ng-model="content.comps[tab.component_names[$index]]"></input>
+								    <input type="number" class="form-control input-lg no-border" placeholder="" ng-model="content.comps[tab.component_names[$index]]"></input>
 								</div>
 								<div ng-if="component=='video'"class="row-activity">
-								<input class="form-control input-lg no-border" placeholder="" ng-model="content.comps[tab.component_names[$index]]"></input>
+								    <input class="form-control input-lg no-border" placeholder="" ng-model="content.comps[tab.component_names[$index]]"></input>
 								</div>
 								<div ng-if="component=='datetime'"class="row-activity">
-								<div class="container">
-									<div class="row">
-										<div class='col-sm-6'>
-											<div class="form-group">
-												<div class='input-group date' id='datetimepicker1'>
-													<input type='text' class="form-control" />
-													<span class="input-group-addon">
-														<span class="glyphicon glyphicon-calendar"></span>
-													</span>
-												</div>
-											</div>
-										</div>
-										<script type="text/javascript">
-											$(function () {
-												$('#datetimepicker1').datetimepicker();
-											});
-										</script>
-									</div>
-								</div>
+    								<div class="container">
+    									<div class="row">
+    										<div class='col-sm-6'>
+    											<div class="form-group">
+    												<div class='input-group date' id='datetimepicker1'>
+    													<input type='text' class="form-control" />
+    													<span class="input-group-addon">
+    														<span class="glyphicon glyphicon-calendar"></span>
+    													</span>
+    												</div>
+    											</div>
+    										</div>
+    										<script type="text/javascript">
+    											$(function () {
+    												$('#datetimepicker1').datetimepicker();
+    											});
+    										</script>
+    									</div>
+    								</div>
 								</div>
 								
-							</div>                         
                             </div>    
                             </form>
                         </div>
@@ -139,7 +138,6 @@
                             
                             <div class="pull-right" >
 
-								<!--<button type="button" class="btn btn-success" onclick="window.location.href='/templatecreate'">Create A Template</button>-->
                            
                             <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myTemplate">
                                 New Template
