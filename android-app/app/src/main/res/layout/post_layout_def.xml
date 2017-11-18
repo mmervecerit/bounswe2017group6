@@ -19,18 +19,34 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-                android:textColor="#7f7f7f"
-                android:text="OWNER"/>
-            <TextView
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/post_owner_img"
+                card_view:srcCompat="@mipmap/ic_launcher_round" />
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="#7f7f7f"
-                android:gravity="right"
-                android:text="DATE"/>
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/post_owner"
+
+                    android:textColor="#7f7f7f"
+                    android:text="OWNER"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/post_date"
+
+                    android:textColor="#7f7f7f"
+                    android:gravity="left|bottom"
+                    android:text="DATE"/>
+
+            </LinearLayout>
+
 
 
         </LinearLayout>

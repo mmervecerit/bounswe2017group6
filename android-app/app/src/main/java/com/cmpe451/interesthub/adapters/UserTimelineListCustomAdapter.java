@@ -25,6 +25,8 @@ import com.squareup.picasso.Picasso;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class UserTimelineListCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -45,6 +47,7 @@ public class UserTimelineListCustomAdapter extends RecyclerView.Adapter<Recycler
         public List<TextView> number = new ArrayList<TextView>();
         public TextView owner;
         public TextView date;
+        public ImageView pic;
         public ViewHolder(View itemView,List<String> list) {
             super(itemView);
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -55,8 +58,9 @@ public class UserTimelineListCustomAdapter extends RecyclerView.Adapter<Recycler
             });
             CardView c = (CardView)itemView;
             LinearLayout l = c.findViewById(R.id.content);
-            owner = (TextView) ((LinearLayout)c.findViewById(R.id.content_info)).getChildAt(0);
-            date = (TextView) ((LinearLayout)c.findViewById(R.id.content_info)).getChildAt(1);
+            owner = (TextView) c.findViewById(R.id.post_owner);
+            date = (TextView) c.findViewById(R.id.post_date);
+            pic = (ImageView) c.findViewById(R.id.post_owner_img);
 
            for(int i = 0 ; i<list.size();i++){
                String s = list.get(i);
@@ -169,7 +173,25 @@ public class UserTimelineListCustomAdapter extends RecyclerView.Adapter<Recycler
 
         if(contentList.get(position).getComponents()!=null || contentList.get(position).getComponents().size()!=0 ){
             ((ViewHolder)holder).owner.setText(contentList.get(position).getOwner().getUsername());
-            ((ViewHolder)holder).date.setText(contentList.get(position).getCreatedDate().toString());
+            long postDate = contentList.get(position).getCreatedDate().getTime();
+            long now = Calendar.getInstance().getTimeInMillis();
+            long different = now-postDate;
+            long secondsInMilli = 1000;
+            long minutesInMilli = secondsInMilli * 60;
+            long hoursInMilli = minutesInMilli * 60;
+            long daysInMilli = hoursInMilli * 24;
+
+            long elapsedDays = different / daysInMilli;
+            different = different % daysInMilli;
+
+            long elapsedHours = different / hoursInMilli;
+            different = different % hoursInMilli;
+
+            long elapsedMinutes = different / minutesInMilli;
+            different = different % minutesInMilli;
+
+            long elapsedSeconds = different / secondsInMilli;
+            ((ViewHolder)holder).date.setText(elapsedHours+" hours ago");
 
             int texti=0,longtexti=0,imagei=0,datetimei=0,videoi=0,numberi=0;
             for(int i=0;i<contentList.get(position).getComponents().size();i++){

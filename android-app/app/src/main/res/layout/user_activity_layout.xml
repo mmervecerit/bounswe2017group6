@@ -5,6 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.cmpe451.interesthub.activities.UserActivity">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/search_frame">
+
+
+    </FrameLayout>
 
     <android.support.design.widget.TabLayout
 

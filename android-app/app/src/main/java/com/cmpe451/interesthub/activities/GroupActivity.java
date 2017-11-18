@@ -3,6 +3,7 @@ package com.cmpe451.interesthub.activities;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -15,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cmpe451.interesthub.InterestHub;
@@ -24,6 +26,7 @@ import com.cmpe451.interesthub.adapters.GroupFragmentsAdapter;
 import com.cmpe451.interesthub.models.Component;
 import com.cmpe451.interesthub.models.Content;
 import com.cmpe451.interesthub.models.Group;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,12 +40,13 @@ public class GroupActivity extends BaseActivity {
 
     public InterestHub hub ;
     Long groupId;
-    String groupName;
+    String groupName,groupImg;
     List<Content> contentList;
     RecyclerView contentView;
     private TabLayout tabLayout;
     private GroupFragmentsAdapter viewPagerAdapter;
     private ViewPager viewPager;
+    private ImageView img;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,9 +62,26 @@ public class GroupActivity extends BaseActivity {
             Log.d("Group activity started with: ", (String) getIntent().getExtras().getString("groupName"));
             groupId = getIntent().getExtras().getLong("groupId");
             groupName = getIntent().getExtras().getString("groupName");
+            groupImg = getIntent().getExtras().getString("groupImg");
             setTitle(groupName);
             Log.d("Group activity started with: ", String.valueOf(groupId));
         }
+        img = (ImageView) findViewById(R.id.group_profile_img);
+
+        Picasso.Builder builder = new Picasso.Builder(getBaseContext());
+        builder.listener(new Picasso.Listener()
+        {
+
+
+            @Override
+            public void onImageLoadFailed(Picasso picasso, Uri uri, Exception exception)
+            {
+                Log.d("IMAGE",exception.toString());
+            }
+        });
+        if(groupImg!=null && !groupImg.equals(null) && !groupImg.equals(""))
+            builder.build().load(groupImg).into(img);
+        //img.setScaleType(ImageView.ScaleType.FIT_CENTER);
         tabLayout = (TabLayout) findViewById(R.id.TabLayout_group);
         viewPager = (ViewPager) findViewById(R.id.ViewPager_group);
         viewPagerAdapter = new GroupFragmentsAdapter(getSupportFragmentManager(),groupId,groupName);
@@ -110,7 +131,7 @@ public class GroupActivity extends BaseActivity {
             }
         });
 
-        tabLayout.setTabTextColors(Color.WHITE,Color.WHITE);
+        tabLayout.setTabTextColors(Color.DKGRAY,Color.DKGRAY);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
 
