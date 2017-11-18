@@ -5,13 +5,16 @@
         .module("interestHub")
         .controller("GroupCtrl", GroupCtrl);
     
-    function GroupCtrl($scope,  $rootScope, $location, GroupService, $window)
+    function GroupCtrl($scope,  $rootScope, $location, GroupService, $window,TagService, $http)
     {
         $scope.createGroup = createGroup;
         $scope.remove = remove;
         $scope.update = update;
         $scope.add    = add;
-      	$scope.tab = {};
+        $scope.addTag = addTag;
+        $scope.removeTag = removeTag;
+        $scope.tab = {};
+
         function init() {
             console.log("group int");
             GroupService
@@ -22,6 +25,11 @@
         }
         init();
        
+        function handleTag(response){
+            console.log(response.data);
+
+            $scope.tags = response.data;
+        }
         function createGroup(){
             $location.path('/groupcreate');
         }
@@ -52,11 +60,6 @@
                 .createGroup(group)
                 .then(handleSuccessGroup, handleError);    
             console.log("added");
-         
-
-           
-			
-        
 
         }      
         function handleSuccessGroup(response) {
@@ -75,7 +78,54 @@
         }
 
         
-      
+                 
+          var _selected;
+          $scope.newgroup = Object;
+          $scope.newgroup.tags = [{'label':'cycling'},{'label':'data science'}];
+          $scope.selected = undefined;
+
+          $scope.ngModelOptionsSelected = function(value) {
+            if (arguments.length) {
+              _selected = value;
+            } else {
+              return _selected;
+            }
+          };
+
+          $scope.modelOptions = {
+            debounce: {
+              default: 500,
+              blur: 250
+            },
+            getterSetter: true
+          };
+
+
+
+          $scope.searchTag = function(val) {
+            
+                TagService.searchTag(val)
+                            .then(function(response){
+                                console.log(response.data.search);
+                                tags = response.data.search;
+                            }
+                            ,handleError);
+            
+            return tags;            
+          };
+          function addTag(tag) {
+            if (tag != ""){
+                $scope.newgroup.tags.push(tag);
+                $scope.selected = undefined;
+            }
+          }
+
+
+        function removeTag($index){
+            $scope.newgroup.tags.splice($index,1);
+        }
+          
+                         
  
 	}
 })();
