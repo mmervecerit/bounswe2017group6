@@ -39,10 +39,6 @@ class ContentSerializer(serializers.HyperlinkedModelSerializer):
         validated_data = OrderedDict()
         print("to_internal_value")
         try:
-            if not User.objects.filter(id=data['owner_id']).exists():
-                raise serializers.ValidationError("No user with given owner_id.")
-            validated_data["owner_id"] = data["owner_id"]
-            
             if not ContentType.objects.filter(id=data['content_type_id']).exists():
                 raise serializers.ValidationError("No content type with given content_type_id.")
             content_type = ContentType.objects.get(pk=data['content_type_id'])
@@ -91,7 +87,7 @@ class ContentSerializer(serializers.HyperlinkedModelSerializer):
     def create(self, validated_data):
         data = validated_data.copy()
         tags_data = data.pop("tags")
-        content = Content.objects.create(owner_id=data["owner_id"], content_type_id=data["content_type_id"])
+        content = Content.objects.create(owner=self.context["request"].user, content_type_id=data["content_type_id"])
         for comp_data in data["components"]:
             serializer = ComponentSerializer2(data=comp_data, context=self.context)
             if serializer.is_valid():
