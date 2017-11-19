@@ -5,6 +5,11 @@ from collections import OrderedDict
 from recommendation.serializers import TagSerializer
 from recommendation.models import Tag
 
+class ProfileSerializerBase(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = ('name', 'lastname', 'birthdate', 'gender', 'contacts', 'about', 'is_public', 'facebook_account', 'twitter_account', 'instagram_account')
+
 class ProfileSerializer(serializers.ModelSerializer):
     interests = TagSerializer(many=True, read_only=False)
 
@@ -15,7 +20,15 @@ class ProfileSerializer(serializers.ModelSerializer):
     def to_internal_value(self, data):
         data = data.copy()
         interests_data = data.pop("interests")
-        validated_data = super(ProfileSerializer,self).to_internal_value(data)
+        serializer = ProfileSerializerBase(data = data)
+        if serializer.is_valid():
+            validated_data = serializer.validated_data
+        else:
+            serializers.ValidationError(serializer.errors)
+        if "owner_id" in data:
+            validated_data["owner_id"] = data["owner_id"]
+        else:
+            serializers.ValidationError("No owner id is specified")
         validated_data["interests"] = []
         for interest in interests_data:
             t = Tag.objects.filter(label=interest["label"])
@@ -33,6 +46,7 @@ class ProfileSerializer(serializers.ModelSerializer):
         data = validated_data.copy()
         interests_data = data.pop('interests')
         user = UserProfile.objects.create(**data)
+        user.save()
         for interest in interests_data:
             tag = Tag.objects.filter(label=interest["label"])
             if tag.exists():
@@ -83,7 +97,16 @@ class UserSerializerFull(serializers.ModelSerializer):
         data = validated_data.copy()
         profile_data = data.pop("profile")
         user = User.objects.create(**data)
-        profile = UserProfile.objects.create(**profile_data, owner_id=user.id)
+        user.save()
+        print(user.id)
+        profile_data["owner_id"] = user.id
+        serializer = ProfileSerializer(data=profile_data)
+        if serializer.is_valid():
+            profile = serializer.create(serializer.validated_data)
+            profile.owner = user
+            profile.save()
+        user.save()
+        print("end create")
         return user
     
     def update(self, instance, validated_data):
