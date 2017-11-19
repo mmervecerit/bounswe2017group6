@@ -8,9 +8,14 @@
                     <ul class="list-unstyled">
                        
                         <li>
+                            <div class="col-md-12" style="margin-top:20px;">
+                                <h4 class="text-capitalize text-center"><strong>{{group.name}}</strong></h4>
+                            </div>
+                            <div class="text-center"><img src="{{group.logo}}" style="width: auto; height: auto;max-width: 200x;max-height: 200px"/></div>  
                             <div class=row>
-                            <div class="col-md-4" style="margin-top:20px;"><h4 class="text-capitalize text-right"><strong>{{group.name}}</strong></h4></div>
-                            <div class="col-md-4"><img src="{{group.image}}" style="margin-left: 10px; width: auto; height: auto;max-width: 60x;max-height: 60px"/></div>                                                  
+                            
+                            
+                                                                           
                         </div>
                         </li>
                         <hr/>
@@ -86,44 +91,48 @@
 							<div ng-repeat="component in tab.components track by $index">
 							
 								<div class="row-activity">
-								<h4>{{tab.component_names[$index]}}</h4>
+								    <h4>{{tab.component_names[$index]}}</h4>
 								
 								</div>
 								<div ng-if="component=='text'"class="row-activity">
-								<input class="form-control input-lg no-border" placeholder="" ng-model="content.comps[tab.component_names[$index]]"></input>
+								    <input class="form-control input-lg no-border" placeholder="" ng-model="content.comps[tab.component_names[$index]]"></input>
 								</div>
 								<div ng-if="component=='longtext'"class="row-activity">
-								<textarea class="form-control input-lg no-border" placeholder="" ng-model="content.comps[tab.component_names[$index]]"></textarea>
+								    <textarea class="form-control input-lg no-border" placeholder="" ng-model="content.comps[tab.component_names[$index]]"></textarea>
 								</div>
 								<div ng-if="component=='number'"class="row-activity">
-								<input type="number" class="form-control input-lg no-border" placeholder="" ng-model="content.comps[tab.component_names[$index]]"></input>
+								    <input type="number" class="form-control input-lg no-border" placeholder="" ng-model="content.comps[tab.component_names[$index]]"></input>
 								</div>
 								<div ng-if="component=='video'"class="row-activity">
-								<input class="form-control input-lg no-border" placeholder="" ng-model="content.comps[tab.component_names[$index]]"></input>
+								    <input class="form-control input-lg no-border" placeholder="" ng-model="content.comps[tab.component_names[$index]]"></input>
 								</div>
 								<div ng-if="component=='datetime'"class="row-activity">
-								<div class="container">
-									<div class="row">
-										<div class='col-sm-6'>
-											<div class="form-group">
-												<div class='input-group date' id='datetimepicker1'>
-													<input type='text' class="form-control" />
-													<span class="input-group-addon">
-														<span class="glyphicon glyphicon-calendar"></span>
-													</span>
-												</div>
-											</div>
-										</div>
-										<script type="text/javascript">
-											$(function () {
-												$('#datetimepicker1').datetimepicker();
-											});
-										</script>
-									</div>
-								</div>
+    								<div class="container">
+    									<div class="row">
+    										<div class='col-sm-6'>
+    											<div class="form-group">
+    												<div class='input-group date' id='datetimepicker1'>
+    													<input type='text' class="form-control" />
+    													<span class="input-group-addon">
+    														<span class="glyphicon glyphicon-calendar"></span>
+    													</span>
+    												</div>
+    											</div>
+    										</div>
+    										<script type="text/javascript">
+    											$(function () {
+    												$('#datetimepicker1').datetimepicker();
+    											});
+    										</script>
+    									</div>
+    								</div>
 								</div>
 								
-							</div>    
+
+
+                            </div>    
+
+
                             </form>
                         </div>
                       </uib-tab>
@@ -139,7 +148,6 @@
                             
                             <div class="pull-right" >
 
-								<!--<button type="button" class="btn btn-success" onclick="window.location.href='/templatecreate'">Create A Template</button>-->
                            
                             <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myTemplate">
                                 New Template
@@ -151,116 +159,103 @@
 					
 
 
+                       <div class="panel panel-info" ng-repeat="post in posts">
+                            <div class="panel-heading">
+                                <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="img-rounded">
+                                <div class="pull-right">
+                                    <i class="fa fa-calendar"></i>
+                                    <p ng-bind="post.created_date | date:'dd/MM/yyyy HH:mm'"></p>
 
-                   <div class="panel panel-info" ng-repeat="post in posts">
-                        <div class="panel-heading">
-                            <img src="https://bootdey.com/img/Content/avatar/avatar2.png" class="img-rounded">
-                            <div class="pull-right text-right">
-                                <i class="fa fa-calendar"></i><br> {{post.created_date | limitTo:10}}
+                                </div>
+                                <div>
+                                    <strong>{{post.owner.username}}</strong> 
+                                </div>
+                                <!--<div class="small"><i class="fa fa-map-marker"></i> Medellin, Colombia</div>-->
                             </div>
-                            <div><strong>{{post.owner.username}}</strong></div>
-                            <!--<div class="small"><i class="fa fa-map-marker"></i> Medellin, Colombia</div>-->
-                        </div>
-                        <div class="panel-body">
-                            <div id="components" ng-repeat="component in post.content_type.components | orderBy: 'post.components.order' track by $index">
-                                <div  ng-if="component=='text'">
-                                    <p>
-                                        <strong><label>{{post.content_type.component_names[$index]}}:</label></strong>
-                                        {{post.components[$index].type_data.data}} 
-                                    </p>
-                                </div>
-                                <div ng-if="component=='longtext'">
-                                   <p>
-                                        <strong><label>{{post.content_type.component_names[$index]}}:</label></strong>
-                                        {{post.components[$index].type_data.data}} 
-                                    </p>
-                                </div>
-                                <div ng-if="component=='number'">
-                                     <p>
-                                        <strong><label>{{post.content_type.component_names[$index]}}:</label></strong>
-                                        {{post.components[$index].type_data.data}} 
-                                    </p>
-                                </div>
-                                <div ng-if="component=='datetime'">
-                                    <p>
-                                        <strong><label>{{post.content_type.component_names[$index]}}:</label></strong>
-                                        {{post.components[$index].type_data.data}} 
-                                    </p>
-                                </div>
-                                <div ng-if="component=='video'">
-                                     <p>
-                                        <strong><label>{{post.content_type.component_names[$index]}}</label></strong>:
-                                        <a ng-href="{{post.components[$index].type_data.data}}">{{post.components[$index].type_data.data}}</a> 
-                                    </p>
-                                </div>
-                                <div ng-if="component == 'image'">
-                                    <p>
-                                        <strong><label>{{post.content_type.component_names[$index]}}</label></strong>
-                                        <img ng-src="{{post.components[$index].type_data.data}}"></p> 
-                                    </p>
-                                </div>
-                                <div ng-if="component=='dropdown'">
-                                     <p>
-                                        <strong><label>{{post.content_type.component_names[$index]}}</label></strong>:
-                                        {{post.components[$index].type_data.data}} 
-                                    </p>
-                                </div>
-                                <div ng-if="component=='radiobutton'">
-                                     <p>
-                                        <strong><label>{{post.content_type.component_names[$index]}}</label></strong>:
-                                        {{post.components[$index].type_data.data}} 
-                                    </p>
-                                </div>
+                            <div class="panel-body" >
+                                <div id="components" class="col-lg-12 col-md-12 col-sm-12" ng-repeat="component in post.content_type.components track by $index ">
 
-                                
-                               
-                            </div>
-                             <div class="actions">
+                                    <div  ng-if="component=='text'">
+
+                                        <div class="col-lg-3 col-md-3 col-sm-4" ng-show="post.content_type.component_names[$index]">
+                                            <strong><label>{{post.content_type.component_names[$index]}}:</label></strong>
+                                        </div>
+                                            {{post.components[$index].type_data.data}} 
+                                           
+                                        
+                                    </div>
+                                    <div ng-if="component=='longtext'">
+                                        <div class="col-lg-3 col-md-3 col-sm-4" ng-show="post.content_type.component_names[$index]">
+                                            <strong><label>{{post.content_type.component_names[$index]}}:</label></strong>
+                                        </div>
+                                            {{post.components[$index].type_data.data}} 
+                                    </div>
+                                    <div ng-if="component=='number'">
+                                        <div class="col-lg-3 col-md-3 col-sm-4" ng-show="post.content_type.component_names[$index]">
+                                            <strong><label>{{post.content_type.component_names[$index]}}:</label></strong>
+                                        </div>
+                                        
+                                            {{post.components[$index].type_data.data | number : 2}}
+                                           
+                                    </div>
+                                    <div ng-if="component=='datetime'">                                        
+                                        <div class="col-lg-3 col-md-3 col-sm-4" ng-show="post.content_type.component_names[$index]">
+
+                                        
+                                            <strong><label>{{post.content_type.component_names[$index]}}:</label></strong>
+                                        </div>
+
+                                            {{post.components[$index].type_data.data}} 
+                                    </div>
+                                    <div ng-if="component=='video'">
+                                        <div class="col-lg-3 col-md-3 col-sm-4" ng-show="post.content_type.component_names[$index]">
+
+                                            <strong><label>{{post.content_type.component_names[$index]}}</label></strong>:
+                                        </div>
+                                            <a ng-href="{{post.components[$index].type_data.data}}">{{post.components[$index].type_data.data}}</a> 
+                                    </div>
+                                    <div ng-if="component=='image'">
+                                        <div class="col-lg-3 col-md-3 col-sm-4" ng-show="post.content_type.component_names[$index]">
+                                            <strong><label>{{post.content_type.component_names[$index]}}</label></strong>
+                                        </div>
+                                            <img ng-src="{{post.components[$index].type_data.data}}"></p> 
+                                    </div>
+                                    <div ng-if="component=='dropdown'">
+                                         <p>
+                                            <strong><label>{{post.content_type.component_names[$index]}}</label></strong>:
+                                            {{post.components[$index].type_data.data}} 
+                                        </p>
+                                    </div>
+                                    <div ng-if="component=='radiobutton'">
+                                         <p>
+                                            <strong><label>{{post.content_type.component_names[$index]}}</label></strong>:
+                                            {{post.components[$index].type_data.data}} 
+                                        </p>
+                                    </div>      
+                                </div>
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-link"><i class="fa fa-thumbs-o-up"></i> Like</button>
-                                        <button type="button" class="btn btn-link"><i class="fa fa-share"></i> Share</button>
+                                        <button type="button" class="btn btn-link"><i class="fa fa-thumbs-o-down"></i> Share</button>
                                     </div>
-                                    <div class="pull-right"><strong>{{post.likes}}</strong> People liked this</div>      
-                                </div>  
-                            <!--
-                            <div class="media">
-                                <a class="pull-left" href="#">
-                                    <img class="media-object img-rounded" src="https://bootdey.com/img/Content/avatar/avatar2.png">
-                                </a>
-                                <div class="media-body">
-                                    <div class="pull-right small">3 hours ago</div>
-                                    <h4 class="media-heading">Media heading</h4>
-                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
+                                    <div class="pull-right"><strong>{{post.likes}}</strong></div>      
+                                <!--
+                                <div class="media">
+                                    <a class="pull-left" href="#">
+                                        <img class="media-object img-rounded" src="https://bootdey.com/img/Content/avatar/avatar2.png">
+                                    </a>
+                                    <div class="media-body">
+                                        <div class="pull-right small">3 hours ago</div>
+                                        <h4 class="media-heading">Media heading</h4>
+                                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
+                                    </div>
                                 </div>
+
+                                -->
                             </div>
-                            
-                            <div class="media">
-                                <a class="pull-left" href="#">
-                                    <img class="media-object img-rounded" src="https://bootdey.com/img/Content/avatar/avatar2.png">
-                                </a>
-                                <div class="media-body">
-                                    <div class="pull-right small">3 hours ago</div>
-                                    <h4 class="media-heading">Media heading</h4>
-                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
-                                </div>
+                            <div class="panel-footer">
+                                <input  class="form-control" placeholder="Write a comment...">
                             </div>
-                            
-                            <div class="media">
-                                <a class="pull-left" href="#">
-                                    <img class="media-object img-rounded" src="https://bootdey.com/img/Content/avatar/avatar2.png">
-                                </a>
-                                <div class="media-body">
-                                    <div class="pull-right small">3 hours ago</div>
-                                    <h4 class="media-heading">Media heading</h4>
-                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
-                                </div>
-                            </div>
-                            -->
                         </div>
-                        <div class="panel-footer">
-                            <input  class="form-control" placeholder="Write a comment...">
-                        </div>
-                    </div>
                 </div>
             </div>
             <div class="col-md-4">

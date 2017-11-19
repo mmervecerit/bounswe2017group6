@@ -5,9 +5,8 @@
         .module("interestHub")
         .controller("ContentCtrl", ContentCtrl);
     
-    function ContentCtrl($scope,  $rootScope, $location, ContentService)
+    function ContentCtrl($scope,  $rootScope, $location, ContentService, GroupService)
     {
-        $scope.createPost = createPost;
         $scope.remove = remove;
         $scope.update = update;
         $scope.add    = add;
@@ -22,12 +21,7 @@
         }
         
         init();
-        
-
-        function createPost(){
-            $location.path('/postcreate');
-        }
-
+     
         function remove(post)
         {
             ContentService
@@ -56,18 +50,16 @@
 
         function handleSuccess(response) {
             $scope.posts = response.data;
-            var arrayLength = $scope.posts.length;
+            //Get group name
+            /*var arrayLength = $scope.posts.length;
             for (var i = 0; i < arrayLength; i++) {
-                console.log($scope.posts[i].content_type);
-                var components = $scope.posts[i].components;
-                for(var j = 0 ; j < components.length; j++ ){
-                    console.log(components[j].component_type);
-                }
-    //Do something
-            }
-            
-
-                   	            //console.log(posts);
+                GroupService.getGroup($scope.posts[i].groups[0])
+                    .then(
+                    function(response){
+                        $scope.posts.groupname = response.data.name; 
+                    },
+                    handleError);
+            }*/
 
         }
 

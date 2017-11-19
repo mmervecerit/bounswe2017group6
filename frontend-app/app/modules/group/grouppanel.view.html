@@ -10,19 +10,36 @@
             <div class="panel-body no-padding rounded">
                 <ul class="list-group no-margin" ng-repeat="group in groups | orderBy: 'name' | limitTo: 10 ">
 
-                     <li class="list-group-item"><a href="/group/{{group.id}}">{{group.name}}</a>
-                    <img src="{{group.image}}" style="margin-left: 10px; width: auto; height: auto;max-width: 40x;max-height: 40px"/>                    
+                    <li class="list-group-item">
+                        <div class="col-sm-2">
+                            <img ng-show="group.image" src="{{group.logo}}" style="width: auto; height: auto; max-width:30px; max-height: 30px;"/>
+
+                        </div>
+                        <div class="col-sm-10">
+                            <a href="/group/{{group.id}}" style="margin-left: 10px;">{{group.name}}</a>
+                        </div>
                     </li>
-
-
-                   
                 </ul>
-                 <ul class="list-group no-margin">
+                <div class="bot-border"></div>
+                <ul class="list-group no-margin text-center">
                     <li class="list-group-item">
                         <!--<a class="" href="/groupcreate"><i class="fa fa-plus"></i> Create New Group</a>-->
-                        <button type="button" class="btn btn-info text-center btn-block" data-toggle="modal" data-target="#myModal">
+                        <a href="/groups" class="btn btn-link btn-block">
+                            <i class="glyphicon glyphicon-new-window"></i>
+                            View all groups
+                        </a>
+                        <br/>
+                        <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#myModal">
                         Create Group
                         </button>
+                    </li>
+
+               </ul>
+
+                 <ul class="list-group no-margin text-center">
+                    <li class="list-group-item">
+                        <!--<a class="" href="/groupcreate"><i class="fa fa-plus"></i> Create New Group</a>-->
+                        
                     </li>
 
                </ul>
@@ -46,12 +63,27 @@
                     
                     <form id="groupform">
                         <div class="form-group">
-                            <label for="groupname">Group Name:</label>
+                            <label for="groupname">Name:</label>
                             <input type="text" class="form-control" ng-model="newgroup.name">
                         </div>
                         <div class="form-group">
-                          <label for="groupdesc">Group Description:</label>
+                          <label for="groupdesc">Description:</label>
                           <textarea class="form-control" rows="5" ng-model="newgroup.description"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="groupprivacy">Privacy:</label>
+                             <div class="radio">
+                                <label>
+                                    <input type="radio" name="groupprivacy" value="public" ng-model="newgroup.is_public">
+                                    Public
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="groupprivacy" value="private" ng-model="newgroup.is_public">
+                                    Private
+                                </label>
+                            </div>
                         </div>
                         <!-- <div class="custom-file">
                         <label for="file">Group Icon:</label>
@@ -59,8 +91,45 @@
                             <span class="custom-file-control"></span>
                         </div> -->
                         <div class="form-group">
-                                <label for="groupicon">Group Icon:</label>
-                                <input type="text" class="form-control" ng-model="newgroup.image">
+                                <label for="groupicon">Logo:</label>
+                                <input type="text" class="form-control" ng-model="newgroup.logo">
+                        </div>
+                        <div class="form-group">
+                                <label for="coverphoto">Cover Photo:</label>
+                                <input type="text" class="form-control" ng-model="newgroup.cover_photo">
+                        </div>
+                        <div class="form-group">
+                                <label for="tag">Tags:</label>
+                                <div class="clearfix"></div>
+                                <div class="col-sm-12">
+                                    <div ng-repeat="tag in newgroup.tags track by $index" ng-switch on="$index % 3">
+                                        <div class="col-sm-4 interest" ng-switch-when="0" ng-hide="newgroup.tags[$index] == null">
+                                             <a ng-href="{{newgroup.tags[$index].url}}" data-toggle="tooltip" data-placement="right" title="{{newgroup.tags[$index].description}}" style="color: white;">#{{newgroup.tags[$index].label}}</a>
+                                             <a ng-click="removeTag($index)" data-original-title="Remove this tag" data-toggle="tooltip"><i class="glyphicon glyphicon-remove"></i></a>  
+                                        </div>
+                                        <div class="col-sm-4 interest" ng-switch-when="0" ng-hide="newgroup.tags[$index+1] == null">
+                                             <a ng-href="{{newgroup.tags[$index+1].url}}" data-toggle="tooltip" data-placement="right" title="{{newgroup.tags[$index+1].description}}" style="color: white;">#{{newgroup.tags[$index+1].label}}</a>
+                                             <a ng-click="removeTag($index+1)" data-original-title="Remove this tag" data-toggle="tooltip"><i class="glyphicon glyphicon-remove"></i></a>  
+                                        </div>
+                                        <div class="col-sm-4 interest pull-right" ng-switch-when="0" ng-hide="newgroup.tags[$index+2] == null">
+                                             <a ng-href="{{newgroup.tags[$index+2].url}}" data-toggle="tooltip" data-placement="right" title="{{newgroup.tags[$index+2].description}}" style="color: white;">#{{newgroup.tags[$index+2].label}}</a>
+                                             <a ng-click="removeTag($index+2)" data-original-title="Remove this tag" data-toggle="tooltip"><i class="glyphicon glyphicon-remove"></i></a>  
+                                        </div>
+                                        <div class="clearfix"></div>
+
+                                       
+                                    </div>
+                                </div>
+                                <div class="input-group">
+                                    <input type="text" ng-model="selected"  uib-typeahead="tag as tag.label for tag in searchTag($viewValue)  | limitTo:8 " class="form-control" typeahead-min-length="1" typeahead-loading="loadingLocations" typeahead-no-results="noResults">
+                                    <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+                                    <div ng-show="noResults">
+                                      <i class="glyphicon glyphicon-remove"></i> No Results Found
+                                    </div>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-success btn-default" ng-click="addTag(selected); selected='';">Add tag</button>
+                                      </span>
+                                </div>
                         </div>
                         <br></br>
                        
