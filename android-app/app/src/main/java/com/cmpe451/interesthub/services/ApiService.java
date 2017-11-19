@@ -10,6 +10,7 @@ import com.cmpe451.interesthub.models.User;
 
 import java.util.List;
 
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
@@ -66,14 +67,14 @@ public interface ApiService {
     @GET("group-ctypes/{group_id}/")
     Call<List<ContentType>> getGroupContentTypes(@Path(value = "group_id", encoded = true) long groupId);
 
-
     @POST("login/")
     @FormUrlEncoded
     Call<Token> login(@Field("username") String name,@Field("password") String password);
 
-    @Headers( "Content-Type: application/json" )
     @POST("group-contents/{group_id}/")
-    @FormUrlEncoded
-    Call<Content> postContent(@Path(value = "group_id", encoded = true)  long groupId, @Body Content content);
+    Call<Content> postContent(@Path(value = "group_id", encoded = true)  long groupId, @Body RequestBody content);
+
+    @POST("group-ctypes/{group_id}/")
+    Call<ContentType> postNewTemplate(@Path(value = "group_id", encoded = true)  long groupId, @Body RequestBody template);
 
 }

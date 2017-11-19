@@ -28,7 +28,9 @@
             console.log(response.data);
 
             $scope.tags = response.data;
+
         }
+        
        
 
         function remove(group)
@@ -62,9 +64,11 @@
                 .createGroup(group)
                 .then(handleSuccessGroup, handleError);    
             console.log("added");
+
             $scope.newgroup.tags = [];
 
             
+
 
 
         }      
@@ -121,6 +125,7 @@
           };
           function addTag(tag) {
             if (tag != ""){
+
                 var tagStored = {
                     "label" : tag.label ,
                     "description" : tag.description,
@@ -129,6 +134,7 @@
               
 
                 $scope.newgroup.tags.push(tagStored);
+
                 $scope.selected = undefined;
             }
           }

@@ -42,11 +42,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'dummy',
     'group',
     'content',
     'components',
     'user',
+    'recommendation'
 ]
 
 JWT_AUTH = { 

@@ -131,6 +131,39 @@
                                       </span>
                                 </div>
                         </div>
+                        <div class="form-group">
+                                <label for="tag">Tags:</label>
+                                <div class="clearfix"></div>
+                                <div class="col-sm-12">
+                                    <div ng-repeat="tag in newgroup.tags" ng-switch on="$index % 3">
+                                        <div class="col-sm-4 interest" ng-switch-when="0" ng-hide="newgroup.tags[$index] == null">
+                                             <a ng-href="{{newgroup.tags[$index].url}}" data-toggle="tooltip" data-placement="right" title="{{newgroup.tags[$index].description}}" style="color: white;">#{{newgroup.tags[$index].label}}</a>
+                                             <a ng-click="removeTag($index)" data-original-title="Remove this tag" data-toggle="tooltip"><i class="glyphicon glyphicon-remove"></i></a>  
+                                        </div>
+                                        <div class="col-sm-4 interest" ng-switch-when="0" ng-hide="newgroup.tags[$index+1] == null">
+                                             <a ng-href="{{newgroup.tags[$index+1].url}}" data-toggle="tooltip" data-placement="right" title="{{newgroup.tags[$index+1].description}}" style="color: white;">#{{newgroup.tags[$index+1].label}}</a>
+                                             <a ng-click="removeTag($index+1)" data-original-title="Remove this tag" data-toggle="tooltip"><i class="glyphicon glyphicon-remove"></i></a>  
+                                        </div>
+                                        <div class="col-sm-4 interest pull-right" ng-switch-when="0" ng-hide="newgroup.tags[$index+2] == null">
+                                             <a ng-href="{{newgroup.tags[$index+2].url}}" data-toggle="tooltip" data-placement="right" title="{{newgroup.tags[$index+2].description}}" style="color: white;">#{{newgroup.tags[$index+2].label}}</a>
+                                             <a ng-click="removeTag($index+2)" data-original-title="Remove this tag" data-toggle="tooltip"><i class="glyphicon glyphicon-remove"></i></a>  
+                                        </div>
+                                        <div class="clearfix"></div>
+
+                                       
+                                    </div>
+                                </div>
+                                <div class="input-group">
+                                    <input type="text" ng-model="selected"  uib-typeahead="tag as tag.label for tag in searchTag($viewValue)  | limitTo:8 " class="form-control"  typeahead-loading="loadingLocations" typeahead-no-results="noResults">
+                                    <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+                                    <div ng-show="noResults">
+                                      <i class="glyphicon glyphicon-remove"></i> No Results Found
+                                    </div>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-success btn-default" ng-click="addTag(selected); selected='';">Add tag</button>
+                                      </span>
+                                </div>
+                        </div>
                         <br></br>
                        
                     </form>

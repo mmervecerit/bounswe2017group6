@@ -14,9 +14,9 @@
 
         if($localStorage.isLogged){
 
-        $rootScope.username={};
-        $rootScope.username.params=$localStorage.user.username;
-        console.log($localStorage.user.username);        
+            $rootScope.username={};
+            $rootScope.username.params=$localStorage.user.username;
+            console.log($localStorage.user.username);        
         }
         console.log("isLogged: "+isLoggedIn());
         
