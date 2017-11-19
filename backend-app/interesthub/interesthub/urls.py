@@ -33,8 +33,8 @@ router.register(r'users', UserViewSet)
 router.register(r'groups', InterestGroupViewSet)
 router.register(r'tags', TagViewSet)
 
-router.register(r'upDown',UpDownViewSet)
-router.register(r'comment',CommentViewSet)
+router.register(r'votes',UpDownViewSet)
+router.register(r'comments',CommentViewSet)
 # router.register(r'component',ComponentViewSet)
 
 router.register(r'components',ComponentViewSet)
@@ -42,15 +42,19 @@ router.register(r'contents',ContentViewSet)
 
 urlpatterns = [   
     url(r'user/(?P<pk>[0-9]+)/groups/$', UserGroupList.as_view()),
-    url(r'group/(?P<pk>[0-9]+)/contents', GroupContentList.as_view()),
-    url(r'group/(?P<pk>[0-9]+)/members', GroupMembersList.as_view()),
-    url(r'group/(?P<pk>[0-9]+)/content-types', GroupContentTypeList.as_view()),
+    
+    url(r'group/(?P<pk>[0-9]+)/contents/$', GroupContentList.as_view()),
+    url(r'group/(?P<pk>[0-9]+)/members/$', GroupMembersList.as_view()),
+    url(r'group/(?P<pk>[0-9]+)/content-types/$', GroupContentTypeList.as_view()),
+
+    url(r'content/(?P<pk>[0-9]+)/comments/$',ContentCommentList.as_view()),
+    url(r'content/(?P<pk>[0-9]+)/votes/$',ContentVoteList.as_view()),
     
     # url(r'^test/', TestView.as_view()),
-    url(r'^login/', obtain_jwt_token),
-    url(r'^register/', UserRegisterView.as_view()),
-    url(r'^followers/', FollowerView.as_view()),
-    url(r'^followings/', FollowingView.as_view()),
+    url(r'^login/$', obtain_jwt_token),
+    url(r'^register/$', UserRegisterView.as_view()),
+    url(r'^followers/$', FollowerView.as_view()),
+    url(r'^followings/$', FollowingView.as_view()),
 
     url(r'^admin/', admin.site.urls),
     url(r'^api-auth/', include('rest_framework.urls')),

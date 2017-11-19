@@ -55,16 +55,20 @@ class Content(models.Model):
         return str(self.id)
 
 class Comment(models.Model):
+    created_date = models.DateTimeField(auto_now_add=True)
+    modified_date = models.DateTimeField(auto_now=True)
     text = models.TextField(null=False, blank=True)
     owner = models.ForeignKey(User, blank=False, null=False, on_delete=models.CASCADE, related_name="comment_owner")
-    content = models.ForeignKey(Content, blank=False, null=False, on_delete=models.CASCADE)
+    content = models.ForeignKey(Content, blank=False, null=False, on_delete=models.CASCADE, related_name="comments")
         
     def __str__(self):
         return str(self.id)
 
 class UpDown(models.Model):
-    owner = models.ForeignKey(User, blank=False, null=False, on_delete=models.CASCADE)
-    content = models.ForeignKey(Content, blank=False, null=False, on_delete=models.CASCADE)
+    created_date = models.DateTimeField(auto_now_add=True)
+    modified_date = models.DateTimeField(auto_now=True)
+    owner = models.ForeignKey(User, blank=False, null=False, on_delete=models.CASCADE, related_name="vote_owner")
+    content = models.ForeignKey(Content, blank=False, null=False, on_delete=models.CASCADE, related_name="votes")
     isUp = models.BooleanField(default=True)
         
     def __str__(self):

@@ -155,35 +155,66 @@ class ContentSerializer(serializers.HyperlinkedModelSerializer):
         return instance
 
 class CommentSerializer(serializers.HyperlinkedModelSerializer):
-    text = serializers.CharField()
     owner = UserSerializer(read_only=True, allow_null=False, many=False)
-    owner_id = serializers.IntegerField()
-    content = ContentSerializer(read_only=True, allow_null=False, many=False)
-    content_id = serializers.IntegerField()
 
     class Meta:
         model = Comment
-        fields = ("id", "text", "owner", "owner_id", "content", "content_id")
+        fields = ("id", "created_date", "modified_date", "text", "owner")
+        read_only_fields = ["owner", "created_date", "modified_date"]
+
+    def to_internal_value(self, data):
+        validated_data = OrderedDict()
+        if "text" in data:
+            validated_data["text"] = data["text"]
+        elif not self.partial:
+            raise serializers.ValidationError("text field is not found")
+        if "content_id" in data:
+            validated_data["content_id"] = data["content_id"]
+        elif not self.partial:
+            raise serializers.ValidationError("content_id is not found")
+        return validated_data
 
     def create(self, validated_data):
         print('val:', validated_data)
-        comment = Comment.objects.create(**validated_data)
+        comment = Comment.objects.create(**validated_data, owner=self.context["request"].user)
         return comment
 
     def update(self, instance, validated_data):
         print(instance)
         instance.text = validated_data.get('text', instance.text)
-        instance.owner = validated_data.get('owner', instance.owner)
-        instance.content = validated_data.get('content', instance.content)
+        instance.owner = self.context["request"].user
         instance.save()
         return instance
 
 class UpDownSerializer(serializers.HyperlinkedModelSerializer):
-    owner = UserSerializer(read_only=True, allow_null=False, many=False)
-    owner_id = serializers.IntegerField()
-    content = ContentSerializer(read_only=True, allow_null=False, many=False)
-    content_id = serializers.IntegerField()
+    owner = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
+    content = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
 
     class Meta:
         model = UpDown
-        fields = ('id', 'isUp', 'owner', 'owner_id', 'content', 'content_id')
+        fields = ('id', 'isUp', 'owner', 'content',)
+    
+    def to_internal_value(self, data):
+        validated_data = OrderedDict()
+        if "isUp" in data:
+            validated_data["isUp"] = data["isUp"]
+        elif not self.partial:
+            raise serializers.ValidationError("isUp field is not found")
+        if "content_id" in data:
+            validated_data["content_id"] = data["content_id"]
+        elif not self.partial:
+            raise serializers.ValidationError("content_id is not found")
+        return validated_data
+    
+    def create(self, validated_data):
+        t = UpDown.objects.filter(owner=self.context["request"].user, content_id=validated_data["content_id"])
+        if t.exists():
+            return t.first()
+        upDown = UpDown.objects.create(**validated_data, owner=self.context["request"].user)
+        return upDown
+    
+    def update(self, instance, validated_data):
+        instance.text = validated_data.get('upDown', instance.upDown)
+        instance.owner = self.context["request"].user
+        instance.save()
+        return instance

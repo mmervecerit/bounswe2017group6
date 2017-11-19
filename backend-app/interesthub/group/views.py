@@ -29,7 +29,7 @@ class GroupContentList(APIView):
     def post(self, request, pk, format=None):
         igroup = InterestGroup.objects.get(pk=pk)
         serializer = ContentSerializer(igroup.contents, many=False, data=request.data, context={"request": request})
-        if not content.is_valid():
+        if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         content = serializer.create(serializer.validated_data)
         igroup.contents.add(content)
