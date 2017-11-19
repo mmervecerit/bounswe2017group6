@@ -16,12 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.conf.urls import url, include
 from rest_framework import routers
-from dummy import views
 from group.views import GroupContentList
 from content.views import *
 from components.views import ComponentViewSet
 from group.views import *
 from user.views import *
+from recommendation.views import *
 from rest_framework.urlpatterns import format_suffix_patterns
 from rest_framework_jwt.views import obtain_jwt_token
 from rest_framework.documentation import include_docs_urls
@@ -31,9 +31,10 @@ router = routers.DefaultRouter()
 router.register(r'content-types', ContentTypeViewSet)
 router.register(r'users', UserViewSet)
 router.register(r'groups', InterestGroupViewSet)
+router.register(r'tags', TagViewSet)
 
-router.register(r'upDown',UpDownViewSet)
-router.register(r'comment',CommentViewSet)
+router.register(r'votes',UpDownViewSet)
+router.register(r'comments',CommentViewSet)
 # router.register(r'component',ComponentViewSet)
 
 router.register(r'components',ComponentViewSet)
@@ -41,15 +42,19 @@ router.register(r'contents',ContentViewSet)
 
 urlpatterns = [   
     url(r'user/(?P<pk>[0-9]+)/groups/$', UserGroupList.as_view()),
-    url(r'group/(?P<pk>[0-9]+)/contents', GroupContentList.as_view()),
-    url(r'group/(?P<pk>[0-9]+)/members', GroupMembersList.as_view()),
-    url(r'group/(?P<pk>[0-9]+)/content-types', GroupContentTypeList.as_view()),
+    
+    url(r'group/(?P<pk>[0-9]+)/contents/$', GroupContentList.as_view()),
+    url(r'group/(?P<pk>[0-9]+)/members/$', GroupMembersList.as_view()),
+    url(r'group/(?P<pk>[0-9]+)/content-types/$', GroupContentTypeList.as_view()),
+
+    url(r'content/(?P<pk>[0-9]+)/comments/$',ContentCommentList.as_view()),
+    url(r'content/(?P<pk>[0-9]+)/votes/$',ContentVoteList.as_view()),
     
     # url(r'^test/', TestView.as_view()),
-    url(r'^login/', obtain_jwt_token),
-    url(r'^register/', UserRegisterView.as_view()),
-    url(r'^followers/', FollowerView.as_view()),
-    url(r'^followings/', FollowingView.as_view()),
+    url(r'^login/$', obtain_jwt_token),
+    url(r'^register/$', UserRegisterView.as_view()),
+    url(r'^followers/$', FollowerView.as_view()),
+    url(r'^followings/$', FollowingView.as_view()),
 
     url(r'^admin/', admin.site.urls),
     url(r'^api-auth/', include('rest_framework.urls')),
