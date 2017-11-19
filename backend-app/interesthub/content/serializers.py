@@ -10,10 +10,9 @@ from recommendation.serializers import TagSerializer
 from recommendation.models import Tag
 
 class ContentTypeSerializer(serializers.HyperlinkedModelSerializer):
-    groups = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     class Meta:
         model = ContentType
-        fields = ("id", "name", "components", "component_names", "groups")
+        fields = ("id", "name", "components", "component_names",)
 
 class ContentSerializer(serializers.HyperlinkedModelSerializer):
     components = ComponentSerializer2(many=True)
