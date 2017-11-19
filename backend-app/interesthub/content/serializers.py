@@ -152,11 +152,12 @@ class ContentSerializer(serializers.HyperlinkedModelSerializer):
 
 class CommentSerializer(serializers.HyperlinkedModelSerializer):
     owner = UserSerializer(read_only=True, allow_null=False, many=False)
+    content = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
 
     class Meta:
         model = Comment
-        fields = ("id", "created_date", "modified_date", "text", "owner")
-        read_only_fields = ["owner", "created_date", "modified_date"]
+        fields = ("id", "created_date", "modified_date", "text", "owner", "content",)
+        read_only_fields = ["owner", "created_date", "modified_date", "content"]
 
     def to_internal_value(self, data):
         validated_data = OrderedDict()
