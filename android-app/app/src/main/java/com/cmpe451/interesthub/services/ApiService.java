@@ -45,36 +45,33 @@ public interface ApiService {
     @FormUrlEncoded
     Call <User> addUser (@Field("username") String username,@Field("email") String email);
 
-    @GET("group/")
+    @GET("groups/")
     Call<List<Group>> getGroup();
 
-    @POST("group/")
+    @POST("groups/")
     @FormUrlEncoded
     Call<Group> addGroup (@Field("name") String name,@Field("description") String desc,@Field("image") String image);
 
     @GET("component/")
     Call<List<Component>> getComponentList();
 
-    @GET("content-type/")
-    Call<List<ContentType>> getContentTypeList();
-
-    @GET("content/")
+    @GET("contents/")
     Call<List<Content>> getContentList();
 
-    @GET("group-contents/{group_id}/")
+    @GET("group/{group_id}/contents/")
     Call<List<Content>> getGroupContents(@Path(value = "group_id", encoded = true) long groupId);
 
-    @GET("group-ctypes/{group_id}/")
+    @GET("group/{group_id}/content-types/")
     Call<List<ContentType>> getGroupContentTypes(@Path(value = "group_id", encoded = true) long groupId);
 
     @POST("login/")
     @FormUrlEncoded
     Call<Token> login(@Field("username") String name,@Field("password") String password);
 
-    @POST("group-contents/{group_id}/")
+    @POST("group/{group_id}/contents/")
     Call<Content> postContent(@Path(value = "group_id", encoded = true)  long groupId, @Body RequestBody content);
 
-    @POST("group-ctypes/{group_id}/")
+    @POST("group/{group_id}/content-types/")
     Call<ContentType> postNewTemplate(@Path(value = "group_id", encoded = true)  long groupId, @Body RequestBody template);
 
 }

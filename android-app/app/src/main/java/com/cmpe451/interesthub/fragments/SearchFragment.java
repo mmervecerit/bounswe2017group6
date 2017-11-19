@@ -106,8 +106,9 @@ public class SearchFragment extends Fragment {
         hub.getApiService().getGroup().enqueue(new Callback<List<Group>>() {
             @Override
             public void onResponse(Call<List<Group>> call, Response<List<Group>> response) {
-                for(Group g: response.body())
-                    list.add(g);
+                if(response.body()!=null)
+                    for(Group g: response.body())
+                        list.add(g);
 
                 setAdapter(view);
             }

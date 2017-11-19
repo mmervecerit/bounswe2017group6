@@ -26,8 +26,10 @@ import com.cmpe451.interesthub.adapters.TemplateListAdapter;
 import com.cmpe451.interesthub.models.Component;
 import com.cmpe451.interesthub.models.Content;
 import com.cmpe451.interesthub.models.ContentType;
+import com.cmpe451.interesthub.models.Tag;
 import com.cmpe451.interesthub.models.TypeData;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,6 +73,7 @@ public class NewContent extends AppCompatActivity {
         setTitle("Post on " + groupName);
         templateList = (RecyclerView) findViewById(R.id.content_list_layout);
         InterestHub hub = (InterestHub) getApplication();
+
         hub.getApiService().getGroupContentTypes(groupId).enqueue(new Callback<List<ContentType>>() {
             @Override
             public void onResponse(Call<List<ContentType>> call, Response<List<ContentType>> response) {
@@ -247,7 +250,11 @@ public class NewContent extends AppCompatActivity {
                     clist.add(comp);
 
                 }
+
                 content.setComponents(clist);
+
+                //TODO
+                content.setTags(new ArrayList<Tag>());
                 sendPost(content);
 
             }
@@ -260,9 +267,10 @@ public class NewContent extends AppCompatActivity {
     }
 
     private void sendPost(Content content) {
-        Gson gson = new Gson();
+
+        Gson gson = new GsonBuilder().serializeNulls().create();
         String json = gson.toJson(content);
-        //Log.d("JSON",json);
+        Log.d("JSON",json);
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), json);
         hub.getApiService().postContent(groupId,requestBody).enqueue(new Callback<Content>() {
 

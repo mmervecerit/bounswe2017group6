@@ -27,9 +27,20 @@ public class Content {
     @SerializedName("components")
     List<Component> components;
 
+    @SerializedName("tags")
+    List<Tag> tags;
+
     User owner;
 
     long owner_id;
+
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
+    }
 
     public long getOwner_id() {
         return owner_id;

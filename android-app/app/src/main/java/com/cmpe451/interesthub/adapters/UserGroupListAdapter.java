@@ -81,10 +81,10 @@ public class UserGroupListAdapter extends RecyclerView.Adapter<UserGroupListAdap
         holder.groupName.setText(itemList.get(position).getName());
         if(itemList.get(position).getDesc()!=null)
             holder.groupDesc.setText(itemList.get(position).getDesc());
-        if(itemList.get(position).getImage()==null || itemList.get(position).getImage().equals("") )
+        if(itemList.get(position).getLogo()==null || itemList.get(position).getLogo().equals("") )
             holder.groupIcon.setImageResource(R.drawable.prosmall);
         else{
-            Log.d("IMAGE","image load "+itemList.get(position).getImage());
+            Log.d("IMAGE","image load "+itemList.get(position).getLogo());
             /*Picasso.with(context)
                     .load(itemList.get(position).getImage())
                     .resize(200,200).into(holder.groupIcon);
@@ -100,7 +100,7 @@ public class UserGroupListAdapter extends RecyclerView.Adapter<UserGroupListAdap
                     Log.d("IMAGE",exception.toString());
                 }
             });
-            builder.build().load(itemList.get(position).getImage()).into(holder.groupIcon);
+            builder.build().load(itemList.get(position).getLogo()).into(holder.groupIcon);
         }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
