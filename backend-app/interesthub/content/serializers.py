@@ -10,29 +10,21 @@ from recommendation.serializers import TagSerializer
 from recommendation.models import Tag
 
 class ContentTypeSerializer(serializers.HyperlinkedModelSerializer):
+    groups = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     class Meta:
         model = ContentType
-        fields = ("id", "name", "components", "component_names")
+        fields = ("id", "name", "components", "component_names", "groups")
 
 class ContentSerializer(serializers.HyperlinkedModelSerializer):
     components = ComponentSerializer2(many=True)
     owner = UserSerializer(read_only=True, allow_null=False, many=False)
     content_type = ContentTypeSerializer(read_only=True, allow_null=True, many=False)
     tags = TagSerializer(many=True, read_only=False)
+    groups = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
     class Meta:
         model = Content
-        fields = ("id", "content_type", "created_date", "modified_date", "owner", 'components', 'tags')
-    
-    def to_representation(self, obj):
-        response = OrderedDict()
-        response['owner'] = UserSerializer(obj.owner, context=self.context).data
-        response['content_type'] = ContentTypeSerializer(obj.content_type, context=self.context).data
-        response['components'] = ComponentSerializer2(obj.components.all(), many=True, context=self.context).data
-        response['tags'] = TagSerializer(obj.tags.all(), many=True, context=self.context).data
-        response['created_date'] = str(obj.created_date)
-        response['modified_date'] = str(obj.modified_date)
-        return response
+        fields = ("id", "content_type", "created_date", "modified_date", "owner", 'components', 'tags', 'groups')
     
     def to_internal_value(self, data):
         data = data.copy()
