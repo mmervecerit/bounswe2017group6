@@ -4,24 +4,50 @@
         .module("interestHub")
         .controller("GroupTimelineCtrl", GroupTimelineCtrl);
     
-    function GroupTimelineCtrl($scope,  $rootScope,  $location, $routeParams, GroupService,TemplateService)
+    function GroupTimelineCtrl($scope, $q, $rootScope,  $location, $routeParams, GroupService,TemplateService, UserService)
     {
+
+      $scope.joinGroup = joinGroup;
       console.log($routeParams.id);
       $scope.group = GroupService.getGroup($routeParams.id)
                         .then(handleSuccess,handleError);
-      function handleSuccess(response) {
-            $scope.group = response.data;          
 
-          
+      function handleSuccess(response) {
+            $scope.group = response.data;
+            $scope.members = [];
+            members = [];   
+            GroupService.getMembers($routeParams.id)
+                    .then(function(response){
+                        members = response.data;
+                         $q.all(members.map(function (member) {
+                            UserService.getUser(member.id)
+                              .then(function(response){
+                                  member = response.data;
+                                  console.log(response.data);
+                                  $scope.members.push(member);
+
+                              },handleError);
+                          })).then(function () {
+                          });
+                             
+
+              },handleError);
+
+                   
       }
 
       function handleError(error) {
             $scope.error = error;
 
       }
-      	  
 
-
+      function joinGroup(groupId){
+          GroupService.joinGroup(groupId)
+              .then(function(response){
+                  // push current user but not possible yet
+                  //$scope.members.push()
+              },handleError)
+      }
 
       $scope.tab = "timeline";
 
