@@ -9,7 +9,9 @@
             updateGroup: updateGroup,
             deleteGroup: deleteGroup,
             getGroup: getGroup,
-            getAllGroups: getAllGroups
+            getAllGroups: getAllGroups,
+            getMembers: getMembers,
+            joinGroup: joinGroup
         };
         return api;
 
@@ -58,6 +60,25 @@
         function getAllGroups(){
             console.log('Bearer '+ $localStorage.token);
             return $http.get('https://limitless-sands-55256.herokuapp.com/http://34.209.230.231:8000/groups/' , {
+                headers: {
+                    'Content-Type' : 'application/json',
+                    'Authorization': 'Bearer ' + $localStorage.token
+
+                }
+            });
+        }
+        function getMembers(groupID){
+            return $http.get('https://limitless-sands-55256.herokuapp.com/http://34.209.230.231:8000/group/'+groupID+'/members/', {
+                headers: {
+                    'Content-Type' : 'application/json',
+                    'Authorization': 'Bearer ' + $localStorage.token
+
+                }
+            });
+        }
+
+        function joinGroup(groupID){
+            return $http.post('https://limitless-sands-55256.herokuapp.com/http://34.209.230.231:8000/group/'+groupID+'/members/', {
                 headers: {
                     'Content-Type' : 'application/json',
                     'Authorization': 'Bearer ' + $localStorage.token
