@@ -106,20 +106,7 @@ public class UserTimelineFragment extends Fragment {
         });
 
 
-        hub.getApiService().getUsers().enqueue(new Callback<List<User>>() {
-            @Override
-            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
-                final User user = response.body().get(0);
-                Log.d(user.getUsername(),user.getEmail());
 
-
-            }
-
-            @Override
-            public void onFailure(Call<List<User>> call, Throwable t) {
-                Log.d("USER RESPONSE","ERROR");
-            }
-        });
 
         return view;
     }

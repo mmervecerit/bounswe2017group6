@@ -90,6 +90,9 @@ public class LoginActivity extends BaseActivity {
                           user.setId(1);
                           user.setEmail("admin@interesthub.com");
                           hub.getSessionController().setUser(user);
+                          hub.getSessionController().setToken(response.body().getToken());
+                          hub.authApiService(hub.getSessionController().getToken());
+
                           Intent intent= new Intent(view.getContext(), UserActivity.class);
                           startActivity(intent);
                       }

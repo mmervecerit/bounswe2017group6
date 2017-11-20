@@ -8,7 +8,7 @@ import java.util.List;
 
 public class ContentType {
 
-    private transient long id;
+    private  long id;
     String name;
     List<String> components;
 

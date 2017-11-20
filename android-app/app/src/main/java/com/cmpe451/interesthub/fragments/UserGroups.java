@@ -123,7 +123,7 @@ public class UserGroups extends Fragment {
                                 Intent intent = new Intent(getContext(), GroupActivity.class);
                                 intent.putExtra("groupName", String.valueOf(groupList.get(pos).getName()));
                                 intent.putExtra("groupId", groupList.get(pos).getId());
-                                intent.putExtra("groupImg", groupList.get(pos).getImage());
+                                intent.putExtra("groupImg", groupList.get(pos).getLogo());
                                 Log.d("STARTACTIVITY",String.valueOf(groupList.get(pos).getName())+" "+groupList.get(pos).getId());
                                 startActivity(intent);
                             }

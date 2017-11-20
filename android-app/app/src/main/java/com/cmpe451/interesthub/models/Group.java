@@ -12,24 +12,44 @@ public class Group {
     
     @SerializedName("id")
     long id;
-    @SerializedName("url")
-    String url;
     @SerializedName("name")
     String name;
 
     @SerializedName("description")
     String desc;
 
-    @SerializedName("image")
-    String image;
+    @SerializedName("logo")
+    String logo;
+    @SerializedName("is_public")
+    boolean is_public;
+    @SerializedName("cover_photo")
+    String cover_photo;
 
-    public String getImage() {
-        return image;
+
+    public String getLogo() {
+        return logo;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setLogo(String logo) {
+        this.logo = logo;
     }
+
+    public boolean is_public() {
+        return is_public;
+    }
+
+    public void setIs_public(boolean is_public) {
+        this.is_public = is_public;
+    }
+
+    public String getCover_photo() {
+        return cover_photo;
+    }
+
+    public void setCover_photo(String cover_photo) {
+        this.cover_photo = cover_photo;
+    }
+
 
     public String getDesc() {
         return desc;
@@ -55,11 +75,4 @@ public class Group {
         this.id = id;
     }
 
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
 }
