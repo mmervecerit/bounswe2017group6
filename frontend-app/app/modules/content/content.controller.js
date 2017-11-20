@@ -69,7 +69,9 @@
                     GroupService.getGroup(post.groups[0])
                         .then(
                             function(response){
-                                post.group = response.data;
+                                if(response.status != 404){
+                                    post.group = response.data;
+                                };
                             },handleError);
                     ContentService.getCommentsOfContent(post.id)
                             .then(function (response) {
