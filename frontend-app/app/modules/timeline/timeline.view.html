@@ -66,7 +66,7 @@
                             <div class="pull-right text-right">
                                 <i class="fa fa-calendar"></i><br> {{post.created_date | limitTo:10}}
                             </div>
-                            <div><strong>{{post.owner.username}}</strong></div>
+                            <div><strong>{{post.owner.username}}</strong> shared on <strong><a href="/group/{{post.group.id}}">{{post.group.name}}</a></strong></div>
                             <!--<div class="small"><i class="fa fa-map-marker"></i> Medellin, Colombia</div>-->
                         </div>
                         <div class="panel-body">

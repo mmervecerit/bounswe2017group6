@@ -11,7 +11,7 @@
                             <div class="col-md-12" style="margin-top:20px;">
                                 <h4 class="text-capitalize text-center"><strong>{{group.name}}</strong></h4>
                             </div>
-                            <div class="text-center"><img src="{{group.logo}}" style="width: auto; height: auto;max-width: 200x;max-height: 200px"/></div>  
+                            <div class="text-center"><img src="{{group.logo}}" style="width: auto; height: auto;max-width: 160x;max-height: 160px;"/></div>  
                             <div class=row>
                             
                             
@@ -58,7 +58,7 @@
                                  
                                         </ul>
                                     </div>
-                                    <img  src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Python_logo_and_wordmark.svg/2000px-Python_logo_and_wordmark.svg.png" class="img-responsive full-width" alt="cover" style="max-height:200px;">
+                                    <img  src="{{group.cover_photo}}" class="img-responsive full-width" alt="cover" style="max-height:200px;">
                                 </div>
                                 <ul class="list-unstyled no-padding hidden-sm hidden-xs cover-menu" ng-init="tab='timeline'">
                                     <li  ng-click="tab = 'timeline'" ng-class="{'active': tab == 'timeline'}"><a href="#"><i class="fa fa-fw fa-clock-o"></i> <span>Timeline</span></a></li>
