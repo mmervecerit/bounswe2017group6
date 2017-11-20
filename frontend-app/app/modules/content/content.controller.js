@@ -66,10 +66,15 @@
                     handleError);
             }*/
              $q.all(posts.map(function (post) {
+                    GroupService.getGroup(post.groups[0])
+                        .then(
+                            function(response){
+                                post.group = response.data;
+                            },handleError);
                     ContentService.getCommentsOfContent(post.id)
                             .then(function (response) {
                                 post.comments = response.data;
-                            });
+                            },handleError);
                     ContentService.getVotesOfContent(post.id)
                             .then(function (response) {
                                 post.votes = response.data;
@@ -85,7 +90,7 @@
                                 }
                                 post.likes = like;
                                 post.dislikes = dislike;
-                            });
+                            },handleError);
                     $scope.posts.push(post);
         
                 })).then(function () {
@@ -112,12 +117,12 @@
                 "isUp" : true,
                 "content_id": contentId
             }
-            console.log("up");
             ContentService.voteToContent(contentId,vote)
                 .then(function(response){
                     console.log(response.data);
                     $scope.posts[index].votes.push(response.data);
                 },handleError);
+                console.log($scope.posts[index].votes);
 
         }
          function downVote(index, contentId){
