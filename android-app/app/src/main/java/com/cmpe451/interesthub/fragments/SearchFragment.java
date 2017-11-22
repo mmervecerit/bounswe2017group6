@@ -20,6 +20,7 @@ import com.cmpe451.interesthub.models.Group;
 import com.cmpe451.interesthub.models.User;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import retrofit2.Call;
@@ -40,15 +41,17 @@ public class SearchFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private static ArrayAdapter groupAdapter;
-
     private static ArrayAdapter userAdapter;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
     private InterestHub hub;
+    private HashMap<String,Group> groupHashMap;
+    private HashMap<String,User> userHashMap;
     final List<Group> groupList = new ArrayList<>();
     final List<User> userList = new ArrayList<>();
+
     private OnFragmentInteractionListener mListener;
     List<String> groups,users;
     public SearchFragment() {
@@ -93,17 +96,21 @@ public class SearchFragment extends Fragment {
         groups = new ArrayList<String>();
         for(int i = 0; i< groupList.size(); i++)
             groups.add(groupList.get(i).getName());
+
         ListView listView = view.findViewById(R.id.list_view_search_groups);
         groupAdapter= new CustomAdapter(getContext(),android.R.layout.simple_list_item_1, android.R.id.text1, groups);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
+
+                Group selected = groupHashMap.get(parent.getAdapter().getItem(pos));
                 Intent intent = new Intent(getContext(), GroupActivity.class);
-                intent.putExtra("groupName", String.valueOf(groupList.get(pos).getName()));
-                intent.putExtra("groupId", groupList.get(pos).getId());
-                intent.putExtra("groupImg", groupList.get(pos).getLogo());
-                Log.d("STARTACTIVITY",String.valueOf(groupList.get(pos).getName())+" "+groupList.get(pos).getId());
+                intent.putExtra("groupName", String.valueOf(selected.getName()));
+                intent.putExtra("groupId", selected.getId());
+                intent.putExtra("groupImg", selected.getLogo());
                 startActivity(intent);
+
+
             }
         });
         listView.setAdapter(groupAdapter);
@@ -118,9 +125,6 @@ public class SearchFragment extends Fragment {
         ListView listView = view.findViewById(R.id.list_view_search_users);
         userAdapter= new CustomAdapter(getContext(),android.R.layout.simple_list_item_1, android.R.id.text1, users);
         listView.setAdapter(userAdapter);
-
-
-
 
     }
 
@@ -137,7 +141,7 @@ public class SearchFragment extends Fragment {
                 if(response.body()!=null)
                     for(Group g: response.body())
                         groupList.add(g);
-
+                setGroupHashMap(groupList);
                 setGroupAdapter(view);
             }
 
@@ -151,7 +155,7 @@ public class SearchFragment extends Fragment {
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {
                 for(User u : response.body())
                     userList.add(u);
-
+                setUserHashMap(userList);
                 setUserAdapter(view);
             }
 
@@ -164,6 +168,18 @@ public class SearchFragment extends Fragment {
         Log.d("SEARCH","listview");
         return view;
 
+    }
+
+    private void setGroupHashMap(List<Group> list) {
+        groupHashMap = new HashMap<String,Group>();
+        for(Group g : list)
+            groupHashMap.put(g.getName(),g);
+    }
+
+    private void setUserHashMap(List<User> list) {
+        userHashMap = new HashMap<String ,User>();
+        for(User g : list)
+            userHashMap.put(g.getUsername(),g);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
