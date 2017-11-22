@@ -172,7 +172,7 @@ public class UserTimelineListCustomAdapter extends RecyclerView.Adapter<Recycler
         //holder.postHeader.setText(itemList.get(position).getHeader());
 
         if(contentList.get(position).getComponents()!=null || contentList.get(position).getComponents().size()!=0 ){
-            ((ViewHolder)holder).owner.setText(contentList.get(position).getOwner().getUsername());
+            ((ViewHolder)holder).owner.setText(contentList.get(position).getOwner().getUsername()+" > " + contentList.get(position).getGroupName());
             long postDate = contentList.get(position).getCreatedDate().getTime();
             long now = Calendar.getInstance().getTimeInMillis();
             long different = now-postDate;

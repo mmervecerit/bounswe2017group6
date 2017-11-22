@@ -11,6 +11,7 @@ import com.cmpe451.interesthub.InterestHub;
 import com.cmpe451.interesthub.R;
 import com.cmpe451.interesthub.models.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -76,11 +77,13 @@ public class GroupUsers extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View  view =inflater.inflate(R.layout.fragment_group_users, container, false);
+        userList  = new ArrayList<User>();
         hub.getApiService().getGroupMembers(mParam2).enqueue(new Callback<List<User>>() {
             @Override
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {
-                for(User u : response.body())
-                    userList.add(u);
+                if(response.body()!=null)
+                    for(User u : response.body())
+                        userList.add(u);
             }
 
             @Override

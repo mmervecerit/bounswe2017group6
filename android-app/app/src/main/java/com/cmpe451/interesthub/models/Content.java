@@ -33,6 +33,15 @@ public class Content {
     User owner;
 
     long owner_id;
+    private String groupName;
+
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
 
     public List<Tag> getTags() {
         return tags;

@@ -1,5 +1,6 @@
 package com.cmpe451.interesthub.fragments;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -7,11 +8,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.cmpe451.interesthub.InterestHub;
 import com.cmpe451.interesthub.R;
+import com.cmpe451.interesthub.activities.GroupActivity;
 import com.cmpe451.interesthub.adapters.CustomAdapter;
 import com.cmpe451.interesthub.models.Group;
 import com.cmpe451.interesthub.models.User;
@@ -92,6 +95,17 @@ public class SearchFragment extends Fragment {
             groups.add(groupList.get(i).getName());
         ListView listView = view.findViewById(R.id.list_view_search_groups);
         groupAdapter= new CustomAdapter(getContext(),android.R.layout.simple_list_item_1, android.R.id.text1, groups);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
+                Intent intent = new Intent(getContext(), GroupActivity.class);
+                intent.putExtra("groupName", String.valueOf(groupList.get(pos).getName()));
+                intent.putExtra("groupId", groupList.get(pos).getId());
+                intent.putExtra("groupImg", groupList.get(pos).getLogo());
+                Log.d("STARTACTIVITY",String.valueOf(groupList.get(pos).getName())+" "+groupList.get(pos).getId());
+                startActivity(intent);
+            }
+        });
         listView.setAdapter(groupAdapter);
 
 
