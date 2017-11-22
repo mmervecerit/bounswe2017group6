@@ -50,6 +50,11 @@ urlpatterns = [
     url(r'content/(?P<pk>[0-9]+)/comments/$',ContentCommentList.as_view()),
     url(r'content/(?P<pk>[0-9]+)/votes/$',ContentVoteList.as_view()),
     
+    url(r'^user/(?P<pk>[0-9]+)/contents/$',UserContentsList.as_view()),
+    url(r'^user/(?P<pk>[0-9]+)/followers/$',UserFollowersList.as_view()),
+    url(r'^user/(?P<pk>[0-9]+)/followings/$',UserFollowingsList.as_view()),
+    url(r'^me/$',MeView.as_view()),
+
     # url(r'^test/', TestView.as_view()),
     url(r'^login/$', obtain_jwt_token),
     url(r'^register/$', UserRegisterView.as_view()),

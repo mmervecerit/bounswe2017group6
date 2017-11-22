@@ -9,6 +9,8 @@ from rest_framework import status
 from rest_framework import viewsets, mixins
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework.permissions import IsAuthenticated
+from django.contrib.auth.models import User, Group
+from content.serializers import ContentSerializer
 
 class UserViewSet(mixins.RetrieveModelMixin,mixins.ListModelMixin,mixins.UpdateModelMixin,viewsets.GenericViewSet):
     authentication_classes = (JSONWebTokenAuthentication, )
@@ -66,4 +68,36 @@ class FollowingView(APIView):
                 return Response({"error":str(e)}, status=status.HTTP_400_BAD_REQUEST)
         
         return Response({"error":"you should specify and id to follow"}, status=status.HTTP_400_BAD_REQUEST)
+
+class UserContentsList(APIView):
+    authentication_classes = (JSONWebTokenAuthentication, )
+    permission_classes = (IsAuthenticated,)
+    def get(self, request, pk, format=None):
+        user = User.objects.get(pk=pk)
+        serializer = ContentSerializer(user.content_owner.all(), many=True)
+        return Response(serializer.data)
+
+class UserFollowersList(APIView):
+    authentication_classes = (JSONWebTokenAuthentication, )
+    permission_classes = (IsAuthenticated,)
+    def get(self, request, pk, format=None):
+        user = User.objects.get(pk=pk)
+        serializer = UserSerializer(user.profile.followers, many=True)
+        return Response(serializer.data)
+
+class UserFollowingsList(APIView):
+    authentication_classes = (JSONWebTokenAuthentication, )
+    permission_classes = (IsAuthenticated,)
+    def get(self, request, pk, format=None):
+        user = User.objects.get(pk=pk)
+        serializer = UserSerializer(user.profile.followings, many=True)
+        return Response(serializer.data)
+
+class MeView(APIView):
+    authentication_classes = (JSONWebTokenAuthentication, )
+    permission_classes = (IsAuthenticated,)
+    def get(self, request, format=None):
+        user = request.user
+        serializer = UserSerializerFull(user, many=False)
+        return Response(serializer.data)
 
