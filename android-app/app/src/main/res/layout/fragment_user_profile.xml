@@ -38,21 +38,21 @@
                         android:id="@+id/user_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.25"
                         android:layout_gravity="center"
-                        android:textAlignment="center"
-                        android:textSize="19sp"
                         android:layout_marginTop="20dp"
-                        android:text="TextView" />
+                        android:layout_weight="0.25"
+                        android:text="TextView"
+                        android:textAlignment="center"
+                        android:textSize="19sp" />
 
                     <TextView
                         android:id="@+id/user_desc"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:layout_gravity="center"
-                        android:textAlignment="center"
-                        android:text="" />
+                        android:layout_weight="1"
+                        android:text=""
+                        android:textAlignment="center" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -60,13 +60,16 @@
             <android.support.design.widget.TabLayout
 
                 android:id="@+id/TabLayoutProfile"
-                android:layout_width="wrap_content"
+                style="@style/Widget.Design.TabLayout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorWhite" />
+                android:background="@color/colorWhite"
+                app:tabGravity="center" />
+
             <android.support.v4.view.ViewPager
+                android:id="@+id/ViewPagerProfile"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/ViewPagerProfile"
                 android:layout_below="@+id/TabLayoutProfile"
 
                 />
