@@ -176,9 +176,9 @@ public class UserProfile extends Fragment {
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
 /*
-        final ListView list = view.findViewById(R.id.home_list_view);
+        final ListView groupList = view.findViewById(R.id.home_list_view);
         UserHomeListAdapter adapter = new UserHomeListAdapter((UserActivity)getActivity());
-        list.setAdapter(adapter);
+        groupList.setAdapter(adapter);
         userProfileGroups = view.findViewById(R.id.user_profile_groups);
         userProfileTimeline = view.findViewById(R.id.user_profile_timeline);
 
@@ -188,7 +188,7 @@ public class UserProfile extends Fragment {
 
                 Log.d("BUTTON","groups button pressed");
                 UserHomeGroupListAdapter adapter = new UserHomeGroupListAdapter((UserActivity)getActivity(),hub.getSessionController().getUser().getGroupList());
-                list.setAdapter(adapter);
+                groupList.setAdapter(adapter);
 
 
             }
@@ -198,7 +198,7 @@ public class UserProfile extends Fragment {
             @Override
             public void onClick(View view) {
                 UserHomeListAdapter adapter = new UserHomeListAdapter((UserActivity)getActivity());
-                list.setAdapter(adapter);
+                groupList.setAdapter(adapter);
 
             }
         });

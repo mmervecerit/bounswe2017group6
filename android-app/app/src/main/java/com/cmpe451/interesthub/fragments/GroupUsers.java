@@ -7,7 +7,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.cmpe451.interesthub.InterestHub;
 import com.cmpe451.interesthub.R;
+import com.cmpe451.interesthub.models.User;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,9 +33,11 @@ public class GroupUsers extends Fragment {
 
     // TODO: Rename and change types of parameters
     private String mParam1;
-    private String mParam2;
+    private long mParam2;
 
     private OnFragmentInteractionListener mListener;
+    List<User> userList;
+    InterestHub hub;
 
     public GroupUsers() {
         // Required empty public constructor
@@ -42,11 +52,11 @@ public class GroupUsers extends Fragment {
      * @return A new instance of fragment UserEvents.
      */
     // TODO: Rename and change types and number of parameters
-    public static GroupUsers newInstance(String param1, String param2) {
+    public static GroupUsers newInstance(String param1, long param2) {
         GroupUsers fragment = new GroupUsers();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putLong(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -56,15 +66,29 @@ public class GroupUsers extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            mParam2 = getArguments().getLong(ARG_PARAM2);
         }
+        hub = (InterestHub) getActivity().getApplication();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_group_users, container, false);
+        View  view =inflater.inflate(R.layout.fragment_group_users, container, false);
+        hub.getApiService().getGroupMembers(mParam2).enqueue(new Callback<List<User>>() {
+            @Override
+            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+                for(User u : response.body())
+                    userList.add(u);
+            }
+
+            @Override
+            public void onFailure(Call<List<User>> call, Throwable t) {
+
+            }
+        });
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

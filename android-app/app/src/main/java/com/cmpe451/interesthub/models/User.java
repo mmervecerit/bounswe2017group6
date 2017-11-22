@@ -19,7 +19,15 @@ public class User {
     @SerializedName("email")
     String email;
 
+    Profile profile;
 
+    public Profile getProfile() {
+        return profile;
+    }
+
+    public void setProfile(Profile profile) {
+        this.profile = profile;
+    }
 
     public long getId() {
         return id;

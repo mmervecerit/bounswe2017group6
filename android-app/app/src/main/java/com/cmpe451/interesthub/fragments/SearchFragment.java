@@ -1,6 +1,5 @@
 package com.cmpe451.interesthub.fragments;
 
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,14 +7,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.cmpe451.interesthub.InterestHub;
 import com.cmpe451.interesthub.R;
-import com.cmpe451.interesthub.models.Content;
+import com.cmpe451.interesthub.adapters.CustomAdapter;
 import com.cmpe451.interesthub.models.Group;
+import com.cmpe451.interesthub.models.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,15 +36,18 @@ public class SearchFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private static ArrayAdapter adapter;
+    private static ArrayAdapter groupAdapter;
+
+    private static ArrayAdapter userAdapter;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
     private InterestHub hub;
-    final List<Group> list = new ArrayList<>();
+    final List<Group> groupList = new ArrayList<>();
+    final List<User> userList = new ArrayList<>();
     private OnFragmentInteractionListener mListener;
-    List<String> groups;
+    List<String> groups,users;
     public SearchFragment() {
         // Required empty public constructor
     }
@@ -84,13 +86,25 @@ public class SearchFragment extends Fragment {
 
     }
 
-    private void setAdapter(View view) {
+    private void setGroupAdapter(View view) {
         groups = new ArrayList<String>();
-        for(int i = 0 ;i<list.size();i++)
-            groups.add(list.get(i).getName());
-        ListView listView = view.findViewById(R.id.list_view_search);
-        adapter= new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1, android.R.id.text1, groups);
-        listView.setAdapter(adapter);
+        for(int i = 0; i< groupList.size(); i++)
+            groups.add(groupList.get(i).getName());
+        ListView listView = view.findViewById(R.id.list_view_search_groups);
+        groupAdapter= new CustomAdapter(getContext(),android.R.layout.simple_list_item_1, android.R.id.text1, groups);
+        listView.setAdapter(groupAdapter);
+
+
+
+    }
+    private void setUserAdapter(View view) {
+        users = new ArrayList<String>();
+        for(int i = 0; i< userList.size(); i++)
+            users.add(userList.get(i).getUsername());
+        ListView listView = view.findViewById(R.id.list_view_search_users);
+        userAdapter= new CustomAdapter(getContext(),android.R.layout.simple_list_item_1, android.R.id.text1, users);
+        listView.setAdapter(userAdapter);
+
 
 
 
@@ -108,13 +122,27 @@ public class SearchFragment extends Fragment {
             public void onResponse(Call<List<Group>> call, Response<List<Group>> response) {
                 if(response.body()!=null)
                     for(Group g: response.body())
-                        list.add(g);
+                        groupList.add(g);
 
-                setAdapter(view);
+                setGroupAdapter(view);
             }
 
             @Override
             public void onFailure(Call<List<Group>> call, Throwable t) {
+
+            }
+        });
+        hub.getApiService().getUsers().enqueue(new Callback<List<User>>() {
+            @Override
+            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+                for(User u : response.body())
+                    userList.add(u);
+
+                setUserAdapter(view);
+            }
+
+            @Override
+            public void onFailure(Call<List<User>> call, Throwable t) {
 
             }
         });
@@ -137,7 +165,9 @@ public class SearchFragment extends Fragment {
     }
 
     public static void changeAdapter(String text){
-        adapter.getFilter().filter(text);
+
+        groupAdapter.getFilter().filter(text);
+        userAdapter.getFilter().filter(text);
     }
 
 }

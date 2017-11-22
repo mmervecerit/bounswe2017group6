@@ -11,6 +11,7 @@ import com.cmpe451.interesthub.fragments.UserEvents;
 import com.cmpe451.interesthub.fragments.UserGroups;
 import com.cmpe451.interesthub.fragments.UserProfile;
 import com.cmpe451.interesthub.fragments.UserTimelineFragment;
+import com.cmpe451.interesthub.models.Group;
 
 /**
  * Created by eren on 19.10.2017.
@@ -30,7 +31,7 @@ public class GroupFragmentsAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
             if(  position == 0 ) return GroupPosts.newInstance(name,id);
-        else if ( position==1)return new GroupUsers();
+        else if ( position==1)return GroupUsers.newInstance(name,id);
         else return new GroupInfo();
 
     }
