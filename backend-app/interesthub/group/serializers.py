@@ -31,22 +31,19 @@ class InterestGroupSerializer(serializers.HyperlinkedModelSerializer):
             validated_data = serializer.validated_data
         else:
             raise serializers.ValidationError(serializer.errors)
-
-        try:
-            validated_data["tags"] = []
-            for tag in tags_data:
-                t = Tag.objects.filter(label=tag["label"])
-                if t.exists():
-                    validated_data["tags"].append(tag)
+        
+        validated_data["tags"] = []
+        for tag in tags_data:
+            t = Tag.objects.filter(label=tag["label"])
+            if t.exists():
+                validated_data["tags"].append(tag)
+            else:
+                serializer = TagSerializer(data = tag)
+                if serializer.is_valid():
+                    validated_data["tags"].append(serializer.validated_data)
                 else:
-                    serializer = TagSerializer(data = tag)
-                    if serializer.is_valid():
-                        validated_data["tags"].append(serializer.validated_data)
-                    else:
-                        ValidationError(serializer.errors)
-        except Exception as e:
-            if not self.partial:
-                raise serializers.ValidationError(str(e))
+                    print(serializer.errors)
+                    raise serializers.ValidationError(serializer.errors)
 
         return validated_data
 
