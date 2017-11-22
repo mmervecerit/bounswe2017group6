@@ -1,5 +1,7 @@
 package com.cmpe451.interesthub.services;
 
+import android.widget.ListView;
+
 import com.cmpe451.interesthub.models.Component;
 import com.cmpe451.interesthub.models.Content;
 import com.cmpe451.interesthub.models.ContentType;
@@ -73,5 +75,8 @@ public interface ApiService {
 
     @POST("group/{group_id}/content-types/")
     Call<ContentType> postNewTemplate(@Path(value = "group_id", encoded = true)  long groupId, @Body RequestBody template);
+
+    @GET("group/{group_id}/members/")
+    Call<List<User>> getGroupMembers(@Path(value ="group_id",encoded = true) long groupId);
 
 }
