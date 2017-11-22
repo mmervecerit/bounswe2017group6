@@ -117,7 +117,6 @@ public class UserProfile extends Fragment {
                 .load("https://avatars1.githubusercontent.com/u/15267081?s=460&v=4")
                 .resize(200,200).into(profileImg);
 
-
         tabLayout = (TabLayout) view.findViewById(R.id.TabLayoutProfile);
         viewPager = (ViewPager) view.findViewById(R.id.ViewPagerProfile);
         viewPagerAdapter = new UserProfileTabsAdapter(getFragmentManager());
@@ -141,19 +140,28 @@ public class UserProfile extends Fragment {
         });
 
         final TabLayout.Tab home = tabLayout.newTab();
-        final TabLayout.Tab group = tabLayout.newTab();
-        final TabLayout.Tab events = tabLayout.newTab();
-        final TabLayout.Tab profile = tabLayout.newTab();
+        final TabLayout.Tab followers = tabLayout.newTab();
+        final TabLayout.Tab following = tabLayout.newTab();
+        final TabLayout.Tab groups = tabLayout.newTab();
 
         home.setText("My Posts");
-        group.setText("Followers");
-        events.setText("Following");
-        profile.setText("Groups");
+        followers.setText("Followers");
+        following.setText("Following");
+        groups.setText("Groups");
 
         tabLayout.addTab(home,0);
-        tabLayout.addTab(group,1);
-        tabLayout.addTab(events,2);
-        tabLayout.addTab(profile,3);
+        tabLayout.addTab(followers,1);
+        tabLayout.addTab(following,2);
+        tabLayout.addTab(groups,3);
+        tabLayout.removeTabAt(4);
+        //int a = tabLayout.getTabCount();
+        tabLayout.removeTabAt(4);
+        //a = tabLayout.getTabCount();
+        tabLayout.removeTabAt(4);
+        //a = tabLayout.getTabCount();
+        tabLayout.removeTabAt(4);
+        //a = tabLayout.getTabCount();
+        //since tablayout has 8 default tabs, we should remove the unwanted tabs.gettabcount is used to debug.
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -175,34 +183,6 @@ public class UserProfile extends Fragment {
         tabLayout.setTabTextColors(Color.BLACK,Color.BLACK);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
-/*
-        final ListView list = view.findViewById(R.id.home_list_view);
-        UserHomeListAdapter adapter = new UserHomeListAdapter((UserActivity)getActivity());
-        list.setAdapter(adapter);
-        userProfileGroups = view.findViewById(R.id.user_profile_groups);
-        userProfileTimeline = view.findViewById(R.id.user_profile_timeline);
-
-        userProfileGroups.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Log.d("BUTTON","groups button pressed");
-                UserHomeGroupListAdapter adapter = new UserHomeGroupListAdapter((UserActivity)getActivity(),hub.getSessionController().getUser().getGroupList());
-                list.setAdapter(adapter);
-
-
-            }
-        });
-
-        userProfileTimeline.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                UserHomeListAdapter adapter = new UserHomeListAdapter((UserActivity)getActivity());
-                list.setAdapter(adapter);
-
-            }
-        });
-        */
         return view;
     }
 
