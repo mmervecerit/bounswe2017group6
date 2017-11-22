@@ -45,7 +45,7 @@ public interface ApiService {
 
     @POST("users/")
     @FormUrlEncoded
-    Call <User> addUser (@Field("username") String username,@Field("email") String email);
+    Call <User> addUser (@Field("username") String username,@Field("email") String email, @Field("password") String password);
 
     @GET("groups/")
     Call<List<Group>> getGroup();
