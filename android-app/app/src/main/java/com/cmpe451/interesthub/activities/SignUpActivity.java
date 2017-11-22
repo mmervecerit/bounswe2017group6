@@ -42,9 +42,9 @@ public class SignUpActivity extends BaseActivity {
             @Override
             public void onClick(final View view) {
 
-                if(!e.getText().toString().equals(null) && !e3.getText().toString().equals(null)){
+                if(!e.getText().toString().equals(null) && !e3.getText().toString().equals(null) && !e4.getText().toString().equals(null)){
 
-                    hub.getApiService().addUser(e.getText().toString(),e3.getText().toString()).enqueue(new Callback<User>() {
+                    hub.getApiService().addUser(e.getText().toString(),e3.getText().toString(),e4.getText().toString()).enqueue(new Callback<User>() {
                         @Override
                         public void onResponse(Call<User> call, Response<User> response) {
                             Log.d("Signup ", "Signup response succesfull");

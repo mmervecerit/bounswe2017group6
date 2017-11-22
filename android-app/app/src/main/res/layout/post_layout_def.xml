@@ -79,6 +79,25 @@
                 android:layout_gravity="center"
                 android:text="Comment" />
 
+            <ImageButton
+                android:layout_width="45dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                android:background="@color/cardview_comment"
+                android:scaleType="fitXY"
+                android:src="@drawable/thumbs_up" />
+
+            <ImageButton
+                android:layout_width="45dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="12dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                android:background="@color/cardview_comment"
+                android:src="@drawable/thumbs_down" />
+
 
         </LinearLayout>
     </RelativeLayout>
