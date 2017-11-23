@@ -28,9 +28,8 @@
             console.log(response.data);
 
             $scope.tags = response.data;
-
         }
-        
+       
        
 
         function remove(group)
@@ -51,8 +50,7 @@
         
         function add(group)
         {
-            console.log("add init");
-			tags = JSON.parse(angular.toJson(group.tags));
+            tags = JSON.parse(angular.toJson(group.tags));
             //group.tags = [];
             console.log(group);
             if(group.is_public == "public"){
@@ -67,9 +65,6 @@
 
             $scope.newgroup.tags = [];
 
-            
-
-
 
         }      
         function handleSuccessGroup(response) {
@@ -80,7 +75,7 @@
 
         function handleSuccess(response) {
             $scope.groups = response.data;
-        	
+            
         }
 
         function handleError(error) {
@@ -132,9 +127,7 @@
                     "url" : tag.url
                 }
               
-
                 $scope.newgroup.tags.push(tagStored);
-
                 $scope.selected = undefined;
             }
           }
@@ -146,5 +139,5 @@
           
                          
  
-	}
+    }
 })();
