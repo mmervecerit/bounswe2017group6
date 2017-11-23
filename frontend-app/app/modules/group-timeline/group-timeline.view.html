@@ -8,18 +8,24 @@
                     <ul class="list-unstyled">
                        
                         <li>
+                            <div class="col-md-12" style="margin-top:20px;">
+                                <h4 class="text-capitalize text-center"><strong>{{group.name}}</strong></h4>
+                            </div>
+                            <div class="text-center"><img src="{{group.logo}}" style="width: auto; height: auto;max-width: 160x;max-height: 160px;"/></div>  
                             <div class=row>
-                            <div class="col-md-4" style="margin-top:20px;"><h4 class="text-capitalize text-right"><strong>{{group.name}}</strong></h4></div>
-                            <div class="col-md-4"><img src="{{group.image}}" style="margin-left: 10px; width: auto; height: auto;max-width: 60x;max-height: 60px"/></div>                                                  
+                            
+                            
+                                                                           
                         </div>
                         </li>
                         <hr/>
                         <li>
                             <p></p>
-                            <p><strong>Description:</strong> {{group.description}}</p>
+                            <p>{{group.description}}</p>
                         </li>
                         <li>
-                            <a href="" class="btn btn-info text-center btn-block">Join</a>
+                            <a ng-show="!joined" ng-click="joinGroup(group.id)" class="btn btn-info text-center btn-block">Join</a>
+                            <label class="btn btn-success text-center" ng-show="joined">Joined</label>
                         </li>
  
                     </ul>
@@ -53,7 +59,7 @@
                                  
                                         </ul>
                                     </div>
-                                    <img  src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Python_logo_and_wordmark.svg/2000px-Python_logo_and_wordmark.svg.png" class="img-responsive full-width" alt="cover" style="max-height:200px;">
+                                    <img  src="{{group.cover_photo}}" class="img-responsive full-width" alt="cover" style="max-height:200px;">
                                 </div>
                                 <ul class="list-unstyled no-padding hidden-sm hidden-xs cover-menu" ng-init="tab='timeline'">
                                     <li  ng-click="tab = 'timeline'" ng-class="{'active': tab == 'timeline'}"><a href="#"><i class="fa fa-fw fa-clock-o"></i> <span>Timeline</span></a></li>
@@ -133,13 +139,13 @@
                       </uib-tab>
                     </uib-tabset>
                         <div class="panel-footer">
-                            <div class="btn-group">
+                            <!--<div class="btn-group">
                                 <button type="button" class="btn btn-link"><i class="fa fa-map-marker"></i></button>
                                 <button type="button" class="btn btn-link"><i class="fa fa-users"></i></button>
                                 <button type="button" class="btn btn-link"><i class="fa fa-camera"></i></button>
                                 <button type="button" class="btn btn-link"><i class="fa fa-video-camera"></i></button>
                                 <button type="button" class="btn btn-link"><i class="fa fa-calendar-o"></i></button>
-                            </div>
+                            </div>-->
                             
                             <div class="pull-right" >
 
@@ -154,10 +160,9 @@
 					
 
 
-
-                   <div class="panel panel-info" ng-repeat="post in posts">
+                   <div class="panel panel-info" ng-repeat="post in posts " ng-init="postIndex = $index">
                         <div class="panel-heading">
-                            <img src="https://bootdey.com/img/Content/avatar/avatar2.png" class="img-rounded">
+                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="img-rounded">
                             <div class="pull-right text-right">
                                 <i class="fa fa-calendar"></i><br> {{post.created_date | limitTo:10}}
                             </div>
@@ -165,103 +170,90 @@
                             <!--<div class="small"><i class="fa fa-map-marker"></i> Medellin, Colombia</div>-->
                         </div>
                         <div class="panel-body">
-                            <div id="components" ng-repeat="component in post.content_type.components | orderBy: 'post.components.order' track by $index">
-                                <div  ng-if="component=='text'">
-                                    <p>
-                                        <strong><label>{{post.content_type.component_names[$index]}}:</label></strong>
-                                        {{post.components[$index].type_data.data}} 
-                                    </p>
-                                </div>
-                                <div ng-if="component=='longtext'">
-                                   <p>
-                                        <strong><label>{{post.content_type.component_names[$index]}}:</label></strong>
-                                        {{post.components[$index].type_data.data}} 
-                                    </p>
-                                </div>
-                                <div ng-if="component=='number'">
-                                     <p>
-                                        <strong><label>{{post.content_type.component_names[$index]}}:</label></strong>
-                                        {{post.components[$index].type_data.data}} 
-                                    </p>
-                                </div>
-                                <div ng-if="component=='datetime'">
-                                    <p>
-                                        <strong><label>{{post.content_type.component_names[$index]}}:</label></strong>
-                                        {{post.components[$index].type_data.data}} 
-                                    </p>
-                                </div>
-                                <div ng-if="component=='video'">
-                                     <p>
-                                        <strong><label>{{post.content_type.component_names[$index]}}</label></strong>:
-                                        <a ng-href="{{post.components[$index].type_data.data}}">{{post.components[$index].type_data.data}}</a> 
-                                    </p>
-                                </div>
-                                <div ng-if="component == 'image'">
-                                    <p>
-                                        <strong><label>{{post.content_type.component_names[$index]}}</label></strong>
-                                        <img ng-src="{{post.components[$index].type_data.data}}"></p> 
-                                    </p>
-                                </div>
-                                <div ng-if="component=='dropdown'">
-                                     <p>
-                                        <strong><label>{{post.content_type.component_names[$index]}}</label></strong>:
-                                        {{post.components[$index].type_data.data}} 
-                                    </p>
-                                </div>
-                                <div ng-if="component=='radiobutton'">
-                                     <p>
-                                        <strong><label>{{post.content_type.component_names[$index]}}</label></strong>:
-                                        {{post.components[$index].type_data.data}} 
-                                    </p>
-                                </div>
 
-                                
-                               
-                            </div>
-                             <div class="actions">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-link"><i class="fa fa-thumbs-o-up"></i> Like</button>
-                                        <button type="button" class="btn btn-link"><i class="fa fa-share"></i> Share</button>
+                                <div id="components" class="col-lg-12 col-md-12 col-sm-12" ng-repeat="component in post.content_type.components track by $index " ng-init="comIndex= $index">
+
+                                    <div  ng-if="component=='text'">
+
+                                        <div class="col-lg-3 col-md-3 col-sm-4" ng-show="post.content_type.component_names[comIndex]">
+                                            <strong><label>{{post.content_type.component_names[comIndex]}}:</label></strong>
+                                        </div>
+                                            {{post.components[comIndex].type_data.data}} 
+                                           
+                                        
                                     </div>
-                                    <div class="pull-right"><strong>{{post.likes}}</strong> People liked this</div>      
-                                </div>  
-                            <!--
-                            <div class="media">
-                                <a class="pull-left" href="#">
-                                    <img class="media-object img-rounded" src="https://bootdey.com/img/Content/avatar/avatar2.png">
-                                </a>
-                                <div class="media-body">
-                                    <div class="pull-right small">3 hours ago</div>
-                                    <h4 class="media-heading">Media heading</h4>
-                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
+                                    <div ng-if="component=='longtext'">
+                                        <div class="col-lg-3 col-md-3 col-sm-4" ng-show="post.content_type.component_names[comIndex]">
+                                            <strong><label>{{post.content_type.component_names[comIndex]}}:</label></strong>
+                                        </div>
+                                            {{post.components[comIndex].type_data.data}} 
+                                    </div>
+                                    <div ng-if="component=='number'">
+                                        <div class="col-lg-3 col-md-3 col-sm-4" ng-show="post.content_type.component_names[comIndex]">
+                                            <strong><label>{{post.content_type.component_names[comIndex]}}:</label></strong>
+                                        </div>
+                                        
+                                            {{post.components[comIndex].type_data.data | number : 2}}
+                                           
+                                    </div>
+                                    <div ng-if="component=='datetime'">                                        
+                                        <div class="col-lg-3 col-md-3 col-sm-4" ng-show="post.content_type.component_names[comIndex]">
+
+                                        
+                                            <strong><label>{{post.content_type.component_names[comIndex]}}:</label></strong>
+                                        </div>
+
+                                            {{post.components[comIndex].type_data.data}} 
+                                    </div>
+                                    <div ng-if="component=='video'">
+                                        <div class="col-lg-3 col-md-3 col-sm-4" ng-show="post.content_type.component_names[comIndex]">
+
+                                            <strong><label>{{post.content_type.component_names[comIndex]}}</label></strong>:
+                                        </div>
+                                            <a ng-href="{{post.components[comIndex].type_data.data}}">{{post.components[comIndex].type_data.data}}</a> 
+                                    </div>
+                                    <div ng-if="component=='image'">
+                                        <div class="col-lg-3 col-md-3 col-sm-4" ng-show="post.content_type.component_names[comIndex]">
+                                            <strong><label>{{post.content_type.component_names[comIndex]}}</label></strong>
+                                        </div>
+                                            <img ng-src="{{post.components[comIndex].type_data.data}}"></p> 
+                                    </div>
+                                    <div ng-if="component=='dropdown'">
+                                         <p>
+                                            <strong><label>{{post.content_type.component_names[comIndex]}}</label></strong>:
+                                            {{post.components[comIndex].type_data.data}} 
+                                        </p>
+                                    </div>
+                                    <div ng-if="component=='radiobutton'">
+                                         <p>
+                                            <strong><label>{{post.content_type.component_names[comIndex]}}</label></strong>:
+                                            {{post.components[comIndex].type_data.data}} 
+                                        </p>
+                                    </div>      
+                                </div>
+                            <div class="actions">
+                                <div class="btn-group">
+                                        <button type="button" class="btn btn-link" ng-click="upVote(postIndex, post.id)"><i class="fa fa-thumbs-o-up"></i><span class="badge">{{post.likes}}</span></button>
+                                        <button type="button" class="btn btn-link" ng-click="downVote(postIndex, post.id)"><i class="fa fa-thumbs-o-down"></i><span class="badge">{{post.dislikes}}</span> </button>
                                 </div>
                             </div>
                             
-                            <div class="media">
-                                <a class="pull-left" href="#">
-                                    <img class="media-object img-rounded" src="https://bootdey.com/img/Content/avatar/avatar2.png">
+                            <div class="media" ng-repeat="comment in post.comments">
+                                <a class="pull-left" ng-href="/user/{{comment.owner.id}}">
+                                    <img class="media-object img-rounded" ng-src="https://bootdey.com/img/Content/avatar/avatar2.png">
                                 </a>
                                 <div class="media-body">
-                                    <div class="pull-right small">3 hours ago</div>
-                                    <h4 class="media-heading">Media heading</h4>
-                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
+                                    <div class="pull-right small">{{comment.created_date | date:'dd/MM/yyyy HH:mm'}}</div>
+                                    <!--<h4 class="media-heading">Media heading</h4>-->
+                                    <label>{{comment.owner.username}}</label><p>{{comment.text}}</p>
+                                    
                                 </div>
                             </div>
+                         
                             
-                            <div class="media">
-                                <a class="pull-left" href="#">
-                                    <img class="media-object img-rounded" src="https://bootdey.com/img/Content/avatar/avatar2.png">
-                                </a>
-                                <div class="media-body">
-                                    <div class="pull-right small">3 hours ago</div>
-                                    <h4 class="media-heading">Media heading</h4>
-                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
-                                </div>
-                            </div>
-                            -->
                         </div>
                         <div class="panel-footer">
-                            <input  class="form-control" placeholder="Write a comment...">
+                            <input class="form-control" ng-model="newcomment" ng-keyup="$event.keyCode == 13 && postComment(newcomment,postIndex, post.id)" placeholder="Write a comment...">
                         </div>
                     </div>
                 </div>
@@ -300,24 +292,11 @@
                         </div>
                         <div class="panel-body">
                           
-                        <div class="row">
-                            <div class="col-md-4"><a href="/profile" class="thumbnail"><img src="https://scontent-frt3-2.xx.fbcdn.net/v/t1.0-9/16174471_10210225282420728_2157042507789656179_n.jpg?oh=55c32619210a9bcbd2342cdc0a001fa3&oe=5A6D079F" alt=""></a></div>
-                            <div class="col-md-4"><a href="/profile" class="thumbnail"><img src="assets/user.png" alt=""></a></div>
-                             <div class="col-md-4"><a href="/profile" class="thumbnail"><img src="assets/user.png" alt=""></a></div>
-                        </div>
-                          
-                        <div class="row">
-                                <div class="col-md-4"><a href="/profile" class="thumbnail"><img src="assets/user.png" alt=""></a></div>
-                                <div class="col-md-4"><a href="/profile" class="thumbnail"><img src="assets/user.png" alt=""></a></div>
-                                 <div class="col-md-4"><a href="/profile" class="thumbnail"><img src="assets/user.png" alt=""></a></div>
+                            <div class="row" ng-repeat="member in members | limitTo: 9">
+                                <div class="col-md-4"><a href="/user/{{member.id}}" class="thumbnail"><img src="assets/user.png" title="{{member.username}}" alt=""></a></div>
+                                
                             </div>
                           
-                            <div class="row">
-                                    <div class="col-md-4"><a href="/profile" class="thumbnail"><img src="assets/user.png" alt=""></a></div>
-                                    <div class="col-md-4"><a href="/profile" class="thumbnail"><img src="assets/user.png" alt=""></a></div>
-                                     <div class="col-md-4"><a href="/profile" class="thumbnail"><img src="assets/user.png" alt=""></a></div>
-                                </div>
-                      
                           <div class="clearfix"></div>
                           <a class="btn btn-primary" href="#">View All Members</a>
                         </div>

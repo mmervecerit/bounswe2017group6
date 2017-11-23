@@ -5,7 +5,7 @@
         .module("interestHub")
         .controller("PostCtrl", PostCtrl);
     
-    function PostCtrl($scope,  $rootScope, $location, PostService, $routeParams, TemplateService)
+    function PostCtrl($scope,  $rootScope, $location, PostService, $routeParams, TemplateService, $q,ContentService)
 
     {    
 
@@ -15,6 +15,7 @@
         $scope.add    = add;
       	$scope.tab = {};
 		$scope.typeSelect=typeSelect;
+        $scope.templates = [];
         function init() {
        
 
@@ -24,6 +25,7 @@
 			TemplateService
 				.getAllTemplates($routeParams.id)
 				.then(tempSuccess, tempError);
+
         }
         
         init();
@@ -101,7 +103,35 @@
         }
 
         function handleSuccess(response) {
-            $scope.posts = response.data; 
+            //$scope.posts = response.data;
+            $scope.posts = [];
+            posts = response.data;
+                        $q.all(posts.map(function (post) {
+                   
+                    ContentService.getCommentsOfContent(post.id)
+                            .then(function (response) {
+                                post.comments = response.data;
+                            },handleError);
+                    ContentService.getVotesOfContent(post.id)
+                            .then(function (response) {
+                                post.votes = response.data;
+                                console.log(post.votes);
+                                var like = 0;
+                                var dislike = 0;
+                                for (var i = 0; i < post.votes.length; i++){
+                                    if (post.votes[i].isUp == true){
+                                        like = like + 1;
+                                    }else{
+                                        dislike = dislike + 1;
+                                    }
+                                }
+                                post.likes = like;
+                                post.dislikes = dislike;
+                            },handleError);
+                    $scope.posts.push(post);
+        
+                })).then(function () {
+                }); 
             //console.log($scope.posts);
 
         }
