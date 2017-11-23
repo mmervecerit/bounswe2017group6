@@ -24,7 +24,8 @@
                             <p>{{group.description}}</p>
                         </li>
                         <li>
-                            <a ng-click="joinGroup(group.id)" class="btn btn-info text-center btn-block">Join</a>
+                            <a ng-show="!joined" ng-click="joinGroup(group.id)" class="btn btn-info text-center btn-block">Join</a>
+                            <label class="btn btn-success text-center" ng-show="joined">Joined</label>
                         </li>
  
                     </ul>
@@ -138,13 +139,13 @@
                       </uib-tab>
                     </uib-tabset>
                         <div class="panel-footer">
-                            <div class="btn-group">
+                            <!--<div class="btn-group">
                                 <button type="button" class="btn btn-link"><i class="fa fa-map-marker"></i></button>
                                 <button type="button" class="btn btn-link"><i class="fa fa-users"></i></button>
                                 <button type="button" class="btn btn-link"><i class="fa fa-camera"></i></button>
                                 <button type="button" class="btn btn-link"><i class="fa fa-video-camera"></i></button>
                                 <button type="button" class="btn btn-link"><i class="fa fa-calendar-o"></i></button>
-                            </div>
+                            </div>-->
                             
                             <div class="pull-right" >
 

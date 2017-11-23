@@ -4,33 +4,41 @@
         .module("interestHub")
         .controller("GroupTimelineCtrl", GroupTimelineCtrl);
     
-    function GroupTimelineCtrl($scope, $q, $rootScope,  $location, $routeParams, GroupService,TemplateService, UserService)
+    function GroupTimelineCtrl($scope, $q, $rootScope,  $location, $routeParams, GroupService, TemplateService, UserService, $localStorage)
     {
-
+      $scope.joined = false;  
+      console.log($scope.joined);
+      checkJoined();
       $scope.joinGroup = joinGroup;
       console.log($routeParams.id);
+    
       $scope.group = GroupService.getGroup($routeParams.id)
                         .then(handleSuccess,handleError);
+      
+      function checkJoined(){
+        UserService.getGroups($localStorage.user.id)
+          .then(function(response){
+            groups = response.data;
+            for(var i = 0; i < groups.length;i++){
+              if(groups[i].id == $routeParams.id){
 
+                $scope.joined = true;
+                console.log($scope.joined);
+                return true;
+              }
+            }
+            return false;
+          },handleError);
+      }
+      
       function handleSuccess(response) {
             $scope.group = response.data;
             $scope.members = [];
             members = [];   
             GroupService.getMembers($routeParams.id)
                     .then(function(response){
-                        members = response.data;
-                         $q.all(members.map(function (member) {
-                            UserService.getUser(member.id)
-                              .then(function(response){
-                                  member = response.data;
-                                  console.log(response.data);
-                                  $scope.members.push(member);
-
-                              },handleError);
-                          })).then(function () {
-                          });
-                             
-
+                        $scope.members = response.data;             
+                        console.log($scope.members);
               },handleError);
 
                    
@@ -38,15 +46,19 @@
 
       function handleError(error) {
             $scope.error = error;
+            console.log(error);
 
       }
 
       function joinGroup(groupId){
+        $scope.joined = true;
           GroupService.joinGroup(groupId)
               .then(function(response){
-                  // push current user but not possible yet
-                  //$scope.members.push()
-              },handleError)
+                console.log(response.data);
+                  $scope.members.push($localStorage.user);
+                  console.log($scope.members);
+
+              },handleError);
       }
 
       $scope.tab = "timeline";
