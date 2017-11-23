@@ -4,6 +4,7 @@ import android.app.Application;
 import android.util.Log;
 
 import com.cmpe451.interesthub.controllers.SessionController;
+import com.cmpe451.interesthub.models.Content;
 import com.cmpe451.interesthub.services.ApiService;
 
 import java.io.IOException;
@@ -24,6 +25,16 @@ public class InterestHub extends Application {
 
     private SessionController sessionController;
     private ApiService apiService;
+
+    public Content getTempContent() {
+        return tempContent;
+    }
+
+    public void setTempContent(Content tempContent) {
+        this.tempContent = tempContent;
+    }
+
+    private Content tempContent;
 
     public SessionController getSessionController() {
         if(sessionController == null){

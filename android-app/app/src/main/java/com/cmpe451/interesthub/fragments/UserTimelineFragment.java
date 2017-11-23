@@ -1,26 +1,23 @@
 package com.cmpe451.interesthub.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
 import com.cmpe451.interesthub.InterestHub;
 import com.cmpe451.interesthub.R;
+import com.cmpe451.interesthub.activities.ContentActivity;
 import com.cmpe451.interesthub.activities.UserActivity;
-import com.cmpe451.interesthub.adapters.UserTimelineListAdapter;
-import com.cmpe451.interesthub.adapters.UserTimelineListCustomAdapter;
-import com.cmpe451.interesthub.models.Component;
+import com.cmpe451.interesthub.adapters.MultipleContentAdapter;
+import com.cmpe451.interesthub.adapters.SingleContentAdapter;
 import com.cmpe451.interesthub.models.Content;
 import com.cmpe451.interesthub.models.Group;
-import com.cmpe451.interesthub.models.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +33,7 @@ public class UserTimelineFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     private Context context;
     RecyclerView postList;
-
+    private InterestHub hub ;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -78,8 +75,8 @@ public class UserTimelineFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_user_timeline, container, false);
-        final InterestHub hub = (InterestHub) ((UserActivity) getActivity()).getApplication();
         postList = (RecyclerView)view.findViewById(R.id.recycler_view);
+        hub = (InterestHub) getActivity().getApplication();
         hub.getApiService().getUserGroups(hub.getSessionController().getUser().getId()).enqueue(new Callback<List<Group>>() {
             @Override
             public void onResponse(Call<List<Group>> call, Response<List<Group>> response) {
@@ -145,10 +142,19 @@ public class UserTimelineFragment extends Fragment {
         return view;
     }
 
-    public void setAdapter(List<Content> contentList){
+    public void setAdapter(final List<Content> contentList){
         final LinearLayoutManager ll = new LinearLayoutManager(((UserActivity)getActivity()));
         ll.setOrientation(LinearLayoutManager.VERTICAL);
-        UserTimelineListCustomAdapter adapter = new UserTimelineListCustomAdapter(context,contentList);
+        MultipleContentAdapter.OnItemClickListener listener = new MultipleContentAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int pos) {
+                hub.setTempContent(contentList.get(pos));
+
+                Intent intent = new Intent(getContext(), ContentActivity.class);
+                startActivity(intent);
+            }
+        };
+        MultipleContentAdapter adapter = new MultipleContentAdapter(context,contentList,listener);
 
         postList.setLayoutManager(ll);
 

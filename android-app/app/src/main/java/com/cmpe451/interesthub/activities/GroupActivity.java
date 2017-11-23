@@ -51,7 +51,7 @@ public class GroupActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_group);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -82,7 +82,7 @@ public class GroupActivity extends BaseActivity {
         if(groupImg!=null && !groupImg.equals(null) && !groupImg.equals(""))
             builder.build().load(groupImg).into(img);
         //img.setScaleType(ImageView.ScaleType.FIT_CENTER);
-        tabLayout = (TabLayout) findViewById(R.id.TabLayout_group);
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
         viewPager = (ViewPager) findViewById(R.id.ViewPager_group);
         viewPagerAdapter = new GroupFragmentsAdapter(getSupportFragmentManager(),groupId,groupName);
         viewPager.setAdapter(viewPagerAdapter);
