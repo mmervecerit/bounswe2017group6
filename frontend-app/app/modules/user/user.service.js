@@ -9,10 +9,27 @@
             updateUser: updateUser,
             deleteUser: deleteUser,
             getUser: getUser,
-            getAllUsers: getAllUsers
+            getAllUsers: getAllUsers,
+            getLoggedInUser: getLoggedInUser,
+            getFollowings: getFollowings,
+            getFollowers: getFollowers,
+            getFollowingsOfCurrent: getFollowingsOfCurrent,
+            getFollowersOfCurrent: getFollowersOfCurrent,
+            getContents: getContents,
+            getGroups: getGroups,
+            followUser: followUser
         };
         return api;
+        function getLoggedInUser(){
+            
+            return $http.get('https://limitless-sands-55256.herokuapp.com/http://34.209.230.231:8000/me/', {
+                headers: {
+                    'Content-Type' : 'application/json',
+                    'Authorization': 'Bearer ' + $localStorage.token
 
+                }
+            });
+        }
             
         function createUser(user){
             
@@ -65,7 +82,7 @@
             });
         }
         function followUser(userId){
-            return $http.post('https://limitless-sands-55256.herokuapp.com/http://34.209.230.231:8000/followings/', userId {
+            return $http.post('https://limitless-sands-55256.herokuapp.com/http://34.209.230.231:8000/followings/', { "id": userId} ,{
                 headers: {
                     'Content-Type' : 'application/json',
                     'Authorization': 'Bearer ' + $localStorage.token
@@ -74,7 +91,7 @@
             });
         }
 
-         function getFollowings(){
+        function getFollowingsOfCurrent(){
             return $http.get('https://limitless-sands-55256.herokuapp.com/http://34.209.230.231:8000/followings/' , {
                 headers: {
                     'Content-Type' : 'application/json',
@@ -83,7 +100,7 @@
                 }
             });
         }
-         function getFollowers(){
+         function getFollowersOfCurrent(){
             return $http.get('https://limitless-sands-55256.herokuapp.com/http://34.209.230.231:8000/followers/' , {
                 headers: {
                     'Content-Type' : 'application/json',
@@ -92,6 +109,45 @@
                 }
             });
         }
+
+         function getFollowings(userId){
+            return $http.get('https://limitless-sands-55256.herokuapp.com/http://34.209.230.231:8000/user/'+userId+'/followings/' , {
+                headers: {
+                    'Content-Type' : 'application/json',
+                    'Authorization': 'Bearer ' + $localStorage.token
+
+                }
+            });
+        }
+         function getFollowers(userId){
+            return $http.get('https://limitless-sands-55256.herokuapp.com/http://34.209.230.231:8000/user/'+userId+'/followers/' , {
+                headers: {
+                    'Content-Type' : 'application/json',
+                    'Authorization': 'Bearer ' + $localStorage.token
+
+                }
+            });
+        }
+         function getContents(userId){
+            return $http.get('https://limitless-sands-55256.herokuapp.com/http://34.209.230.231:8000/user/'+userId+'/contents/' , {
+                headers: {
+                    'Content-Type' : 'application/json',
+                    'Authorization': 'Bearer ' + $localStorage.token
+
+                }
+            });
+        }
+        function getGroups(userId){
+            return $http.get('https://limitless-sands-55256.herokuapp.com/http://34.209.230.231:8000/user/'+userId+'/groups/' , {
+                headers: {
+                    'Content-Type' : 'application/json',
+                    'Authorization': 'Bearer ' + $localStorage.token
+
+                }
+            });
+        }
+        
+
 
     }
 })();
