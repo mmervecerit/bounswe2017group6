@@ -4,17 +4,25 @@
         .module("interestHub")
         .controller("LoginCtrl", LoginCtrl);
     
-    function LoginCtrl($scope, $location, $rootScope, UserService, LoginService, $localStorage)
+    function LoginCtrl($scope, $location, $rootScope, UserService, LoginService, $localStorage, $window, $filter,TagService)
     {
 
         $scope.login = login;
         $scope.signup = signup;
         $scope.tabName="signin";
         $scope.continueWithoutLogin = continueWithoutLogin;
+
+
+        $scope.gender = ["Male", "Female", "Other"];
+
+
         function init(){
-             UserService
-                .getAllUsers()
-                .then(handleSuccess, handleError);
+            var _selected;
+            $scope.newUser = {};
+            $scope.newUser.tags = [];
+            $scope.selected = undefined;
+            tags={};
+            $scope.newUser.interests=[];
         }
         console.log("init");
         init();
@@ -28,20 +36,14 @@
                 $scope.userToken = res.data.token; 
                 console.log($scope.userToken);
                 $location.path('/timeline');
+ 
                 $localStorage.token=res.data.token;
-
-                UserService.getLoggedInUser()
-                    .then(function(response){
-                        $localStorage.user=response.data;
-                    },handleError);    
-           
-
-                
+                $localStorage.user=user;
                 $localStorage.isLogged=true;
 
                 $rootScope.username={};
                 $rootScope.username.params=$localStorage.user.username;
-                //$rootScope.userID = $localStorage.user.id;
+                
             },function(error){
                 $scope.error = error;
             });
@@ -69,18 +71,44 @@
         }
 
 
+        function signup(user){
+            user.gender=findGender(user.gender);
+            user.interests=$scope.newUser.interests;
+             user.birthDateAsString=$filter('date')(user.birthDate, "yyyy-MM-dd");
+
+             LoginService
+            .registerUser(user)
+            .then(function(res) {
+                user.id = res.data.id;
+                $scope.userID=user.id;
+                console.log($scope.userID);
+                $window.location.reload();            
+            },function(error){
+                $scope.error = error;
+            });
+        }
+
         function continueWithoutLogin(){
              $rootScope.role = false;
 
         }
 
-        function signup(user){
-            UserService
-                .createUser(user)
-                .then(handleSuccess,handleError);
-            $scope.tabName="signin";
 
+
+    function findGender(gender){
+        if(gender=="Male"){
+          return "man";
+        }else if(gender=="Female"){
+          return "woman";
         }
+      }
+        // function signup(user){
+        //     UserService
+        //         .createUser(user)
+        //         .then(handleSuccess,handleError);
+        //     $scope.tabName="signin";
+
+        // }
 
 
         function loginWithFacebook(){
@@ -101,6 +129,56 @@
         }
 
 
+        function handleTag(response){
+            console.log(response.data);
+    
+            $scope.tags = response.data;
+        }
+
+    
+          $scope.ngModelOptionsSelected = function(value) {
+            if (arguments.length) {
+              _selected = value;
+            } else {
+              return _selected;
+            }
+          };
+    
+          $scope.modelOptions = {
+            debounce: {
+              default: 500,
+              blur: 250
+            },
+            getterSetter: true
+          };
+    
+    
+          $scope.searchTag = function(val) {
+                TagService.searchTag(val)
+                            .then(function(response){
+                                console.log(response.data.search);
+                                tags = response.data.search;
+                            }
+                            ,handleError);
+            
+            return tags;            
+          };
+           $scope.addTag=function(tag) {
+            if (tag != ""){
+                $scope.newUser.tags.push(tag);
+                $scope.selected = undefined;
+                                
+                $scope.newUser.interests.push({"label":tag.label, "description":tag.description, "url":"https:"+tag.url});
+                console.log($scope.newUser.interests);
+            }
+            
+          };
+    
+    
+        $scope.removeTag = function($index){
+            $scope.newUser.tags.splice($index,1);
+            $scope.newUser.interests.splice($index,1);
+        };
     }
-  
+
 })();
