@@ -376,14 +376,14 @@
                                           
                             <div class="col-sm-5 col-xs-6 tital " >First Name:</div>
                             <div class="col-sm-7">
-                                <input type="username" name="firstname" ng-model="user.firstname" required class="form-control">    
+                                <input type="username" name="firstname" ng-model="user.profile.name" required class="form-control">    
                             </div>
                             <div class="clearfix"></div>
                             <div class="bot-border"></div>
 
                             <div class="col-sm-5 col-xs-6 tital " >Last Name:</div>
                             <div class="col-sm-7"> 
-                                <input type="username" name="lastname" ng-model="user.lastname" required class="form-control">
+                                <input type="username" name="lastname" ng-model="user.profile.lastname" required class="form-control">
                             </div>
                               <div class="clearfix"></div>
                             <div class="bot-border"></div>
@@ -391,7 +391,7 @@
                             <div class="col-sm-5 col-xs-6 tital " >Birthdate:</div>
                             <div class="col-sm-7">
 
-                                <input id="date" type="date" name="birthdate" ng-model="user.birthdate" required class="form-control">
+                                <input id="date" type="date" name="birthdate" ng-model="user.profile.birthdate" required class="form-control">
                             </div>
 
                             <div class="clearfix"></div>
@@ -400,24 +400,24 @@
                             <div class="col-sm-5 col-xs-6 tital " >Gender:</div>
                             <div class="col-sm-7">
                                 <label class="radio-inline">
-                                  <input type="radio" name="inlineRadioOptions" id="inlineRadio1" ng-model="user.gender"> Female
+                                  <input type="radio" name="inlineRadioOptions" id="inlineRadio1" ng-model="user.profile.gender"> Female
                                 </label>
                                 <label class="radio-inline">
-                                  <input type="radio" name="inlineRadioOptions" id="inlineRadio2" ng-model="user.gender"> Male
+                                  <input type="radio" name="inlineRadioOptions" id="inlineRadio2" ng-model="user.profile.gender"> Male
                                 </label>
                                 <label class="radio-inline">
-                                  <input type="radio" name="inlineRadioOptions" id="inlineRadio3" ng-model="user.gender"> Other
+                                  <input type="radio" name="inlineRadioOptions" id="inlineRadio3" ng-model="user.profile.gender"> Other
                                 </label>
                             </div>
 
                             <div class="clearfix"></div>
                             <div class="bot-border"></div>
 
-
-                            <div class="col-sm-5 col-xs-6 tital " >Location:</div>
+                            <!--
+                            <div class="col-sm-5 col-xs-6 tital ">Location:</div>
                             <div class="col-sm-7">
                                 <input type="location" name="location" ng-model="user.location" required class="form-control">
-                            </div>
+                            </div>-->
 
                             <div class="clearfix"></div>
                             <div class="bot-border"></div>
