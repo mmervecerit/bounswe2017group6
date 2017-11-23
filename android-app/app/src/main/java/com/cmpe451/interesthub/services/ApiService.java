@@ -2,6 +2,7 @@ package com.cmpe451.interesthub.services;
 
 import android.widget.ListView;
 
+import com.cmpe451.interesthub.models.Comment;
 import com.cmpe451.interesthub.models.Component;
 import com.cmpe451.interesthub.models.Content;
 import com.cmpe451.interesthub.models.ContentType;
@@ -85,5 +86,11 @@ public interface ApiService {
 
     @POST("group/{group_id}/members/")
     Call<Message> joinGroup(@Path(value ="group_id",encoded = true) long groupId);
+
+    @GET("me/")
+    Call<User> getMe();
+
+    @GET("content/{group_id}/comments/")
+    Call<List<Comment>> getGroupComments(@Path(value ="group_id",encoded = true) long groupId);
 
 }

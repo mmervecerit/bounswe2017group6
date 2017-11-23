@@ -16,11 +16,11 @@ import com.cmpe451.interesthub.InterestHub;
 import com.cmpe451.interesthub.R;
 import com.cmpe451.interesthub.activities.GroupActivity;
 import com.cmpe451.interesthub.activities.NewContent;
-import com.cmpe451.interesthub.adapters.UserTimelineListCustomAdapter;
+import com.cmpe451.interesthub.adapters.MultipleContentAdapter;
+import com.cmpe451.interesthub.adapters.SingleContentAdapter;
 import com.cmpe451.interesthub.models.Content;
 import com.cmpe451.interesthub.models.Group;
 import com.cmpe451.interesthub.models.Message;
-import com.cmpe451.interesthub.models.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -133,7 +133,7 @@ public class GroupPosts extends Fragment {
         final LinearLayoutManager ll = new LinearLayoutManager(getActivity());
         ll.setOrientation(LinearLayoutManager.VERTICAL);
 
-        UserTimelineListCustomAdapter adapter = new UserTimelineListCustomAdapter(getContext(),contentList);
+        MultipleContentAdapter adapter = new MultipleContentAdapter(getContext(),contentList);
         contentView = (RecyclerView) view.findViewById(R.id.spesific_group_recycler_view);
         contentView.setLayoutManager(ll);
 

@@ -87,6 +87,21 @@ public class LoginActivity extends BaseActivity {
                           hub.getSessionController().setToken(response.body().getToken());
                           Log.d("TOKEN",response.body().getToken());
                           hub.authApiService(hub.getSessionController().getToken());
+                          hub.getApiService().getMe().enqueue(new Callback<User>() {
+                              @Override
+                              public void onResponse(Call<User> call, Response<User> response) {
+                                  hub.getSessionController().setUser(response.body());
+                                  Intent intent= new Intent(view.getContext(), UserActivity.class);
+                                  startActivity(intent);
+                                  return;
+                              }
+
+                              @Override
+                              public void onFailure(Call<User> call, Throwable t) {
+
+                              }
+                          });
+                          /*
                           hub.getApiService().getUsers().enqueue(new Callback<List<User>>() {
                               @Override
                               public void onResponse(Call<List<User>> call, Response<List<User>> response) {
@@ -105,6 +120,7 @@ public class LoginActivity extends BaseActivity {
 
                               }
                           });
+                          */
                           /*
                           User user = new User();
                           user.setUsername(e.getText().toString());

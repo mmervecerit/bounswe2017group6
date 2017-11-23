@@ -52,6 +52,10 @@
             android:name=".activities.NewContent"
             android:label="@string/title_activity_new_content"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.ContentActivity"
+            android:label="@string/title_activity_content"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
