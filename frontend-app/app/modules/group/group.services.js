@@ -67,6 +67,17 @@
                 }
             });
         }
+
+
+        function joinGroup(groupID){
+            return $http.post('https://limitless-sands-55256.herokuapp.com/http://34.209.230.231:8000/group/'+groupID+'/members/', {},{
+                headers: {
+                    'Content-Type' : 'application/json',
+                    'Authorization': 'Bearer '+$localStorage.token
+                }
+            });
+        }
+
         function getMembers(groupID){
             return $http.get('https://limitless-sands-55256.herokuapp.com/http://34.209.230.231:8000/group/'+groupID+'/members/', {
                 headers: {
@@ -77,14 +88,6 @@
             });
         }
 
-        function joinGroup(groupID){
-            return $http.post('https://limitless-sands-55256.herokuapp.com/http://34.209.230.231:8000/group/'+groupID+'/members/', {
-                headers: {
-                    'Content-Type' : 'application/json',
-                    'Authorization': 'Bearer ' + $localStorage.token
-                }
-            });
-        }
 
     }
 })();
