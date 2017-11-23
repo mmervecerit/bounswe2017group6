@@ -101,51 +101,59 @@ public class UserGroups extends Fragment {
         });
         groupViewList = view.findViewById(R.id.user_group_recycler_view);
         final List<Group> groupList = new ArrayList<Group>();
-        InterestHub hub = (InterestHub) ((UserActivity) getActivity()).getApplication();
-        hub.getApiService().getGroup().enqueue(new Callback<List<Group>>() {
-                    @Override
-                    public void onResponse(Call<List<Group>> call, Response<List<Group>> response) {
-                        Log.d("GROUPRESPOnse","basarili");
-                        if(!response.isSuccessful()){
+        final InterestHub hub = (InterestHub) ((UserActivity) getActivity()).getApplication();
+        if(hub.getSessionController().isGroupsSet()==false) {
+            hub.getApiService().getUserGroups(hub.getSessionController().getUser().getId()).enqueue(new Callback<List<Group>>() {
+                @Override
+                public void onResponse(Call<List<Group>> call, Response<List<Group>> response) {
+                    Log.d("GROUPRESPOnse", "basarili");
+                    if (!response.isSuccessful()) {
 
-                            Toast toast = Toast.makeText(getActivity(), "An error occurred!", Toast.LENGTH_SHORT);
-                            toast.show();
-                            return ;
-                        }
-                         for(Group d : response.body())
-                                groupList.add(d);
-                        final LinearLayoutManager ll = new LinearLayoutManager(((UserActivity)getActivity()));
-                        ll.setOrientation(LinearLayoutManager.VERTICAL);
-                        groupViewList.setLayoutManager(ll);
-                         UserGroupListAdapter.OnItemClickListener listener = new UserGroupListAdapter.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(int pos) {
-                                Intent intent = new Intent(getContext(), GroupActivity.class);
-                                intent.putExtra("groupName", String.valueOf(groupList.get(pos).getName()));
-                                intent.putExtra("groupId", groupList.get(pos).getId());
-                                intent.putExtra("groupImg", groupList.get(pos).getLogo());
-                                Log.d("STARTACTIVITY",String.valueOf(groupList.get(pos).getName())+" "+groupList.get(pos).getId());
-                                startActivity(intent);
-                            }
-                        };
-                        final UserGroupListAdapter adapter = new UserGroupListAdapter(getContext(),groupList,listener);
-                        groupViewList.setAdapter(adapter);
-
-
-
-
-
-
+                        Toast toast = Toast.makeText(getActivity(), "An error occurred!", Toast.LENGTH_SHORT);
+                        toast.show();
+                        return;
                     }
+                    for (Group d : response.body())
+                        groupList.add(d);
 
-                    @Override
-                    public void onFailure(Call<List<Group>> call, Throwable t) {
-                     }
-        });
+                    hub.getSessionController().setGroups(groupList);
+                    setAdapter(groupList);
+
+
+                }
+
+                @Override
+                public void onFailure(Call<List<Group>> call, Throwable t) {
+                }
+            });
+        }
+        else setAdapter(hub.getSessionController().getGroups());
+
+
        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
+
+    public void setAdapter(final List<Group> groupList){
+        final LinearLayoutManager ll = new LinearLayoutManager(((UserActivity) getActivity()));
+        ll.setOrientation(LinearLayoutManager.VERTICAL);
+        groupViewList.setLayoutManager(ll);
+        UserGroupListAdapter.OnItemClickListener listener = new UserGroupListAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int pos) {
+                Intent intent = new Intent(getContext(), GroupActivity.class);
+                intent.putExtra("groupName", String.valueOf(groupList.get(pos).getName()));
+                intent.putExtra("groupId", groupList.get(pos).getId());
+                intent.putExtra("groupImg", groupList.get(pos).getLogo());
+                Log.d("STARTACTIVITY", String.valueOf(groupList.get(pos).getName()) + " " + groupList.get(pos).getId());
+                startActivity(intent);
+            }
+        };
+        final UserGroupListAdapter adapter = new UserGroupListAdapter(getContext(), groupList, listener);
+        groupViewList.setAdapter(adapter);
+
+    }
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);

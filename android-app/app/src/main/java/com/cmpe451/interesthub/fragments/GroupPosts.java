@@ -18,6 +18,9 @@ import com.cmpe451.interesthub.activities.GroupActivity;
 import com.cmpe451.interesthub.activities.NewContent;
 import com.cmpe451.interesthub.adapters.UserTimelineListCustomAdapter;
 import com.cmpe451.interesthub.models.Content;
+import com.cmpe451.interesthub.models.Group;
+import com.cmpe451.interesthub.models.Message;
+import com.cmpe451.interesthub.models.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,17 +90,12 @@ public class GroupPosts extends Fragment {
         ((GroupActivity)getActivity()).setTitle(mParam1);
 
         final View view = inflater.inflate(R.layout.fragment_group_posts, container, false);
-        FloatingActionButton fab = new FloatingActionButton(getContext());
-        fab = view.findViewById(R.id.fab_new_post);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getContext(),NewContent.class);
-                intent.putExtra("groupName",mParam1);
-                intent.putExtra("groupId",mParam2);
-                startActivity(intent);
-            }
-        });
+        FloatingActionButton fab =view.findViewById(R.id.fab_new_post);
+
+        FloatingActionButton joinfab = (FloatingActionButton) ((GroupActivity)getActivity()).findViewById(R.id.joinFab);
+
+        checkGroupforFab(fab,joinfab);
+
         hub.getApiService().getGroupContents(mParam2).enqueue(new Callback<List<Content>>() {
             @Override
             public void onResponse(Call<List<Content>> call, Response<List<Content>> response) {
@@ -145,5 +143,44 @@ public class GroupPosts extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+    public void checkGroupforFab(FloatingActionButton fab,FloatingActionButton joinFab){
+        if(hub.getSessionController().isGroupsSet()) {
+            for (Group g : hub.getSessionController().getGroups()) {
+                if (mParam2 == g.getId()) {
+                    joinFab.setVisibility(View.GONE);
+                    fab.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent = new Intent(getContext(), NewContent.class);
+                            intent.putExtra("groupName", mParam1);
+                            intent.putExtra("groupId", mParam2);
+                            startActivity(intent);
+                        }
+                    });
+                    return;
+                }
+            }
+            fab.setVisibility(View.GONE);
+            joinFab.setVisibility(View.VISIBLE);
+            joinFab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    hub.getApiService().joinGroup(mParam2).enqueue(new Callback<Message>() {
+                        @Override
+                        public void onResponse(Call<Message> call, Response<Message> response) {
+                            hub.getSessionController().updateGroups(hub);
+                            getActivity().startActivity(getActivity().getIntent());
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<Message> call, Throwable t) {
+
+                        }
+                    });
+                }
+            });
+        }
     }
 }

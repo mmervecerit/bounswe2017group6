@@ -1,6 +1,15 @@
 package com.cmpe451.interesthub.controllers;
 
+import com.cmpe451.interesthub.InterestHub;
+import com.cmpe451.interesthub.models.Group;
+import com.cmpe451.interesthub.models.Interest;
 import com.cmpe451.interesthub.models.User;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Session infos such as User model will be kept here
@@ -19,6 +28,17 @@ public class SessionController {
 
     boolean isLoggedIn = false;
     User user ;
+    List<Group> groups;
+
+    public boolean isGroupsSet(){return groups!=null;};
+
+    public List<Group> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(List<Group> groups) {
+        this.groups = groups;
+    }
 
     public User getUser() {
         return user;
@@ -34,5 +54,22 @@ public class SessionController {
 
     public void setLoggedIn(boolean loggedIn) {
         isLoggedIn = loggedIn;
+    }
+
+    public void updateGroups(InterestHub hub) {
+        groups.clear();
+        hub.getApiService().getUserGroups(user.getId()).enqueue(new Callback<List<Group>>() {
+            @Override
+            public void onResponse(Call<List<Group>> call, Response<List<Group>> response) {
+                for(Group g : response.body())
+                    groups.add(g);
+                return;
+            }
+
+            @Override
+            public void onFailure(Call<List<Group>> call, Throwable t) {
+
+            }
+        });
     }
 }

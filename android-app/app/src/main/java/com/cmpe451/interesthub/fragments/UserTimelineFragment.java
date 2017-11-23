@@ -79,24 +79,58 @@ public class UserTimelineFragment extends Fragment {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_user_timeline, container, false);
         final InterestHub hub = (InterestHub) ((UserActivity) getActivity()).getApplication();
+        postList = (RecyclerView)view.findViewById(R.id.recycler_view);
+        hub.getApiService().getUserGroups(hub.getSessionController().getUser().getId()).enqueue(new Callback<List<Group>>() {
+            @Override
+            public void onResponse(Call<List<Group>> call, Response<List<Group>> response) {
+                final List<Group> groupList = new ArrayList<Group>();
+                for(Group g: response.body())
+                    groupList.add(g);
 
-        hub.getApiService().getContentList().enqueue(new Callback<List<Content>>() {
+                hub.getSessionController().setGroups(groupList);
+
+                final List<Content> contentList  = new ArrayList<Content>();
+                for(final Group group : groupList){
+                    hub.getApiService().getGroupContents(group.getId()).enqueue(new Callback<List<Content>>() {
+                        @Override
+                        public void onResponse(Call<List<Content>> call, Response<List<Content>> response) {
+                            for(Content c : response.body()) {
+                                c.setGroupName(group.getName());
+                                contentList.add(c);
+
+                            }
+
+                            setAdapter(contentList);
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<List<Content>> call, Throwable t) {
+
+                        }
+                    });
+                }
+
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Group>> call, Throwable t) {
+
+            }
+        });
+
+
+       /** hub.getApiService().getContentList().enqueue(new Callback<List<Content>>() {
             @Override
             public void onResponse(Call<List<Content>> call, Response<List<Content>> response) {
-                final LinearLayoutManager ll = new LinearLayoutManager(((UserActivity)getActivity()));
-                ll.setOrientation(LinearLayoutManager.VERTICAL);
 
                 List<Content> contentList = new ArrayList<Content>();
                 for(Content c : response.body()){
                     contentList.add(c);
 
                 }
-                UserTimelineListCustomAdapter adapter = new UserTimelineListCustomAdapter(context,contentList);
-
-                postList = (RecyclerView)view.findViewById(R.id.recycler_view);
-                postList.setLayoutManager(ll);
-
-                postList.setAdapter(adapter);
+                setAdapter(contentList);
             }
 
             @Override
@@ -104,11 +138,21 @@ public class UserTimelineFragment extends Fragment {
 
             }
         });
-
+        */
 
 
 
         return view;
+    }
+
+    public void setAdapter(List<Content> contentList){
+        final LinearLayoutManager ll = new LinearLayoutManager(((UserActivity)getActivity()));
+        ll.setOrientation(LinearLayoutManager.VERTICAL);
+        UserTimelineListCustomAdapter adapter = new UserTimelineListCustomAdapter(context,contentList);
+
+        postList.setLayoutManager(ll);
+
+        postList.setAdapter(adapter);
     }
     /**
      * This interface must be implemented by activities that contain this

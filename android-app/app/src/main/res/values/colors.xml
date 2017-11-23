@@ -4,6 +4,6 @@
     <color name="colorPrimaryDark">#f442405b</color>
     <color name="colorAccent">#e032ff</color>
     <color name="colorWhite">#fdfdfe</color>
-    <color name="cardview_comment">#e032ff</color>
+    <color name="cardview_comment">#dadada</color>
 
 </resources>

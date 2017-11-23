@@ -84,17 +84,37 @@ public class LoginActivity extends BaseActivity {
                           return;
                       }
                       else{
+                          hub.getSessionController().setToken(response.body().getToken());
                           Log.d("TOKEN",response.body().getToken());
+                          hub.authApiService(hub.getSessionController().getToken());
+                          hub.getApiService().getUsers().enqueue(new Callback<List<User>>() {
+                              @Override
+                              public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+                                  for(User u : response.body()){
+                                      if(u.getUsername().equals(e.getText().toString())){
+                                          hub.getSessionController().setUser(u);
+                                          Intent intent= new Intent(view.getContext(), UserActivity.class);
+                                          startActivity(intent);
+                                          return;
+                                      }
+                                  }
+                              }
+
+                              @Override
+                              public void onFailure(Call<List<User>> call, Throwable t) {
+
+                              }
+                          });
+                          /*
                           User user = new User();
                           user.setUsername(e.getText().toString());
                           user.setId(1);
                           user.setEmail("admin@interesthub.com");
                           hub.getSessionController().setUser(user);
-                          hub.getSessionController().setToken(response.body().getToken());
-                          hub.authApiService(hub.getSessionController().getToken());
 
-                          Intent intent= new Intent(view.getContext(), UserActivity.class);
-                          startActivity(intent);
+
+                            */
+
                       }
                    }
 
