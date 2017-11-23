@@ -65,7 +65,7 @@
             });
         }
         function followUser(userId){
-            return $http.post('https://limitless-sands-55256.herokuapp.com/http://34.209.230.231:8000/followings/', userId {
+            return $http.post('https://limitless-sands-55256.herokuapp.com/http://34.209.230.231:8000/followings/', userId ,{
                 headers: {
                     'Content-Type' : 'application/json',
                     'Authorization': 'Bearer ' + $localStorage.token
