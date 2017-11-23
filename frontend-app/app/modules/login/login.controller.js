@@ -28,14 +28,20 @@
                 $scope.userToken = res.data.token; 
                 console.log($scope.userToken);
                 $location.path('/timeline');
- 
                 $localStorage.token=res.data.token;
-                $localStorage.user=user;
+
+                UserService.getLoggedInUser()
+                    .then(function(response){
+                        $localStorage.user=response.data;
+                    },handleError);    
+           
+
+                
                 $localStorage.isLogged=true;
 
                 $rootScope.username={};
                 $rootScope.username.params=$localStorage.user.username;
-                
+                //$rootScope.userID = $localStorage.user.id;
             },function(error){
                 $scope.error = error;
             });
