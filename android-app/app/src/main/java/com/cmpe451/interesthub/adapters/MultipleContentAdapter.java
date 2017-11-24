@@ -1,18 +1,15 @@
 package com.cmpe451.interesthub.adapters;
 
 import android.content.Context;
-import android.net.Uri;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.MediaController;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.VideoView;
 
@@ -22,18 +19,20 @@ import com.cmpe451.interesthub.models.Content;
 import com.cmpe451.interesthub.models.TypeData;
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
-public class UserTimelineListCustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class MultipleContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<String> item1;
-    private List<String> item2;
-    private List<String> item3;
+    public interface OnItemClickListener {
+
+        void onItemClick(int pos);
+
+    }
+    private OnItemClickListener listener;
+
+
     private List<Content> contentList;
     private Context context;
     private  RecyclerView.ViewHolder[] viewList;
@@ -48,19 +47,19 @@ public class UserTimelineListCustomAdapter extends RecyclerView.Adapter<Recycler
         public TextView owner;
         public TextView date;
         public ImageView pic;
-        public ViewHolder(View itemView,List<String> list) {
+        private Button commentButton;
+        public ViewHolder(View itemView, List<String> list, final int pos) {
             super(itemView);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
 
-                }
-            });
             CardView c = (CardView)itemView;
             LinearLayout l = c.findViewById(R.id.content);
+            LinearLayout commentRegion = c.findViewById(R.id.comment_region);
+            commentRegion.setVisibility(View.GONE);
             owner = (TextView) c.findViewById(R.id.post_owner);
             date = (TextView) c.findViewById(R.id.post_date);
             pic = (ImageView) c.findViewById(R.id.post_owner_img);
+            commentButton = c.findViewById(R.id.post_comment_button);
+
 
            for(int i = 0 ; i<list.size();i++){
                String s = list.get(i);
@@ -95,23 +94,25 @@ public class UserTimelineListCustomAdapter extends RecyclerView.Adapter<Recycler
         }
 
     }
-    public UserTimelineListCustomAdapter(Context context, List<String> item1,List<String> item2,List<String> item3) {
-            this.item1 = item1;
-            this.item2 = item2;
-            this.item3 = item3;
 
-            this.context = context;
+    //with listener
+    public MultipleContentAdapter(Context context, List<Content> list, OnItemClickListener listener) {
+        this.contentList= list;
+        this.listener = listener;
+
+        this.context = context;
 
 
-        }
-    public UserTimelineListCustomAdapter(Context context, List<Content> list) {
+    }
+    //without listener
+    public MultipleContentAdapter(Context context, List<Content> list) {
         this.contentList= list;
 
         this.context = context;
 
 
     }
-    public UserTimelineListCustomAdapter(Context context) {
+    public MultipleContentAdapter(Context context) {
 
         this.context = context;
     }
@@ -151,7 +152,7 @@ public class UserTimelineListCustomAdapter extends RecyclerView.Adapter<Recycler
 
                    }
                }
-                rcv = new ViewHolder(def,list);
+                rcv = new ViewHolder(def,list,viewType);
 
             return rcv;
 
@@ -167,10 +168,17 @@ public class UserTimelineListCustomAdapter extends RecyclerView.Adapter<Recycler
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
 
         //holder.postHeader.setText(itemList.get(position).getHeader());
 
+        //sets click listener for each card view in order to open content activity;
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.onItemClick(position);
+            }
+        });
         if(contentList.get(position).getComponents()!=null || contentList.get(position).getComponents().size()!=0 ){
             ((ViewHolder)holder).owner.setText(contentList.get(position).getOwner().getUsername()+" > " + contentList.get(position).getGroupName());
             long postDate = contentList.get(position).getCreatedDate().getTime();

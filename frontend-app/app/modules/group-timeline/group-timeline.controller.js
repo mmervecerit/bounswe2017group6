@@ -4,24 +4,62 @@
         .module("interestHub")
         .controller("GroupTimelineCtrl", GroupTimelineCtrl);
     
-    function GroupTimelineCtrl($scope,  $rootScope,  $location, $routeParams, GroupService,TemplateService)
+    function GroupTimelineCtrl($scope, $q, $rootScope,  $location, $routeParams, GroupService, TemplateService, UserService, $localStorage)
     {
+      $scope.joined = false;  
+      console.log($scope.joined);
+      checkJoined();
+      $scope.joinGroup = joinGroup;
       console.log($routeParams.id);
+    
       $scope.group = GroupService.getGroup($routeParams.id)
                         .then(handleSuccess,handleError);
-      function handleSuccess(response) {
-            $scope.group = response.data;          
+      
+      function checkJoined(){
+        UserService.getGroups($localStorage.user.id)
+          .then(function(response){
+            groups = response.data;
+            for(var i = 0; i < groups.length;i++){
+              if(groups[i].id == $routeParams.id){
 
-          
+                $scope.joined = true;
+                console.log($scope.joined);
+                return true;
+              }
+            }
+            return false;
+          },handleError);
+      }
+      
+      function handleSuccess(response) {
+            $scope.group = response.data;
+            $scope.members = [];
+            members = [];   
+            GroupService.getMembers($routeParams.id)
+                    .then(function(response){
+                        $scope.members = response.data;             
+                        console.log($scope.members);
+              },handleError);
+
+                   
       }
 
       function handleError(error) {
             $scope.error = error;
+            console.log(error);
 
       }
-      	  
 
+      function joinGroup(groupId){
+        $scope.joined = true;
+          GroupService.joinGroup(groupId)
+              .then(function(response){
+                console.log(response.data);
+                  $scope.members.push($localStorage.user);
+                  console.log($scope.members);
 
+              },handleError);
+      }
 
       $scope.tab = "timeline";
 

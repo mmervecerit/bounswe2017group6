@@ -7,7 +7,6 @@
     
     function GroupCtrl($scope,  $rootScope, $location, GroupService, $window,TagService, $http)
     {
-        $scope.createGroup = createGroup;
         $scope.remove = remove;
         $scope.update = update;
         $scope.add    = add;
@@ -30,9 +29,7 @@
 
             $scope.tags = response.data;
         }
-        function createGroup(){
-            $location.path('/groupcreate');
-        }
+       
        
 
         function remove(group)
@@ -53,13 +50,21 @@
         
         function add(group)
         {
+            tags = JSON.parse(angular.toJson(group.tags));
+            //group.tags = [];
             console.log(group);
-            console.log("add init");
-			
+            if(group.is_public == "public"){
+                group.is_public = true;
+            }else{
+                group.is_public = false;
+            }
             GroupService
                 .createGroup(group)
                 .then(handleSuccessGroup, handleError);    
             console.log("added");
+
+            $scope.newgroup.tags = [];
+
 
         }      
         function handleSuccessGroup(response) {
@@ -70,7 +75,7 @@
 
         function handleSuccess(response) {
             $scope.groups = response.data;
-        	
+            
         }
 
         function handleError(error) {
@@ -115,7 +120,14 @@
           };
           function addTag(tag) {
             if (tag != ""){
-                $scope.newgroup.tags.push(tag);
+
+                var tagStored = {
+                    "label" : tag.label ,
+                    "description" : tag.description,
+                    "url" : tag.url
+                }
+              
+                $scope.newgroup.tags.push(tagStored);
                 $scope.selected = undefined;
             }
           }
@@ -127,5 +139,5 @@
           
                          
  
-	}
+    }
 })();

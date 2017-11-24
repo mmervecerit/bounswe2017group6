@@ -2,6 +2,7 @@ package com.cmpe451.interesthub.services;
 
 import android.widget.ListView;
 
+import com.cmpe451.interesthub.models.Comment;
 import com.cmpe451.interesthub.models.Component;
 import com.cmpe451.interesthub.models.Content;
 import com.cmpe451.interesthub.models.ContentType;
@@ -91,6 +92,11 @@ public interface ApiService {
     Call<Following_Followers> getuserfollowers();
     @GET("user/{user_id}/followings/")
     Call<Following_Followers> getuserfollowings();
-    @GET("me")
-    Call<User> getme();
+
+    @GET("me/")
+    Call<User> getMe();
+
+    @GET("content/{group_id}/comments/")
+    Call<List<Comment>> getGroupComments(@Path(value ="group_id",encoded = true) long groupId);
+
 }

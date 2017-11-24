@@ -1,7 +1,7 @@
 
 
 <div ng-controller="ProfileCtrl" class="container bootstrap snippets">
-<div class="row" style="margin-top: 60px;" ng-model="user" >
+<div class="row" style="margin-top: 60px;">
     <div class="col-lg-3 col-md-3 col-sm-4">
         <div class="panel rounded shadow">
             <div class="panel-body">
@@ -11,11 +11,11 @@
                             <img data-no-retina="" class="img-circle img-responsive img-bordered-primary" src="https://scontent-frt3-2.xx.fbcdn.net/v/t1.0-9/16174471_10210225282420728_2157042507789656179_n.jpg?oh=55c32619210a9bcbd2342cdc0a001fa3&oe=5A6D079F" alt="John Doe">
                         </li>
                         <li class="text-center">
-                            <h4 class="text-capitalize">{{user.username}}</h4>
-                            <p class="text-muted text-capitalize">{{user.job}}</p>
+                            <h4 class="text-capitalize">{{user.profile.name}} {{user.profile.lastname}}</h4>
+                            <p class="text-muted text-capitalize"></p>
                         </li>
                         <li>
-                            <a href="" class="btn btn-info text-center btn-block">Follow</a>
+                            <a href="" ng-show="!me && !follow" ng-click="followUser()" class="btn btn-info text-center btn-block">Follow</a>
                         </li>
                         <li><br></li>
                         <li>
@@ -47,8 +47,8 @@
             </div><!-- /.panel-heading -->
             <div class="panel-body no-padding rounded">
                 <ul class="list-group no-margin">
-                    <p>{{user.about}}</p>
-                    <p>I am senior computer engineering student. I love coding & science fiction!</p>
+                    <p>{{user.profile.about}}</p>
+                    
                     <!--
                     <li class="list-group-item"><i class="fa fa-envelope mr-5"></i> {{user.email}}</li>
                     <li class="list-group-item"><i class="fa fa-globe mr-5"></i> {{user.website}}</li>
@@ -116,63 +116,104 @@
     <div class="row activity" ng-show="tab == 'timeline'">
         <div class="col-md-8" >
                
-               <div class="panel panel-info">
-                <div class="panel-heading">
-                    <img src="https://scontent-frt3-2.xx.fbcdn.net/v/t1.0-9/16174471_10210225282420728_2157042507789656179_n.jpg?oh=55c32619210a9bcbd2342cdc0a001fa3&oe=5A6D079F" class="img-rounded">
-                    <div class="pull-right text-right">
-                        <i class="fa fa-calendar"></i><br> 3 hours ago
-                    </div>
-                    <div><strong>Gokce Uludogan</strong></div>
-                    <div class="small"><i class="fa fa-map-marker"></i> Medellin, Colombia</div>
-                </div>
-                <div class="panel-body">
-                    <img src="https://lorempixel.com/500/333/nature/2" class="img-responsive">
-                    <div class="actions">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-link"><i class="fa fa-thumbs-o-up"></i> Like</button>
-                            <button type="button" class="btn btn-link"><i class="fa fa-share"></i> Share</button>
+             
+                   <div class="panel panel-info" ng-repeat="post in posts " ng-init="postIndex = $index">
+                        <div class="panel-heading">
+                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="img-rounded">
+                            <div class="pull-right text-right">
+                                <i class="fa fa-calendar"></i><br> {{post.created_date | limitTo:10}}
+                            </div>
+                            <div><strong>{{post.owner.username}}</strong> shared on <strong><a href="/group/{{post.group.id}}">{{post.group.name}}</a></strong></div>
+                            <!--<div class="small"><i class="fa fa-map-marker"></i> Medellin, Colombia</div>-->
                         </div>
-                        <div class="pull-right"><strong>1.789</strong> People liked this</div>      
-                    </div>  
-                    <!--
-                    <div class="media">
-                        <a class="pull-left" href="#">
-                            <img class="media-object img-rounded" src="https://bootdey.com/img/Content/avatar/avatar1.png">
-                        </a>
-                        <div class="media-body">
-                            <div class="pull-right small">3 hours ago</div>
-                            <h4 class="media-heading">Media heading</h4>
-                            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
+                        <div class="panel-body">
+
+                                <div id="components" class="col-lg-12 col-md-12 col-sm-12" ng-repeat="component in post.content_type.components track by $index " ng-init="comIndex= $index">
+
+                                    <div  ng-if="component=='text'">
+
+                                        <div class="col-lg-3 col-md-3 col-sm-4" ng-show="post.content_type.component_names[comIndex]">
+                                            <strong><label>{{post.content_type.component_names[comIndex]}}:</label></strong>
+                                        </div>
+                                            {{post.components[comIndex].type_data.data}} 
+                                           
+                                        
+                                    </div>
+                                    <div ng-if="component=='longtext'">
+                                        <div class="col-lg-3 col-md-3 col-sm-4" ng-show="post.content_type.component_names[comIndex]">
+                                            <strong><label>{{post.content_type.component_names[comIndex]}}:</label></strong>
+                                        </div>
+                                            {{post.components[comIndex].type_data.data}} 
+                                    </div>
+                                    <div ng-if="component=='number'">
+                                        <div class="col-lg-3 col-md-3 col-sm-4" ng-show="post.content_type.component_names[comIndex]">
+                                            <strong><label>{{post.content_type.component_names[comIndex]}}:</label></strong>
+                                        </div>
+                                        
+                                            {{post.components[comIndex].type_data.data | number : 2}}
+                                           
+                                    </div>
+                                    <div ng-if="component=='datetime'">                                        
+                                        <div class="col-lg-3 col-md-3 col-sm-4" ng-show="post.content_type.component_names[comIndex]">
+
+                                        
+                                            <strong><label>{{post.content_type.component_names[comIndex]}}:</label></strong>
+                                        </div>
+
+                                            {{post.components[comIndex].type_data.data}} 
+                                    </div>
+                                    <div ng-if="component=='video'">
+                                        <div class="col-lg-3 col-md-3 col-sm-4" ng-show="post.content_type.component_names[comIndex]">
+
+                                            <strong><label>{{post.content_type.component_names[comIndex]}}</label></strong>:
+                                        </div>
+                                            <a ng-href="{{post.components[comIndex].type_data.data}}">{{post.components[comIndex].type_data.data}}</a> 
+                                    </div>
+                                    <div ng-if="component=='image'">
+                                        <div class="col-lg-3 col-md-3 col-sm-4" ng-show="post.content_type.component_names[comIndex]">
+                                            <strong><label>{{post.content_type.component_names[comIndex]}}</label></strong>
+                                        </div>
+                                            <img ng-src="{{post.components[comIndex].type_data.data}}"></p> 
+                                    </div>
+                                    <div ng-if="component=='dropdown'">
+                                         <p>
+                                            <strong><label>{{post.content_type.component_names[comIndex]}}</label></strong>:
+                                            {{post.components[comIndex].type_data.data}} 
+                                        </p>
+                                    </div>
+                                    <div ng-if="component=='radiobutton'">
+                                         <p>
+                                            <strong><label>{{post.content_type.component_names[comIndex]}}</label></strong>:
+                                            {{post.components[comIndex].type_data.data}} 
+                                        </p>
+                                    </div>      
+                                </div>
+                            <div class="actions">
+                                <div class="btn-group">
+                                        <button type="button" class="btn btn-link" ng-click="upVote(postIndex, post.id)"><i class="fa fa-thumbs-o-up"></i><span class="badge">{{post.likes}}</span></button>
+                                        <button type="button" class="btn btn-link" ng-click="downVote(postIndex, post.id)"><i class="fa fa-thumbs-o-down"></i><span class="badge">{{post.dislikes}}</span> </button>
+                                </div>
+                            </div>
+                            
+                            <div class="media" ng-repeat="comment in post.comments">
+                                <a class="pull-left" ng-href="/user/{{comment.owner.id}}">
+                                    <img class="media-object img-rounded" ng-src="https://bootdey.com/img/Content/avatar/avatar2.png">
+                                </a>
+                                <div class="media-body">
+                                    <div class="pull-right small">{{comment.created_date | date:'dd/MM/yyyy HH:mm'}}</div>
+                                    <!--<h4 class="media-heading">Media heading</h4>-->
+                                    <label>{{comment.owner.username}}</label><p>{{comment.text}}</p>
+                                    
+                                </div>
+                            </div>
+                         
+                            
+                        </div>
+                        <div class="panel-footer">
+                            <input class="form-control" ng-model="newcomment" ng-keyup="$event.keyCode == 13 && postComment(newcomment,postIndex, post.id)" placeholder="Write a comment...">
                         </div>
                     </div>
-                    
-                    <div class="media">
-                        <a class="pull-left" href="#">
-                            <img class="media-object img-rounded" src="https://bootdey.com/img/Content/avatar/avatar1.png">
-                        </a>
-                        <div class="media-body">
-                            <div class="pull-right small">3 hours ago</div>
-                            <h4 class="media-heading">Media heading</h4>
-                            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="media">
-                        <a class="pull-left" href="#">
-                            <img class="media-object img-rounded" src="https://bootdey.com/img/Content/avatar/avatar1.png">
-                        </a>
-                        <div class="media-body">
-                            <div class="pull-right small">3 hours ago</div>
-                            <h4 class="media-heading">Media heading</h4>
-                            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
-                        </div>
-                    </div>
-                    -->
-                </div>
-                <div class="panel-footer">
-                    <input  class="form-control" placeholder="Write a comment...">
-                </div>
-            </div>
+            
 
         </div>
         <div class="col-md-4">
@@ -186,9 +227,11 @@
             <div class="panel-body rounded">
                     
                 
-                    <!--<li class="list-group-item"><a href="group.groupID"><h5>Django Girls</h5></a></li>-->
-                    <img class="group-image img-rounded" src="https://raw.githubusercontent.com/olasitarska/djangogirls/gh-pages/resources/graphics/logo_square.png" alt=""> 
-                     <div><strong>Django Girls</strong></div>
+                    <li class="list-group-item" ng-repeat="group in groups">
+                        <a href="/group/{{group.id}}"><h5>{{group.name}}</h5></a>
+                    </li>
+                    <!--<img class="group-image img-rounded" src="https://raw.githubusercontent.com/olasitarska/djangogirls/gh-pages/resources/graphics/logo_square.png" alt=""> -->
+                     <!--<div><strong>Django Girls</strong></div>-->
                     
                    
              
@@ -218,7 +261,7 @@
                             </div>
                             <div class="col-sm-6">
                                  <span class="pull-right">
-                                    <a ng-click="edit = true" data-original-title="Edit this user" data-toggle="tooltip" type="button" class="btn btn-info"><i class="glyphicon glyphicon-edit"></i>Edit Profile</a>
+                                    <a ng-show="me" ng-click="edit = true" data-original-title="Edit this user" data-toggle="tooltip" type="button" class="btn btn-info"><i class="glyphicon glyphicon-edit"></i>Edit Profile</a>
                                     <!--<a data-original-title="Remove this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>-->
                                 </span>
                             </div>
@@ -227,26 +270,26 @@
                             <hr style="margin:5px 0 5px 0;">
                                 
                                           
-                            <div class="col-sm-5 col-xs-6 tital">First Name:</div><div class="col-sm-7 col-xs-6 ">{{user.firstname}}</div>
+                            <div class="col-sm-5 col-xs-6 tital">First Name:</div><div class="col-sm-7 col-xs-6 ">{{user.profile.name}}</div>
                             <div class="clearfix"></div>
                             <div class="bot-border"></div>
 
-                            <div class="col-sm-5 col-xs-6 tital " >Last Name:</div><div class="col-sm-7">{{user.lastname}}</div>
+                            <div class="col-sm-5 col-xs-6 tital " >Last Name:</div><div class="col-sm-7">{{user.profile.lastname}}</div>
                             <div class="clearfix"></div>
                             <div class="bot-border"></div>
 
-                            <div class="col-sm-5 col-xs-6 tital " >Birthdate:</div><div class="col-sm-7">{{user.birthdate}}</div>
-
-                            <div class="clearfix"></div>
-                            <div class="bot-border"></div>
-
-                            <div class="col-sm-5 col-xs-6 tital " >Gender:</div><div class="col-sm-7">{{user.gender}}</div>
+                            <div class="col-sm-5 col-xs-6 tital " >Birthdate:</div><div class="col-sm-7">{{user.profile.birthdate}}</div>
 
                             <div class="clearfix"></div>
                             <div class="bot-border"></div>
 
+                            <div class="col-sm-5 col-xs-6 tital " >Gender:</div><div class="col-sm-7">{{user.profile.gender}}</div>
 
-                            <div class="col-sm-5 col-xs-6 tital " >Location:</div><div class="col-sm-7">{{user.location}}</div>
+                            <div class="clearfix"></div>
+                            <div class="bot-border"></div>
+
+
+                            <div class="col-sm-5 col-xs-6 tital " >Location:</div><div class="col-sm-7">{{user.profile.location}}</div>
 
                             <div class="clearfix"></div>
                             <div class="bot-border"></div>
@@ -296,7 +339,7 @@
                             <div class="clearfix"></div>
                             <div class="bot-border"></div>
 
-                            <div class="col-sm-5 col-xs-6 tital " >Phone:</div><div class="col-sm-7"> {{user.phone}}</div>
+                            <div class="col-sm-5 col-xs-6 tital " >Phone:</div><div class="col-sm-7"> {{user.profile.contacts}}</div>
                             <div class="clearfix"></div>
                             <div class="bot-border"></div>
 
@@ -333,14 +376,14 @@
                                           
                             <div class="col-sm-5 col-xs-6 tital " >First Name:</div>
                             <div class="col-sm-7">
-                                <input type="username" name="firstname" ng-model="user.firstname" required class="form-control">    
+                                <input type="username" name="firstname" ng-model="user.profile.name" required class="form-control">    
                             </div>
                             <div class="clearfix"></div>
                             <div class="bot-border"></div>
 
                             <div class="col-sm-5 col-xs-6 tital " >Last Name:</div>
                             <div class="col-sm-7"> 
-                                <input type="username" name="lastname" ng-model="user.lastname" required class="form-control">
+                                <input type="username" name="lastname" ng-model="user.profile.lastname" required class="form-control">
                             </div>
                               <div class="clearfix"></div>
                             <div class="bot-border"></div>
@@ -348,7 +391,7 @@
                             <div class="col-sm-5 col-xs-6 tital " >Birthdate:</div>
                             <div class="col-sm-7">
 
-                                <input id="date" type="date" name="birthdate" ng-model="user.birthdate" required class="form-control">
+                                <input id="date" type="date" name="birthdate" ng-model="user.profile.birthdate" required class="form-control">
                             </div>
 
                             <div class="clearfix"></div>
@@ -357,24 +400,24 @@
                             <div class="col-sm-5 col-xs-6 tital " >Gender:</div>
                             <div class="col-sm-7">
                                 <label class="radio-inline">
-                                  <input type="radio" name="inlineRadioOptions" id="inlineRadio1" ng-model="user.gender"> Female
+                                  <input type="radio" name="inlineRadioOptions" id="inlineRadio1" ng-model="user.profile.gender"> Female
                                 </label>
                                 <label class="radio-inline">
-                                  <input type="radio" name="inlineRadioOptions" id="inlineRadio2" ng-model="user.gender"> Male
+                                  <input type="radio" name="inlineRadioOptions" id="inlineRadio2" ng-model="user.profile.gender"> Male
                                 </label>
                                 <label class="radio-inline">
-                                  <input type="radio" name="inlineRadioOptions" id="inlineRadio3" ng-model="user.gender"> Other
+                                  <input type="radio" name="inlineRadioOptions" id="inlineRadio3" ng-model="user.profile.gender"> Other
                                 </label>
                             </div>
 
                             <div class="clearfix"></div>
                             <div class="bot-border"></div>
 
-
-                            <div class="col-sm-5 col-xs-6 tital " >Location:</div>
+                            <!--
+                            <div class="col-sm-5 col-xs-6 tital ">Location:</div>
                             <div class="col-sm-7">
                                 <input type="location" name="location" ng-model="user.location" required class="form-control">
-                            </div>
+                            </div>-->
 
                             <div class="clearfix"></div>
                             <div class="bot-border"></div>
@@ -464,7 +507,7 @@
                     </div>
                     <div class="panel-body">
                       <ul class="list-group list-group-dividered list-group-full">
-                        <li class="list-group-item">
+                        <li class="list-group-item" ng-repeat="follower in followers">
                           <div class="media">
                             <div class="media-left">
                               <a class="avatar avatar-lg" href="javascript:void(0)">
@@ -474,9 +517,10 @@
                             </div>
                             <div class="media-body">
                               <div class="pull-right">
-                                <button type="button" class="btn btn-info btn-sm waves-effect waves-light">Follow</button>
+                                <button type="button" ng-if="!follower.isFollowed" class="btn btn-info btn-sm waves-effect waves-light">Follow</button>
+                                <button type="button" ng-if="follower.isFollowed" class="btn btn-warning btn-sm waves-effect waves-light">Unfollow</button>
                               </div>
-                              <div><h4><a class="name" href="javascript:void(0)">Willard Wood</a></h4></div>
+                              <div><h4><a class="name" href="/user/{{follower.id}}">{{follower.name}}{{follower.username}}</a></h4></div>
                               <small>Follows you</small>
                             </div>
                           </div>
@@ -497,7 +541,7 @@
                     </div>-->
                     <div class="panel-body">
                       <ul class="list-group list-group-dividered list-group-full">
-                        <li class="list-group-item">
+                        <li class="list-group-item" ng-repeat="following in followings">
                           <div class="media">
                             <div class="media-left">
                               <a class="avatar avatar-lg " href="javascript:void(0)">
@@ -509,43 +553,9 @@
                               <div class="pull-right">
                                 <button type="button" class="btn btn-success btn-sm waves-effect waves-light">Following</button>
                               </div>
-                              <div><h4><a class="name" href="javascript:void(0)">Willard Wood</a></div></h4>
+                              <div><h4><a class="name" href="/user/{{following.id}}">{{following.name}}{{following.username}}</a></div></h4>
                               <small>Follows you</small>
 
-                            </div>
-                          </div>
-                        </li>
-                        <li class="list-group-item">
-                          <div class="media">
-                            <div class="media-left">
-                              <a class="avatar avatar-lg" href="javascript:void(0)">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="">
-                                <i></i>
-                              </a>
-                            </div>
-                            <div class="media-body">
-                              <div class="pull-right">
-                                <button type="button" class="btn btn-success btn-sm waves-effect waves-light">Following</button>
-                              </div>
-                              <div><h4><a class="name" href="javascript:void(0)">Willard Wood</a></div></h4>
-                              <small>Follows you</small>
-                            </div>
-                          </div>
-                        </li>
-                        <li class="list-group-item">
-                          <div class="media">
-                            <div class="media-left">
-                              <a class="avatar avatar-lg" href="javascript:void(0)">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="">
-                                <i></i>
-                              </a>
-                            </div>
-                            <div class="media-body">
-                              <div class="pull-right">
-                                <button type="button" class="btn btn-success btn-sm waves-effect waves-light">Following</button>
-                              </div>
-                              <div><h4><a class="name" href="javascript:void(0)">Willard Wood</a></div></h4>
-                              <small>Follows you</small>
                             </div>
                           </div>
                         </li>
