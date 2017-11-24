@@ -6,6 +6,7 @@ import com.cmpe451.interesthub.models.Component;
 import com.cmpe451.interesthub.models.Content;
 import com.cmpe451.interesthub.models.ContentType;
 import com.cmpe451.interesthub.models.Dummy;
+import com.cmpe451.interesthub.models.Following_Followers;
 import com.cmpe451.interesthub.models.Group;
 import com.cmpe451.interesthub.models.Message;
 import com.cmpe451.interesthub.models.Token;
@@ -86,4 +87,10 @@ public interface ApiService {
     @POST("group/{group_id}/members/")
     Call<Message> joinGroup(@Path(value ="group_id",encoded = true) long groupId);
 
+    @GET("user/{user_id}/followers/")
+    Call<Following_Followers> getuserfollowers();
+    @GET("user/{user_id}/followings/")
+    Call<Following_Followers> getuserfollowings();
+    @GET("me")
+    Call<User> getme();
 }
