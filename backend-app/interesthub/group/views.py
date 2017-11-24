@@ -61,6 +61,11 @@ class GroupMembersList(APIView):
         serializer = UserSerializer(igroup.members, many=True, context={'request': request})
         print(serializer.data)
         return Response(serializer.data)
+    def post(self, request, pk, format=None):
+        igroup = InterestGroup.objects.get(pk=pk)
+        igroup.members.add(request.user)
+        igroup.save()
+        return Response({"message":"user is joined this group."})
 
 class UserGroupList(APIView):
     authentication_classes = (JSONWebTokenAuthentication, )

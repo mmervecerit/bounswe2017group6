@@ -12,4 +12,4 @@ class Tag(models.Model):
     users = models.ManyToManyField(UserProfile, related_name="interests")
 
     def __str__(self):
-        return self.label
+        return str(self.id)

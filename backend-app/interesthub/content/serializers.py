@@ -12,37 +12,24 @@ from recommendation.models import Tag
 class ContentTypeSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = ContentType
-        fields = ("id", "name", "components", "component_names")
+        fields = ("id", "name", "components", "component_names",)
 
 class ContentSerializer(serializers.HyperlinkedModelSerializer):
     components = ComponentSerializer2(many=True)
     owner = UserSerializer(read_only=True, allow_null=False, many=False)
     content_type = ContentTypeSerializer(read_only=True, allow_null=True, many=False)
     tags = TagSerializer(many=True, read_only=False)
+    groups = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
     class Meta:
         model = Content
-        fields = ("id", "content_type", "created_date", "modified_date", "owner", 'components', 'tags')
-    
-    def to_representation(self, obj):
-        response = OrderedDict()
-        response['owner'] = UserSerializer(obj.owner, context=self.context).data
-        response['content_type'] = ContentTypeSerializer(obj.content_type, context=self.context).data
-        response['components'] = ComponentSerializer2(obj.components.all(), many=True, context=self.context).data
-        response['tags'] = TagSerializer(obj.tags.all(), many=True, context=self.context).data
-        response['created_date'] = str(obj.created_date)
-        response['modified_date'] = str(obj.modified_date)
-        return response
+        fields = ("id", "content_type", "created_date", "modified_date", "owner", 'components', 'tags', 'groups')
     
     def to_internal_value(self, data):
         data = data.copy()
         validated_data = OrderedDict()
         print("to_internal_value")
         try:
-            if not User.objects.filter(id=data['owner_id']).exists():
-                raise serializers.ValidationError("No user with given owner_id.")
-            validated_data["owner_id"] = data["owner_id"]
-            
             if not ContentType.objects.filter(id=data['content_type_id']).exists():
                 raise serializers.ValidationError("No content type with given content_type_id.")
             content_type = ContentType.objects.get(pk=data['content_type_id'])
@@ -91,7 +78,7 @@ class ContentSerializer(serializers.HyperlinkedModelSerializer):
     def create(self, validated_data):
         data = validated_data.copy()
         tags_data = data.pop("tags")
-        content = Content.objects.create(owner_id=data["owner_id"], content_type_id=data["content_type_id"])
+        content = Content.objects.create(owner=self.context["request"].user, content_type_id=data["content_type_id"])
         for comp_data in data["components"]:
             serializer = ComponentSerializer2(data=comp_data, context=self.context)
             if serializer.is_valid():
@@ -156,11 +143,12 @@ class ContentSerializer(serializers.HyperlinkedModelSerializer):
 
 class CommentSerializer(serializers.HyperlinkedModelSerializer):
     owner = UserSerializer(read_only=True, allow_null=False, many=False)
+    content = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
 
     class Meta:
         model = Comment
-        fields = ("id", "created_date", "modified_date", "text", "owner")
-        read_only_fields = ["owner", "created_date", "modified_date"]
+        fields = ("id", "created_date", "modified_date", "text", "owner", "content",)
+        read_only_fields = ["owner", "created_date", "modified_date", "content"]
 
     def to_internal_value(self, data):
         validated_data = OrderedDict()

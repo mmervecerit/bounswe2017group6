@@ -15,9 +15,9 @@ class InterestGroup(models.Model):
     is_public = models.BooleanField(default=True)
     logo = models.URLField(null=True, blank=True)
     cover_photo = models.URLField(null=True, blank=True)
-    contents = models.ManyToManyField(Content, related_name="group_content")
-    content_types = models.ManyToManyField(ContentType, related_name="group_contenttype")
+    contents = models.ManyToManyField(Content, related_name="groups")
+    content_types = models.ManyToManyField(ContentType, related_name="groups")
     description = models.TextField(null=True, blank=True)
 
     def __str__(self):
-        return self.name
+        return str(self.id)
