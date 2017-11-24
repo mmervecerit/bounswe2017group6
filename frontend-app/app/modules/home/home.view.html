@@ -26,7 +26,7 @@
         </a>
          <div ng-controller="LoginCtrl" class="col-sm-8 col-sm-offset-2 col-md-offset-2 col-md-8">
 
-          <div class="panel panel-default " style="margin:  auto 0;" >
+          <div class="panel panel-default " style="margin:  auto 0; width:400px; height:auto;" >
                       
                       <div class="panel-heading text-center">
                            <ul class="nav nav-tabs" role="tablist">
@@ -124,41 +124,111 @@
                    
                             </div>
                              <div class="tab-pane fade in active" id="signup"  ng-switch-when="signup">
-                         
+                                <div class="inner-all">                                    
                               <form id="login-form">
                                 <div class="login-container ">
                                   <div class="row">
-                                  <div class="col-md-12">
+                                  <div class="col-md-6">
                                       <div class="form-group">
                                         <label>First Name</label>
-                                        <input name="fname" ng-model="user.firstname" required class="form-control">                              
+                                        <input name="firstname" ng-model="user.firstname" required class="form-control">                              
                                         <div ng-show="myForm.fname.$error.required &amp;&amp; myForm.fname.$touched" class="error">Required!</div>
                                       </div>
                                     </div>
-                                  <div class="col-md-12">
+                                  <div class="col-md-6">
                                       <div class="form-group">
                                         <label>Last Name</label>
-                                        <input name="lname" ng-model="user.lastname" required class="form-control">                              
+                                        <input name="lastname" ng-model="user.lastname" required class="form-control">                              
                                         <div ng-show="myForm.lname.$error.required &amp;&amp; myForm.lname.$touched" class="error">Required!</div>
                                       </div>
                                     </div>
-                                    <div class="col-md-12">
+                                  </div>
+                                  <div class="row">                                    
+
+                                      <div class="col-md-6">
+                                          <div class="form-group">
+                                            <label>Birth Date</label>
+                                            <!-- <input name="fname" ng-model="user.birthDate" required class="form-control">                               -->
+                                            <div class="control">
+                                              <input id="date-birth" class="form-control" type="date" ng-model="user.birthDate">
+                                            </div>
+                                            <div ng-show="myForm.fname.$error.required &amp;&amp; myForm.fname.$touched" class="error">Required!</div>
+                                          </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                              <label>Gender</label>
+                                            <select ng-model="user.gender" ng-options="x for x in gender" style="width: -webkit-fill-available;">
+                                              </select>                                               
+                                               <div ng-show="myForm.fname.$error.required &amp;&amp; myForm.fname.$touched" class="error">Required!</div>
+                                            </div>
+                                          </div>
+                                  </div>
+                                  <div class="row">                                    
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                  <label>Email</label>
+                                                  <i class="fa fa-email"></i> 
+                                                  <input type="email" name="email" ng-model="user.email" required class="form-control">                              
+                                                  <div ng-show="myForm.email.$error.email" class="error">Invalid email!</div>
+                                                  <div ng-show="myForm.email.$error.required &amp;&amp; myForm.email.$touched" class="error">Required!</div>
+                                                </div>
+                                              </div>
+                                  </div>
+
+                                  <br>
+                                  <!-- <div class="row">                                             -->
+                                    <!-- <div class="col-md-12"> -->
+                                      
                                       <div class="form-group">
-                                        <label>Username</label>
-                                        <input name="username" ng-model="user.username" required class="form-control">                              
-                                        <div ng-show="myForm.username.$error.required &amp;&amp; myForm.username.$touched" class="error">Required!</div>
-                                      </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                      <div class="form-group">
-                                        <label>Email</label>
-                                        <i class="fa fa-email"></i> 
-                                        <input type="email" name="email" ng-model="user.email" required class="form-control">                              
-                                        <div ng-show="myForm.email.$error.email" class="error">Invalid email!</div>
-                                        <div ng-show="myForm.email.$error.required &amp;&amp; myForm.email.$touched" class="error">Required!</div>
-                                      </div>
-                                    </div>
-                                    <div class="col-md-12">
+                                          <label for="tag">Interests:</label>
+                                          <div class="clearfix"></div>
+                                          <div class="col-md-12">
+                                              <div ng-repeat="tag in newUser.tags" ng-switch on="$index % 3">
+                                                  <div class="col-md-4 interest" ng-switch-when="0" ng-hide="newUser.tags[$index] == null">
+                                                       <a ng-href="{{newUser.tags[$index].url}}" data-toggle="tooltip" data-placement="right" title="{{newUser.tags[$index].description}}" style="color: blue;">#{{newUser.tags[$index].label}}</a>
+                                                       <!-- <a ng-click="removeTag($index)" data-original-title="Remove this tag" data-toggle="tooltip"><i class="glyphicon glyphicon-remove"></i></a>   -->
+                                                       <i class="glyphicon glyphicon-trash" ng-click="removeTag($index)"></i>                                                                                                             
+                                                  </div>
+                                                  <div class="col-md-4 interest" ng-switch-when="0" ng-hide="newUser.tags[$index+1] == null">
+                                                       <a ng-href="{{newUser.tags[$index+1].url}}" data-toggle="tooltip" data-placement="right" title="{{newUser.tags[$index+1].description}}" style="color: blue;">#{{newUser.tags[$index+1].label}}</a>
+                                                       <!-- <a ng-click="removeTag($index+1)" data-original-title="Remove this tag" data-toggle="tooltip"><i class="glyphicon glyphicon-remove"></i></a>   -->
+                                                       <i class="glyphicon glyphicon-trash" ng-click="removeTag($index+1)"></i>                                                                                                             
+                                                  </div>
+                                                  <div class="col-md-4 interest pull-right" ng-switch-when="0" ng-hide="newUser.tags[$index+2] == null">
+                                                       <a ng-href="{{newUser.tags[$index+2].url}}" data-toggle="tooltip" data-placement="right" title="{{newUser.tags[$index+2].description}}" style="color: blue;">#{{newUser.tags[$index+2].label}}</a>
+                                                       <!-- <a  ng-click="removeTag($index+2)" data-original-title="Remove this tag" data-toggle="tooltip"><i class="glyphicon glyphicon-remove blue"></i></a>   -->
+                                                       <i class="glyphicon glyphicon-trash" ng-click="removeTag($index+2)"></i>                                                                                                          
+                                                  </div>
+                                                  <div class="clearfix"></div>
+                                                  <div class="bot-border"></div>
+                                                 
+                                              </div>
+                                          </div>
+                                          <div class="input-group">
+                                              <input type="text" ng-model="selected"  uib-typeahead="tag as tag.label for tag in searchTag($viewValue)  | limitTo:8 " class="form-control"  typeahead-loading="loadingLocations" typeahead-no-results="noResults">
+                                              <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+                                              <div ng-show="noResults">
+                                                <i class="glyphicon glyphicon-remove"></i> No Results Found
+                                              </div>
+                                              <span class="input-group-btn">
+                                                  <button class="btn btn-success btn-default" ng-click="addTag(selected); selected='';">Add tag</button>
+                                                </span>
+                                          </div>
+                                  </div>
+                                  <!-- </div> -->
+                                  <!-- </div> -->
+                                    
+                                            <div class="row">                                              
+                                            <div class="col-md-6">
+                                              <div class="form-group">
+                                                <label>Username</label>
+                                                <input name="username" ng-model="user.username" required class="form-control">                              
+                                                <div ng-show="myForm.username.$error.required &amp;&amp; myForm.username.$touched" class="error">Required!</div>
+                                              </div>
+                                            </div>
+                                    <div class="col-md-6">
                                       <div class="form-group">
                                         <label>Password</label>
                                         <i class="fa fa-lock"></i>
@@ -166,9 +236,10 @@
                                         <div ng-show="myForm.pass.$error.required &amp;&amp; myForm.pass.$touched" class="error">Required!</div>
                                       </div>
                                     </div>
+                                            </div>
 
                                   
-                                  
+                                            <div class="row">                                              
                                     <div class="col-md-12">
                                       <div class="form-group text-center">
                                         <a ng-click="signup(user)"  class="btn btn-block btn-success" ng-disabled="myForm.$invalid">
@@ -177,6 +248,8 @@
                                         <div class="clearfix"></div>
                                       </div>
                                     </div>
+                                    <div class="row">
+                                      
 
                                   <br/>
                                     <!--
@@ -213,7 +286,7 @@
                                 </div>
                               </form>
                            
-                   
+                                </div>
                             </div>
              
                           </div>
