@@ -13,11 +13,21 @@ import java.util.List;
 
 public class User {
     @SerializedName("id")
-    long id;
+    Long id;
     @SerializedName("username")
     String username;
     @SerializedName("email")
     String email;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    String password;
 
     Profile profile;
 
@@ -33,7 +43,7 @@ public class User {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

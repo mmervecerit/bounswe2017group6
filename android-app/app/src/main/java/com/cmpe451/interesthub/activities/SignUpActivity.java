@@ -8,12 +8,21 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cmpe451.interesthub.InterestHub;
 import com.cmpe451.interesthub.R;
 import com.cmpe451.interesthub.activities.baseActivities.BaseActivity;
+import com.cmpe451.interesthub.models.Interest;
+import com.cmpe451.interesthub.models.Profile;
 import com.cmpe451.interesthub.models.User;
+import com.google.gson.Gson;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -29,12 +38,16 @@ public class SignUpActivity extends BaseActivity {
         Button b3=(Button) findViewById(R.id.button2);
         Button b4=(Button) findViewById(R.id.button3);
 
-        final EditText e = (EditText) findViewById(R.id.FirstName);
-        final EditText e2 = (EditText) findViewById(R.id.SecondName);
-        final EditText e3 = (EditText) findViewById(R.id.Email);
-        final EditText e4 = (EditText) findViewById(R.id.Password);
+        final EditText firstName = (EditText) findViewById(R.id.FirstName);
+        final EditText secondName = (EditText) findViewById(R.id.SecondName);
+        final EditText email = (EditText) findViewById(R.id.Email);
+        final EditText password = (EditText) findViewById(R.id.Password);
+        final EditText password2 = (EditText) findViewById(R.id.Password2);
+        final EditText username = (EditText) findViewById(R.id.UserName);
 
-        final TextView t2 = (TextView) findViewById(R.id.textView2);
+        final EditText about = (EditText) findViewById(R.id.about);
+        final EditText contact = (EditText) findViewById(R.id.contact);
+
 
         final InterestHub hub = (InterestHub) getApplication();
 
@@ -42,15 +55,36 @@ public class SignUpActivity extends BaseActivity {
             @Override
             public void onClick(final View view) {
 
-                if(!e.getText().toString().equals(null) && !e3.getText().toString().equals(null) && !e4.getText().toString().equals(null)){
 
-                    hub.getApiService().addUser(e.getText().toString(),e3.getText().toString(),e4.getText().toString()).enqueue(new Callback<User>() {
+                if(!password.getText().toString().equals(password2.getText().toString())){
+                    Toast toast = Toast.makeText(getBaseContext(),"Passwords does not match",Toast.LENGTH_LONG);
+                    toast.show();
+                }
+                if(!firstName.getText().toString().equals(null) && !email.getText().toString().equals(null) && !password.getText().toString().equals(null)){
+                    User user = new User();
+                    user.setEmail(email.getText().toString());
+                    user.setUsername(username.getText().toString());
+                    user.setPassword(password.getText().toString());
+
+                    Profile p = new Profile();
+                    p.setName(firstName.getText().toString());
+                    p.setAbout(about.getText().toString());
+                    p.setContacts(contact.getText().toString());
+                    List<Interest> interestList = new ArrayList<Interest>();
+                    //TODO set interest list
+                    p.setInterests(interestList);
+                    p.setLastname(secondName.getText().toString());
+                    user.setProfile(p);
+                    Gson gson = new Gson();
+                    user.setId(null);
+                    String json = gson.toJson(user);
+                    RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), json);
+                    Log.d("JSON",json);
+                    hub.getApiService().addUser(requestBody).enqueue(new Callback<User>() {
                         @Override
                         public void onResponse(Call<User> call, Response<User> response) {
-                            Log.d("Signup ", "Signup response succesfull");
-                            Intent intent= new Intent(view.getContext(), LoginActivity.class);
+                            Intent intent = new Intent(getBaseContext(), LoginActivity.class);
                             startActivity(intent);
-
                         }
 
                         @Override

@@ -8,7 +8,7 @@ import java.util.List;
 
 public class ContentType {
 
-    private  long id;
+    private  Long id;
     String name;
     List<String> components;
 
@@ -20,7 +20,7 @@ public class ContentType {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -46,4 +46,6 @@ public class ContentType {
     public void setComponent_names(List<String> component_names) {
         this.component_names = component_names;
     }
+
+
 }
