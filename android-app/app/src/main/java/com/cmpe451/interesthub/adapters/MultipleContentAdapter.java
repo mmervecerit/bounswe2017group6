@@ -6,6 +6,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.ImageView;
@@ -42,11 +46,12 @@ public class MultipleContentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         public List<TextView> longtext = new ArrayList<TextView>();
         public List<ImageView> image = new ArrayList<ImageView>();
         public List<CalendarView> datetime = new ArrayList<CalendarView>();
-        public List<VideoView> video = new ArrayList<VideoView>();
+        public List<WebView> video = new ArrayList<WebView>();
         public List<TextView> number = new ArrayList<TextView>();
         public TextView owner;
         public TextView date;
         public ImageView pic;
+        public List<TextView> headers = new ArrayList<>();
         private Button commentButton;
         public ViewHolder(View itemView, List<String> list, final int pos) {
             super(itemView);
@@ -61,9 +66,9 @@ public class MultipleContentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             commentButton = c.findViewById(R.id.post_comment_button);
 
 
-           for(int i = 0 ; i<list.size();i++){
-               String s = list.get(i);
-
+           for(int i = 1 ; i<list.size()*2;i+=2){
+               String s = list.get(i/2);
+               headers.add((TextView) l.getChildAt(i-1));
                if(s.equals("text")||s.equals("title")){
                    text.add((TextView) l.getChildAt(i));
                }
@@ -79,8 +84,8 @@ public class MultipleContentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                    image.add((ImageView) l.getChildAt(i));
 
                }else if(s.equals("video")){
-                   //video.add((VideoView) l.getChildAt(i));
-                   image.add((ImageView) l.getChildAt(i));
+                   video.add((WebView) l.getChildAt(i));
+                   //image.add((ImageView) l.getChildAt(i));
                }
                else if(s.equals("number")){
                    number.add((TextView) l.getChildAt(i));
@@ -126,7 +131,9 @@ public class MultipleContentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                CardView def = (CardView) LayoutInflater.from(parent.getContext()).inflate(R.layout.post_layout_def, null);
                list = contentList.get(viewType).getContentType().getComponents();
                for (String s : list) {
+                   TextView header = (TextView) LayoutInflater.from(parent.getContext()).inflate(R.layout.post_component_header, null);
                    LinearLayout l = (LinearLayout) def.findViewById(R.id.content);
+                   l.addView(header);
                    if (s.equals("text")) {
                        l.addView((TextView) LayoutInflater.from(parent.getContext()).inflate(R.layout.post_component_text, null));
                    } else if (s.equals("title")) {
@@ -135,14 +142,14 @@ public class MultipleContentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                    } else if (s.equals("longtext")) {
                        l.addView((TextView) LayoutInflater.from(parent.getContext()).inflate(R.layout.post_component_longtext, null));
 
-                   } else if (s.equals("image") || (s.equals("video") ) ) {
+                   } else if (s.equals("image")  ) {
                        ImageView img = (ImageView) LayoutInflater.from(parent.getContext()).inflate(R.layout.post_component_image, null);
                        img.setAdjustViewBounds(true);
                        l.addView(img);
-                   }/*else if (s.equals("video") ) {
-                       VideoView vid = (VideoView) LayoutInflater.from(parent.getContext()).inflate(R.layout.post_component_video, null);
+                   }else if (s.equals("video") ) {
+                       WebView vid = (WebView) LayoutInflater.from(parent.getContext()).inflate(R.layout.post_component_video, null);
                        l.addView(vid);
-                   }*/
+                   }
                    else if (s.equals("number")) {
                        l.addView((TextView) LayoutInflater.from(parent.getContext()).inflate(R.layout.post_component_number, null));
 
@@ -173,12 +180,13 @@ public class MultipleContentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         //holder.postHeader.setText(itemList.get(position).getHeader());
 
         //sets click listener for each card view in order to open content activity;
+        if(listener!=null){
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 listener.onItemClick(position);
             }
-        });
+        });}
         if(contentList.get(position).getComponents()!=null || contentList.get(position).getComponents().size()!=0 ){
             ((ViewHolder)holder).owner.setText(contentList.get(position).getOwner().getUsername()+" > " + contentList.get(position).getGroupName());
             long postDate = contentList.get(position).getCreatedDate().getTime();
@@ -205,7 +213,7 @@ public class MultipleContentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             for(int i=0;i<contentList.get(position).getComponents().size();i++){
                 Component c = contentList.get(position).getComponents().get(i);
                 TypeData data = c.getType_data();
-
+                ((ViewHolder)holder).headers.get(i).setText(contentList.get(position).getContentType().getComponent_names().get(i)+":");
                 if (c.getComponent_type().equals("text")) {
                     ((ViewHolder)holder).text.get(texti).setText(data.getData());
                     texti++;
@@ -225,19 +233,34 @@ public class MultipleContentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                             .resize(200,200).into(((ViewHolder)holder).image.get(imagei));
                     imagei++;
                 }else if (c.getComponent_type().equals("video")) {
+
+                    int equalsIndex = data.getData().indexOf('=');
+                    String hash = data.getData().substring(equalsIndex+1,data.getData().length());
+                    String base ="https://www.youtube.com/embed/"+hash+"?fs=1&amp;feature=oembed";
+                    String frameVideo = "<html><body>Video From YouTube<br><iframe width=\"320\" height=\"200\" src=\""+base+"\" frameborder=\"0\" allowfullscreen></iframe></body></html>";
+                    String html = "<iframe width=\"320\" height=\"200\" src='"+base+"'frameborder=\"0\" allowfullscreen=\"\"></iframe>";
+
+                    WebView mContentWebView = ((ViewHolder)holder).video.get(videoi);
+
+                    mContentWebView.setWebChromeClient(new WebChromeClient());
+                    mContentWebView.getSettings().setPluginState(WebSettings.PluginState.ON);
+                    mContentWebView.getSettings().setPluginState(WebSettings.PluginState.ON_DEMAND);
+                    mContentWebView.setWebViewClient(new WebViewClient());
+                    mContentWebView.getSettings().setJavaScriptEnabled(true);
                     /*
-                    Log.d("VIDEO",data.getData());
-                    VideoView mVideoView = ((ViewHolder)holder).video.get(videoi);
-                    mVideoView.setMediaController(new MediaController(context));
-                   // mVideoView.setVideoURI();
-                    mVideoView.requestFocus();
-                    mVideoView.start();
+                   // WebChromeClient client = new WebChromeClient();
+                    ((ViewHolder)holder).video.get(videoi).getSettings().setJavaScriptEnabled(true);
+                   // ((ViewHolder)holder).video.get(i).getSettings().setPluginsEnabled(true);
+                    ((ViewHolder)holder).video.get(videoi).setWebChromeClient(new WebChromeClient() {
+                    });
 
-
+                    ((ViewHolder)holder).video.get(videoi).loadData(frameVideo, "text/html", "utf-8");
+*                    */
+                    mContentWebView.loadDataWithBaseURL(base, html,
+                            "text/html", "UTF-8", null);
                      videoi++;
-                     */
-                    ((ViewHolder)holder).image.get(imagei).setImageResource(R.drawable.placeholder);
-                    imagei++;
+
+
                 } else if(c.getComponent_type().equals("datetime")){
 
                 }

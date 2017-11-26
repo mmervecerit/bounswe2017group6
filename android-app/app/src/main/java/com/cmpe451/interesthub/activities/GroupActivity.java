@@ -26,6 +26,7 @@ import com.cmpe451.interesthub.adapters.GroupFragmentsAdapter;
 import com.cmpe451.interesthub.models.Component;
 import com.cmpe451.interesthub.models.Content;
 import com.cmpe451.interesthub.models.Group;
+import com.cmpe451.interesthub.models.Message;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -56,7 +57,7 @@ public class GroupActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-
+        hub = (InterestHub) getApplication();
 
         if(getIntent().getExtras().getString("groupName")!=null){
             Log.d("Group activity started with: ", (String) getIntent().getExtras().getString("groupName"));
@@ -82,6 +83,12 @@ public class GroupActivity extends BaseActivity {
         if(groupImg!=null && !groupImg.equals(null) && !groupImg.equals(""))
             builder.build().load(groupImg).into(img);
         //img.setScaleType(ImageView.ScaleType.FIT_CENTER);
+
+        FloatingActionButton joinfab = (FloatingActionButton) findViewById(R.id.joinFab);
+        TextView joinfabText = (TextView) findViewById(R.id.joinFabtext);
+
+        checkJoinFab(joinfab,joinfabText);
+
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         viewPager = (ViewPager) findViewById(R.id.ViewPager_group);
         viewPagerAdapter = new GroupFragmentsAdapter(getSupportFragmentManager(),groupId,groupName);
@@ -159,6 +166,38 @@ public class GroupActivity extends BaseActivity {
         });
 
     }
+    public void checkJoinFab(FloatingActionButton joinFab,TextView joinFabText){
+        if(hub.getSessionController().isGroupsSet()) {
+            for (Group g : hub.getSessionController().getGroups()) {
+                if (groupId == g.getId()) {
+                    joinFab.setVisibility(View.GONE);
+                    joinFabText.setVisibility(View.GONE);
+                    return;
+                }
+            }
+
+            joinFab.setVisibility(View.VISIBLE);
+            joinFab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    hub.getApiService().joinGroup(groupId).enqueue(new Callback<Message>() {
+                        @Override
+                        public void onResponse(Call<Message> call, Response<Message> response) {
+                            hub.getSessionController().updateGroups(hub);
+                            startActivity(getIntent());
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<Message> call, Throwable t) {
+
+                        }
+                    });
+                }
+            });
+        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();

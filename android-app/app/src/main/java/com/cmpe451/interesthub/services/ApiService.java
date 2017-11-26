@@ -46,9 +46,8 @@ public interface ApiService {
     @GET
     Call<User> getSpesificUser(@Url String url);
 
-    @POST("users/")
-    @FormUrlEncoded
-    Call <User> addUser (@Field("username") String username,@Field("email") String email, @Field("password") String password);
+    @POST("register/")
+    Call <User> addUser (@Body RequestBody content);
 
     @GET("groups/")
     Call<List<Group>> getGroup();
