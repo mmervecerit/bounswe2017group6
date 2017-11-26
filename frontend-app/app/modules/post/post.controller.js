@@ -5,7 +5,7 @@
         .module("interestHub")
         .controller("PostCtrl", PostCtrl);
     
-    function PostCtrl($scope,  $rootScope, $location, PostService, $routeParams, TemplateService, $q,ContentService)
+    function PostCtrl($scope,  $rootScope, $location, PostService, $routeParams, TemplateService, $q,ContentService,TagService)
 
     {    
 
@@ -13,9 +13,20 @@
         $scope.remove = remove;
         $scope.update = update;
         $scope.add    = add;
-      	$scope.tab = {};
 		$scope.typeSelect=typeSelect;
+		$scope.addContentTag = addContentTag;
+        $scope.removeContentTag = removeContentTag;
+		$scope.upVote = upVote;
+        $scope.downVote = downVote;
+        $scope.postComment = postComment;
+		
+		
+		
+      	$scope.tab = {};
         $scope.templates = [];
+		$scope.content={content_type_id:'',tags:[],comps:[]};
+		$scope.tags=[];
+		
         function init() {
        
 
@@ -25,7 +36,7 @@
 			TemplateService
 				.getAllTemplates($routeParams.id)
 				.then(tempSuccess, tempError);
-
+			console.log($scope.content.tags);
         }
         
         init();
@@ -60,17 +71,22 @@
             
 
             console.log("added");
-        } */     
-		$scope.content={};
+        } */  
+		
+		
 		function add(content)
         {
-			$scope.req={"content_type":{},"owner":{
-            "url": "http://34.209.230.231:8000/users/1/",
-            "id": 1,
-            "username": "admin",
-            "email": "admin@interesthub.com"
-			},"owner_id": 1,"content_type_id": $scope.content.content_type_id,"components":[]}
+			$scope.req={"content_type_id": $scope.content.content_type_id,"tags":[],"components":[]}
 			console.log($scope.content);
+			for(i=0;i<$scope.content.tags.length;i++){
+				tempTag={
+					"label": $scope.content.tags[i].label,
+					"description": $scope.content.tags[i].description,
+					"url":"https:"+$scope.content.tags[i].url 
+				}
+				console.log("tempTag "+tempTag);
+				$scope.req.tags.push(tempTag);
+			}
 			for(i=0;i<$scope.templates.length;i++){
 				if($scope.templates[i].id==$scope.content.content_type_id){
 					$scope.con_type=angular.copy($scope.templates[i]);
@@ -82,12 +98,13 @@
                 "order": i+1,
                 "type_data": {
                     "data": content.comps[$scope.con_type.component_names[i]]
-                }
+					}	
 				
-            }
-			$scope.req.components.push(temp);
+				}
+				$scope.req.components.push(temp);
 			}
-			$scope.req.content_type=$scope.con_type;
+			
+			//$scope.req.content_type=$scope.con_type;
 			
 			console.log($scope.req)
 			
@@ -97,7 +114,7 @@
                 .createPost($routeParams.id, $scope.req)
                 .then(handleSuccessPost, handleError);
 				
-            $scope.content={owner_id:'1',content_type_id:'',comps:[]};
+            $scope.content={content_type_id:$scope.content.content_type_id,tags:[],comps:[]};
 
             
         }
@@ -155,9 +172,9 @@
 			
 
         }
-		$scope.content={owner_id:'1',content_type_id:'',comps:[]};
+		$scope.content={content_type_id:'',tags:[],comps:[]};
 		function typeSelect(type_id){
-			$scope.content={owner_id:'1',content_type_id:'',comps:[]};
+			$scope.content={content_type_id:'',tags:[],comps:[]};
 			$scope.content.content_type_id=type_id;
 			//console.log($scope.content);
 			
@@ -174,11 +191,120 @@
 		  $scope.model = {
 		    name: 'Tabs'
 		};
+		var _selected;
+		  $scope.ngModelOptionsSelected = function(value) {
+			if (arguments.length) {
+			  _selected = value;
+			} else {
+			  return _selected;
+			}
+		  };
+
+		  $scope.modelOptions = {
+			debounce: {
+			  default: 500,
+			  blur: 250
+			},
+			getterSetter: true
+		  };
+		
+		
+		
+		$scope.selected = undefined;
+		$scope.searchTag = function(val) {
+			return TagService.searchTag(val)
+                .then(function(response){
+                    console.log(response.data.search);
+                    return tags = response.data.search;
+                }
+                ,handleError);
+				
+            			
+         };
+		  
+          function addContentTag(tag) {
+			  console.log(tag);
+			  console.log("post");
+			  
+            if (tag != ""){
+
+                var tagStored = {
+                    "label" : tag.label ,
+                    "description" : tag.description,
+                    "url" : tag.url
+                }
+              
+                $scope.content.tags.push(tagStored);
+                $scope.selected = undefined;
+            }
+          }
+
+
+        function removeContentTag($index){
+            $scope.content.tags.splice($index,1);
+        }
+		function handleTag(response){
+            console.log(response.data);
+
+            $scope.tags = response.data;
+        }
+		
+		function postComment(text,index, ContentID){
+            console.log(index);
+            console.log(text);
+            var comment = {
+                "text" : text
+            };
+            ContentService.createCommentToContent(ContentID,comment)
+                .then(
+                    function(response){
+                        $scope.posts[index].comments.push(response.data);
+                    },
+                    handleError);
+                console.log($scope.posts);
+        }
+        function upVote(index, contentId){
+            var vote = {
+                "isUp" : true,
+                "content_id": contentId
+            }
+            ContentService.voteToContent(contentId,vote)
+                .then(function(response){
+                    console.log(response.data);
+                    $scope.posts[index].votes.push(response.data);
+                },handleError);
+                console.log($scope.posts[index].votes);
+
+        }
+         function downVote(index, contentId){
+             var vote = {
+                "isUp" : false,
+                "content_id": contentId
+            }
+            console.log("down");
+            ContentService.voteToContent(contentId,vote)
+                .then(function(response){
+                    console.log(response.data);
+
+                    $scope.posts[index].votes.push(response.data);
+                },handleError);
+
+        }
+		
 		
 		$scope.$on('AddTemplate', function(proc, response) {
 			console.log(response);
 			$scope.templates.push(response);
-		})
+		});
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		
  

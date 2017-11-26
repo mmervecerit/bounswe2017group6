@@ -131,6 +131,20 @@
                                         </p>
                                     </div>      
                                 </div>
+								<br></br>
+								<strong><label>Tags</label></strong>:
+								<div class="clearfix"></div>
+                                <div class="col-sm-12">
+                                    <div ng-repeat="tag in post.tags track by $index" ng-switch on="$index % 1">
+                                        <div class="col-sm-2 interest" ng-switch-when="0" ng-hide="tag == null">
+                                             <a ng-href="{{tag.url}}" data-toggle="tooltip" data-placement="right" title="{{tag.description}}" >#{{tag.label}}</a>
+                                               
+                                        </div>
+                                        
+
+                                       
+                                    </div>
+                                </div>
                             <div class="actions">
                                 <div class="btn-group">
                                         <button type="button" class="btn btn-link" ng-click="upVote(postIndex, post.id)"><i class="fa fa-thumbs-o-up"></i><span class="badge">{{post.likes}}</span></button>
