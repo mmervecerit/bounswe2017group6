@@ -131,7 +131,7 @@ public class GroupPosts extends Fragment {
         final LinearLayoutManager ll = new LinearLayoutManager(getActivity());
         ll.setOrientation(LinearLayoutManager.VERTICAL);
 
-        MultipleContentAdapter adapter = new MultipleContentAdapter(getContext(),contentList);
+        MultipleContentAdapter adapter = new MultipleContentAdapter(getContext(),contentList,hub);
         contentView = (RecyclerView) view.findViewById(R.id.spesific_group_recycler_view);
         contentView.setLayoutManager(ll);
 

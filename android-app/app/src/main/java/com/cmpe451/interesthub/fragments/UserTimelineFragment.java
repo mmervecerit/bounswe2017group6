@@ -154,7 +154,7 @@ public class UserTimelineFragment extends Fragment {
                 startActivity(intent);
             }
         };
-        MultipleContentAdapter adapter = new MultipleContentAdapter(context,contentList,listener);
+        MultipleContentAdapter adapter = new MultipleContentAdapter(context,contentList,listener,hub);
 
         postList.setLayoutManager(ll);
 

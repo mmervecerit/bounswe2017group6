@@ -14,6 +14,7 @@ import com.cmpe451.interesthub.activities.baseActivities.BaseActivity;
 import com.cmpe451.interesthub.adapters.SingleContentAdapter;
 import com.cmpe451.interesthub.models.Comment;
 import com.cmpe451.interesthub.models.Content;
+import com.cmpe451.interesthub.models.UpDown;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +43,7 @@ public class ContentActivity extends BaseActivity {
         final Content content = hub.getTempContent();
 
         final List<Comment> comments = new ArrayList<>();
+        final List<UpDown> votes = new ArrayList<>();
         hub.getApiService().getGroupComments(content.getId()).enqueue(new Callback<List<Comment>>() {
             @Override
             public void onResponse(Call<List<Comment>> call, Response<List<Comment>> response) {
@@ -59,6 +61,8 @@ public class ContentActivity extends BaseActivity {
             }
         });
 
+
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setVisibility(View.GONE);
     }
@@ -70,9 +74,9 @@ public class ContentActivity extends BaseActivity {
 
         SingleContentAdapter adapter;
         if(comments==null)
-            adapter = new SingleContentAdapter(getBaseContext(),content);
+            adapter = new SingleContentAdapter(getBaseContext(),content,hub);
         else
-            adapter = new SingleContentAdapter(getBaseContext(),content,comments);
+            adapter = new SingleContentAdapter(getBaseContext(),content,comments,hub);
         recyclerView.setLayoutManager(ll);
 
         recyclerView.setAdapter(adapter);

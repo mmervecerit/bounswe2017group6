@@ -1,6 +1,7 @@
 package com.cmpe451.interesthub.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,20 +13,33 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.cmpe451.interesthub.InterestHub;
 import com.cmpe451.interesthub.R;
 import com.cmpe451.interesthub.models.Component;
 import com.cmpe451.interesthub.models.Content;
 import com.cmpe451.interesthub.models.TypeData;
+import com.cmpe451.interesthub.models.UpDown;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MultipleContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -39,6 +53,7 @@ public class MultipleContentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     private List<Content> contentList;
     private Context context;
+    private InterestHub hub;
     private  RecyclerView.ViewHolder[] viewList;
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -51,20 +66,27 @@ public class MultipleContentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         public TextView owner;
         public TextView date;
         public ImageView pic;
+        public TextView likedtext,dislikedtext;
         public List<TextView> headers = new ArrayList<>();
-        private Button commentButton;
+        public Button commentButton,likeButton,dislikeButton;
+        public EditText commentText;
         public ViewHolder(View itemView, List<String> list, final int pos) {
             super(itemView);
 
             CardView c = (CardView)itemView;
             LinearLayout l = c.findViewById(R.id.content);
-            LinearLayout commentRegion = c.findViewById(R.id.comment_region);
-            commentRegion.setVisibility(View.GONE);
+            ListView commentList = c.findViewById(R.id.comment_list_view);
+            commentList.setVisibility(View.GONE);
             owner = (TextView) c.findViewById(R.id.post_owner);
             date = (TextView) c.findViewById(R.id.post_date);
             pic = (ImageView) c.findViewById(R.id.post_owner_img);
             commentButton = c.findViewById(R.id.post_comment_button);
-
+            commentText = itemView.findViewById(R.id.comment_text);
+            likeButton = c.findViewById(R.id.post_like_button);
+            dislikeButton = c.findViewById(R.id.post_dislike_button);
+            commentText.setVisibility(View.GONE);
+            likedtext = itemView.findViewById(R.id.liked_text_view);
+            dislikedtext = itemView.findViewById(R.id.disliked_text_view);
 
            for(int i = 1 ; i<list.size()*2;i+=2){
                String s = list.get(i/2);
@@ -101,18 +123,18 @@ public class MultipleContentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     //with listener
-    public MultipleContentAdapter(Context context, List<Content> list, OnItemClickListener listener) {
+    public MultipleContentAdapter(Context context, List<Content> list, OnItemClickListener listener,InterestHub hub) {
         this.contentList= list;
         this.listener = listener;
-
+        this.hub=hub;
         this.context = context;
 
 
     }
     //without listener
-    public MultipleContentAdapter(Context context, List<Content> list) {
+    public MultipleContentAdapter(Context context, List<Content> list, InterestHub hub) {
         this.contentList= list;
-
+        this.hub = hub;
         this.context = context;
 
 
@@ -175,7 +197,7 @@ public class MultipleContentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
 
         //holder.postHeader.setText(itemList.get(position).getHeader());
 
@@ -187,6 +209,69 @@ public class MultipleContentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 listener.onItemClick(position);
             }
         });}
+
+
+
+        setLikersDislikers(hub,((ViewHolder)holder).likedtext, ((ViewHolder)holder).dislikedtext,
+                ((ViewHolder)holder).likeButton,((ViewHolder)holder).dislikeButton,position);
+
+
+        ((ViewHolder)holder).likeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                JsonObject jobj = new JsonObject();
+                jobj.addProperty("isUp",true);
+                jobj.addProperty("content_id",contentList.get(position).getId());
+                Gson gson = new Gson();
+
+                RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), gson.toJson(jobj));
+                hub.getApiService().postVote(requestBody).enqueue(new Callback<UpDown>() {
+                    @Override
+                    public void onResponse(Call<UpDown> call, Response<UpDown> response) {
+                        Toast toast = Toast.makeText(context, "Liked",Toast.LENGTH_SHORT);
+                        toast.show();
+                        setLikersDislikers(hub,((ViewHolder)holder).likedtext, ((ViewHolder)holder).dislikedtext,
+                                ((ViewHolder)holder).likeButton,((ViewHolder)holder).dislikeButton,position);
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<UpDown> call, Throwable t) {
+
+                    }
+                });
+            }
+        });
+        ((ViewHolder)holder).dislikeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                JsonObject jobj = new JsonObject();
+                jobj.addProperty("isUp",false);
+                jobj.addProperty("content_id",contentList.get(position).getId());
+                Gson gson = new Gson();
+
+                RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), gson.toJson(jobj));
+                hub.getApiService().postVote(requestBody).enqueue(new Callback<UpDown>() {
+                    @Override
+                    public void onResponse(Call<UpDown> call, Response<UpDown> response) {
+                        Toast toast = Toast.makeText(context, "Disliked",Toast.LENGTH_SHORT);
+                        toast.show();
+                        setLikersDislikers(hub,((ViewHolder)holder).likedtext, ((ViewHolder)holder).dislikedtext,
+                                ((ViewHolder)holder).likeButton,((ViewHolder)holder).dislikeButton,position);
+                    }
+
+                    @Override
+                    public void onFailure(Call<UpDown> call, Throwable t) {
+
+                    }
+                });
+            }
+        });
+
+
+
         if(contentList.get(position).getComponents()!=null || contentList.get(position).getComponents().size()!=0 ){
             ((ViewHolder)holder).owner.setText(contentList.get(position).getOwner().getUsername()+" > " + contentList.get(position).getGroupName());
             long postDate = contentList.get(position).getCreatedDate().getTime();
@@ -269,6 +354,37 @@ public class MultipleContentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         }
 
+    }
+    public void setLikersDislikers(final InterestHub hub, final TextView likedtext, final TextView dislikedtext,
+                                   final Button likeButton, final Button dislikeButton,int position){
+        hub.getApiService().getVotesOfGroup(contentList.get(position).getId()).enqueue(new Callback<List<UpDown>>() {
+            @Override
+            public void onResponse(Call<List<UpDown>> call, Response<List<UpDown>> response) {
+                int liker = 0,disliker =0;
+                long userid = hub.getSessionController().getUser().getId();
+                for(UpDown u:response.body()){
+                    if(u.isUp())   {
+                        liker++;
+                        if(u.getOwner() == userid)
+                            likeButton.setBackgroundColor(Color.MAGENTA);
+                    }
+                    else {
+                        disliker++;
+                        if(u.getOwner() == userid)
+                            dislikeButton.setBackgroundColor(Color.MAGENTA);
+                    }
+                }
+
+                likedtext.setText(liker + " people liked this");
+                dislikedtext.setText(disliker + " people disliked this");
+
+            }
+
+            @Override
+            public void onFailure(Call<List<UpDown>> call, Throwable t) {
+
+            }
+        });
     }
 
         @Override
