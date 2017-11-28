@@ -10,7 +10,7 @@ class ContentAdmin(admin.ModelAdmin):
     list_display = ["id", "content_type"]
 
 class ContentTypeAdmin(admin.ModelAdmin):
-    fields = ["name",]
+    fields = ["name","components", "component_names"]
     readonly_fields = ("id", "created_date", "modified_date",)
     list_display = ["id", "name"]
 

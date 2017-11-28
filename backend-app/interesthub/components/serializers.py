@@ -65,13 +65,18 @@ class ComponentSerializer2(ComponentSerializer):
         return response
 
     def to_internal_value(self, data):
+        print(data)
         data = data.copy()
+        print("WTF")
         type_data = data.pop("type_data")
         validated_data = super(ComponentSerializer2, self).to_internal_value(data)
         serializer = self.serializer_mapping[data['component_type']](many=False, data=type_data)
+        print("WTF")
         if not serializer.is_valid():
-            raise ValidationError(serializer.errors)
+            raise serializers.ValidationError(serializer.errors)
+        print("WTF")
         validated_data["type_data"] = serializer.validated_data
+        print(validated_data)
         return validated_data
 
     def create(self, validated_data):

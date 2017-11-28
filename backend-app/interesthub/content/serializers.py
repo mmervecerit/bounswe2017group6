@@ -41,18 +41,23 @@ class ContentSerializer(serializers.HyperlinkedModelSerializer):
                 raise serializers.ValidationError("Number of components does not match with content type.")
 
             for component in data["components"]:
+                print('comp:', component)
                 serializer = ComponentSerializer2(data=component, context=self.context)
                 if not serializer.is_valid():
+                    print("ehehe")
+                    print(serializer.errors)
                     error = serializer.errors
-                    raise serializer.ValidationError(error)
+                    raise serializers.ValidationError(error)
                 if component["component_type"] != content_type.components[component["order"]-1]:
+                    print("ohoho")
                     raise serializers.ValidationError("Order of the components does not match with content type")
 
+                print("end")
                 validated_data["components"].append(serializer.validated_data)
         
         except Exception as e:
             if not self.partial:
-                raise serializer.ValidationError(str(e))
+                raise serializers.ValidationError(str(e))
 
         # print("to_internal_value")
 

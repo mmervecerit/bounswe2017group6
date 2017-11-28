@@ -17,7 +17,7 @@ class InterestsInline(admin.TabularInline):
     verbose_name_plural = "Interests"
 
 class ProfileAdmin(admin.ModelAdmin):
-    fields = ['owner', 'name', 'lastname', 'birthdate', 'gender', 'contacts', 'about', 'picture', 'is_public', 'facebook_account', 'twitter_account', 'instagram_account']
+    fields = ['owner', 'name', 'lastname', 'birthdate', 'gender', 'contacts', 'about', 'is_public', 'facebook_account', 'twitter_account', 'instagram_account', 'photo']
     # fields = ['owner', 'name', 'lastname', 'birthdate', 'contacts', 'about', 'is_public', 'facebook_account', 'twitter_account', 'instagram_account']
     read_only_fields = ['created_date', 'modified_date']
     list_display = ["id", "name", "lastname"]

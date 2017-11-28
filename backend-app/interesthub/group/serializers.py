@@ -7,16 +7,15 @@ from collections import OrderedDict
 from recommendation.models import Tag
 
 class IGroupSerializer(serializers.HyperlinkedModelSerializer):
-
     class Meta:
         model = InterestGroup
-        fields = ('id', 'name', 'is_public', 'description', 'logo', 'cover_photo')
+        fields = ('id', 'name', 'is_public', 'description', 'logo_img', 'cover_img')
 
 class InterestGroupSerializer(serializers.HyperlinkedModelSerializer):
     tags = TagSerializer(many=True, read_only=False)
     class Meta:
         model = InterestGroup
-        fields = ('id', 'name', 'is_public', 'description', 'logo', 'cover_photo', 'tags')
+        fields = ('id', 'name', 'is_public', 'description', 'logo_img', 'cover_img', 'tags')
     
     def to_internal_value(self, data):
         data = data.copy()

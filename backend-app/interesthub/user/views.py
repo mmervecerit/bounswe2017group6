@@ -11,10 +11,11 @@ from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.models import User, Group
 from content.serializers import ContentSerializer
+from interesthub.permissions import CanSeeUser, IsOwner
 
-class UserViewSet(mixins.RetrieveModelMixin,mixins.ListModelMixin,mixins.UpdateModelMixin,viewsets.GenericViewSet):
+class UserViewSet(mixins.RetrieveModelMixin,mixins.UpdateModelMixin,viewsets.GenericViewSet):
     authentication_classes = (JSONWebTokenAuthentication, )
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated, CanSeeUser)
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializerFull
 
@@ -68,10 +69,25 @@ class FollowingView(APIView):
                 return Response({"error":str(e)}, status=status.HTTP_400_BAD_REQUEST)
         
         return Response({"error":"you should specify and id to follow"}, status=status.HTTP_400_BAD_REQUEST)
+    def delete(self, request, format=None):
+        user = request.user
+        data = request.data
+        if 'id' in data:
+            try:
+                followed_user = User.objects.get(pk=data["id"])
+                user.followings.remove(followed_user.profile)
+                user.profile.followings.remove(followed_user)
+                user.profile.save()
+                user.save()
+                serializer = UserSerializer(followed_user)
+                return Response({"unfollowed_user":serializer.data})
+            except Exception as e:
+                return Response({"error":str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error":"id is not specified"}, status=status.HTTP_400_BAD_REQUEST)
 
 class UserContentsList(APIView):
     authentication_classes = (JSONWebTokenAuthentication, )
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated, CanSeeUser)
     def get(self, request, pk, format=None):
         user = User.objects.get(pk=pk)
         serializer = ContentSerializer(user.content_owner.all(), many=True)
@@ -79,19 +95,25 @@ class UserContentsList(APIView):
 
 class UserFollowersList(APIView):
     authentication_classes = (JSONWebTokenAuthentication, )
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated, CanSeeUser)
     def get(self, request, pk, format=None):
-        user = User.objects.get(pk=pk)
-        serializer = UserSerializer(user.profile.followers, many=True)
-        return Response(serializer.data)
+        try:
+            user = User.objects.get(pk=pk)
+            serializer = UserSerializer(user.profile.followers, many=True)
+            return Response(serializer.data)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 class UserFollowingsList(APIView):
     authentication_classes = (JSONWebTokenAuthentication, )
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated, CanSeeUser)
     def get(self, request, pk, format=None):
-        user = User.objects.get(pk=pk)
-        serializer = UserSerializer(user.profile.followings, many=True)
-        return Response(serializer.data)
+        try:
+            user = User.objects.get(pk=pk)
+            serializer = UserSerializer(user.profile.followings, many=True)
+            return Response(serializer.data)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 class MeView(APIView):
     authentication_classes = (JSONWebTokenAuthentication, )
@@ -100,4 +122,19 @@ class MeView(APIView):
         user = request.user
         serializer = UserSerializerFull(user, many=False)
         return Response(serializer.data)
+    def post(self, request, format=None):
+        profile = None
+        try:
+            profile = request.user.profile
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            file = request.data['file']
+            file._set_name("photo_%s_%s"%(str(request.user.id),file._get_name()))
+            profile.photo = file
+            profile.save()
+        except KeyError:
+            return Response({"error": "Request has no resource file attached"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"status": "OK"})
+
 

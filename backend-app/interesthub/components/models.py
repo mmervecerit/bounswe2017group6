@@ -18,7 +18,10 @@ class VideoComponent(models.Model):
     data = models.URLField(null=True)
 
 class ImageComponent(models.Model):
-    data = models.URLField(null=True)
+    data = models.ImageField(
+        upload_to='content/',
+        max_length=254, blank=True, null=True
+    )
 
 class DropdownComponent(models.Model):
     data = models.CharField(max_length=100, null=True)
