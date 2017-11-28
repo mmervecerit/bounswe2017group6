@@ -18,7 +18,7 @@ class MembersInline(admin.TabularInline):
 
 # Register your models here.
 class InterestGroupAdmin(admin.ModelAdmin):
-    fields = ["owner", 'name', "is_public", "logo", "cover_photo", "description"]
+    fields = ["owner", 'name', "is_public", "logo", "cover_photo", "description", "logo_img", "cover_img"]
     readonly_fields = ('id',)
     list_display = ["id", "name"]
     inlines = [ContentsInline, ContentTypesInline, MembersInline]

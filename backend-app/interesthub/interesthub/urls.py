@@ -18,13 +18,15 @@ from django.conf.urls import url, include
 from rest_framework import routers
 from group.views import GroupContentList
 from content.views import *
-from components.views import ComponentViewSet
+from components.views import *
 from group.views import *
 from user.views import *
 from recommendation.views import *
 from rest_framework.urlpatterns import format_suffix_patterns
 from rest_framework_jwt.views import obtain_jwt_token
 from rest_framework.documentation import include_docs_urls
+from django.conf.urls.static import static
+from django.conf import settings
 
 router = routers.DefaultRouter()
 # router.register(r'content', ContentViewSet)
@@ -46,9 +48,12 @@ urlpatterns = [
     url(r'group/(?P<pk>[0-9]+)/contents/$', GroupContentList.as_view()),
     url(r'group/(?P<pk>[0-9]+)/members/$', GroupMembersList.as_view()),
     url(r'group/(?P<pk>[0-9]+)/content-types/$', GroupContentTypeList.as_view()),
+    url(r'group/(?P<pk>[0-9]+)/logo/$', GroupLogo.as_view()),
+    url(r'group/(?P<pk>[0-9]+)/cover/$', GroupCover.as_view()),
 
     url(r'content/(?P<pk>[0-9]+)/comments/$',ContentCommentList.as_view()),
     url(r'content/(?P<pk>[0-9]+)/votes/$',ContentVoteList.as_view()),
+    url(r'upload_image/(?P<pk>[0-9]+)/$',UploadImage.as_view()),
     
     url(r'^user/(?P<pk>[0-9]+)/contents/$',UserContentsList.as_view()),
     url(r'^user/(?P<pk>[0-9]+)/followers/$',UserFollowersList.as_view()),
@@ -66,5 +71,7 @@ urlpatterns = [
 
     url(r'^docs/', include_docs_urls(title='My API title', public=True))
 ]
+
 urlpatterns = format_suffix_patterns(urlpatterns)
 urlpatterns.append(url(r'^', include(router.urls)))
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

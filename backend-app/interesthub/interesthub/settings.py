@@ -69,6 +69,9 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 10
 }
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'images/')
+MEDIA_URL = 'images/'
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
