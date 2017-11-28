@@ -29,6 +29,7 @@ class UserProfile(models.Model):
     gender = models.CharField(max_length=12, choices=GENDER_CHOICES, blank=True, null=True)
     contacts = models.CharField(max_length=150)
     about = models.TextField()
+    picture = models.URLField(null=True, blank=True)
     is_public = models.BooleanField(default=False)
     facebook_account = models.CharField(max_length=30, null=True, blank=True)
     twitter_account = models.CharField(max_length=30, null=True, blank=True)
