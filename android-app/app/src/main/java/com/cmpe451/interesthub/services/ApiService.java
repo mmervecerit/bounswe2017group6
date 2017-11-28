@@ -11,6 +11,7 @@ import com.cmpe451.interesthub.models.Following_Followers;
 import com.cmpe451.interesthub.models.Group;
 import com.cmpe451.interesthub.models.Message;
 import com.cmpe451.interesthub.models.Token;
+import com.cmpe451.interesthub.models.UpDown;
 import com.cmpe451.interesthub.models.User;
 
 import java.util.List;
@@ -46,9 +47,8 @@ public interface ApiService {
     @GET
     Call<User> getSpesificUser(@Url String url);
 
-    @POST("users/")
-    @FormUrlEncoded
-    Call <User> addUser (@Field("username") String username,@Field("email") String email, @Field("password") String password);
+    @POST("register/")
+    Call <User> addUser (@Body RequestBody content);
 
     @GET("groups/")
     Call<List<Group>> getGroup();
@@ -98,5 +98,15 @@ public interface ApiService {
 
     @GET("content/{group_id}/comments/")
     Call<List<Comment>> getGroupComments(@Path(value ="group_id",encoded = true) long groupId);
+
+    @POST("comments/")
+    Call<Comment> postComment(@Body RequestBody body);
+
+
+    @POST("votes/")
+    Call<UpDown> postVote(@Body RequestBody body);
+
+    @GET("content/{group_id}/votes/")
+    Call<List<UpDown>> getVotesOfGroup(@Path(value ="group_id",encoded = true) long groupId);
 
 }

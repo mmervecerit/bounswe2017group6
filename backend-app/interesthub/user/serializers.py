@@ -8,7 +8,7 @@ from recommendation.models import Tag
 class ProfileSerializerBase(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
-        fields = ('name', 'lastname', 'birthdate', 'gender', 'contacts', 'about', 'is_public', 'facebook_account', 'twitter_account', 'instagram_account')
+        fields = ('name', 'lastname', 'birthdate', 'gender', 'contacts', 'about', 'picture', 'is_public', 'facebook_account', 'twitter_account', 'instagram_account')
 
 class ProfileSerializer(serializers.ModelSerializer):
     interests = TagSerializer(many=True, read_only=False)

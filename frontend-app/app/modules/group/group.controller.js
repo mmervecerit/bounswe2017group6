@@ -48,16 +48,24 @@
                 .then(handleSuccess, handleError);
         }
         
-        function add(group)
-        {
-            tags = JSON.parse(angular.toJson(group.tags));
-            //group.tags = [];
-            console.log(group);
+        function add(group1)
+        {	
+			group=angular.copy(group1);
+            //tags = JSON.parse(angular.toJson(group.tags));
+			
+            for(i=0;i<group.tags.length;i++){
+				group.tags[i].url="https:"+group.tags[i].url;
+				
+			}
+			//group.tags = [];
+            
             if(group.is_public == "public"){
                 group.is_public = true;
             }else{
                 group.is_public = false;
             }
+			console.log(group);
+			
             GroupService
                 .createGroup(group)
                 .then(handleSuccessGroup, handleError);    
@@ -108,16 +116,16 @@
 
 
           $scope.searchTag = function(val) {
-            
-                TagService.searchTag(val)
-                            .then(function(response){
-                                console.log(response.data.search);
-                                tags = response.data.search;
-                            }
-                            ,handleError);
-            
-            return tags;            
-          };
+			return TagService.searchTag(val)
+                .then(function(response){
+                    console.log(response.data.search);
+                    return tags = response.data.search;
+                }
+                ,handleError);
+				
+            			
+         };
+		 
           function addTag(tag) {
             if (tag != ""){
 

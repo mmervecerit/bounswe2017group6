@@ -1,0 +1,14 @@
+<Button android:id="@+id/angry_btn"
+
+    android:text="Like"
+    android:textColor="#FFFFFF"
+    android:textSize="30sp"
+
+    android:layout_width="270dp"
+    android:layout_height="60dp"
+    android:background="@drawable/like_button_shape"
+    android:shadowColor="#A8A8A8"
+    android:shadowDx="0"
+    android:shadowDy="0"
+    android:shadowRadius="5"
+    xmlns:android="http://schemas.android.com/apk/res/android" />

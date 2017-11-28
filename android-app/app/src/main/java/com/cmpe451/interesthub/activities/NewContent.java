@@ -116,7 +116,6 @@ public class NewContent extends AppCompatActivity {
     }
 
     private void newTemplate() {
-
         template.removeAllViews();
         final LinearLayout l = (LinearLayout) getLayoutInflater().inflate(R.layout.template_creation_layout,null);
         final LinearLayout rowHolder = l.findViewById(R.id.template_row);
@@ -175,8 +174,10 @@ public class NewContent extends AppCompatActivity {
                 newContentType.setComponent_names(names);
                 newContentType.setComponents(fields);
                 Gson gson = new Gson();
+                newContentType.setId(null);
                 String json = gson.toJson(newContentType);
                 Log.d("json" ,json);
+
                 RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), json);
                 hub.getApiService().postNewTemplate(groupId,requestBody).enqueue(new Callback<ContentType>() {
                     @Override

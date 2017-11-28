@@ -92,9 +92,7 @@ public class GroupPosts extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_group_posts, container, false);
         FloatingActionButton fab =view.findViewById(R.id.fab_new_post);
 
-        FloatingActionButton joinfab = (FloatingActionButton) ((GroupActivity)getActivity()).findViewById(R.id.joinFab);
-
-        checkGroupforFab(fab,joinfab);
+      checkGroupforFab(fab);
 
         hub.getApiService().getGroupContents(mParam2).enqueue(new Callback<List<Content>>() {
             @Override
@@ -133,7 +131,7 @@ public class GroupPosts extends Fragment {
         final LinearLayoutManager ll = new LinearLayoutManager(getActivity());
         ll.setOrientation(LinearLayoutManager.VERTICAL);
 
-        MultipleContentAdapter adapter = new MultipleContentAdapter(getContext(),contentList);
+        MultipleContentAdapter adapter = new MultipleContentAdapter(getContext(),contentList,hub);
         contentView = (RecyclerView) view.findViewById(R.id.spesific_group_recycler_view);
         contentView.setLayoutManager(ll);
 
@@ -144,11 +142,11 @@ public class GroupPosts extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-    public void checkGroupforFab(FloatingActionButton fab,FloatingActionButton joinFab){
+    public void checkGroupforFab(FloatingActionButton fab){
         if(hub.getSessionController().isGroupsSet()) {
             for (Group g : hub.getSessionController().getGroups()) {
                 if (mParam2 == g.getId()) {
-                    joinFab.setVisibility(View.GONE);
+
                     fab.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -162,25 +160,7 @@ public class GroupPosts extends Fragment {
                 }
             }
             fab.setVisibility(View.GONE);
-            joinFab.setVisibility(View.VISIBLE);
-            joinFab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    hub.getApiService().joinGroup(mParam2).enqueue(new Callback<Message>() {
-                        @Override
-                        public void onResponse(Call<Message> call, Response<Message> response) {
-                            hub.getSessionController().updateGroups(hub);
-                            getActivity().startActivity(getActivity().getIntent());
 
-                        }
-
-                        @Override
-                        public void onFailure(Call<Message> call, Throwable t) {
-
-                        }
-                    });
-                }
-            });
         }
     }
 }
