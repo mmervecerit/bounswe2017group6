@@ -94,41 +94,42 @@ class canSeeContent(permissions.BasePermission):
 
 class canSeeGroup(permissions.BasePermission):
     def has_permission(self, request, view):
-        l = request.path.split("/")
-        user = request.user
-        print(user.id)
+        return True
+        # l = request.path.split("/")
+        # user = request.user
+        # print(user.id)
 
-        print(l)
-        if len(l)<2:
-            return True
+        # print(l)
+        # if len(l)<2:
+        #     return True
 
-        group_id = l[2]
-        group = None
+        # group_id = l[2]
+        # group = None
 
-        print(user, group, group_id)
+        # print(user, group, group_id)
         
-        try:
-            group = InterestGroup.objects.get(pk=group_id)
-        except Exception as e:
-            print("no group")
-            return True
+        # try:
+        #     group = InterestGroup.objects.get(pk=group_id)
+        # except Exception as e:
+        #     print("no group")
+        #     return True
         
-        if group.is_public:
-            print("group public")
-            return True
+        # if group.is_public:
+        #     print("group public")
+        #     return True
 
-        if user in group.members.all():
-            print("user is a member of the group")
-            return True
+        # if user in group.members.all():
+        #     print("user is a member of the group")
+        #     return True
 
-        try:
-            if user.id == group.owner.id:
-                print("user is the admin of the group")
-                return True
-        except Exception as e:
-            pass
+        # try:
+        #     if user.id == group.owner.id:
+        #         print("user is the admin of the group")
+        #         return True
+        # except Exception as e:
+        #     pass
         
-        return False
+        # return False
 
 class IsAdminOf(permissions.BasePermission):
     def has_permission(self, request, view):

@@ -76,6 +76,9 @@ class FollowingView(APIView):
             try:
                 followed_user = User.objects.get(pk=data["id"])
                 user.followings.remove(followed_user.profile)
+                user.profile.followings.remove(followed_user)
+                user.profile.save()
+                user.save()
                 serializer = UserSerializer(followed_user)
                 return Response({"unfollowed_user":serializer.data})
             except Exception as e:
