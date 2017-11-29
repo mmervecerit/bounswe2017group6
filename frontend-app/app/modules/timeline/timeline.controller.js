@@ -1,5 +1,12 @@
 (function()
 {
+    /**
+     * @ngdoc controller
+     * @name TimelineCtrl
+     * @description
+     * 
+     * Controller for timeline page
+     */
     angular
         .module("interestHub")
         .controller("TimelineCtrl", TimelineCtrl);

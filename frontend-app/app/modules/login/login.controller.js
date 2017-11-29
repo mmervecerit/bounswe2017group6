@@ -1,5 +1,12 @@
 (function()
 {
+    /**
+     * @ngdoc controller
+     * @name LoginCtrl
+     * @description
+     * 
+     * Controller for login/sign up modal in the home page
+     */
     angular
         .module("interestHub")
         .controller("LoginCtrl", LoginCtrl);
@@ -24,9 +31,16 @@
             tags={};
             $scope.newUser.interests=[];
         }
-        console.log("init");
         init();
-
+         /**
+         * @ngdoc
+         * @name login
+         * @methodOf LoginCtrl
+         *
+         * @description
+         * Method for user to login in
+         * @param {object} user the user will login
+         */ 
         function login(user)
         {
 
@@ -70,7 +84,15 @@
                 );*/
         }
 
-
+          /**
+         * @ngdoc
+         * @name signup
+         * @methodOf LoginCtrl
+         *
+         * @description
+         * Method for user to sign up
+         * @param {object} user the user will sign up
+         */ 
         function signup(user){
             user.gender=findGender(user.gender);
             user.interests=$scope.newUser.interests;
@@ -95,7 +117,7 @@
 
 
 
-    function findGender(gender){
+     function findGender(gender){
         if(gender=="Male"){
           return "man";
         }else if(gender=="Female"){
@@ -151,8 +173,17 @@
             },
             getterSetter: true
           };
-    
-    
+        
+        /**
+         * @ngdoc
+         * @name searchTag
+         * @methodOf LoginCtrl
+         *
+         * @description
+         * Method for searching tags
+         * @param {string} input the string will be searched in wikidata
+         * @returns {Array} tags the search results from wikidata
+         */
           $scope.searchTag = function(val) {
                 TagService.searchTag(val)
                             .then(function(response){
@@ -163,6 +194,15 @@
             
             return tags;            
           };
+          /**
+         * @ngdoc
+         * @name addTag
+         * @methodOf LoginCtrl
+         *
+         * @description
+         * Method for adding tag
+         * @param {object} tag the tag will be added to view
+         */ 
            $scope.addTag=function(tag) {
             if (tag != ""){
                 $scope.newUser.tags.push(tag);
@@ -174,7 +214,15 @@
             
           };
     
-    
+         /**
+         * @ngdoc
+         * @name removeTag
+         * @methodOf LoginCtrl
+         *
+         * @description
+         * Method for removing tag
+         * @param {object} tag the tag will be removed from view
+         */ 
         $scope.removeTag = function($index){
             $scope.newUser.tags.splice($index,1);
             $scope.newUser.interests.splice($index,1);

@@ -1,6 +1,14 @@
 
 (function()
 {
+
+    /**
+     * @ngdoc controller
+     * @name PostCtrl
+     * @description
+     * 
+     * Controller for getting contents of groups
+     */
     angular
         .module("interestHub")
         .controller("PostCtrl", PostCtrl);
@@ -26,7 +34,15 @@
         $scope.templates = [];
 		$scope.content={content_type_id:'',tags:[],comps:[]};
 		$scope.tags=[];
-		
+		/**
+         * @ngdoc
+         * @name init
+         * @methodOf PostCtrl
+         *
+         * @description
+         * Method for initialization of contents of templates of groups
+         * 
+         */ 
         function init() {
        
 
@@ -36,7 +52,7 @@
 			TemplateService
 				.getAllTemplates($routeParams.id)
 				.then(tempSuccess, tempError);
-			console.log($scope.content.tags);
+		
         }
         
         init();
@@ -46,13 +62,30 @@
             $location.path('/postcreate');
         }
 */
+        /**
+         * @ngdoc
+         * @name remove
+         * @methodOf PostCtrl
+         *
+         * @description
+         * Method for removing content of group
+         * @param {object} content the content will be deleted
+         */ 
         function remove(post)
         {
             PostService
                 .deletePost(post._id)
                 .then(handleSuccess, handleError);
         }
-        
+        /**
+         * @ngdoc
+         * @name update
+         * @methodOf PostCtrl
+         *
+         * @description
+         * Method for updating content of group
+         * @param {object} content the content will be updated
+         */ 
         function update(post)
         {
        
@@ -73,7 +106,15 @@
             console.log("added");
         } */  
 		
-		
+		/**
+         * @ngdoc
+         * @name add
+         * @methodOf PostCtrl
+         *
+         * @description
+         * Method for adding content of group
+         * @param {object} content the content will be added
+         */ 
 		function add(content)
         {
 			$scope.req={"content_type_id": $scope.content.content_type_id,"tags":[],"components":[]}
@@ -118,7 +159,15 @@
 
             
         }
-
+        /**
+         * @ngdoc
+         * @name handleSuccess
+         * @methodOf PostCtrl
+         *
+         * @description
+         * Method for getting comments and votes of contents
+         * @param {Array} contents the contents whose comments and votes will be got
+         */ 
         function handleSuccess(response) {
             //$scope.posts = response.data;
             $scope.posts = [];
@@ -152,6 +201,15 @@
             //console.log($scope.posts);
 
         }
+        /**
+         * @ngdoc
+         * @name handleSuccessPost
+         * @methodOf PostCtrl
+         *
+         * @description
+         * Method for getting and assigning the contents to $scope
+         * @param {Array} contents the contents will be got
+         */ 
 		function handleSuccessPost(response){
 			console.log(response.data);
 			//$scope.posts.push(response.data); 
@@ -165,6 +223,15 @@
             $scope.error = error;
             //console.log(error);
         }
+        /**
+         * @ngdoc
+         * @name tempSuccess
+         * @methodOf PostCtrl
+         *
+         * @description
+         * Method for assigning the templates to $scope
+         * @param {Array} templates the templates will be shown
+         */ 
 		function tempSuccess(response) {
 			$scope.templates=response.data;
 			console.log($scope.templates);
@@ -209,7 +276,16 @@
 		  };
 		
 		
-		
+		 /**
+         * @ngdoc
+         * @name searchTag
+         * @methodOf PostCtrl
+         *
+         * @description
+         * Method for searching tags
+         * @param {string} input the input will be searched in wikidata  
+         * @returns {Array} tags the search results from wikidata
+         */ 
 		$scope.selected = undefined;
 		$scope.searchTag = function(val) {
 			return TagService.searchTag(val)
@@ -221,8 +297,16 @@
 				
             			
          };
-		  
-          function addContentTag(tag) {
+		/**
+         * @ngdoc
+         * @name addContentTag
+         * @methodOf PostCtrl
+         *
+         * @description
+         * Method for adding tag
+         * @param {object} tag the tag will be added to view
+         */   
+        function addContentTag(tag) {
 			  console.log(tag);
 			  console.log("post");
 			  
@@ -239,16 +323,35 @@
             }
           }
 
-
+         /**
+         * @ngdoc
+         * @name removeContentTag
+         * @methodOf PostCtrl
+         *
+         * @description
+         * Method for removing tag
+         * @param {object} tag the tag will be removed from view 
+         */   
         function removeContentTag($index){
             $scope.content.tags.splice($index,1);
         }
+
 		function handleTag(response){
             console.log(response.data);
 
             $scope.tags = response.data;
         }
-		
+		 /**
+         * @ngdoc
+         * @name postComment
+         * @methodOf PostCtrl
+         *
+         * @description
+         * Method for posting comment to a content
+         * @param {string} comment the comment will be added to content
+         * @param {int} index the index of the content in the view
+         * @param {int} contenId the id of the content will be commented
+         */  
 		function postComment(text,index, ContentID){
             console.log(index);
             console.log(text);
@@ -263,6 +366,16 @@
                     handleError);
                 console.log($scope.posts);
         }
+         /**
+         * @ngdoc
+         * @name upVote
+         * @methodOf PostCtrl
+         *
+         * @description
+         * Method for up voting a content
+         * @param {int} index the index of the content in the view
+         * @param {int} contenId the id of the content will be up voted
+         */  
         function upVote(index, contentId){
             var vote = {
                 "isUp" : true,
@@ -276,6 +389,16 @@
                 console.log($scope.posts[index].votes);
 
         }
+         /**
+         * @ngdoc
+         * @name downVote
+         * @methodOf PostCtrl
+         *
+         * @description
+         * Method for down voting a content
+         * @param {int} index the index of the content in the view
+         * @param {int} contenId the id of the content will be down voted
+         */  
          function downVote(index, contentId){
              var vote = {
                 "isUp" : false,
@@ -290,7 +413,6 @@
                 },handleError);
 
         }
-		
 		
 		$scope.$on('AddTemplate', function(proc, response) {
 			console.log(response);

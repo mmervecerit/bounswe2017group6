@@ -1,4 +1,11 @@
 (function(){
+    /**
+     * @ngdoc service
+     * @name GroupService
+     * @description
+     * 
+     * Service to send requests and get responses about groups.
+     */
     angular
         .module("interestHub")
         .factory("GroupService", GroupService);
@@ -14,7 +21,16 @@
             joinGroup: joinGroup
         };
         return api;
-
+         /**
+         * @ngdoc
+         * @name createGroup
+         * @methodOf GroupService
+         *
+         * @description
+         * Method to create a group
+         * @param {object} group the group will be created
+         * @returns {httpPromise} resolve with fetched data.
+         */    
         
         function createGroup(group){
             console.log(group);
@@ -26,7 +42,17 @@
                 }
             });
         }
-
+        /**
+         * @ngdoc
+         * @name updateGroup
+         * @methodOf GroupService
+         *
+         * @description
+         * Method to update a group with given id and group object
+         * @param {int} groupId the id of the group will be updated
+         * @param {object} group the updated group
+         * @returns {httpPromise} resolve with fetched data.
+         */ 
         function updateGroup(groupID, group){
             return $http.put('https://limitless-sands-55256.herokuapp.com/http://34.209.230.231:8000/groups/'+groupID, group , {
                 headers: {
@@ -36,7 +62,16 @@
                 }
             });
         }
-
+        /**
+         * @ngdoc
+         * @name deleteGroup
+         * @methodOf GroupService
+         *
+         * @description
+         * Method to delete a group
+         * @param {int} groupId the id of the group will be deleted
+         * @returns {httpPromise} resolve with fetched data.
+         */ 
         function deleteGroup(groupID){
             return $http.delete('https://limitless-sands-55256.herokuapp.com/http://34.209.230.231:8000/groups/'+groupID , {
                 headers: {
@@ -46,7 +81,16 @@
                 }
             });
         }
-
+        /**
+         * @ngdoc
+         * @name getGroup
+         * @methodOf GroupService
+         *
+         * @description
+         * Method to get a group with given group id
+         * @param {int} groupId the id of the group will be got
+         * @returns {httpPromise} resolve with fetched data.
+         */ 
         function getGroup(groupID){
             return $http.get('https://limitless-sands-55256.herokuapp.com/http://34.209.230.231:8000/groups/'+groupID , {
                 headers: {
@@ -56,7 +100,16 @@
                 }
             });
         }
-        
+        /**
+         * @ngdoc
+         * @name getAllGroups
+         * @methodOf GroupService
+         *
+         * @description
+         * Method to get all groups
+         * 
+         * @returns {httpPromise} resolve with fetched data.
+         */ 
         function getAllGroups(){
             console.log('Bearer '+ $localStorage.token);
             return $http.get('https://limitless-sands-55256.herokuapp.com/http://34.209.230.231:8000/groups/' , {
@@ -68,7 +121,16 @@
             });
         }
 
-
+        /**
+         * @ngdoc
+         * @name joinGroup
+         * @methodOf GroupService
+         *
+         * @description
+         * Method to join a group with given group id
+         * @param {int} groupId the id of the group will be joined
+         * @returns {httpPromise} resolve with fetched data.
+         */ 
         function joinGroup(groupID){
             return $http.post('https://limitless-sands-55256.herokuapp.com/http://34.209.230.231:8000/group/'+groupID+'/members/', {},{
                 headers: {
@@ -77,7 +139,16 @@
                 }
             });
         }
-
+        /**
+         * @ngdoc
+         * @name getMembers
+         * @methodOf GroupService
+         *
+         * @description
+         * Method to get members of a group with given id 
+         * @param {int} groupId the id of the group whose members will be get
+         * @returns {httpPromise} resolve with fetched data.
+         */ 
         function getMembers(groupID){
             return $http.get('https://limitless-sands-55256.herokuapp.com/http://34.209.230.231:8000/group/'+groupID+'/members/', {
                 headers: {

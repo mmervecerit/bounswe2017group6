@@ -1,11 +1,18 @@
 
 (function()
 {
+    /**
+     * @ngdoc controller
+     * @name ContentCtrl
+     * @description
+     * 
+     * Controller for creating/getting/updating/deleting and showing contents
+     */
     angular
         .module("interestHub")
         .controller("ContentCtrl", ContentCtrl);
     
-    function ContentCtrl($scope,  $rootScope, $location, ContentService, GroupService, $q)
+    function ContentCtrl($scope,  $rootScope, $location, ContentService, GroupService, $q, $filter)
     {
         $scope.remove = remove;
         $scope.update = update;
@@ -15,6 +22,15 @@
       	$scope.tab = {};
         $scope.posts = [];
         $scope.postComment = postComment;
+         /**
+         * @ngdoc
+         * @name init
+         * @methodOf ContentCtrl
+         *
+         * @description
+         * Method for initialization of contents by getting all of them
+         * 
+         */ 
         function init() {
 
             ContentService
@@ -25,14 +41,32 @@
         
 
         init();
-        
+         /**
+         * @ngdoc
+         * @name remove
+         * @methodOf ContentCtrl
+         *
+         * @description
+         * Method to delete content 
+         * @param {object} content the content will be removed
+         * 
+         */ 
         function remove(post)
         {
             ContentService
                 .deleteContent(post._id)
                 .then(handleSuccess, handleError);
         }
-        
+          /**
+         * @ngdoc
+         * @name update
+         * @methodOf ContentCtrl
+         *
+         * @description
+         * Method to update content 
+         * @oaram {object} content the content will be updated
+         * 
+         */ 
         function update(post)
         {
        
@@ -41,20 +75,39 @@
                 .updateContent(post._id, post)
                 .then(handleSuccess, handleError);
         }
-        
+          /**
+         * @ngdoc
+         * @name add
+         * @methodOf ContentCtrl
+         *
+         * @description
+         * Method to add a content 
+         * @param {object} content the content will be added
+         * 
+         */ 
         function add(post)
         {
             ContentService
                 .createContent(post)
                 .then(handleSuccess, handleError);
-            
 
-            console.log("added");
         }      
-
+         /**
+         * @ngdoc
+         * @name handleSuccess
+         * @methodOf ContentCtrl
+         *
+         * @description
+         * Method to get the fields of content and assigns them to scope variables
+         * @param {object} contents the contents whose comments, votes will be got 
+         * 
+         */
         function handleSuccess(response) {
             //$scope.posts = {};
             posts = response.data;
+            //$scope.ordersBySalary = $filter('orderBy')($scope.employees ,'+salary');
+
+            posts = $filter('orderBy')(posts, '-created_date'); 
             //Get group name
             /*var arrayLength = $scope.posts.length;
             for (var i = 0; i < arrayLength; i++) {
@@ -75,12 +128,12 @@
                             },handleError);
                     ContentService.getCommentsOfContent(post.id)
                             .then(function (response) {
-                                post.comments = response.data;
+                                post.comments = $filter('orderBy')(response.data,'+created_date');
                             },handleError);
                     ContentService.getVotesOfContent(post.id)
                             .then(function (response) {
                                 post.votes = response.data;
-                                console.log(post.votes);
+                                //console.log(post.votes);
                                 var like = 0;
                                 var dislike = 0;
                                 for (var i = 0; i < post.votes.length; i++){
@@ -100,9 +153,20 @@
               
            
         }
+         /**
+         * @ngdoc
+         * @name postComment
+         * @methodOf ContentCtrl
+         *
+         * @description
+         * Method to add a comment to a content 
+         * @param {string} comment the comment will be added
+         * @param {int} index the index of the content in the view that will be commented
+         * @param {int} contentId the id of the content that will commented
+         */
         function postComment(text,index, ContentID){
-            console.log(index);
-            console.log(text);
+            //console.log(index);
+            //console.log(text);
             var comment = {
                 "text" : text
             };
@@ -112,8 +176,18 @@
                         $scope.posts[index].comments.push(response.data);
                     },
                     handleError);
-                console.log($scope.posts);
+                //console.log($scope.posts);
         }
+        /**
+         * @ngdoc
+         * @name upVote
+         * @methodOf ContentCtrl
+         *
+         * @description
+         * Method to up vote to a content 
+         * @param {int} index the index of the content in the view that will be up voted
+         * @param {int} contentId the id of the content that will be voted
+         */
         function upVote(index, contentId){
             var vote = {
                 "isUp" : true,
@@ -127,15 +201,25 @@
                 console.log($scope.posts[index].votes);
 
         }
+        /**
+         * @ngdoc
+         * @name downVote
+         * @methodOf ContentCtrl
+         *
+         * @description
+         * Method to down vote to a content
+         * @param {int} index the index of the content in the view that will be down voted
+         * @param {int} contentId the id of the content that will be voted
+         */
          function downVote(index, contentId){
              var vote = {
                 "isUp" : false,
                 "content_id": contentId
             }
-            console.log("down");
+            //console.log("down");
             ContentService.voteToContent(contentId,vote)
                 .then(function(response){
-                    console.log(response.data);
+                    //console.log(response.data);
 
                     $scope.posts[index].votes.push(response.data);
                 },handleError);
@@ -143,7 +227,7 @@
         }
         function handleError(error) {
             $scope.error = error;
-            console.log(error);
+
         }
 
         
