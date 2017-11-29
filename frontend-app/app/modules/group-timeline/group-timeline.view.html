@@ -107,6 +107,16 @@
 								<div ng-if="component=='video'"class="row-activity">
 								    <input class="form-control input-lg no-border" placeholder="" ng-model="content.comps[tab.component_names[$index]]"></input>
 								</div>
+								<div ng-if="component=='image'"class="row-activity">
+									<input ng-hide="true" class="form-control input-lg no-border" placeholder="" ng-model="content.comps[tab.component_names[$index]]"></input>
+									
+									<input type="file" file-model="myFile"/>
+									<button type="button" id="photo" class="btn btn-success" ng-click="uploadFile()">Photo</button>
+									<div ng-controller="myCtrl">
+									
+									</div>
+									<!--filesArray[tab.component_names[$index]]-->
+								</div>
 								<div ng-if="component=='datetime'"class="row-activity">
     								<div class="container">
     									<div class="row">
@@ -137,6 +147,7 @@
 
 
                             </form>
+							
 							
 							
 							<div class="form-group">
@@ -192,6 +203,7 @@
                                 New Template
                             </button>                            
 								<button type="button" id="createPost" class="btn btn-success" ng-click="add(content)">Post</button>
+								
                             </div>  
                         </div>
                     </div>
@@ -410,6 +422,7 @@
                     $button.text('Following');
                 }
             });  
+			
 			
 
           

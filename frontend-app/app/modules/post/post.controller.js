@@ -11,9 +11,25 @@
      */
     angular
         .module("interestHub")
+		.directive("fileModel", ['$parse', function ($parse) {
+			return {
+				restrict: 'A',
+				link: function(scope, element, attrs) {
+					var model = $parse(attrs.fileModel);
+					var modelSetter = model.assign;
+					
+					element.bind('change', function(){
+						scope.$apply(function(){
+							modelSetter(scope, element[0].files[0]);
+							console.log(scope.myFile);
+						});
+					});
+				}
+			};
+		}])
         .controller("PostCtrl", PostCtrl);
-    
-    function PostCtrl($scope,  $rootScope, $location, PostService, $routeParams, TemplateService, $q,ContentService,TagService)
+		
+    function PostCtrl(fileModel, $scope,  $rootScope, $location, PostService, $routeParams, TemplateService, $q,ContentService,TagService)
 
     {    
 
@@ -34,6 +50,7 @@
         $scope.templates = [];
 		$scope.content={content_type_id:'',tags:[],comps:[]};
 		$scope.tags=[];
+		$scope.fileToUpload = [];
 		/**
          * @ngdoc
          * @name init
@@ -297,6 +314,7 @@
 				
             			
          };
+		 
 		/**
          * @ngdoc
          * @name addContentTag
@@ -413,11 +431,21 @@
                 },handleError);
 
         }
+		$scope.uploadFile = function(){
+			var file = $scope.myFile;
+			console.log('file is ' );
+			console.log(file);
+			console.dir(file);
+			var uploadUrl = "/fileUpload";
+			//fileUpload.uploadFileToUrl(file, uploadUrl);
+		};
 		
 		$scope.$on('AddTemplate', function(proc, response) {
 			console.log(response);
 			$scope.templates.push(response);
 		});
+		
+		
 		
 		
 		

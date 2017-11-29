@@ -13,6 +13,7 @@
     function PostService($http, $localStorage) {
         var api = {
             createPost: createPost,
+			uploadImage: uploadImage,
             updatePost: updatePost,
             deletePost: deletePost,
             getPost: getPost,
@@ -41,6 +42,29 @@
                 }
             });
         }
+		
+		/**
+         * @ngdoc
+         * @name uploadImage
+         * @methodOf PostService
+         *
+         * @description
+         * Method to upload an image to the component
+         * @param {int} compId the id of component to upload an image
+         * @param {object} compImage image which will be uploaded
+         * @returns {httpPromise} resolve with fetched data.
+         */ 
+		function uploadImage(compId,compImage){
+            
+            return $http.post('https://limitless-sands-55256.herokuapp.com/http://34.209.230.231:8000/upload_image/'+compId+'/',compImage,{
+                headers: {
+                    'Content-Type' : 'Undefined',
+                    'Authorization': 'Bearer ' + $localStorage.token
+
+                }
+            });
+        }
+		
          /**
          * @ngdoc
          * @name updatePost
