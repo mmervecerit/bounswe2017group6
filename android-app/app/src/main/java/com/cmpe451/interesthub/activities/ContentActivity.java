@@ -1,10 +1,12 @@
 package com.cmpe451.interesthub.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -40,6 +42,17 @@ public class ContentActivity extends BaseActivity {
         hub = (InterestHub) getApplication();
         recyclerView  = (RecyclerView) findViewById(R.id.single_content_recycler);
 
+       final SingleContentAdapter.OnItemClickListener listener = new SingleContentAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(long pos) {
+                Log.d("position", String.valueOf(pos));
+                Intent intent = new Intent(getBaseContext(), OtherUserActivity.class);
+                startActivity(intent);
+            }
+        };
+
+
+
         final Content content = hub.getTempContent();
 
         final List<Comment> comments = new ArrayList<>();
@@ -48,10 +61,10 @@ public class ContentActivity extends BaseActivity {
             @Override
             public void onResponse(Call<List<Comment>> call, Response<List<Comment>> response) {
                 if(response.body() == null || response.body().isEmpty())
-                    setAdapter(content,null);
+                    setAdapter(content,null,listener);
                 else{
                     for(Comment c : response.body()) comments.add(c);
-                    setAdapter(content,comments);
+                    setAdapter(content,comments,listener);
                 }
             }
 
@@ -67,16 +80,16 @@ public class ContentActivity extends BaseActivity {
         fab.setVisibility(View.GONE);
     }
 
-    public void setAdapter(Content content, List<Comment> comments){
+    public void setAdapter(Content content, List<Comment> comments,SingleContentAdapter.OnItemClickListener listener){
         final LinearLayoutManager ll = new LinearLayoutManager(this);
         ll.setOrientation(LinearLayoutManager.VERTICAL);
 
 
         SingleContentAdapter adapter;
         if(comments==null)
-            adapter = new SingleContentAdapter(getBaseContext(),content,hub);
+            adapter = new SingleContentAdapter(getBaseContext(),content,hub,listener);
         else
-            adapter = new SingleContentAdapter(getBaseContext(),content,comments,hub);
+            adapter = new SingleContentAdapter(getBaseContext(),content,comments,hub,listener);
         recyclerView.setLayoutManager(ll);
 
         recyclerView.setAdapter(adapter);
