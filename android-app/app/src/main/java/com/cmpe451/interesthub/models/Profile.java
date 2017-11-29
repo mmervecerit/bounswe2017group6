@@ -19,6 +19,9 @@ public class Profile {
     String instagram_account;
     String twitter_account;
     List<Interest> interests;
+    String photo;
+
+
 
     public String getName() {
         return name;
@@ -106,5 +109,12 @@ public class Profile {
 
     public void setInterests(List<Interest> interests) {
         this.interests = interests;
+    }
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 }

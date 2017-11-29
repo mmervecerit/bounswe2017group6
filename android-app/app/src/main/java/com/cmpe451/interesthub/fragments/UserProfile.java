@@ -29,6 +29,8 @@ import com.cmpe451.interesthub.adapters.UserHomeListAdapter;
 import com.cmpe451.interesthub.adapters.UserProfileTabsAdapter;
 import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -101,12 +103,18 @@ public class UserProfile extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_user_profile, container, false);
         TextView userName=view.findViewById(R.id.user_name);
-
         userName.setText(hub.getSessionController().getUser().getUsername());
         if(!hub.getSessionController().getUser().getEmail().equals(null)){
+            TextView userEmail=view.findViewById(R.id.user_email);
+            userEmail.setText(hub.getSessionController().getUser().getEmail());
+        }
+       if(!hub.getSessionController().getUser().getProfile().getAbout().equals(null)){
             TextView userDesc=view.findViewById(R.id.user_desc);
-            userDesc.setText(hub.getSessionController().getUser().getEmail());
-
+            userDesc.setText(hub.getSessionController().getUser().getProfile().getAbout());
+        }
+        if(!hub.getSessionController().getUser().getProfile().getInterests().equals(null)){
+            TextView userInterests=view.findViewById(R.id.user_interests);
+            userInterests.setText(hub.getSessionController().getUser().getProfile().getInterests().toString());
         }
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
