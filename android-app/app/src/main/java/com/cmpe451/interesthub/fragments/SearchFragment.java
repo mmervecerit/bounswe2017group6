@@ -198,7 +198,8 @@ public class SearchFragment extends Fragment {
     public static void changeAdapter(String text){
 
         groupAdapter.getFilter().filter(text);
-        userAdapter.getFilter().filter(text);
+        if(userAdapter!= null && userAdapter.getCount()!=0)
+            userAdapter.getFilter().filter(text);
     }
 
 }

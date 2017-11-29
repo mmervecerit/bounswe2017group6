@@ -184,8 +184,8 @@ public class GroupActivity extends BaseActivity {
                         @Override
                         public void onResponse(Call<Message> call, Response<Message> response) {
                             hub.getSessionController().updateGroups(hub);
-                            startActivity(getIntent());
-
+                            Intent intent = new Intent(getBaseContext(),UserActivity.class);
+                            startActivity(intent);
                         }
 
                         @Override

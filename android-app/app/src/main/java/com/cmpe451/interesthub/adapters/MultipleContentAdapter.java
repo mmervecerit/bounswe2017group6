@@ -363,6 +363,7 @@ public class MultipleContentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             public void onResponse(Call<List<UpDown>> call, Response<List<UpDown>> response) {
                 int liker = 0,disliker =0;
                 long userid = hub.getSessionController().getUser().getId();
+                if(response==null ||response.body()==null) return;
                 for(UpDown u:response.body()){
                     if(u.isUp())   {
                         liker++;
