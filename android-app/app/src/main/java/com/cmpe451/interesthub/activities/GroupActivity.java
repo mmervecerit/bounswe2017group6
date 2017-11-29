@@ -14,6 +14,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -165,6 +167,13 @@ public class GroupActivity extends BaseActivity {
             }
         });
 
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.groupoptions, menu);
+
+        return true;
     }
     public void checkJoinFab(FloatingActionButton joinFab,TextView joinFabText){
         if(hub.getSessionController().isGroupsSet()) {

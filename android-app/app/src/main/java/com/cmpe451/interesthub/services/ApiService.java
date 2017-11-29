@@ -102,14 +102,14 @@ public interface ApiService {
     @POST("comments/")
     Call<Comment> postComment(@Body RequestBody body);
 
-
     @POST("votes/")
     Call<UpDown> postVote(@Body RequestBody body);
 
     @GET("content/{group_id}/votes/")
     Call<List<UpDown>> getVotesOfGroup(@Path(value ="group_id",encoded = true) long groupId);
 
-
     @GET
     Call<SearchResult> getTags(@Url String url);
+
+
 }
