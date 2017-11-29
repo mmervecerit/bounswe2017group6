@@ -1,4 +1,13 @@
 (function() {
+  /**
+  * @ngdoc overview
+  * 
+  * @name interestHub.config
+  * @description 
+  *  
+  *  Configuration for routing pages
+  *
+  */
     angular.module("interestHub")
         .config(function($routeProvider, $locationProvider) {
           console.log("router");

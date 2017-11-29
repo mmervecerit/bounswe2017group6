@@ -1,5 +1,12 @@
 (function()
 {
+    /**
+     * @ngdoc controller
+     * @name NavCtrl
+     * @description
+     * 
+     * Controller for navigational bar
+     */
     angular
         .module("interestHub")
         .controller("NavCtrl", NavCtrl);
@@ -20,6 +27,15 @@
         }
         console.log("isLogged: "+isLoggedIn());
         
+        /**
+         * @ngdoc
+         * @name logout
+         * @methodOf NavCtrl
+         *
+         * @description
+         * Method for user to logout
+         * 
+         */
         
         function logout(){
 
@@ -32,7 +48,15 @@
             $localStorage.isLogged=false;   
             $rootScope.username.params="";
         }
-
+         /**
+         * @ngdoc
+         * @name isLoggedIn
+         * @methodOf NavCtrl
+         *
+         * @description
+         * Method for checking whether user is logged in 
+         * 
+         */
         function isLoggedIn(){
 
             return $localStorage.isLogged;
