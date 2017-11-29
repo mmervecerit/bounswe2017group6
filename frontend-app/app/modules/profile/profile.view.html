@@ -308,13 +308,13 @@
                             <div class="clearfix"></div>
                             <div class="bot-border"></div>
                             <div ng-repeat="interest in user.profile.interests" ng-switch on="$index % 3">
-                                <div class="col-sm-5 interest" ng-switch-when="0">
+                                <div class="col-sm-5 interest" ng-switch-when="0" ng-hide="user.profile.interests[$index].label == null">
                                      <a href="{{user.profile.interests[$index].url}}"><strong>#{{user.profile.interests[$index].label}}</strong></a>   
                                 </div>
-                                <div class="col-sm-5 interest" ng-switch-when="0">
+                                <div class="col-sm-5 interest" ng-switch-when="0" ng-hide="user.profile.interests[$index+1].label == null">
                                      <a href="{{user.profile.interests[$index+1].url}}"><strong>#{{user.profile.interests[$index+1].label}}</strong></a>   
                                 </div>
-                                <div class="col-sm-2 interest" ng-switch-when="0">
+                                <div class="col-sm-2 interest" ng-switch-when="0" ng-hide="user.profile.interests[$index+2].label == null">
                                      <a href="{{user.profile.interests[$index+2].url}}"><strong>#{{user.profile.interests[$index+2].label}}</strong></a>   
                                 </div>
                             </div>

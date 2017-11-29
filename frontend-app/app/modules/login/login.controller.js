@@ -185,14 +185,14 @@
          * @returns {Array} tags the search results from wikidata
          */
           $scope.searchTag = function(val) {
-                TagService.searchTag(val)
+                return TagService.searchTag(val)
                             .then(function(response){
                                 console.log(response.data.search);
                                 tags = response.data.search;
+                                return tags;                                            
                             }
                             ,handleError);
             
-            return tags;            
           };
           /**
          * @ngdoc
