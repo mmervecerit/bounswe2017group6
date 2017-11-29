@@ -200,6 +200,7 @@ class UpDownSerializer(serializers.HyperlinkedModelSerializer):
         return validated_data
     
     def create(self, validated_data):
+        print(validated_data)
         t = UpDown.objects.filter(owner=self.context["request"].user, content_id=validated_data["content_id"])
         if t.exists():
             return t.first()
@@ -207,7 +208,7 @@ class UpDownSerializer(serializers.HyperlinkedModelSerializer):
         return upDown
     
     def update(self, instance, validated_data):
-        instance.text = validated_data.get('upDown', instance.upDown)
+        instance.isUp = validated_data.get('isUp', instance.isUp)
         instance.owner = self.context["request"].user
         instance.save()
         return instance
