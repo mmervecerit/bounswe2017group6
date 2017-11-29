@@ -1,10 +1,10 @@
 <TextView android:id="@+id/post_header"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center"
+    android:gravity="left"
     android:textSize="18sp"
     android:padding="5dp"
     android:text="Post"
     android:textColor="#6b6c7b"
-    android:layout_centerInParent="true"
+    android:layout_gravity="left"
     xmlns:android="http://schemas.android.com/apk/res/android" />

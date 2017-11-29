@@ -153,6 +153,7 @@ public class SearchFragment extends Fragment {
         hub.getApiService().getUsers().enqueue(new Callback<List<User>>() {
             @Override
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+                if(response ==null || response.body() == null) return;
                 for(User u : response.body())
                     userList.add(u);
                 setUserHashMap(userList);

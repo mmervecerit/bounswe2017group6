@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -155,7 +156,7 @@ public class MultipleContentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                for (String s : list) {
                    TextView header = (TextView) LayoutInflater.from(parent.getContext()).inflate(R.layout.post_component_header, null);
                    LinearLayout l = (LinearLayout) def.findViewById(R.id.content);
-                   l.addView(header);
+                    l.addView(header);
                    if (s.equals("text")) {
                        l.addView((TextView) LayoutInflater.from(parent.getContext()).inflate(R.layout.post_component_text, null));
                    } else if (s.equals("title")) {
