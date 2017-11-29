@@ -22,6 +22,7 @@
       	$scope.tab = {};
         $scope.posts = [];
         $scope.postComment = postComment;
+        posts = [];
          /**
          * @ngdoc
          * @name init
@@ -103,11 +104,12 @@
          * 
          */
         function handleSuccess(response) {
-            //$scope.posts = {};
-            posts = response.data;
+            //$scope.posts = {};+++++++
+
+            contents = response.data;
             //$scope.ordersBySalary = $filter('orderBy')($scope.employees ,'+salary');
 
-            posts = $filter('orderBy')(posts, '-created_date'); 
+            contents = $filter('orderBy')(contents, '-created_date'); 
             //Get group name
             /*var arrayLength = $scope.posts.length;
             for (var i = 0; i < arrayLength; i++) {
@@ -118,6 +120,8 @@
                     },
                     handleError);
             }*/
+            console.log(posts.length);
+            posts = contents.slice(0, posts.length + 8);
              $q.all(posts.map(function (post) {
                     GroupService.getGroup(post.groups[0])
                         .then(
@@ -153,6 +157,7 @@
               
            
         }
+
          /**
          * @ngdoc
          * @name postComment

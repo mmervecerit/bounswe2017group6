@@ -19,6 +19,7 @@
         $scope.addInterest = addInterest;
         $scope.editUser = editUser;
         $scope.followUser = followUser;
+        $scope.unfollowUser = unfollowUser;
     	 /**
          * @ngdoc
          * @name init
@@ -57,8 +58,7 @@
       	function handleSuccess(response) {
             
             $scope.user = response.data;
-            $scope.user.profile.interests.push({"label":"scifi","description": "sdafsd","url":"www.google.com"});
-            $scope.user.profile.interests.push({"label":"weird","description": "sdafsd","url":"www.google.com"});
+
 
             console.log($scope.user.profile.interests);            
             if($scope.me == false){
@@ -210,7 +210,24 @@
                     $scope.followers.push($localStorage.user);
             },handleError);
         }
-
+        /**
+         * @ngdoc
+         * @name unfollowUser
+         * @methodOf ProfileCtrl
+         *
+         * @description
+         * Method for unfollowing the owner of profile page
+         * 
+         */
+        function unfollowUser(){
+            console.log($scope.user.id);
+            UserService.unfollowUser($scope.user.id)
+                .then(function(response){
+                    $scope.follow = false;
+                    console.log($localStorage.user);
+                    $scope.followers.splice($localStorage.user);
+            },handleError);
+        }
 
           var _selected;
          

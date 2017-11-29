@@ -16,6 +16,7 @@
                         </li>
                         <li>
                             <a href="" ng-show="!me && !follow" ng-click="followUser()" class="btn btn-info text-center btn-block">Follow</a>
+                            <a href="" ng-show="!me && follow" ng-click="unfollowUser()" class="btn btn-danger text-center btn-block">Unfollow</a>
                         </li>
                         <li><br></li>
                         <li>
@@ -226,10 +227,13 @@
                
             </div><!-- /.panel-heading -->
             <div class="panel-body rounded">
-                    
+                                  
                 
-                    <li class="list-group-item" ng-repeat="group in groups">
-                        <a href="/group/{{group.id}}"><h5>{{group.name}}</h5></a>
+                    <li class="list-group-item" ng-repeat="group in groups" ng-switch on="$index %3">
+                        <a href="/group/{{group.id}}" ng-switch-when="0" ng-show="groups[$index]"><h5>{{groups[$index].name}}</h5></a>
+                        <a href="/group/{{group.id}}" ng-switch-when="0" ng-show="groups[$index+1]"><h5>{{groups[$index+1].name}}</h5></a>
+                        <a href="/group/{{group.id}}" ng-switch-when="0" ng-show="groups[$index+2]"><h5>{{groups[$index+2].name}}</h5></a>
+
                     </li>
                     <!--<img class="group-image img-rounded" src="https://raw.githubusercontent.com/olasitarska/djangogirls/gh-pages/resources/graphics/logo_square.png" alt=""> -->
                      <!--<div><strong>Django Girls</strong></div>-->
@@ -308,13 +312,13 @@
                             <div class="clearfix"></div>
                             <div class="bot-border"></div>
                             <div ng-repeat="interest in user.profile.interests" ng-switch on="$index % 3">
-                                <div class="col-sm-5 interest" ng-switch-when="0">
+                                <div class="col-sm-5 interest" ng-switch-when="0" ng-show="user.profile.interests[$index]">
                                      <a href="{{user.profile.interests[$index].url}}"><strong>#{{user.profile.interests[$index].label}}</strong></a>   
                                 </div>
-                                <div class="col-sm-5 interest" ng-switch-when="0">
+                                <div class="col-sm-5 interest" ng-switch-when="0" ng-show="user.profile.interests[$index+1]">
                                      <a href="{{user.profile.interests[$index+1].url}}"><strong>#{{user.profile.interests[$index+1].label}}</strong></a>   
                                 </div>
-                                <div class="col-sm-2 interest" ng-switch-when="0">
+                                <div class="col-sm-2 interest" ng-switch-when="0" ng-show="user.profile.interests[$index+2]">
                                      <a href="{{user.profile.interests[$index+2].url}}"><strong>#{{user.profile.interests[$index+2].label}}</strong></a>   
                                 </div>
                             </div>
@@ -528,11 +532,12 @@
                                 <i></i>
                               </a>
                             </div>
+                            
                             <div class="media-body">
-                              <div class="pull-right">
+                              <!--<div class="pull-right">
                                 <button type="button" ng-if="!follower.isFollowed" class="btn btn-info btn-sm waves-effect waves-light">Follow</button>
                                 <button type="button" ng-if="follower.isFollowed" class="btn btn-warning btn-sm waves-effect waves-light">Unfollow</button>
-                              </div>
+                              </div>-->
                               <div><h4><a class="name" href="/user/{{follower.id}}">{{follower.name}}{{follower.username}}</a></h4></div>
                               <small>Follows you</small>
                             </div>
