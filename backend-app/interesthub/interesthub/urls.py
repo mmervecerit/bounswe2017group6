@@ -60,6 +60,9 @@ urlpatterns = [
     url(r'^user/(?P<pk>[0-9]+)/followings/$',UserFollowingsList.as_view()),
     url(r'^me/$',MeView.as_view()),
 
+    url(r'^recommendation/users/$',RecommendUser.as_view()),
+    url(r'^recommendation/groups/$',RecommendGroup.as_view()),
+
     # url(r'^test/', TestView.as_view()),
     url(r'^login/$', obtain_jwt_token),
     url(r'^register/$', UserRegisterView.as_view()),
