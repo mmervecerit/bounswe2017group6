@@ -73,7 +73,7 @@ public class NewContent extends AppCompatActivity {
         setTitle("Post on " + groupName);
         templateList = (RecyclerView) findViewById(R.id.content_list_layout);
         InterestHub hub = (InterestHub) getApplication();
-
+        String tagUrl = "https://limitless-sands-55256.herokuapp.com/https://www.wikidata.org/w/api.php?action=wbsearchentities&format=json&language=en&type=item&continue=0&search=";
         hub.getApiService().getGroupContentTypes(groupId).enqueue(new Callback<List<ContentType>>() {
             @Override
             public void onResponse(Call<List<ContentType>> call, Response<List<ContentType>> response) {
@@ -270,6 +270,7 @@ public class NewContent extends AppCompatActivity {
     private void sendPost(Content content) {
 
         Gson gson = new GsonBuilder().serializeNulls().create();
+
         String json = gson.toJson(content);
         Log.d("JSON",json);
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), json);
