@@ -67,6 +67,14 @@ class ContentVoteList(APIView):
             vote = UpDown.objects.filter(owner=request.user, content_id=pk)
             if vote.exists():
                 vote = vote.first()
+                serializer = UpDownSerializer(vote, data=data, context={"request": request})
+                if serializer.is_valid():
+                    print("validd")
+                    serializer.update(vote, serializer.validated_data)
+                    return Response(UpDownSerializer(vote,context={'request':request}).data)
+                else:
+                    print("not validd")
+                    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)        
 
             serializer = UpDownSerializer(data=data, context={"request": request})
             if not serializer.is_valid():

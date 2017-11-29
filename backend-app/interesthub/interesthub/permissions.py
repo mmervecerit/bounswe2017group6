@@ -68,6 +68,13 @@ class canSeeContent(permissions.BasePermission):
         if cowner.id == user.id:
             print("content owner is request user")
             return True
+        print(user, content)
+        for group in user.interest_groups.all():
+            print('--', group)
+            for cgroup in content.groups.all():
+                print(group, cgroup)
+                if cgroup.id == group.id:
+                    return True
 
         try:
             profile = cowner.profile
@@ -84,11 +91,6 @@ class canSeeContent(permissions.BasePermission):
             return True
 
         # print(cowner.id, user.id)
-
-        for group in user.groups.all():
-            for cgroup in content.groups.all():
-                if cgroup.id == group.id:
-                    return True
 
         return False
 
