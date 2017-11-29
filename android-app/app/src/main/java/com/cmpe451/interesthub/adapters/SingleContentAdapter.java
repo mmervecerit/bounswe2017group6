@@ -31,6 +31,7 @@ import android.widget.VideoView;
 import com.cmpe451.interesthub.InterestHub;
 import com.cmpe451.interesthub.R;
 import com.cmpe451.interesthub.activities.ContentActivity;
+import com.cmpe451.interesthub.activities.UserActivity;
 import com.cmpe451.interesthub.models.Comment;
 import com.cmpe451.interesthub.models.Component;
 import com.cmpe451.interesthub.models.Content;
@@ -59,7 +60,7 @@ public class SingleContentAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     public interface OnItemClickListener {
 
-        void onItemClick(int pos);
+        void onItemClick(long pos);
 
     }
     private OnItemClickListener listener;
@@ -92,6 +93,7 @@ public class SingleContentAdapter extends RecyclerView.Adapter<RecyclerView.View
             owner = (TextView) c.findViewById(R.id.post_owner);
             date = (TextView) c.findViewById(R.id.post_date);
             pic = (ImageView) c.findViewById(R.id.post_owner_img);
+
             commentButton = c.findViewById(R.id.post_comment_button);
             likeButton = c.findViewById(R.id.post_like_button);
             dislikeButton = c.findViewById(R.id.post_dislike_button);
@@ -141,20 +143,22 @@ public class SingleContentAdapter extends RecyclerView.Adapter<RecyclerView.View
 
 
     }
-    public SingleContentAdapter(Context context, Content content, List<Comment> comments, InterestHub hub) {
+    public SingleContentAdapter(Context context, Content content, List<Comment> comments, InterestHub hub,OnItemClickListener listener) {
         this.content= content;
         this.comments=comments;
         this.context = context;
         this.hub=hub;
+        this.listener = listener;
 
 
     }
     //without listener
-    public SingleContentAdapter(Context context, Content content,InterestHub hub) {
+    public SingleContentAdapter(Context context, Content content,InterestHub hub,OnItemClickListener listener) {
         this.content= content;
 
         this.context = context;
         this.hub=hub;
+        this.listener = listener;
 
 
     }
@@ -220,10 +224,10 @@ public class SingleContentAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         //sets click listener for each card view in order to open content activity;
         if(listener!=null) {
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
+            ((ViewHolder)holder).pic.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view) {
-                    listener.onItemClick(position);
+                public void onClick(View v) {
+                    listener.onItemClick(content.getOwner().getId());
                 }
             });
         }
