@@ -11,7 +11,7 @@ import java.util.List;
 public class Group {
     
     @SerializedName("id")
-    long id;
+    Long id;
     @SerializedName("name")
     String name;
 
@@ -25,6 +25,15 @@ public class Group {
     @SerializedName("cover_photo")
     String cover_photo;
 
+    List<Tag> tags;
+
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
+    }
 
     public String getLogo() {
         return logo;
@@ -67,11 +76,11 @@ public class Group {
         this.name = name;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

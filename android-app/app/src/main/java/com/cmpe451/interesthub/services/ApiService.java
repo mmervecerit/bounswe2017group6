@@ -13,6 +13,7 @@ import com.cmpe451.interesthub.models.Message;
 import com.cmpe451.interesthub.models.Token;
 import com.cmpe451.interesthub.models.UpDown;
 import com.cmpe451.interesthub.models.User;
+import com.cmpe451.interesthub.models.wikiDataModels.SearchResult;
 
 import java.util.List;
 
@@ -54,8 +55,7 @@ public interface ApiService {
     Call<List<Group>> getGroup();
 
     @POST("groups/")
-    @FormUrlEncoded
-    Call<Group> addGroup (@Field("name") String name,@Field("description") String desc,@Field("image") String image);
+    Call<Group> addGroup (@Body RequestBody content);
 
     @GET("component/")
     Call<List<Component>> getComponentList();
@@ -109,4 +109,7 @@ public interface ApiService {
     @GET("content/{group_id}/votes/")
     Call<List<UpDown>> getVotesOfGroup(@Path(value ="group_id",encoded = true) long groupId);
 
+
+    @GET
+    Call<SearchResult> getTags(@Url String url);
 }

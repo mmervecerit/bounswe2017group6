@@ -53,6 +53,7 @@ public class InterestHub extends Application {
             Log.d("INFO","CREATING API SERVICE");
 
             HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+
             interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
             OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
 
