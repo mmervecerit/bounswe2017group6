@@ -62,6 +62,8 @@ urlpatterns = [
 
     url(r'^recommendation/users/$',RecommendUser.as_view()),
     url(r'^recommendation/groups/$',RecommendGroup.as_view()),
+    url(r'^search/groups/',SearchGroup.as_view()),
+    url(r'^search/users/',SearchUser.as_view()),
 
     # url(r'^test/', TestView.as_view()),
     url(r'^login/$', obtain_jwt_token),
