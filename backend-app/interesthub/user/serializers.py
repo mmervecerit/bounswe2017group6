@@ -41,7 +41,7 @@ class ProfileSerializer(serializers.ModelSerializer):
                 if serializer.is_valid():
                     validated_data["interests"].append(serializer.validated_data)
                 else:
-                    ValidationError(serializer.errors)
+                    serializers.ValidationError(serializer.errors)
         return validated_data
     
     def create(self, validated_data):
