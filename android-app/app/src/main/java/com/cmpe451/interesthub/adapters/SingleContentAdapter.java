@@ -235,10 +235,10 @@ public class SingleContentAdapter extends RecyclerView.Adapter<RecyclerView.View
         if(comments==null||comments.isEmpty()) ((ViewHolder)holder).commentList.setVisibility(View.GONE);
         //else set comments
         else{
-            List<String> commentList = new ArrayList<>();
-            for(Comment c : comments) commentList.add(c.getText().toString());
-            ArrayAdapter adapter= new ArrayAdapter(context,android.R.layout.simple_list_item_1, android.R.id.text1, commentList);
-
+            List<Comment> commentList = new ArrayList<Comment>();
+            for(Comment c : comments) commentList.add(c);
+            //ArrayAdapter adapter= new ArrayAdapter(context,android.R.layout.simple_list_item_1, android.R.id.text1, commentList);
+            CommentAdapter adapter = new CommentAdapter(context,android.R.layout.simple_list_item_1,commentList);
             ((ViewHolder)holder).commentList.setAdapter(adapter);
 
         }
