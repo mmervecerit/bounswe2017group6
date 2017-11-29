@@ -12,7 +12,7 @@
         .module("interestHub")
         .controller("GroupCtrl", GroupCtrl);
     
-    function GroupCtrl($scope,  $rootScope, $location, GroupService, $window,TagService, $http)
+    function GroupCtrl($scope,  $rootScope, $location, GroupService, $window,TagService, $http, UserService)
     {
         $scope.remove = remove;
         $scope.update = update;
@@ -31,11 +31,19 @@
          */ 
         function init() {
       
-            GroupService
-                .getAllGroups()
-                .then(handleSuccess, handleError);
+            UserService.getLoggedInUser()
+            .then(handleUser, handleError);
 
 
+            function handleUser(response) {
+                $scope.user=response.data;
+
+                UserService.getGroups($scope.user.id)
+                .then(function(response){
+                    $scope.groups = response.data;
+                });
+
+            }
         }
         init();
        
