@@ -1,5 +1,5 @@
 <div controller="RecommendationCtrl">
-    <div class="panel panel-info" ng-show="suggestedGroups">
+    <div class="panel panel-info" ng-show="suggestedGroups.length != 0">
             <div class="panel-heading">
               <h3 class="panel-title">Suggested Groups</h3>
             </div>
@@ -25,7 +25,7 @@
 
         </div>
 
-    <div class="panel panel-info" ng-show="suggestedUsers">
+    <div class="panel panel-info" ng-show="suggestedUsers.length != 0">
             <div class="panel-heading">
               <h3 class="panel-title">Suggested Users</h3>
             </div>
