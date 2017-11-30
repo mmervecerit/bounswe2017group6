@@ -395,6 +395,21 @@
                             <div class="panel panel-info" style="margin:20px;">
                                     <div class="panel-body">
                                         <p>{{group.description}}</p>
+										<div class="clearfix"></div>
+                            <div class="bot-border"></div>
+                            <div ng-repeat="tag in group.tags" ng-switch on="$index % 3">
+
+                                <div class="col-sm-5 interest" ng-switch-when="0" ng-show="group.tags[$index]">
+                                     <a href="{{group.tags[$index].url}}"><strong>#{{group.tags[$index].label}}</strong></a>   
+                                </div>
+                                <div class="col-sm-5 interest" ng-switch-when="0" ng-show="group.tags[$index+1]">
+                                     <a href="{{group.tags[$index+1].url}}"><strong>#{{group.tags[$index+1].label}}</strong></a>   
+                                </div>
+                                <div class="col-sm-2 interest" ng-switch-when="0" ng-show="group.tags[$index+2]">
+                                     <a href="{{group.tags[$index+2].url}}"><strong>#{{group.tags[$index+2].label}}</strong></a>   
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
                                         
                                     </div> 
             
