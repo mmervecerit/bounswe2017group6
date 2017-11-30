@@ -37,7 +37,7 @@ class RecommendUser(APIView):
         sorted_recom = sorted(recom.items(), key=operator.itemgetter(1))
         ids = []
         for u in sorted_recom:
-            if u != user.id:
+            if u[0] != user.id:
                 ids.append(u[0])
             if len(ids)>10:
                 break
