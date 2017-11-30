@@ -6,16 +6,16 @@ package com.cmpe451.interesthub.models;
 
 public class Interest {
 
-    long id;
+    Long id;
     String label;
     String description;
     String url;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -314,8 +314,13 @@ public class MultipleContentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     ((ViewHolder)holder).number.get(numberi).setText(data.getData());
                     numberi++;
                 } else if (c.getComponent_type().equals("image") ) {
+                    if(data==null || data.getData() == null) return;
+                    String url ="";
+                    if(data.getData().startsWith("image"))
+                        url="http://34.209.230.231:8000/"+data.getData();
+                    else url=data.getData();
                     Picasso.with(context)
-                            .load(data.getData())
+                            .load(url)
                             .resize(200,200).into(((ViewHolder)holder).image.get(imagei));
                     imagei++;
                 }else if (c.getComponent_type().equals("video")) {

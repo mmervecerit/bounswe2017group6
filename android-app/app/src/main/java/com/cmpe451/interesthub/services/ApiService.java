@@ -20,6 +20,7 @@ import java.util.List;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
@@ -110,6 +111,16 @@ public interface ApiService {
 
     @GET
     Call<SearchResult> getTags(@Url String url);
+
+    @GET
+    Call<List<Group>> searchGroups(@Url String url);
+
+    @GET
+    Call<List<User>> searchUser(@Url String url);
+
+    @DELETE("group/{group_id}/members/")
+    Call<Message> leaveGroup(@Path(value ="group_id",encoded = true) long groupId);
+
 
 
 }

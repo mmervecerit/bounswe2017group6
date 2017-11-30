@@ -88,8 +88,10 @@ public class GroupActivity extends BaseActivity {
 
         FloatingActionButton joinfab = (FloatingActionButton) findViewById(R.id.joinFab);
         TextView joinfabText = (TextView) findViewById(R.id.joinFabtext);
+        FloatingActionButton leavefab = (FloatingActionButton) findViewById(R.id.leaveFab);
+        TextView leavefabText = (TextView) findViewById(R.id.leaveFabtext);
 
-        checkJoinFab(joinfab,joinfabText);
+        checkJoinFab(joinfab,joinfabText,leavefab,leavefabText);
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         viewPager = (ViewPager) findViewById(R.id.ViewPager_group);
@@ -175,16 +177,36 @@ public class GroupActivity extends BaseActivity {
 
         return true;
     }
-    public void checkJoinFab(FloatingActionButton joinFab,TextView joinFabText){
+    public void checkJoinFab(final FloatingActionButton joinFab, final TextView joinFabText,final FloatingActionButton leaveFab, final TextView leaveFabText){
         if(hub.getSessionController().isGroupsSet()) {
             for (Group g : hub.getSessionController().getGroups()) {
                 if (groupId == g.getId()) {
                     joinFab.setVisibility(View.GONE);
                     joinFabText.setVisibility(View.GONE);
+                    leaveFab.setVisibility(View.VISIBLE);
+                    leaveFabText.setVisibility(View.VISIBLE);
+                    leaveFab.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            hub.getApiService().leaveGroup(groupId).enqueue(new Callback<Message>() {
+                                @Override
+                                public void onResponse(Call<Message> call, Response<Message> response) {
+                                    hub.getSessionController().updateGroups(hub,getIntent(),getBaseContext());
+
+                                }
+
+                                @Override
+                                public void onFailure(Call<Message> call, Throwable t) {
+
+                                }
+                            });
+                        }
+                    });
                     return;
                 }
             }
-
+            leaveFab.setVisibility(View.GONE);
+            leaveFabText.setVisibility(View.GONE);
             joinFab.setVisibility(View.VISIBLE);
             joinFab.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -192,8 +214,9 @@ public class GroupActivity extends BaseActivity {
                     hub.getApiService().joinGroup(groupId).enqueue(new Callback<Message>() {
                         @Override
                         public void onResponse(Call<Message> call, Response<Message> response) {
-                            hub.getSessionController().updateGroups(hub);
-                            startActivity(getIntent());
+                            hub.getSessionController().updateGroups(hub,getIntent(),getBaseContext());
+                            //startActivity(getIntent());
+
 
                         }
 
@@ -213,7 +236,8 @@ public class GroupActivity extends BaseActivity {
         switch (id) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
-                onBackPressed();
+                Intent intent = new Intent(getBaseContext(),UserActivity.class);
+                startActivity(intent);
                 return true;
         }
         return super.onOptionsItemSelected(item);

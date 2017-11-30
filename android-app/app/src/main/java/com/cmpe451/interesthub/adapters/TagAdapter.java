@@ -52,16 +52,38 @@ public class TagAdapter extends ArrayAdapter<Search> {
         if (v == null) {
             LayoutInflater vi;
             vi = LayoutInflater.from(getContext());
-            v = vi.inflate(R.layout.tag_list_layout, null);
+            v = vi.inflate(android.R.layout.simple_list_item_1, null);
         }
 
         Search s = getItem(position);
 
         if (s != null) {
-            TextView tt1 = (TextView) v.findViewById(R.id.commentlayour_header);
+            TextView tt1 = (TextView) v.findViewById(android.R.id.text1);
             if(position<myTagsSize)
-                tt1.setBackgroundColor(Color.RED);
-            //TextView tt2 = (TextView) v.findViewById(R.id.commentlayour_owner);
+                tt1.setTextColor(Color.RED);
+
+            if (tt1 != null) {
+                tt1.setText(s.getLabel());
+            }
+        }
+
+        return v;
+    } @Override
+    public View getDropDownView(int position, View convertView, ViewGroup parent){
+
+        View v = convertView;
+        if (v == null) {
+            LayoutInflater vi;
+            vi = LayoutInflater.from(getContext());
+            v = vi.inflate(android.R.layout.simple_list_item_1, null);
+        }
+
+        Search s = getItem(position);
+
+        if (s != null) {
+            TextView tt1 = (TextView) v.findViewById(android.R.id.text1);
+            if(position<myTagsSize)
+                tt1.setTextColor(Color.RED);
 
             if (tt1 != null) {
                 tt1.setText(s.getLabel());
