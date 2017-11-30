@@ -14,14 +14,15 @@ module.exports = function(grunt) {
         src: ['app/app.js', 'app/app.routes.js', 'app/app.config.js'],
         title: 'App'
       },
-      profile: {
-        src: ['app/modules/profile/**.js'],
-        title: 'Profile'
+	  services: {
+      	src: ['app/modules/**/**services.js', 'app/modules/**/**service.js'],
+	    title: 'Services'
       },
-      timeline: {
-        src: ['app/modules/timeline/**.js'],
-        title: 'Timeline'
+      controllers: {
+        src: ['app/modules/**/**controller.js'],
+        title: 'Controllers'
       }
+
     },
     connect: {
       options: {

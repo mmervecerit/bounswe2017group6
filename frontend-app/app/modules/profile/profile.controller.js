@@ -1,10 +1,17 @@
 (function()
 {
+     /**
+     * @ngdoc controller
+     * @name ProfileCtrl
+     * @description
+     * 
+     * Controller for user profile page
+     */
     angular
         .module("interestHub")
         .controller("ProfileCtrl", ProfileCtrl);
     
-    function ProfileCtrl($scope,  $rootScope, $routeParams, $q, $location, UserService, ContentService, GroupService, $localStorage)
+    function ProfileCtrl($scope,  $rootScope, $routeParams, $q, $location, UserService, ContentService, GroupService, $localStorage, TagService)
     {
         $scope.me = false;
         $scope.follow = false;
@@ -12,7 +19,15 @@
         $scope.addInterest = addInterest;
         $scope.editUser = editUser;
         $scope.followUser = followUser;
-    	
+    	 /**
+         * @ngdoc
+         * @name init
+         * @methodOf ProfileCtrl
+         *
+         * @description
+         * Method for initialization of user in profile page
+         * 
+         */ 
         function init(){
             if($location.path() == '/profile' || $routeParams.id == $localStorage.user.id){
                 $scope.me = true;
@@ -29,14 +44,27 @@
 
         init();
 	    
-        $scope.interests = ["data science","robotics","artificial intelligence","science fiction", "travel","cycling"];
         
+         /**
+         * @ngdoc
+         * @name handleSuccess
+         * @methodOf ProfileCtrl
+         *
+         * @description
+         * Method for getting user's groups, followings, followers and contents
+         * @param {object} user the owner of the profile
+         */ 
       	function handleSuccess(response) {
             
             $scope.user = response.data;
+            $scope.user.profile.interests.push({"label":"scifi","description": "sdafsd","url":"www.google.com"});
+            $scope.user.profile.interests.push({"label":"weird","description": "sdafsd","url":"www.google.com"});
+
+            console.log($scope.user.profile.interests);            
             if($scope.me == false){
                 isFollow();
             }
+            
             $scope.posts = [];
             $scope.groups = []; 
             $scope.followings = [];
@@ -112,6 +140,16 @@
                 });     
 
         }
+
+         /**
+         * @ngdoc
+         * @name isFollow
+         * @methodOf ProfileCtrl
+         *
+         * @description
+         * Method for checking whether the logged in user is following the owner of the profile or not
+         * @param {int} userID the id of the owner of the profile
+         */ 
         function isFollow(userID){
             UserService.getFollowingsOfCurrent()
                 .then(function(response){
@@ -130,27 +168,127 @@
             $scope.error = error;
         }
 
-        function removeInterest($index){
-            $scope.interests.splice($index,1);
-        }
-        function addInterest(interest){
-            $scope.interests.push(interest);
-            $scope.interest = "";
-
-        }
+        /**
+         * @ngdoc
+         * @name editUser
+         * @methodOf ProfileCtrl
+         *
+         * @description
+         * Method for updating user profile
+         * @param {object} user the user will be updated
+         */        
         function editUser(user){
-            UserService.updateUser(user)
+            console.log(user);
+
+            user = JSON.parse(angular.toJson(user));
+            console.log(JSON.parse(angular.toJson(user)));
+            console.log(user.profile.interests);
+            editedUser = {"profile":  {
+                                "interests": user.profile.interests
+                            }
+                        };
+
+            console.log(editedUser);
+            UserService.updateUser($scope.user.id, angular.toJson(editedUser))
                 .then(handleSuccess,handleError);
         }
+        /**
+         * @ngdoc
+         * @name followUser
+         * @methodOf ProfileCtrl
+         *
+         * @description
+         * Method for following the owner of profile page
+         * 
+         */
         function followUser(){
             console.log($scope.user.id);
             UserService.followUser($scope.user.id)
                 .then(function(response){
+                    $scope.follow = true;
                     console.log($localStorage.user);
                     $scope.followers.push($localStorage.user);
-            });
+            },handleError);
         }
-	   
+
+
+          var _selected;
+         
+          $scope.selected = undefined;
+
+          $scope.ngModelOptionsSelected = function(value) {
+            if (arguments.length) {
+              _selected = value;
+            } else {
+              return _selected;
+            }
+          };
+
+          $scope.modelOptions = {
+            debounce: {
+              default: 500,
+              blur: 250
+            },
+            getterSetter: true
+          };
+
+
+            /**
+         * @ngdoc
+         * @name searchTag
+         * @methodOf ProfileCtrl
+         *
+         * @description
+         * Method for searching tags
+         * @param {string} input the input will be searched in wikidata  
+         * @returns {Array} tags the search results from wikidata
+         */ 
+          $scope.searchTag = function(val) {
+            
+                TagService.searchTag(val)
+                            .then(function(response){
+                                console.log(response.data.search);
+                                tags = response.data.search;
+                            }
+                            ,handleError);
+            
+                return tags;            
+          };
+     
+	     /**
+         * @ngdoc
+         * @name removeInterest
+         * @methodOf ProfileCtrl
+         *
+         * @description
+         * Method for removing interest
+         * @param {object} interest the interest will be removed from view 
+         */   
+        function removeInterest($index){
+            $scope.user.profile.interests.splice($index,1);
+        }
+        /**
+         * @ngdoc
+         * @name addInterest
+         * @methodOf ProfileCtrl
+         *
+         * @description
+         * Method for adding interest
+         * @param {object} interest the interest will be added to view
+         */ 
+        function addInterest(interest){
+            if (interest != ""){
+
+                var tagStored = {
+                    "label" : interest.label ,
+                    "description" : interest.description,
+                    "url" : interest.url
+                }
+                $scope.user.profile.interests.push(tagStored);
+                $scope.selected = undefined;
+            }
+
+        }
     }
 
      

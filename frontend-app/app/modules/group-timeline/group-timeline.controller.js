@@ -1,5 +1,13 @@
 (function()
 {
+
+    /**
+     * @ngdoc controller
+     * @name GroupTimelineCtrl
+     * @description
+     * 
+     * Controller for showing/editting/controlling the group page  
+     */
     angular
         .module("interestHub")
         .controller("GroupTimelineCtrl", GroupTimelineCtrl);
@@ -14,7 +22,15 @@
     
       $scope.group = GroupService.getGroup($routeParams.id)
                         .then(handleSuccess,handleError);
-      
+       /**
+         * @ngdoc
+         * @name checkJoined
+         * @methodOf GroupTimelineCtrl
+         *
+         * @description
+         * Method for checking whether the logged in user is joined this group or not 
+         * 
+         */ 
       function checkJoined(){
         UserService.getGroups($localStorage.user.id)
           .then(function(response){
@@ -30,7 +46,15 @@
             return false;
           },handleError);
       }
-      
+        /**
+         * @ngdoc
+         * @name handleSuccess
+         * @methodOf GroupTimelineCtrl
+         *
+         * @description
+         * Method for assigning the fields of groups to $scope
+         * @param {object} group the group will be shown
+         */ 
       function handleSuccess(response) {
             $scope.group = response.data;
             $scope.members = [];
@@ -49,7 +73,15 @@
             console.log(error);
 
       }
-
+       /**
+         * @ngdoc
+         * @name joinGroup
+         * @methodOf GroupTimelineCtrl
+         *
+         * @description
+         * Method for joining a group
+         * @param {int} groupId the group will be joined
+         */ 
       function joinGroup(groupId){
         $scope.joined = true;
           GroupService.joinGroup(groupId)

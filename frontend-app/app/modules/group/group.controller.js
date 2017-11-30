@@ -1,6 +1,13 @@
 
 (function()
 {
+    /**
+     * @ngdoc controller
+     * @name GroupCtrl
+     * @description
+     * 
+     * Controller for creating/getting/updating/deleting and showing groups
+     */
     angular
         .module("interestHub")
         .controller("GroupCtrl", GroupCtrl);
@@ -13,24 +20,39 @@
         $scope.addTag = addTag;
         $scope.removeTag = removeTag;
         $scope.tab = {};
-
+        /**
+         * @ngdoc
+         * @name init
+         * @methodOf GroupCtrl
+         *
+         * @description
+         * Method for initialization of groups by getting all of them
+         * 
+         */ 
         function init() {
-            console.log("group int");
+      
             GroupService
                 .getAllGroups()
                 .then(handleSuccess, handleError);
-            console.log("asdfadsf");    
+
 
         }
         init();
        
         function handleTag(response){
-            console.log(response.data);
 
             $scope.tags = response.data;
         }
        
-       
+        /**
+         * @ngdoc
+         * @name remove
+         * @methodOf GroupCtrl
+         *
+         * @description
+         * Method for removing a group
+         * @param {object} group the group will be deleted
+         */ 
 
         function remove(group)
         {
@@ -39,6 +61,15 @@
                 .then(handleSuccess, handleError);
         }
         
+        /**
+         * @ngdoc
+         * @name update
+         * @methodOf GroupCtrl
+         *
+         * @description
+         * Method for updating a group
+         * @param {object} group the group will be updated
+         */ 
         function update(group)
         {
        
@@ -47,7 +78,15 @@
                 .updateGroup(group._id, group)
                 .then(handleSuccess, handleError);
         }
-        
+        /**
+         * @ngdoc
+         * @name add
+         * @methodOf GroupCtrl
+         *
+         * @description
+         * Method for adding a group
+         * @param {object} group the group will be added
+         */
         function add(group1)
         {	
 			group=angular.copy(group1);
@@ -74,13 +113,30 @@
             $scope.newgroup.tags = [];
 
 
-        }      
+        }
+        /**
+         * @ngdoc
+         * @name handleSuccessGroup
+         * @methodOf GroupCtrl
+         *
+         * @description
+         * Method for pushing a new group to $scope
+         * @param {object} group the group will be added
+         */      
         function handleSuccessGroup(response) {
             $scope.groups.push(response.data);
 
         }
 
-
+        /**
+         * @ngdoc
+         * @name handleSuccess
+         * @methodOf GroupCtrl
+         *
+         * @description
+         * Method for assigning the groups to $scope.groups
+         * @param {Array} groups the groups will be assigned and shown  
+         */ 
         function handleSuccess(response) {
             $scope.groups = response.data;
             
@@ -114,7 +170,15 @@
           };
 
 
-
+        /**
+         * @ngdoc
+         * @name searchTag
+         * @methodOf GroupCtrl
+         *
+         * @description
+         * Method for searching tags
+         * @param {string} input the input will be searched in wikidata  
+         */ 
           $scope.searchTag = function(val) {
 			return TagService.searchTag(val)
                 .then(function(response){
@@ -125,7 +189,15 @@
 				
             			
          };
-		 
+		/**
+         * @ngdoc
+         * @name addTag
+         * @methodOf GroupCtrl
+         *
+         * @description
+         * Method for adding tag
+         * @param {object} tag the tag will be added to view
+         */ 
           function addTag(tag) {
             if (tag != ""){
 
@@ -140,7 +212,15 @@
             }
           }
 
-
+        /**
+         * @ngdoc
+         * @name removeTag
+         * @methodOf GroupCtrl
+         *
+         * @description
+         * Method for removing tag
+         * @param {object} tag the tag will be removed from view 
+         */ 
         function removeTag($index){
             $scope.newgroup.tags.splice($index,1);
         }

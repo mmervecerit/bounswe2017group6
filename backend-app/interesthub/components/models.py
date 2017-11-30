@@ -42,14 +42,14 @@ class Component(models.Model):
 
     order = models.IntegerField(default=0)
 
-    text = models.OneToOneField(TextComponent, on_delete=models.CASCADE, null=True)
-    longtext = models.OneToOneField(LongTextComponent, on_delete=models.CASCADE, null=True)
-    number = models.OneToOneField(NumberComponent, on_delete=models.CASCADE, null=True)
-    datetime = models.OneToOneField(DateTimeComponent, on_delete=models.CASCADE, null=True)
-    video = models.OneToOneField(VideoComponent, on_delete=models.CASCADE, null=True)
-    dropdown = models.OneToOneField(DropdownComponent, on_delete=models.CASCADE, null=True)
-    image = models.OneToOneField(ImageComponent, on_delete=models.CASCADE, null=True)
-    checkbox = models.OneToOneField(CheckBoxComponent, on_delete=models.CASCADE, null=True)
+    text = models.OneToOneField(TextComponent, on_delete=models.CASCADE, null=True, related_name="component")
+    longtext = models.OneToOneField(LongTextComponent, on_delete=models.CASCADE, null=True, related_name="component")
+    number = models.OneToOneField(NumberComponent, on_delete=models.CASCADE, null=True, related_name="component")
+    datetime = models.OneToOneField(DateTimeComponent, on_delete=models.CASCADE, null=True, related_name="component")
+    video = models.OneToOneField(VideoComponent, on_delete=models.CASCADE, null=True, related_name="component")
+    dropdown = models.OneToOneField(DropdownComponent, on_delete=models.CASCADE, null=True, related_name="component")
+    image = models.OneToOneField(ImageComponent, on_delete=models.CASCADE, null=True, related_name="component")
+    checkbox = models.OneToOneField(CheckBoxComponent, on_delete=models.CASCADE, null=True, related_name="component")
 
     content = models.ForeignKey(Content, on_delete=models.CASCADE, null=True, related_name="components")
 

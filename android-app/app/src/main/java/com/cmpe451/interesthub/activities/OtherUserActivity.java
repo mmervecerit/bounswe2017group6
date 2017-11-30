@@ -1,3 +1,4 @@
+
 package com.cmpe451.interesthub.activities;
 
 import android.support.design.widget.TabLayout;
@@ -57,3 +58,4 @@ public class OtherUserActivity extends AppCompatActivity {
 
 
 }
+

@@ -1,5 +1,6 @@
 
 (function() {
+
     angular.module("interestHub")
         .config(['$httpProvider', function($httpProvider) {
         console.log("config");
@@ -9,7 +10,15 @@
 
 
   }]);
-
+/**
+  * 
+  * @ngdoc directive
+  * @name interestHub.cmdate
+  * @description 
+  *  
+  *  Filter for dates
+  *
+  */
         angular.module("interestHub")
             .filter('cmdate', [
                 '$filter', function($filter) {

@@ -1,5 +1,12 @@
 (function()
-{
+{ 
+    /**
+     * @ngdoc controller
+     * @name HomeCtrl
+     * @description
+     * 
+     * Controller for home page
+     */
     angular
         .module("interestHub")
         .controller("HomeCtrl", HomeCtrl);

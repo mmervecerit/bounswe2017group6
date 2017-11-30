@@ -214,6 +214,7 @@ public class GroupActivity extends BaseActivity {
                     hub.getApiService().joinGroup(groupId).enqueue(new Callback<Message>() {
                         @Override
                         public void onResponse(Call<Message> call, Response<Message> response) {
+
                             hub.getSessionController().updateGroups(hub,getIntent(),getBaseContext());
                             //startActivity(getIntent());
 
