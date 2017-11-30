@@ -312,6 +312,7 @@
                             <div class="clearfix"></div>
                             <div class="bot-border"></div>
                             <div ng-repeat="interest in user.profile.interests" ng-switch on="$index % 3">
+
                                 <div class="col-sm-5 interest" ng-switch-when="0" ng-show="user.profile.interests[$index]">
                                      <a href="{{user.profile.interests[$index].url}}"><strong>#{{user.profile.interests[$index].label}}</strong></a>   
                                 </div>

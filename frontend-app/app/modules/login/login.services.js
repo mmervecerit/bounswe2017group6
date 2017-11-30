@@ -46,7 +46,7 @@
         function registerUser(user){
             
             var profile = {"name": user.firstname, "lastname":user.lastname, "birthdate":user.birthDateAsString, "gender":user.gender, "contacts":"contacts", 
-            "about":"about","is_public":"true","facebook_account": "@test", "twitter_account": "@test","instagram_account": "@test","interests":user.interests};
+            "about":"about","is_public":"true","facebook_account": "@test", "twitter_account": "@test","instagram_account": "@test","interests":user.interests, "photo":null};
             
             var credentials = {"username": user.username, "password":user.password, "email":user.email, "profile":profile};
             console.log(credentials);
