@@ -260,17 +260,17 @@
          * @param {string} input the input will be searched in wikidata  
          * @returns {Array} tags the search results from wikidata
          */ 
-          $scope.searchTag = function(val) {
-            
-                TagService.searchTag(val)
-                            .then(function(response){
-                                console.log(response.data.search);
-                                tags = response.data.search;
-                            }
-                            ,handleError);
-            
-                return tags;            
-          };
+
+        $scope.searchTag = function(val) {
+			return TagService.searchTag(val)
+                .then(function(response){
+                    console.log(response.data.search);
+                    return tags = response.data.search;
+                }
+                ,handleError);
+				
+            			
+         };
      
 	     /**
          * @ngdoc

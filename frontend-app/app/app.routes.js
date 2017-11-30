@@ -96,7 +96,13 @@
                   templateUrl: 'modules/postcreate/postcreate.view.html',
                   controller: 'PostCreateCtrl',
                   requireAuth: true                  
-              });
+              })
+
+        .when('/allgroups', {
+                templateUrl: 'modules/listgroups/listgroups.view.html',
+                controller: 'ListGroupsCtrl',
+                //equireAuth: true                  
+            });
 /*
               .otherwise({
                   redirectTo: '/'
