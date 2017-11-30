@@ -101,6 +101,7 @@ public class GroupPosts extends Fragment {
                 Log.d("SUCCSEFUL","calling group coıntents");
                 if(response.body()==null) return;
                 for(Content c : response.body()){
+                    c.setGroupName(mParam1);
                     contentList.add(c);
                     if(c.getComponents()==null || c.getComponents().size()==0)
                         Log.d("null","null component");

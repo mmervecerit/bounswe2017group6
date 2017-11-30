@@ -43,8 +43,8 @@ public interface ApiService {
     @GET("users/")
     Call<List<User>> getUsers();
 
-    @GET
-    Call<Group> getSpesificGroup(@Url String url);
+    @GET("groups/{group_id}/")
+    Call<Group> getSpesificGroup(@Path(value = "group_id", encoded = true)  long groupId);
 
     @GET
     Call<User> getSpesificUser(@Url String url);

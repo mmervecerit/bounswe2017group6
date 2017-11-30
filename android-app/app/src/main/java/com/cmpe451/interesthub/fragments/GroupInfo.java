@@ -3,11 +3,19 @@ package com.cmpe451.interesthub.fragments;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.cmpe451.interesthub.InterestHub;
 import com.cmpe451.interesthub.R;
+import com.cmpe451.interesthub.models.Group;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,8 +33,8 @@ public class GroupInfo extends Fragment {
 
     // TODO: Rename and change types of parameters
     private String mParam1;
-    private String mParam2;
-
+    private Long mParam2;
+    InterestHub hub;
     private OnFragmentInteractionListener mListener;
 
     public GroupInfo() {
@@ -42,11 +50,11 @@ public class GroupInfo extends Fragment {
      * @return A new instance of fragment UserEvents.
      */
     // TODO: Rename and change types and number of parameters
-    public static GroupInfo newInstance(String param1, String param2) {
+    public static GroupInfo newInstance(String param1, Long param2) {
         GroupInfo fragment = new GroupInfo();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putLong(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -56,15 +64,34 @@ public class GroupInfo extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            mParam2 = getArguments().getLong(ARG_PARAM2);
         }
+        hub = (InterestHub) getActivity().getApplication();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_group_info, container, false);
+        View view = inflater.inflate(R.layout.fragment_group_info, container, false);
+        final TextView text = view. findViewById(R.id.group_info);
+        hub.getApiService().getSpesificGroup(mParam2).enqueue(new Callback<Group>() {
+            @Override
+            public void onResponse(Call<Group> call, Response<Group> response) {
+                if(response==null || response.body()==null)
+                    return;
+                Group g = response.body();
+                text.setText(g.getDesc());
+
+            }
+
+            @Override
+            public void onFailure(Call<Group> call, Throwable t) {
+
+            }
+        });
+        return view;
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
