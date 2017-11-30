@@ -1,7 +1,7 @@
 (function(){
     /**
      * @ngdoc service
-     * @name RecommondationService
+     * @name RecommendationService
      * @description
      * 
      * Service to get recommendations from backend
