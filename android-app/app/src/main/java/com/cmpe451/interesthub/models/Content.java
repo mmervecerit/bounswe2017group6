@@ -2,8 +2,12 @@ package com.cmpe451.interesthub.models;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.Date;
+
 import java.util.List;
+
+
+import java.util.Date;
+
 
 /**
  * Created by eren on 28.10.2017.
@@ -33,7 +37,9 @@ public class Content {
     User owner;
 
     long owner_id;
+
     private String groupName;
+
 
     public String getGroupName() {
         return groupName;
@@ -42,6 +48,7 @@ public class Content {
     public void setGroupName(String groupName) {
         this.groupName = groupName;
     }
+
 
     public List<Tag> getTags() {
         return tags;
@@ -66,7 +73,6 @@ public class Content {
     public void setContent_type_id(long content_type_id) {
         this.content_type_id = content_type_id;
     }
-
 
 
     public long getId() {
@@ -116,4 +122,5 @@ public class Content {
     public void setOwner(User owner) {
         this.owner = owner;
     }
+
 }

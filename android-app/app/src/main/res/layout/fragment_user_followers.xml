@@ -1,14 +1,20 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.cmpe451.interesthub.fragments.UserEvents">
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context="com.cmpe451.interesthub.fragments.User_Followers_Fragment">
-
-        <!-- TODO: Update blank fragment layout -->
-        <TextView
+        android:layout_height="wrap_content">
+        <ListView
+            android:id="@+id/groupUserList"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Followers_see" />
+            android:layout_height="wrap_content">
 
-    </FrameLayout>
+
+        </ListView>
+    </LinearLayout>
+
+</FrameLayout>

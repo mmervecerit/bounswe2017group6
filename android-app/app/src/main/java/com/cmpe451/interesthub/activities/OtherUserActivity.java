@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cmpe451.interesthub.InterestHub;
-import com.cmpe451.interesthub.R;
+
 import com.cmpe451.interesthub.adapters.UserProfileTabsAdapter;
 import com.squareup.picasso.Picasso;
 

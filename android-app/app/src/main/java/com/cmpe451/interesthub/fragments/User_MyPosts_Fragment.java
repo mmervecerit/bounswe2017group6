@@ -76,53 +76,31 @@ public class User_MyPosts_Fragment extends Fragment {
         }
     }
 
-    @Override
+
+Content a;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        //return inflater.inflate(R.layout.fragment_user_myposts, container, false);
         final View view = inflater.inflate(R.layout.fragment_user_myposts, container, false);
         postList = (RecyclerView) view.findViewById(R.id.recycler_view);
         hub = (InterestHub) getActivity().getApplication();
-        hub.getApiService().getUserGroups(hub.getSessionController().getUser().getId()).enqueue(new Callback<List<Group>>() {
+        final List<Content> contentList = new ArrayList<Content>();
+        long my_id = hub.getSessionController().getUser().getId();
+        hub.getApiService().getUserContents(my_id).enqueue(new Callback<List<Content>>() {
             @Override
-            public void onResponse(Call<List<Group>> call, Response<List<Group>> response) {
-                final List<Group> groupList = new ArrayList<Group>();
-                for (Group g : response.body())
-                    groupList.add(g);
+            public void onResponse(Call<List<Content>> call, Response<List<Content>> response) {
+               if(response.body()!=null)
+                for (Content c : response.body()){
+                    contentList.add(c);
 
-                hub.getSessionController().setGroups(groupList);
-
-                final List<Content> contentList = new ArrayList<Content>();
-                for (final Group group : groupList) {
-                    hub.getApiService().getGroupContents(group.getId()).enqueue(new Callback<List<Content>>() {
-                        @Override
-                        public void onResponse(Call<List<Content>> call, Response<List<Content>> response) {
-                            for (Content c : response.body()) {
-                                c.setGroupName(group.getName());
-                                contentList.add(c);
-
-                            }
-
-                            setAdapter(contentList);
-
-                        }
-
-                        @Override
-                        public void onFailure(Call<List<Content>> call, Throwable t) {
-
-                        }
-                    });
-                }
-
-
+               }
+                setAdapter(contentList);
             }
 
             @Override
-            public void onFailure(Call<List<Group>> call, Throwable t) {
-
+            public void onFailure(Call<List<Content>> call, Throwable t) {
             }
         });
+
         return view;
     }
         // TODO: Rename method, update argument and hook method into UI event
@@ -138,7 +116,6 @@ public class User_MyPosts_Fragment extends Fragment {
             @Override
             public void onItemClick(int pos) {
                 hub.setTempContent(contentList.get(pos));
-
                 Intent intent = new Intent(getContext(), ContentActivity.class);
                 startActivity(intent);
             }

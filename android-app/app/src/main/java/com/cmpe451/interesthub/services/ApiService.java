@@ -90,9 +90,11 @@ public interface ApiService {
     Call<Message> joinGroup(@Path(value ="group_id",encoded = true) long groupId);
 
     @GET("user/{user_id}/followers/")
-    Call<Following_Followers> getuserfollowers();
+    Call<List<User>> getuserfollowers();
     @GET("user/{user_id}/followings/")
-    Call<Following_Followers> getuserfollowings();
+    Call<List<User>> getuserfollowings();
+    @GET("user/{user_id}/contents/")
+    Call<List<Content>> getUserContents(@Path(value = "user_id",encoded = true) long userId);
 
     @GET("me/")
     Call<User> getMe();

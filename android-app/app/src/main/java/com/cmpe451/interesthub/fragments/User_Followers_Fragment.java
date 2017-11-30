@@ -1,20 +1,31 @@
 package com.cmpe451.interesthub.fragments;
-
-
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
+import com.cmpe451.interesthub.InterestHub;
 import com.cmpe451.interesthub.R;
+import com.cmpe451.interesthub.adapters.UserAdapter;
+import com.cmpe451.interesthub.models.Following_Followers;
+import com.cmpe451.interesthub.models.User;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 /**
  * Created by mmervecerit on 22.11.2017.
  */
 
-public class User_Followers_Fragment extends Fragment{
+public class User_Followers_Fragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -23,8 +34,10 @@ public class User_Followers_Fragment extends Fragment{
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
-    private User_Followers_Fragment.OnFragmentInteractionListener mListener;
+    List<User> userList;
+    InterestHub hub;
+    ListView list;
+    private OnFragmentInteractionListener mListener;
 
     public User_Followers_Fragment() {
         // Required empty public constructor
@@ -61,7 +74,28 @@ public class User_Followers_Fragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_user_followers, container, false);
+        //return inflater.inflate(R.layout.fragment_user_following, container, false);
+        View  view =inflater.inflate(R.layout.fragment_user_followers, container, false);
+        list = view.findViewById(R.id.groupUserList);
+        userList  = new ArrayList<User>();
+        hub = (InterestHub) getActivity().getApplication();
+        hub.getApiService().getuserfollowers().enqueue(new Callback<List<User>>() {
+            @Override
+            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+                if(response.body()!=null)
+                    for(User u : response.body())
+                        userList.add(u);
+                UserAdapter adapter = new UserAdapter(getContext(),android.R.layout.simple_list_item_1,userList);
+                list.setAdapter(adapter);
+
+            }
+
+            @Override
+            public void onFailure(Call<List<User>> call, Throwable t) {
+
+            }
+        });
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -70,7 +104,6 @@ public class User_Followers_Fragment extends Fragment{
             mListener.onFragmentInteraction(uri);
         }
     }
-
 
     /**
      * This interface must be implemented by activities that contain this
