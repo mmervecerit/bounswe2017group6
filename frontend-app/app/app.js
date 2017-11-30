@@ -11,5 +11,5 @@
   * @requires ngStorage
   */
 
-var app = angular.module('interestHub', ["ngRoute","ui.bootstrap",'ngStorage',"infinite-scroll"]);
+var app = angular.module('interestHub', ["ngRoute","ui.bootstrap",'ngStorage']);
 
