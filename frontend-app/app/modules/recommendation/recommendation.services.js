@@ -17,7 +17,16 @@
 
         };
         return api;
-
+         /**
+         * @ngdoc
+         * @name recommendUsers
+         * @methodOf RecommendationService
+         *
+         * @description
+         * Method to get recommended users
+         * 
+         * @returns {httpPromise} resolve with fetched data.
+         */
         function recommendUsers(){
              return $http.get('https://limitless-sands-55256.herokuapp.com/http://34.209.230.231:8000/recommendation/users/', {
                 headers: {
@@ -27,7 +36,16 @@
                 }
             });
         }
-
+         /**
+         * @ngdoc
+         * @name recommendGroups
+         * @methodOf RecommendationService
+         *
+         * @description
+         * Method to get recommended groups
+         * 
+         * @returns {httpPromise} resolve with fetched data.
+         */
         function recommendGroups(){
              return $http.get('https://limitless-sands-55256.herokuapp.com/http://34.209.230.231:8000/recommendation/groups/', {
                 headers: {

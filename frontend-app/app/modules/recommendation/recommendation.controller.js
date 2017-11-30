@@ -23,16 +23,37 @@
 
             }
             init();
+             /**
+             * @ngdoc
+             * @name getUsers
+             * @methodOf RecommendationCtrl
+             *
+             * @description
+             * Method to assign recommended users
+             * 
+             * @param {object} response returned users
+             */
             function getUsers(response) {
        
            
                 $scope.suggestedUsers = response.data;
             }
+            /**
+             * @ngdoc
+             * @name getGroups
+             * @methodOf RecommendationCtrl
+             *
+             * @description
+             * Method to assign recommended groups 
+             * 
+             * @param {object} response returned groups
+             */
              function getGroups(response) {
        
               
                 $scope.suggestedGroups = response.data;
             }
+             
             function handleError(error) {
                 $scope.error = error;
 
