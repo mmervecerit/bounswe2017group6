@@ -10,7 +10,20 @@
      */
     angular
         .module("interestHub")
-        .controller("GroupCtrl", GroupCtrl);
+		.directive('fileModel', ['$parse', function ($parse) {
+			  return {
+				  restrict: 'A',
+				  link: function(scope, element, attrs) {
+					  var model = $parse(attrs.fileModel);
+
+					  element.bind('change', function(){
+					  scope.$emit("photoSelected",[element[0].id,element[0].files[0]]);
+					  });
+				  }
+			  };
+		  }])
+        .controller("GroupCtrl", GroupCtrl)
+		
     
     function GroupCtrl($scope,  $rootScope, $location, GroupService, $window,TagService, $http, UserService)
     {
@@ -117,7 +130,7 @@
                 .createGroup(group)
                 .then(handleSuccessGroup, handleError);    
             console.log("added");
-
+			
             $scope.newgroup.tags = [];
 
 
@@ -132,7 +145,30 @@
          * @param {object} group the group will be added
          */      
         function handleSuccessGroup(response) {
+			for(i=0;i<$scope.files.length;i++){
+				var y=Object.keys($scope.files[i]);
+				if(y[0]=="logo"){
+					console.log("logo");
+					GroupService
+						.uploadLogo(response.data.id,$scope.files[i][y[0]])
+						.then(function(res){
+							console.log(res.data);
+						},handleError)
+				}
+				else if(y[0]=="cover"){
+					console.log("cover")
+					GroupService
+						.uploadCover(response.data.id,$scope.files[i][y[0]])
+						.then(function(res){
+							console.log(res.data);
+						},handleError)
+					
+				}
+			}
             $scope.groups.push(response.data);
+			console.log($scope.files);
+			$scope.files=[];
+			
 
         }
 
@@ -232,6 +268,29 @@
         function removeTag($index){
             $scope.newgroup.tags.splice($index,1);
         }
+		
+		$scope.files = [];
+
+		//listen for the file selected event
+		$scope.$on("photoSelected", function (event, args) {
+			$scope.$apply(function () {            
+				//add the file object to the scope's files collection
+				
+				var x={
+					[args[0]]:args[1]
+				}
+				for(i=0;i<$scope.files.length;i++){
+					var y=Object.keys($scope.files[i]);
+					if(y[0]==args[0]){
+						$scope.files.splice(i,1);
+					}
+				}
+					$scope.files.push(x);
+				
+				
+				console.log($scope.files);
+			});
+		});
           
                          
  

@@ -35,7 +35,7 @@
              */
             function getUsers(response) {
        
-           
+                console.log(response.data);
                 $scope.suggestedUsers = response.data;
             }
             /**
@@ -50,7 +50,7 @@
              */
              function getGroups(response) {
        
-              
+                console.log(response.data);       
                 $scope.suggestedGroups = response.data;
             }
              
