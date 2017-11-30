@@ -100,32 +100,32 @@ public class UserProfile extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
+        String img;
+        String a;
         View view = inflater.inflate(R.layout.fragment_user_profile, container, false);
-        TextView userName=view.findViewById(R.id.user_name);
+        TextView userName = view.findViewById(R.id.user_name);
         userName.setText(hub.getSessionController().getUser().getUsername());
-        if(!hub.getSessionController().getUser().getEmail().equals(null)){
-            TextView userEmail=view.findViewById(R.id.user_email);
+        if (!hub.getSessionController().getUser().getEmail().equals(null)) {
+            TextView userEmail = view.findViewById(R.id.user_email);
             userEmail.setText(hub.getSessionController().getUser().getEmail());
         }
-       if(!hub.getSessionController().getUser().getProfile().getAbout().equals(null)){
-            TextView userDesc=view.findViewById(R.id.user_desc);
+        if (!hub.getSessionController().getUser().getProfile().getAbout().equals(null)) {
+            TextView userDesc = view.findViewById(R.id.user_desc);
             userDesc.setText(hub.getSessionController().getUser().getProfile().getAbout());
         }
-        if(!hub.getSessionController().getUser().getProfile().getInterests().equals(null)){
-            TextView userInterests=view.findViewById(R.id.user_interests);
+        if (!hub.getSessionController().getUser().getProfile().getInterests().equals(null)) {
+            TextView userInterests = view.findViewById(R.id.user_interests);
             userInterests.setText(hub.getSessionController().getUser().getProfile().getInterests().toString());
         }
+        //Print interests as list, tag adapter etc?
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         ImageView profileImg = view.findViewById(R.id.profile_image);
-
-
-        Picasso.with(getContext())
-                .load("https://avatars1.githubusercontent.com/u/15267081?s=460&v=4")
-                .resize(200,200).into(profileImg);
-
-
+        Picasso.with(getContext()).load("https://avatars1.githubusercontent.com/u/15267081?s=460&v=4").resize(200, 200).into(profileImg);
+        a=hub.getSessionController().getUser().getProfile().getPhoto();
+        if (a!=null){
+            img = "http://34.209.230.231:8000/"+hub.getSessionController().getUser().getProfile().getPhoto();
+             Picasso.with(getContext()).load(img).resize(200, 200).into(profileImg);}
         tabLayout = (TabLayout) view.findViewById(R.id.TabLayoutProfile);
         viewPager = (ViewPager) view.findViewById(R.id.ViewPagerProfile);
         viewPagerAdapter = new UserProfileTabsAdapter(getFragmentManager());
