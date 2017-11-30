@@ -10,7 +10,7 @@
      */
     angular
         .module("interestHub")
-		.directive('fileModel', ['$parse', function ($parse) {
+		.directive('fileUpload', ['$parse', function ($parse) {
 			  return {
 				  restrict: 'A',
 				  link: function(scope, element, attrs) {
