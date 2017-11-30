@@ -11,25 +11,27 @@
      */
     angular
         .module("interestHub")
-		.directive("fileModel", ['$parse', function ($parse) {
-			return {
-				restrict: 'A',
-				link: function(scope, element, attrs) {
-					var model = $parse(attrs.fileModel);
-					var modelSetter = model.assign;
-					
-					element.bind('change', function(){
-						scope.$apply(function(){
-							modelSetter(scope, element[0].files[0]);
-							console.log(scope.myFile);
-						});
-					});
-				}
-			};
-		}])
+		.directive('fileModel2', ['$parse', function ($parse) {
+			  return {
+				  restrict: 'A',
+				  link: function(scope, element, attrs) {
+					  var model = $parse(attrs.fileModel);
+					  var modelSetter = model.assign;
+
+					  element.bind('change', function(){
+							  modelSetter(scope, element[0].files[0]);
+					  scope.$emit("fileSelected",[element[0].id,element[0].files[0]]);
+					  });
+				  }
+			  };
+		  }])
+	
+		
+			
         .controller("PostCtrl", PostCtrl);
 		
-    function PostCtrl(fileModel, $scope,  $rootScope, $location, PostService, $routeParams, TemplateService, $q,ContentService,TagService)
+		
+    function PostCtrl($scope,  $rootScope, $location, PostService, $routeParams, TemplateService, $q,ContentService,TagService)
 
     {    
 
@@ -73,6 +75,7 @@
         }
         
         init();
+		
     
 /*  
         function createPost(){
@@ -229,11 +232,24 @@
          */ 
 		function handleSuccessPost(response){
 			console.log(response.data);
-			//$scope.posts.push(response.data); 
-			//console.log($scope.posts);
-			PostService
-                .getAllPosts($routeParams.id)
-                .then(handleSuccess, handleError);
+			
+			for(i=0;i<response.data.content_type.component_names.length;i++){
+				for(j=0;j<$scope.files.length;j++){
+					var y=Object.keys($scope.files[j]);
+					if(response.data.content_type.component_names[i]==y[0]){
+						compID=response.data.components[i].id;
+						console.log(compID);
+						console.log($scope.files[j][y[0]]);
+						PostService.uploadImage(compID,$scope.files[j][y[0]])
+						.then(function(res){console.log(res.data)},handleError)
+					}
+				}
+			}
+			/*PostService.getPost($routeParams.id,response.data.id).then(function(res){
+				
+			},handleError);*/
+			$scope.posts.push(response.data);
+			$scope.files=[];
 		}
 
         function handleError(error) {
@@ -260,7 +276,9 @@
 		function typeSelect(type_id){
 			$scope.content={content_type_id:'',tags:[],comps:[]};
 			$scope.content.content_type_id=type_id;
+			$scope.files=[];
 			//console.log($scope.content);
+			
 			
 		}
 
@@ -431,19 +449,74 @@
                 },handleError);
 
         }
-		$scope.uploadFile = function(){
-			var file = $scope.myFile;
-			console.log('file is ' );
-			console.log(file);
-			console.dir(file);
-			var uploadUrl = "/fileUpload";
-			//fileUpload.uploadFileToUrl(file, uploadUrl);
-		};
 		
 		$scope.$on('AddTemplate', function(proc, response) {
 			console.log(response);
 			$scope.templates.push(response);
 		});
+		
+		$scope.files = [];
+
+		//listen for the file selected event
+		$scope.$on("fileSelected", function (event, args) {
+			$scope.$apply(function () {            
+				//add the file object to the scope's files collection
+				
+				var x={
+					[args[0]]:args[1]
+				}
+				for(i=0;i<$scope.files.length;i++){
+					var y=Object.keys($scope.files[i]);
+					if(y[0]==args[0]){
+						$scope.files.splice(i,1);
+					}
+				}
+					$scope.files.push(x);
+				
+				
+				console.log($scope.files);
+			});
+		});
+		
+		$scope.dt;
+		
+		  $scope.clear = function() {
+			$scope.dt = null;
+		  };
+
+
+		  $scope.dateOptions = {
+			formatYear: 'yy',
+			startingDay: 1
+		  };
+
+
+
+		  $scope.open2 = function() {
+			$scope.popup2.opened = true;
+		  };
+
+		  
+
+		  $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+		  $scope.format = $scope.formats[0];
+
+
+		  $scope.popup2 = {
+			opened: false
+		  };
+
+		  
+
+		  $scope.changed = function (x) {
+			  console.log(x);
+			  console.log($scope.content);
+			  console.log($scope.dt);
+			  $scope.content.comps[x]=$scope.dt;
+			  console.log($scope.content);
+				
+		  };
+
 		
 		
 		

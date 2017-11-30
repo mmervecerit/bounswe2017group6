@@ -55,10 +55,12 @@
          * @returns {httpPromise} resolve with fetched data.
          */ 
 		function uploadImage(compId,compImage){
-            
-            return $http.post('https://limitless-sands-55256.herokuapp.com/http://34.209.230.231:8000/upload_image/'+compId+'/',compImage,{
+            var fd = new FormData();
+			fd.append('file', compImage);
+            return $http.post('https://limitless-sands-55256.herokuapp.com/http://34.209.230.231:8000/upload_image/'+compId+'/',fd,{
+				transformRequest: angular.identity,
                 headers: {
-                    'Content-Type' : 'Undefined',
+                    'Content-Type' : undefined,
                     'Authorization': 'Bearer ' + $localStorage.token
 
                 }

@@ -110,33 +110,42 @@
 								<div ng-if="component=='image'"class="row-activity">
 									<input ng-hide="true" class="form-control input-lg no-border" placeholder="" ng-model="content.comps[tab.component_names[$index]]"></input>
 									
-									<input type="file" file-model="myFile"/>
-									<button type="button" id="photo" class="btn btn-success" ng-click="uploadFile()">Photo</button>
-									<div ng-controller="myCtrl">
+									<input type="file" accept="image/*" file-model="myFile" id="{{tab.component_names[$index]}}"/>
 									
-									</div>
 									<!--filesArray[tab.component_names[$index]]-->
 								</div>
 								<div ng-if="component=='datetime'"class="row-activity">
-    								<div class="container">
-    									<div class="row">
-    										<div class='col-sm-6'>
-    											<div class="form-group">
-    												<div class='input-group date' id='datetimepicker1'>
-    													<input type='text' class="form-control" />
-    													<span class="input-group-addon">
-    														<span class="glyphicon glyphicon-calendar"></span>
-    													</span>
-    												</div>
-    											</div>
-    										</div>
-    										<script type="text/javascript">
-    											$(function () {
-    												$('#datetimepicker1').datetimepicker();
-    											});
-    										</script>
-    									</div>
-    								</div>
+    								<style>
+								  .full button span {
+									background-color: limegreen;
+									border-radius: 32px;
+									color: black;
+								  }
+								  .partially button span {
+									background-color: orange;
+									border-radius: 32px;
+									color: black;
+								  }
+								</style>
+									<div >
+										<div class="row" >
+
+										  <div class="col-md-6" >
+											<p class="input-group">
+											  <input type="text" class="form-control" uib-datepicker-popup ng-model="dt" ng-change="changed(tab.component_names[$index])" is-open="popup2.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+											  <span class="input-group-btn">
+												<button type="button" class="btn btn-default" ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>
+											  </span>
+											</p>
+										  </div>
+										  <div class="col-md-6">
+										  <div uib-timepicker ng-model="dt" ng-required="true" ng-change="changed(tab.component_names[$index])" hour-step="1" minute-step="1" show-meridian="false"></div>
+											</div>
+										</div>
+										<div ng-model="content.comps[tab.component_names[$index]]">{{dt|date:'medium'}}</div>
+										<hr />
+										
+									</div>
 								</div>
 								
 								
@@ -187,7 +196,7 @@
                         </div>
                       </uib-tab>
                     </uib-tabset>
-                        <div class="panel-footer">
+                        <div class="panel-footer" style="height:50px">
                             <!--<div class="btn-group">
                                 <button type="button" class="btn btn-link"><i class="fa fa-map-marker"></i></button>
                                 <button type="button" class="btn btn-link"><i class="fa fa-users"></i></button>
@@ -253,7 +262,7 @@
                                             <strong><label>{{post.content_type.component_names[comIndex]}}:</label></strong>
                                         </div>
 
-                                            {{post.components[comIndex].type_data.data}} 
+                                            {{post.components[comIndex].type_data.data|date:'medium'}} 
                                     </div>
                                     <div ng-if="component=='video'">
                                         <div class="col-lg-3 col-md-3 col-sm-4" ng-show="post.content_type.component_names[comIndex]">
@@ -265,8 +274,9 @@
                                     <div ng-if="component=='image'">
                                         <div class="col-lg-3 col-md-3 col-sm-4" ng-show="post.content_type.component_names[comIndex]">
                                             <strong><label>{{post.content_type.component_names[comIndex]}}</label></strong>
-                                        </div>
-                                            <img ng-src="{{post.components[comIndex].type_data.data}}"></p> 
+                                        </div >
+                                            <img  style="text-align:center; vertical-align:middle; max-width:440px;  max-height:440px;" ng-src="http://34.209.230.231:8000/{{post.components[comIndex].type_data.data}}"></p> 
+											
                                     </div>
                                     <div ng-if="component=='dropdown'">
                                          <p>
