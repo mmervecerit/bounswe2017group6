@@ -28,8 +28,9 @@ class RecommendUser(APIView):
         user = request.user
         recom = {}
         for interest in user.profile.interests.all():
+            print(interest)
             for u in interest.users.all():
-                if u.is_public and u not in user.followings.all():
+                if u not in user.followings.all():
                     if u.owner.id in recom:
                         recom[u.owner.id] += 1
                     else:
@@ -41,7 +42,7 @@ class RecommendUser(APIView):
                 ids.append(u[0])
             if len(ids)>10:
                 break
-        print(ids)
+        print('ids:', ids)
         recom_users = User.objects.filter(pk__in=ids)
         return Response(UserSerializerFull(recom_users,context={'request':request}, many=True).data)
 
