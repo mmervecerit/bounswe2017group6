@@ -18,7 +18,9 @@
             getGroup: getGroup,
             getAllGroups: getAllGroups,
             getMembers: getMembers,
-            joinGroup: joinGroup
+            joinGroup: joinGroup,
+			uploadCover:uploadCover,
+			uploadLogo:uploadLogo
         };
         return api;
          /**
@@ -42,6 +44,59 @@
                 }
             });
         }
+		
+		/**
+         * @ngdoc
+         * @name uploadLogo
+         * @methodOf GroupService
+         *
+         * @description
+         * Method to upload logo of a group
+		 * @param {groupID} id of the group 
+         * @param {logo} new image to update logo
+         * @returns {httpPromise} resolve with fetched data.
+         */ 
+		
+		function uploadLogo(groupID,logo){
+            var fd = new FormData();
+			console.log(logo);
+			fd.append('file', logo);
+            return $http.post('https://limitless-sands-55256.herokuapp.com/http://34.209.230.231:8000/group/'+groupID+'/logo/',fd,{
+				transformRequest: angular.identity,
+                headers: {
+                    'Content-Type' : undefined,
+                    'Authorization': 'Bearer ' + $localStorage.token
+
+                }
+            });
+        }
+		
+		/**
+         * @ngdoc
+         * @name uploadCover
+         * @methodOf GroupService
+         *
+         * @description
+         * Method to upload cover of a group
+		 * @param {groupID} id of the group 
+         * @param {cover} new image to update cover photo
+         * @returns {httpPromise} resolve with fetched data.
+         */ 
+		
+		function uploadCover(groupID,cover){
+            var fd = new FormData();
+			console.log(cover);
+			fd.append('file', cover);
+            return $http.post('https://limitless-sands-55256.herokuapp.com/http://34.209.230.231:8000/group/'+groupID+'/cover/',fd,{
+				transformRequest: angular.identity,
+                headers: {
+                    'Content-Type' : undefined,
+                    'Authorization': 'Bearer ' + $localStorage.token
+
+                }
+            });
+        }
+		
         /**
          * @ngdoc
          * @name updateGroup
