@@ -24,7 +24,8 @@
             getFollowersOfCurrent: getFollowersOfCurrent,
             getContents: getContents,
             getGroups: getGroups,
-            followUser: followUser
+            followUser: followUser,
+            unfollowUser: unfollowUser
         };
         return api;
         /**
@@ -164,6 +165,38 @@
                 }
             });
         }
+        /**
+         * @ngdoc
+         * @name unfollowUser
+         * @methodOf UserService
+         *
+         * @description
+         * Method to unfollow a user
+         * @param {int} id the id of the user will be unfollowed
+         * @returns {httpPromise} resolve with fetched data.
+         */
+        function unfollowUser(userId){
+
+            return $http({
+                    url: 'https://limitless-sands-55256.herokuapp.com/http://34.209.230.231:8000/followings/',
+                    method: 'DELETE',
+                    data: {
+                        id: userId
+                    },
+                    headers: {
+                        "Content-Type": "application/json;charset=utf-8",
+                        'Authorization': 'Bearer ' + $localStorage.token
+                    }
+                });
+            /*$http.delete('https://limitless-sands-55256.herokuapp.com/http://34.209.230.231:8000/followings/', { "id": userId} ,{
+                headers: {
+                    'Content-Type' : 'application/json',
+                    'Authorization': 'Bearer ' + $localStorage.token
+
+                }
+            });*/
+        }
+
          /**
          * @ngdoc
          * @name getFollowingsOfCurrent

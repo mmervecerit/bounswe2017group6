@@ -59,14 +59,14 @@
                 <div ng-controller="ContentCtrl">
                     
 
-
+                <div infinite-scroll="init()">
                    <div class="panel panel-info" ng-repeat="post in posts " ng-init="postIndex = $index">
                         <div class="panel-heading">
                             <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="img-rounded">
                             <div class="pull-right text-right">
                                 <i class="fa fa-calendar"></i><br> {{post.created_date | date:'dd/MM/yyyy HH:mm'}}
                             </div>
-                            <div><strong>{{post.owner.username}}</strong> shared on <strong><a href="/group/{{post.group.id}}">{{post.group.name}}</a></strong></div>
+                            <div><strong><a ng-href="/user/{{post.owner.id}}">{{post.owner.username}}</a></strong> shared on <strong><a href="/group/{{post.group.id}}">{{post.group.name}}</a></strong></div>
                             <!--<div class="small"><i class="fa fa-map-marker"></i> Medellin, Colombia</div>-->
                         </div>
                         <div class="panel-body">
@@ -132,17 +132,20 @@
                                     </div>      
                                 </div>
 								<br></br>
-								<strong><label>Tags</label></strong>:
-								<div class="clearfix"></div>
-                                <div class="col-sm-12">
-                                    <div ng-repeat="tag in post.tags track by $index" ng-switch on="$index % 1">
-                                        <div class="col-sm-2 interest" ng-switch-when="0" ng-hide="tag == null">
-                                             <a ng-href="{{tag.url}}" data-toggle="tooltip" data-placement="right" title="{{tag.description}}" >#{{tag.label}}</a>
-                                               
-                                        </div>
-                                        
+                                <div ng-show="post.tags.length != 0">
 
-                                       
+    								<strong><label>Tags</label></strong>:
+    								<div class="clearfix"></div>
+                                    <div class="col-sm-12">
+                                        <div ng-repeat="tag in post.tags track by $index" ng-switch on="$index % 1">
+                                            <div class="col-sm-2 interest" ng-switch-when="0" ng-hide="tag == null">
+                                                 <a ng-href="{{tag.url}}" data-toggle="tooltip" data-placement="right" title="{{tag.description}}" >#{{tag.label}}</a>
+                                                   
+                                            </div>
+                                            
+
+                                           
+                                        </div>
                                     </div>
                                 </div>
                             <div class="actions">
@@ -170,6 +173,7 @@
                             <input class="form-control" ng-model="newcomment" ng-keyup="$event.keyCode == 13 && postComment(newcomment,postIndex, post.id)" placeholder="Write a comment...">
                         </div>
                     </div>
+                </div>
                 </div>
 
         </div>
@@ -203,6 +207,7 @@
                    
              
             </div>
+             <div ng-include src='"modules/recommendation/recommendation.view.html"' ng-controller='RecommendationCtrl'></div>
                 
             </div>
         </div>

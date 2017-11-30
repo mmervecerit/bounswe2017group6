@@ -1,0 +1,44 @@
+<div controller="RecommendationCtrl">
+    <div class="panel panel-info" ng-show="suggestedGroups.length != 0">
+            <div class="panel-heading">
+              <h3 class="panel-title">Suggested Groups</h3>
+            </div>
+            <div class="panel-body">
+          
+                <div class="row" ng-repeat="group in suggestedGroups track by $index| limitTo: 9" ng-switch on = "$index %3">
+                    <div class="col-md-4" ng-switch-when="0" ng-show="suggestedGroups[$index]">
+                        <a href="/group/{{suggestedGroups[$index].id}}" class="thumbnail"><img src="assets/user.png" title="{{suggestedGroups[$index].name}}" alt=""></a>
+                    </div>
+                     <div class="col-md-4" ng-switch-when="0" ng-show="suggestedGroups[$index+1]">
+                        <a href="/group/{{suggestedGroups[$index+1].id}}" class="thumbnail"><img src="assets/user.png" title="{{suggestedGroups[$index+1].name}}" alt=""></a>
+                    </div>
+                     <div class="col-md-4" ng-switch-when="0" ng-show="suggestedGroups[$index+2]">
+                        <a href="/group/{{suggestedGroups[$index+2].id}}" class="thumbnail"><img src="assets/user.png" title="{{suggestedGroups[$index+2].name}}" alt=""></a>
+                    </div>
+                    
+                </div>
+              
+              <div class="clearfix"></div>
+              <a class="btn btn-primary" href="#">View All</a>
+            </div>
+          </div>
+
+        </div>
+
+    <div class="panel panel-info" ng-show="suggestedUsers.length != 0">
+            <div class="panel-heading">
+              <h3 class="panel-title">Suggested Users</h3>
+            </div>
+            <div class="panel-body">
+              
+                <div class="row" ng-repeat="user in suggestedUsers | limitTo: 9">
+                    <div class="col-md-4"><a href="/user/{{user.id}}" class="thumbnail"><img src="assets/user.png" title="{{user.username}}" alt=""></a></div>
+                    
+                </div>
+              
+              <div class="clearfix"></div>
+              <a class="btn btn-primary" href="#">View All</a>
+            </div>
+  </div>
+
+</div>

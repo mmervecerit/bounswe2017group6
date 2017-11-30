@@ -12,7 +12,7 @@ describe('Users factory', function() {
 	  // A simple test to verify the Users factory exists
 	  it('User Service get all users', function() {
 	  	var returnData = {};
-	  	httpBackend.expectGET("https://cors-anywhere.herokuapp.com/http://34.209.230.231:8000/users/").respond(returnData);
+	  	httpBackend.expectGET("https://limitless-sands-55256.herokuapp.com/http://34.209.230.231:8000/users/").respond(returnData);
         // make the call
         var returnedPromise = UserService.getAllUsers();
  
@@ -32,5 +32,8 @@ describe('Users factory', function() {
         expect(result).toEqual(returnData);
 	    
 	  });
+
+      
+
  
 });
