@@ -1,3 +1,4 @@
+
 package com.cmpe451.interesthub.activities;
 
 import android.support.design.widget.TabLayout;
@@ -23,8 +24,8 @@ public class OtherUserActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_other_user_profile);
-        InterestHub hub;
+        //setContentView(R.layout.fragment_other_user_profile);
+        /*InterestHub hub;
         TabLayout tabLayout;
         hub = (InterestHub) getApplication();
         tabLayout = (TabLayout) findViewById(R.id.TabLayoutOtherProfile);
@@ -41,7 +42,7 @@ public class OtherUserActivity extends AppCompatActivity {
         home.setText("home");
         followers.setText("Followers");
         following.setText("Following");
-//
+//*/
 //        tabLayout.addTab(home,0);
 //        tabLayout.addTab(followers,1);
 //       tabLayout.addTab(following,2);
@@ -57,3 +58,4 @@ public class OtherUserActivity extends AppCompatActivity {
 
 
 }
+

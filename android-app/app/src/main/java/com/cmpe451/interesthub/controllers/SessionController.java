@@ -1,5 +1,8 @@
 package com.cmpe451.interesthub.controllers;
 
+import android.content.Context;
+import android.content.Intent;
+
 import com.cmpe451.interesthub.InterestHub;
 import com.cmpe451.interesthub.models.Group;
 import com.cmpe451.interesthub.models.Interest;
@@ -56,13 +59,14 @@ public class SessionController {
         isLoggedIn = loggedIn;
     }
 
-    public void updateGroups(InterestHub hub) {
+    public void updateGroups(InterestHub hub, final Intent intent, final Context context) {
         groups.clear();
         hub.getApiService().getUserGroups(user.getId()).enqueue(new Callback<List<Group>>() {
             @Override
             public void onResponse(Call<List<Group>> call, Response<List<Group>> response) {
                 for(Group g : response.body())
                     groups.add(g);
+                context.startActivity(intent);
                 return;
             }
 

@@ -6,9 +6,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.cmpe451.interesthub.InterestHub;
 import com.cmpe451.interesthub.R;
+import com.cmpe451.interesthub.adapters.UserAdapter;
 import com.cmpe451.interesthub.models.User;
 
 import java.util.ArrayList;
@@ -39,6 +41,7 @@ public class GroupUsers extends Fragment {
     private OnFragmentInteractionListener mListener;
     List<User> userList;
     InterestHub hub;
+    ListView list;
 
     public GroupUsers() {
         // Required empty public constructor
@@ -77,6 +80,7 @@ public class GroupUsers extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View  view =inflater.inflate(R.layout.fragment_group_users, container, false);
+        list = view.findViewById(R.id.groupUserList);
         userList  = new ArrayList<User>();
         hub.getApiService().getGroupMembers(mParam2).enqueue(new Callback<List<User>>() {
             @Override
@@ -84,6 +88,9 @@ public class GroupUsers extends Fragment {
                 if(response.body()!=null)
                     for(User u : response.body())
                         userList.add(u);
+                UserAdapter adapter = new UserAdapter(getContext(),android.R.layout.simple_list_item_1,userList);
+                list.setAdapter(adapter);
+
             }
 
             @Override

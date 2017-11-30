@@ -206,7 +206,7 @@ public class GroupCreation extends AppCompatActivity {
                         hub.getApiService().joinGroup(response.body().getId()).enqueue(new Callback<Message>() {
                             @Override
                             public void onResponse(Call<Message> call, Response<Message> response) {
-                                
+
                             }
 
                             @Override
