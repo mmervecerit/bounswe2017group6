@@ -113,10 +113,10 @@ public class UserProfile extends Fragment {
             TextView userDesc = view.findViewById(R.id.user_desc);
             userDesc.setText(hub.getSessionController().getUser().getProfile().getAbout());
         }
-        if (!hub.getSessionController().getUser().getProfile().getInterests().equals(null)) {
+        /*if (!hub.getSessionController().getUser().getProfile().getInterests().equals(null)) {
             TextView userInterests = view.findViewById(R.id.user_interests);
             userInterests.setText(hub.getSessionController().getUser().getProfile().getInterests().toString());
-        }
+        }*/
         //Print interests as list, tag adapter etc?
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -126,6 +126,8 @@ public class UserProfile extends Fragment {
         if (a!=null){
             img = "http://34.209.230.231:8000/"+hub.getSessionController().getUser().getProfile().getPhoto();
              Picasso.with(getContext()).load(img).resize(200, 200).into(profileImg);}
+
+        //profile page can not be uploaded, then we cannot fetch it. If we can upload it it works!
         tabLayout = (TabLayout) view.findViewById(R.id.TabLayoutProfile);
         viewPager = (ViewPager) view.findViewById(R.id.ViewPagerProfile);
         viewPagerAdapter = new UserProfileTabsAdapter(getFragmentManager());
