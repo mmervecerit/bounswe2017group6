@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/colorPrimaryDark"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:fitsSystemWindows="true"
@@ -11,40 +11,32 @@
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    <Button
-        android:id="@+id/button"
-        style="@style/button_style"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="24dp"
-        android:text="Sign up with Facebook" />
+    android:orientation="vertical">
 
-    <Button
-        android:id="@+id/button2"
-        style="@style/button_style"
-        android:layout_alignLeft="@+id/button"
-        android:layout_alignStart="@+id/button"
-        android:layout_marginTop="10dp"
-        android:text="Sign up with Google"
-        android:layout_below="@id/button"/>
 
-     <LinearLayout
-         android:id="@+id/linearsignup"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_below="@id/button2">
+         <Button
+             android:id="@+id/button"
+             style="@style/button_style"
+             android:layout_height="wrap_content"
+             android:layout_alignParentTop="true"
+             android:layout_centerHorizontal="true"
+             android:layout_marginTop="24dp"
+             android:text="Sign up with Facebook" />
+
+         <Button
+             android:id="@+id/button2"
+             style="@style/button_style"
+             android:layout_alignLeft="@+id/button"
+             android:layout_alignStart="@+id/button"
+             android:layout_marginTop="10dp"
+             android:text="Sign up with Google"
+             android:layout_below="@id/button"/>
 
             <EditText
                 android:id="@+id/FirstName"
                 style="@style/editText_style"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:layout_gravity="center"
                 android:inputType="textPersonName"
                 android:hint="First Name"
@@ -87,7 +79,7 @@
                 android:id="@+id/UserName"
                 style="@style/editText_style"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:layout_gravity="center"
                 android:inputType="text"
                 android:hint="User Name"
@@ -133,20 +125,9 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/cardview_light_background"
                 android:text="Interest List" />
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-              >
-                <ListView
-                    android:id="@+id/interestList"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="5dp"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:minHeight="100dp"/>
-            </LinearLayout>
+
+
+
 
 
             <Button
@@ -158,24 +139,28 @@
                 android:textAllCaps="true"
                 android:layout_gravity="center" />
 
-             <Button
-                 android:id="@+id/button4"
-                 style="@style/button_style"
-                 android:layout_height="wrap_content"
-                 android:layout_alignParentTop="true"
-                 android:layout_centerHorizontal="true"
-                 android:layout_marginTop="24dp"
-                 android:layout_marginBottom="24dp"
-                 android:text="Sign up"
-                />
-
-
-        </LinearLayout>
 
 
 
-    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/interestList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:minHeight="100dp"/>
+    <Button
+    android:id="@+id/button4"
+    style="@style/button_style"
+    android:layout_height="wrap_content"
+    android:layout_alignParentTop="true"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="24dp"
+    android:layout_marginBottom="24dp"
+    android:text="Sign up"
+    />
+
 
 
 </LinearLayout>
-</android.support.v4.widget.NestedScrollView>
+</ScrollView>
