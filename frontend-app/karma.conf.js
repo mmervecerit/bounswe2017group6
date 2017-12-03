@@ -21,10 +21,14 @@ module.exports = function(config) {
 		'./app/node_modules/angular-ui-bootstrap/dist/ui-bootstrap.js',
         './app/node_modules/ngstorage/ngStorage.min.js',
 		'./app/app.js',
-		'./app/modules/user/user.service.js',                                 // our Users factory
-        './app/modules/user/user.controller.js',
-        './app/modules/login/login.services.js',               
-      	'./app/modules/user/user.specs.js'
+		 './app/modules/user/user.service.js',                                 // our Users factory
+         './app/modules/user/user.controller.js',
+         './app/modules/login/login.services.js',               
+         './app/modules/user/user.specs.js',
+    './app/modules/group/group.services.js',                                 // our Groups factory
+        './app/modules/group/group.controller.js',
+       './app/modules/group/group.test.js',
+        './app/modules/post/post.services.js'
     ],
 
 
