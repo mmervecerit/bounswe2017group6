@@ -25,7 +25,8 @@
             getContents: getContents,
             getGroups: getGroups,
             followUser: followUser,
-            unfollowUser: unfollowUser
+            unfollowUser: unfollowUser,
+            uploadProfile: uploadProfile
         };
         return api;
         /**
@@ -91,6 +92,30 @@
         }
         /**
          * @ngdoc
+         * @name uploadLogo
+         * @methodOf UserService
+         *
+         * @description
+         * Method to upload profile photo of user
+         * @param {userID} id of the user 
+         * @param {photo} new image to update profile
+         * @returns {httpPromise} resolve with fetched data.
+         */ 
+        
+        function uploadProfile(photo){
+            var fd = new FormData();
+            fd.append('file', photo);
+            return $http.post('https://limitless-sands-55256.herokuapp.com/http://34.209.230.231:8000/me/',fd,{
+                transformRequest: angular.identity,
+                headers: {
+                    'Content-Type' : undefined,
+                    'Authorization': 'Bearer ' + $localStorage.token
+
+                }
+            });
+        }
+        /**
+         * @ngdoc
          * @name deleteUser
          * @methodOf UserService
          *
@@ -119,6 +144,7 @@
          * @returns {httpPromise} resolve with fetched data.
          */
         function getUser(userID){
+            console.log($localStorage.token);
             return $http.get('https://limitless-sands-55256.herokuapp.com/http://34.209.230.231:8000/users/'+userID , {
                 headers: {
                     'Content-Type' : 'application/json',
