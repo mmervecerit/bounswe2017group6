@@ -7,8 +7,21 @@
      * 
      * Controller for user profile page
      */
-    angular
+
+     angular
         .module("interestHub")
+        .directive('fileUpload', ['$parse', function ($parse) {
+              return {
+                  restrict: 'A',
+                  link: function(scope, element, attrs) {
+                      var model = $parse(attrs.fileModel);
+
+                      element.bind('change', function(){
+                      scope.$emit("photoSelected",[element[0].id,element[0].files[0]]);
+                      });
+                  }
+              };
+          }])
         .controller("ProfileCtrl", ProfileCtrl);
     
     function ProfileCtrl($scope,  $rootScope, $routeParams, $q, $location, UserService, ContentService, GroupService, $localStorage, TagService)
@@ -30,6 +43,8 @@
          * 
          */ 
         function init(){
+
+
             if($location.path() == '/profile' || $routeParams.id == $localStorage.user.id){
                 $scope.me = true;
         		UserService.getLoggedInUser()
@@ -42,7 +57,7 @@
 
     	
         }
-
+         $scope.files = [];
         init();
 	    
         
@@ -58,8 +73,7 @@
       	function handleSuccess(response) {
             
             $scope.user = response.data;
-
-
+           
             console.log($scope.user.profile.interests);            
             if($scope.me == false){
                 isFollow();
@@ -187,7 +201,21 @@
                                 "interests": user.profile.interests
                             }
                         };
-
+             for(i=0;i<$scope.files.length;i++){
+                var y=Object.keys($scope.files[i]);
+               
+                console.log("profile");
+                UserService
+                    .uploadProfile($scope.files[i][y[0]])
+                        .then(function(res){
+                            console.log(res.data);
+                        },handleError);
+                    
+                
+            }
+            console.log($scope.files);
+            $scope.files=[];
+            
             console.log(editedUser);
             UserService.updateUser($scope.user.id, angular.toJson(editedUser))
                 .then(handleSuccess,handleError);
@@ -306,7 +334,28 @@
             }
 
         }
+        $scope.$on("photoSelected", function (event, args) {
+            $scope.$apply(function () {            
+                //add the file object to the scope's files collection
+                
+                var x={
+                    [args[0]]:args[1]
+                }
+                for(i=0;i<$scope.files.length;i++){
+                    var y=Object.keys($scope.files[i]);
+                    if(y[0]==args[0]){
+                        $scope.files.splice(i,1);
+                    }
+                }
+                    $scope.files.push(x);
+                
+                
+                console.log($scope.files);
+            });
+        });
+
     }
 
+  
      
 })();
