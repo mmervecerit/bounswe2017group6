@@ -130,7 +130,7 @@
                 .createGroup(group)
                 .then(handleSuccessGroup, handleError);    
             console.log("added");
-			
+		
             $scope.newgroup.tags = [];
 
 
@@ -169,6 +169,7 @@
 			console.log($scope.files);
 			$scope.files=[];
 			
+            $location.path('/group/'+response.data.id);
 
         }
 
