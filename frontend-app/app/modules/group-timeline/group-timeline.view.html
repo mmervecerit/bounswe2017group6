@@ -30,7 +30,9 @@
                         </li>
                         <li>
                             <a ng-show="!joined" ng-click="joinGroup(group.id)" class="btn btn-info text-center btn-block">Join</a>
-                            <label class="btn btn-success text-center" ng-show="joined">Joined</label>
+                            <a ng-show="joined" ng-click="leaveGroup(group.id)" class="btn btn-success text-center btn-block">Joined</a>
+
+
                         </li>
  
                     </ul>

@@ -18,6 +18,7 @@
       console.log($scope.joined);
       checkJoined();
       $scope.joinGroup = joinGroup;
+      $scope.leaveGroup = leaveGroup;
       console.log($routeParams.id);
     
       $scope.group = GroupService.getGroup($routeParams.id)
@@ -32,19 +33,22 @@
          * 
          */ 
       function checkJoined(){
-        UserService.getGroups($localStorage.user.id)
-          .then(function(response){
-            groups = response.data;
-            for(var i = 0; i < groups.length;i++){
-              if(groups[i].id == $routeParams.id){
+        UserService.getLoggedInUser().then(function(response){
+          console.log(response.data);
+             UserService.getGroups(response.data.id)
+            .then(function(response){
+              groups = response.data;
+              for(var i = 0; i < groups.length;i++){
+                if(groups[i].id == $routeParams.id){
 
-                $scope.joined = true;
-                console.log($scope.joined);
-                return true;
+                  $scope.joined = true;
+                  return true;
+                }
               }
-            }
-            return false;
-          },handleError);
+              return false;
+            },handleError);
+        });
+       
       }
         /**
          * @ngdoc
@@ -88,6 +92,24 @@
               .then(function(response){
                 console.log(response.data);
                   $scope.members.push($localStorage.user);
+                  console.log($scope.members);
+              },handleError);
+      }
+      /**
+         * @ngdoc
+         * @name leaveGroup
+         * @methodOf GroupTimelineCtrl
+         *
+         * @description
+         * Method for leaving a group
+         * @param {int} groupId the group will be leaved
+         */ 
+      function leaveGroup(groupId){
+        $scope.joined = false;
+          GroupService.leaveGroup(groupId)
+              .then(function(response){
+                console.log(response.data);
+                  $scope.members.splice(groupId,1);
                   console.log($scope.members);
 
               },handleError);
