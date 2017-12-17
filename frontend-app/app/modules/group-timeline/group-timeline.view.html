@@ -11,12 +11,17 @@
                             <div class="col-md-12" style="margin-top:20px;">
                                 <h4 class="text-capitalize text-center"><strong>{{group.name}}</strong></h4>
                             </div>
-                            <div class="text-center"><img src="{{group.logo}}" style="width: auto; height: auto;max-width: 160x;max-height: 160px;"/></div>  
+
+                            <div class="text-center">
+                                 <img data-no-retina="" class="img-rounded img-responsive img-bordered-primary" ng-src= "http://34.209.230.231:8000/{{group.logo_img}}" style="width: auto; height: auto;max-width: 160x;max-height: 160px;">
+                               
+                                
+                            </div>  
                             <div class=row>
-                            
+                        
                             
                                                                            
-                        </div>
+                            </div>
                         </li>
                         <hr/>
                         <li>
@@ -95,19 +100,19 @@
 								    <h4>{{tab.component_names[$index]}}</h4>
 								
 								</div>
-								<div ng-if="component=='text'"class="row-activity">
+								<div ng-if="component=='text'" class="row-activity">
 								    <input class="form-control input-lg no-border" placeholder="" ng-model="content.comps[tab.component_names[$index]]"></input>
 								</div>
-								<div ng-if="component=='longtext'"class="row-activity">
+								<div ng-if="component=='longtext'" class="row-activity">
 								    <textarea rows="3" class="form-control input-lg no-border" placeholder="" ng-model="content.comps[tab.component_names[$index]]"></textarea>
 								</div>
-								<div ng-if="component=='number'"class="row-activity">
+								<div ng-if="component=='number'" class="row-activity">
 								    <input type="number" class="form-control input-lg no-border" placeholder="" ng-model="content.comps[tab.component_names[$index]]"></input>
 								</div>
-								<div ng-if="component=='video'"class="row-activity">
+								<div ng-if="component=='video'" class="row-activity">
 								    <input class="form-control input-lg no-border" placeholder="" ng-model="content.comps[tab.component_names[$index]]"></input>
 								</div>
-								<div ng-if="component=='image'"class="row-activity">
+								<div ng-if="component=='image'" class="row-activity">
 									<input ng-hide="true" class="form-control input-lg no-border" placeholder="" ng-model="content.comps[tab.component_names[$index]]"></input>
 									
 									<input type="file" accept="image/*" file-model="myFile" id="{{tab.component_names[$index]}}"/>
