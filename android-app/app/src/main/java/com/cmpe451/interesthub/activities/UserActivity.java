@@ -1,6 +1,5 @@
 package com.cmpe451.interesthub.activities;
 
-import android.app.FragmentManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -13,14 +12,12 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.SearchView;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.Fragment;
 
 import com.cmpe451.interesthub.InterestHub;
 import com.cmpe451.interesthub.activities.baseActivities.BaseActivity;
 import com.cmpe451.interesthub.adapters.UserFragmentsAdapter;
 import com.cmpe451.interesthub.R;
 import com.cmpe451.interesthub.fragments.SearchFragment;
-import com.cmpe451.interesthub.models.Group;
 import com.cmpe451.interesthub.models.User;
 
 public class UserActivity extends BaseActivity {
@@ -29,6 +26,7 @@ public class UserActivity extends BaseActivity {
     private UserFragmentsAdapter viewPagerAdapter;
     private ViewPager viewPager;
     private FrameLayout search;
+    SearchFragment searchFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,10 +38,10 @@ public class UserActivity extends BaseActivity {
 
         User user = hub.getSessionController().getUser();
         search = (FrameLayout) findViewById(R.id.search_frame);
-        SearchFragment nextFrag= new SearchFragment();
+        searchFragment = new SearchFragment();
         android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        ft.add(R.id.search_frame,nextFrag);
+        ft.add(R.id.search_frame, searchFragment);
         ft.commit();
         search.setVisibility(View.GONE);
 
@@ -139,7 +137,7 @@ public class UserActivity extends BaseActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                SearchFragment.changeAdapter(newText);
+                searchFragment.changeAdapter(newText);
                 return false;
             }
         });

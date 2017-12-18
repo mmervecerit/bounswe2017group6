@@ -16,6 +16,8 @@ import com.cmpe451.interesthub.InterestHub;
 import com.cmpe451.interesthub.R;
 import com.cmpe451.interesthub.activities.GroupActivity;
 import com.cmpe451.interesthub.adapters.CustomAdapter;
+import com.cmpe451.interesthub.adapters.SearchGroupAdapter;
+import com.cmpe451.interesthub.adapters.SearchUserAdapter;
 import com.cmpe451.interesthub.models.Group;
 import com.cmpe451.interesthub.models.User;
 
@@ -42,7 +44,8 @@ public class SearchFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     private static ArrayAdapter groupAdapter;
     private static ArrayAdapter userAdapter;
-
+    ListView userListView;
+    ListView groupListView;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -135,38 +138,26 @@ public class SearchFragment extends Fragment {
 
         final View view = inflater.inflate(R.layout.fragment_search, container, false);
 
-        hub.getApiService().getGroup().enqueue(new Callback<List<Group>>() {
-            @Override
-            public void onResponse(Call<List<Group>> call, Response<List<Group>> response) {
-                if(response.body()!=null)
-                    for(Group g: response.body())
-                        groupList.add(g);
-                setGroupHashMap(groupList);
-                setGroupAdapter(view);
-            }
 
+        userListView = view.findViewById(R.id.list_view_search_users);
+        groupListView = view.findViewById(R.id.list_view_search_groups);
+        userListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onFailure(Call<List<Group>> call, Throwable t) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
             }
         });
-        hub.getApiService().getUsers().enqueue(new Callback<List<User>>() {
+        groupListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
-                if(response ==null || response.body() == null) return;
-                for(User u : response.body())
-                    userList.add(u);
-                setUserHashMap(userList);
-                setUserAdapter(view);
-            }
-
-            @Override
-            public void onFailure(Call<List<User>> call, Throwable t) {
-
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Group selected = groupList.get(position);
+                Intent intent = new Intent(getContext(),GroupActivity.class);
+                intent.putExtra("groupName", String.valueOf(selected.getName()));
+                intent.putExtra("groupId", selected.getId());
+                intent.putExtra("groupImg", selected.getLogo());
+                startActivity(intent);
             }
         });
-
-        Log.d("SEARCH","listview");
         return view;
 
     }
@@ -195,11 +186,50 @@ public class SearchFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    public static void changeAdapter(String text){
+    public  void changeAdapter(String text){
+        if(text.length()<1) return;
+       final String user = "http://34.209.230.231:8000/search/users/?q=" + text;
 
-        groupAdapter.getFilter().filter(text);
-        if(userAdapter!= null && userAdapter.getCount()!=0)
-            userAdapter.getFilter().filter(text);
+        String group = "http://34.209.230.231:8000/search/groups/?q=" + text;
+
+        hub.getApiService().searchGroups(group).enqueue(new Callback<List<Group>>() {
+            @Override
+            public void onResponse(Call<List<Group>> call, Response<List<Group>> response) {
+                if(response == null || response.body() == null) return;
+               groupList.clear();
+                for(Group g:response.body()) groupList.add(g);
+                SearchGroupAdapter adapter = new SearchGroupAdapter(getContext(),android.R.layout.simple_list_item_1,groupList);
+
+                groupListView.setAdapter(adapter);
+
+
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Group>> call, Throwable t) {
+
+            }
+        });
+
+        hub.getApiService().searchUser(user).enqueue(new Callback<List<User>>() {
+            @Override
+            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+                if(response == null || response.body() == null) return;
+                userList.clear();
+                for(User s:response.body()) userList.add(s);
+                SearchUserAdapter adapter = new SearchUserAdapter(getContext(),android.R.layout.simple_list_item_1,userList);
+
+                userListView.setAdapter(adapter);
+
+            }
+
+            @Override
+            public void onFailure(Call<List<User>> call, Throwable t) {
+
+            }
+        });
+
     }
 
 }

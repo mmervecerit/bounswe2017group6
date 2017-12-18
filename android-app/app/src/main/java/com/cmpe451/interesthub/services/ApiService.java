@@ -20,6 +20,7 @@ import java.util.List;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
@@ -42,8 +43,8 @@ public interface ApiService {
     @GET("users/")
     Call<List<User>> getUsers();
 
-    @GET
-    Call<Group> getSpesificGroup(@Url String url);
+    @GET("groups/{group_id}/")
+    Call<Group> getSpesificGroup(@Path(value = "group_id", encoded = true)  long groupId);
 
     @GET
     Call<User> getSpesificUser(@Url String url);
@@ -89,9 +90,11 @@ public interface ApiService {
     Call<Message> joinGroup(@Path(value ="group_id",encoded = true) long groupId);
 
     @GET("user/{user_id}/followers/")
-    Call<Following_Followers> getuserfollowers();
+    Call<List<User>> getuserfollowers();
     @GET("user/{user_id}/followings/")
-    Call<Following_Followers> getuserfollowings();
+    Call<List<User>> getuserfollowings();
+    @GET("user/{user_id}/contents/")
+    Call<List<Content>> getUserContents(@Path(value = "user_id",encoded = true) long userId);
 
     @GET("me/")
     Call<User> getMe();
@@ -102,14 +105,24 @@ public interface ApiService {
     @POST("comments/")
     Call<Comment> postComment(@Body RequestBody body);
 
-
     @POST("votes/")
     Call<UpDown> postVote(@Body RequestBody body);
 
     @GET("content/{group_id}/votes/")
     Call<List<UpDown>> getVotesOfGroup(@Path(value ="group_id",encoded = true) long groupId);
 
-
     @GET
     Call<SearchResult> getTags(@Url String url);
+
+    @GET
+    Call<List<Group>> searchGroups(@Url String url);
+
+    @GET
+    Call<List<User>> searchUser(@Url String url);
+
+    @DELETE("group/{group_id}/members/")
+    Call<Message> leaveGroup(@Path(value ="group_id",encoded = true) long groupId);
+
+
+
 }

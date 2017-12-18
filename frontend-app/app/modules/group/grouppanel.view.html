@@ -24,10 +24,6 @@
                 <ul class="list-group no-margin text-center">
                     <li class="list-group-item">
                         <!--<a class="" href="/groupcreate"><i class="fa fa-plus"></i> Create New Group</a>-->
-                        <a href="/groups" class="btn btn-link btn-block">
-                            <i class="glyphicon glyphicon-new-window"></i>
-                            View all groups
-                        </a>
                         <br/>
                         <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#myModal">
                         Create Group
@@ -92,11 +88,11 @@
                         </div> -->
                         <div class="form-group">
                                 <label for="groupicon">Logo:</label>
-                                <input type="text" class="form-control" ng-model="newgroup.logo">
+                                <input id="logo" type="file" accept="image/*" class="form-control" file-upload>
                         </div>
                         <div class="form-group">
                                 <label for="coverphoto">Cover Photo:</label>
-                                <input type="text" class="form-control" ng-model="newgroup.cover_photo">
+                                <input id="cover" type="file" accept="image/*" class="form-control" file-upload>
                         </div>
                         <div class="form-group">
                                 <label for="tag">Tags:</label>

@@ -19,6 +19,7 @@
         $scope.addInterest = addInterest;
         $scope.editUser = editUser;
         $scope.followUser = followUser;
+        $scope.unfollowUser = unfollowUser;
     	 /**
          * @ngdoc
          * @name init
@@ -57,8 +58,7 @@
       	function handleSuccess(response) {
             
             $scope.user = response.data;
-            $scope.user.profile.interests.push({"label":"scifi","description": "sdafsd","url":"www.google.com"});
-            $scope.user.profile.interests.push({"label":"weird","description": "sdafsd","url":"www.google.com"});
+
 
             console.log($scope.user.profile.interests);            
             if($scope.me == false){
@@ -210,7 +210,24 @@
                     $scope.followers.push($localStorage.user);
             },handleError);
         }
-
+        /**
+         * @ngdoc
+         * @name unfollowUser
+         * @methodOf ProfileCtrl
+         *
+         * @description
+         * Method for unfollowing the owner of profile page
+         * 
+         */
+        function unfollowUser(){
+            console.log($scope.user.id);
+            UserService.unfollowUser($scope.user.id)
+                .then(function(response){
+                    $scope.follow = false;
+                    console.log($localStorage.user);
+                    $scope.followers.splice($localStorage.user);
+            },handleError);
+        }
 
           var _selected;
          
@@ -243,17 +260,17 @@
          * @param {string} input the input will be searched in wikidata  
          * @returns {Array} tags the search results from wikidata
          */ 
-          $scope.searchTag = function(val) {
-            
-                TagService.searchTag(val)
-                            .then(function(response){
-                                console.log(response.data.search);
-                                tags = response.data.search;
-                            }
-                            ,handleError);
-            
-                return tags;            
-          };
+
+        $scope.searchTag = function(val) {
+			return TagService.searchTag(val)
+                .then(function(response){
+                    console.log(response.data.search);
+                    return tags = response.data.search;
+                }
+                ,handleError);
+				
+            			
+         };
      
 	     /**
          * @ngdoc

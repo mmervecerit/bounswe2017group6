@@ -21,7 +21,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class BaseActivity  extends AppCompatActivity {
-
+    public static final int PICK_IMAGE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +47,23 @@ public class BaseActivity  extends AppCompatActivity {
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivity(intent);
                 return true;
+            case R.id.group_cover_change:
+                Intent inten = new Intent();
+                inten.setType("image/*");
+                inten.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(inten, "Select Picture"), PICK_IMAGE);
+
+
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if (requestCode == PICK_IMAGE) {
+            Log.d("DATA","IMAGE");
         }
     }
 

@@ -32,7 +32,7 @@ public class GroupFragmentsAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
             if(  position == 0 ) return GroupPosts.newInstance(name,id);
         else if ( position==1)return GroupUsers.newInstance(name,id);
-        else return new GroupInfo();
+        else return  GroupInfo.newInstance(name,id);
 
     }
 
