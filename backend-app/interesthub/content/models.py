@@ -10,6 +10,7 @@ class ContentType(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
     name = models.CharField(max_length=40, blank=True, null=True)
+    is_default = models.BooleanField(default=False)
 
     TEXT = "text"
     LONGTEXT = "longtext"

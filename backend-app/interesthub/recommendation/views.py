@@ -28,7 +28,7 @@ class RecommendUser(APIView):
         user = request.user
         recom = {}
         for interest in user.profile.interests.all():
-            print(interest)
+            print("interest", interest)
             for u in interest.users.all():
                 if u not in user.followings.all():
                     if u.owner.id in recom:
@@ -66,6 +66,7 @@ class RecommendGroup(APIView):
             ids.append(g[0])
             if len(ids)>10:
                 break
+        print(ids)
         recom_groups = InterestGroup.objects.filter(pk__in=ids)
         return Response(InterestGroupSerializer(recom_groups,context={'request':request}, many=True).data)
         

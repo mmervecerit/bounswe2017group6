@@ -10,8 +10,8 @@ class ContentAdmin(admin.ModelAdmin):
     list_display = ["id", "content_type"]
 
 class ContentTypeAdmin(admin.ModelAdmin):
-    fields = ["name","components", "component_names"]
-    readonly_fields = ("id", "created_date", "modified_date",)
+    fields = ["name","components", "component_names", "is_default"]
+    readonly_fields = ("id", "created_date", "modified_date")
     list_display = ["id", "name"]
 
 class CommentAdmin(admin.ModelAdmin):

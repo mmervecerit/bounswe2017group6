@@ -16,11 +16,16 @@ class MembersInline(admin.TabularInline):
     verbose_name = "member"
     verbose_name_plural = "members"
 
+class TagsInline(admin.TabularInline):
+    model = InterestGroup.tags.through
+    verbose_name = "tag"
+    verbose_name_plural = "tags"
+
 # Register your models here.
 class InterestGroupAdmin(admin.ModelAdmin):
     fields = ["owner", 'name', "is_public", "logo", "cover_photo", "description", "logo_img", "cover_img"]
     readonly_fields = ('id',)
     list_display = ["id", "name"]
-    inlines = [ContentsInline, ContentTypesInline, MembersInline]
+    inlines = [ContentsInline, ContentTypesInline, MembersInline, TagsInline]
 
 admin.site.register(InterestGroup, InterestGroupAdmin)

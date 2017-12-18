@@ -45,4 +45,6 @@ def group_deletion(sender, instance, using, **kwargs):
 @receiver(post_save, sender=InterestGroup)
 def group_save(sender, instance, using, **kwargs):
     # need to implement auto add default templates
+    # print(sender, instance, using, kwargs)
+    # instance.members.add(instance.owner)
     pass

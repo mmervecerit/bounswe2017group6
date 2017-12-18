@@ -5,19 +5,23 @@ from user.serializers import UserSerializer
 from recommendation.serializers import TagSerializer
 from collections import OrderedDict
 from recommendation.models import Tag
+from content.models import ContentType
 
 class IGroupSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = InterestGroup
-        fields = ('id', 'name', 'is_public', 'description', 'logo_img', 'cover_img')
+        fields = ('id', 'name', 'is_public', 'description', 'logo_img', 'cover_img', 'owner')
 
 class InterestGroupSerializer(serializers.HyperlinkedModelSerializer):
     tags = TagSerializer(many=True, read_only=False)
     class Meta:
         model = InterestGroup
-        fields = ('id', 'name', 'is_public', 'description', 'logo_img', 'cover_img', 'tags')
+        fields = ('id', 'name', 'is_public', 'description', 'logo_img', 'cover_img', 'tags', 'owner')
     
     def to_internal_value(self, data):
+        print(self.context["request"].user)
+        if self.context["request"].user is None:
+            return serializers.ValidationError("No authenticated user.")
         data = data.copy()
         tags_data = []
         if "tags" in data:
@@ -63,6 +67,13 @@ class InterestGroupSerializer(serializers.HyperlinkedModelSerializer):
                 if serializer.is_valid():
                     tag = serializer.create(serializer.validated_data)
             instance.tags.add(tag)
+        instance.owner = self.context["request"].user
+        instance.members.add(instance.owner)
+
+        ctypes = ContentType.objects.filter(is_default=True)
+        for c in ctypes:
+            instance.content_types.add(c)
+
         instance.save()
         return instance
     
