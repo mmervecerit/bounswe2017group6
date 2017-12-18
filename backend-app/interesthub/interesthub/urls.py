@@ -47,6 +47,7 @@ urlpatterns = [
     
     url(r'group/(?P<pk>[0-9]+)/contents/$', GroupContentList.as_view()),
     url(r'group/(?P<pk>[0-9]+)/members/$', GroupMembersList.as_view()),
+    url(r'group/(?P<pk>[0-9]+)/waitings/$', GroupWaitingsList.as_view()),
     url(r'group/(?P<pk>[0-9]+)/content-types/$', GroupContentTypeList.as_view()),
     url(r'group/(?P<pk>[0-9]+)/logo/$', GroupLogo.as_view()),
     url(r'group/(?P<pk>[0-9]+)/cover/$', GroupCover.as_view()),

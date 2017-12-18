@@ -16,6 +16,11 @@ class MembersInline(admin.TabularInline):
     verbose_name = "member"
     verbose_name_plural = "members"
 
+class WaitingsInline(admin.TabularInline):
+    model = InterestGroup.waitings.through
+    verbose_name = "waiting user"
+    verbose_name_plural = "waiting users"
+
 class TagsInline(admin.TabularInline):
     model = InterestGroup.tags.through
     verbose_name = "tag"
@@ -26,6 +31,6 @@ class InterestGroupAdmin(admin.ModelAdmin):
     fields = ["owner", 'name', "is_public", "logo", "cover_photo", "description", "logo_img", "cover_img"]
     readonly_fields = ('id',)
     list_display = ["id", "name"]
-    inlines = [ContentsInline, ContentTypesInline, MembersInline, TagsInline]
+    inlines = [ContentsInline, ContentTypesInline, MembersInline, TagsInline, WaitingsInline]
 
 admin.site.register(InterestGroup, InterestGroupAdmin)
