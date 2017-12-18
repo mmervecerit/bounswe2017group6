@@ -5,19 +5,40 @@ from user.serializers import UserSerializer
 from recommendation.serializers import TagSerializer
 from collections import OrderedDict
 from recommendation.models import Tag
+from content.models import ContentType
 
 class IGroupSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = InterestGroup
-        fields = ('id', 'name', 'is_public', 'description', 'logo_img', 'cover_img')
+        fields = ('id', 'name', 'is_public', 'description', 'logo_img', 'cover_img', 'owner')
 
 class InterestGroupSerializer(serializers.HyperlinkedModelSerializer):
     tags = TagSerializer(many=True, read_only=False)
+    logo_img = serializers.SerializerMethodField()
+    cover_img = serializers.SerializerMethodField()
+
+    def get_logo_img(self, obj):
+        if not obj.logo_img:
+            return None
+        else:
+            return "http://" + self.context["request"].META['HTTP_HOST'] + "/" + obj.logo_img.url
+            
+
+    def get_cover_img(self, obj):
+        if not obj.cover_img:
+            return None
+        else:
+            return "http://" + self.context["request"].META['HTTP_HOST'] + "/" + obj.cover_img.url
+
     class Meta:
         model = InterestGroup
-        fields = ('id', 'name', 'is_public', 'description', 'logo_img', 'cover_img', 'tags')
+        fields = ('id', 'name', 'is_public', 'description', 'tags', 'logo_img', 'cover_img', 'owner')
+        read_only_fields = ('logo_img', 'cover_img',)
     
     def to_internal_value(self, data):
+        print(self.context["request"].user)
+        if self.context["request"].user is None:
+            return serializers.ValidationError("No authenticated user.")
         data = data.copy()
         tags_data = []
         if "tags" in data:
@@ -63,6 +84,13 @@ class InterestGroupSerializer(serializers.HyperlinkedModelSerializer):
                 if serializer.is_valid():
                     tag = serializer.create(serializer.validated_data)
             instance.tags.add(tag)
+        instance.owner = self.context["request"].user
+        instance.members.add(instance.owner)
+
+        ctypes = ContentType.objects.filter(is_default=True)
+        for c in ctypes:
+            instance.content_types.add(c)
+
         instance.save()
         return instance
     

@@ -13,6 +13,7 @@ from user.models import UserProfile
 from group.models import InterestGroup
 from rest_framework.response import Response
 from components.models import TextComponent, LongTextComponent
+from .stats import get_recommended_users, get_recommended_groups
 
 # Create your views here.
 class TagViewSet(viewsets.ModelViewSet):
@@ -25,24 +26,8 @@ class RecommendUser(APIView):
     authentication_classes = (JSONWebTokenAuthentication, )
     permission_classes = (IsAuthenticated,)
     def get(self, request, format=None):
-        user = request.user
-        recom = {}
-        for interest in user.profile.interests.all():
-            for u in interest.users.all():
-                if u.is_public and u not in user.followings.all():
-                    if u.owner.id in recom:
-                        recom[u.owner.id] += 1
-                    else:
-                        recom[u.owner.id] = 1
-        sorted_recom = sorted(recom.items(), key=operator.itemgetter(1))
-        ids = []
-        for u in sorted_recom:
-            if u != user.id:
-                ids.append(u[0])
-            if len(ids)>10:
-                break
-        print(ids)
-        recom_users = User.objects.filter(pk__in=ids)
+        limit = int( request.GET.get("limit", 5) )
+        recom_users = get_recommended_users(request.user, limit)
         return Response(UserSerializerFull(recom_users,context={'request':request}, many=True).data)
 
 
@@ -50,22 +35,8 @@ class RecommendGroup(APIView):
     authentication_classes = (JSONWebTokenAuthentication, )
     permission_classes = (IsAuthenticated,)
     def get(self, request, format=None):
-        user = request.user
-        recom = {}
-        for interest in user.profile.interests.all():
-            for g in interest.groups.all():
-                if g not in user.interest_groups.all():
-                    if g.id in recom:
-                        recom[g.id] += 1
-                    else:
-                        recom[g.id] = 1
-        sorted_recom = sorted(recom.items(), key=operator.itemgetter(1))
-        ids = []
-        for g in sorted_recom:
-            ids.append(g[0])
-            if len(ids)>10:
-                break
-        recom_groups = InterestGroup.objects.filter(pk__in=ids)
+        limit = int( request.GET.get("limit", 5) )
+        recom_groups = get_recommended_groups(request.user, limit)
         return Response(InterestGroupSerializer(recom_groups,context={'request':request}, many=True).data)
         
 class SearchGroup(APIView):

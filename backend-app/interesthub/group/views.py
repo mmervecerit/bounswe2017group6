@@ -38,7 +38,12 @@ class GroupContentList(APIView):
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             content = serializer.create(serializer.validated_data)
             igroup.contents.add(content)
+
+            for tag in content.tags.all():
+                igroup.content_tags.add(tag)
+
             igroup.save()
+            
             return Response(ContentSerializer(content,context={'request':request}).data)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
@@ -78,22 +83,93 @@ class GroupMembersList(APIView):
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
     def post(self, request, pk, format=None):
+        igroup = None
         try:
             igroup = InterestGroup.objects.get(pk=pk)
-            igroup.members.add(request.user)
-            igroup.save()
-            return Response({"message":"user is joined this group."})
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        if igroup.is_public:
+            if request.user not in igroup.members.all():
+                igroup.members.add(request.user)
+                igroup.save()
+                return Response({"message":"user is joined this group."})
+            else:
+                return Response({"message":"user has already joined this group."})
+        else:
+            if request.user not in igroup.waitings.all():
+                igroup.waitings.add(request.user)
+                igroup.save()
+                return Response({"message":"join request is sent."})
+            else:
+                return Response({"message":"user has already sent a join request to this group."})
+        
     def delete(self, request, pk, format=None):
         try:
             igroup = InterestGroup.objects.get(pk=pk)
             if request.user in igroup.members.all():
                 igroup.members.remove(request.user)
-            igroup.save()
-            return Response({"message":"user is removed from this group."})
+                igroup.save()
+                return Response({"message":" user is removed from this group."})
+            elif request.user in igroup.waitings.all():
+                igroup.waitings.remove(request.user)
+                igroup.save()
+                return Response({"message": "join request is removed."})
+            else:
+                return Response({"message": "there is no relation to remove."})
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+class GroupWaitingsList(APIView):
+    authentication_classes = (JSONWebTokenAuthentication, )
+    permission_classes = (IsAuthenticated, IsAdminOf)
+    def get(self, request, pk, format=None):
+        try:
+            igroup = InterestGroup.objects.get(pk=pk)
+            serializer = UserSerializer(igroup.waitings, many=True, context={'request': request})
+            print(serializer.data)
+            return Response(serializer.data)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+    def post(self, request, pk, format=None):
+        data = request.data
+        igroup = None
+        print(data, 'id' in data)
+        try:
+            igroup = InterestGroup.objects.get(pk=pk)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        if 'id' in data:
+            try:
+                joined_user = User.objects.get(pk=data["id"])
+                if joined_user in igroup.waitings.all():
+                    igroup.waitings.remove(joined_user)
+                    igroup.members.add(joined_user)
+                    igroup.save()
+                    return Response({"message":"join request is approved."})
+                else:
+                    return Response({"error":"no such join request."})
+            except Exception as e:
+                return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error":"you should specify an id to approve request"}, status=status.HTTP_400_BAD_REQUEST)
+    def delete(self, request, pk, format=None):
+        data = request.data
+        igroup = None
+        try:
+            igroup = InterestGroup.objects.get(pk=pk)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        if 'id' in data:
+            try:
+                removed_user = User.objects.get(pk=data["id"])
+                if removed_user in igroup.waitings.all():
+                    igroup.waitings.remove(removed_user)
+                    igroup.save()
+                    return Response({"message":"join request is removed."})
+                else:
+                    return Response({"error":"no such join request."})
+            except Exception as e:
+                return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error":"you should specify an id to approve request"}, status=status.HTTP_400_BAD_REQUEST)
 
 class UserGroupList(APIView):
     authentication_classes = (JSONWebTokenAuthentication, )
