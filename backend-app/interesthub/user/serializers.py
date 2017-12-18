@@ -12,6 +12,13 @@ class ProfileSerializerBase(serializers.ModelSerializer):
 
 class ProfileSerializer(serializers.ModelSerializer):
     interests = TagSerializer(many=True, read_only=False)
+    photo = serializers.SerializerMethodField()
+
+    def get_photo(self, obj):
+        if not obj.photo:
+            return None
+        else:
+            return "http://" + self.context["request"].META['HTTP_HOST'] + "/" + obj.photo.url
 
     class Meta:
         model = UserProfile
