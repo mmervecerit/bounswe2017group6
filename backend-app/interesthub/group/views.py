@@ -38,7 +38,12 @@ class GroupContentList(APIView):
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             content = serializer.create(serializer.validated_data)
             igroup.contents.add(content)
+
+            for tag in content.tags.all():
+                igroup.content_tags.add(tag)
+
             igroup.save()
+            
             return Response(ContentSerializer(content,context={'request':request}).data)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)

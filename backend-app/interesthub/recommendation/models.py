@@ -13,4 +13,4 @@ class Tag(models.Model):
     related_group = models.ManyToManyField(InterestGroup, related_name="content_tags")
 
     def __str__(self):
-        return str(self.id)
+        return str(self.label)
