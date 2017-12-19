@@ -22,7 +22,6 @@
       	$scope.tab = {};
         $scope.posts = [];
         $scope.postComment = postComment;
-        $scope.loadContents = loadContents;
         posts = [];
         
 
@@ -205,9 +204,10 @@
                 .then(function(response){
                     console.log(response.data);
                     $scope.posts[index].votes.push(response.data);
+
                 },handleError);
                 console.log($scope.posts[index].votes);
-
+                
         }
         /**
          * @ngdoc
@@ -230,6 +230,7 @@
                     //console.log(response.data);
 
                     $scope.posts[index].votes.push(response.data);
+
                 },handleError);
 
         }
