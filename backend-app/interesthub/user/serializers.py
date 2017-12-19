@@ -72,9 +72,15 @@ class ProfileSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         data = validated_data.copy()
         interests_data = data.pop('interests')
-        print(interests_data)
         user = instance
         tag_ids=[]
+
+        # update profile except interests
+        s = ProfileSerializerBase(instance, data=data, context=self.context, partial=True)
+        if s.is_valid():
+            s.update(instance, s.validated_data)
+
+        # update interests
         for interest in interests_data:
             tag = Tag.objects.filter(label=interest["label"])
             if tag.exists():
@@ -89,10 +95,11 @@ class ProfileSerializer(serializers.ModelSerializer):
                     tag = serializer.create(serializer.validated_data)
             tag_ids.append(tag.id)
             user.interests.add(tag)
-        print(tag_ids)
+
         for tag in user.interests.all():
             if tag.id not in tag_ids:
                 user.interests.remove(tag)
+
         user.save()
         return user
             
@@ -114,9 +121,12 @@ class UserSerializerFull(serializers.ModelSerializer):
         data = data.copy()
         validated_data = OrderedDict()
         profile_data = data.pop("profile", None)
+        print(data)
+        
         serializer = UserSerializer(data=data, partial=self.partial, context=self.context)
         if serializer.is_valid():
             validated_data = serializer.validated_data
+            print(validated_data)
         else:
             raise serializers.ValidationError(serializer.errors)
 
@@ -134,7 +144,7 @@ class UserSerializerFull(serializers.ModelSerializer):
         profile_data = data.pop("profile")
         user = User.objects.create(**data)
         user.save()
-        print(user.id)
+        # print(user.id)
         profile_data["owner_id"] = user.id
         serializer = ProfileSerializer(data=profile_data, context=self.context)
         if serializer.is_valid():
@@ -142,21 +152,23 @@ class UserSerializerFull(serializers.ModelSerializer):
             profile.owner = user
             profile.save()
         user.save()
-        print("end create")
+        # print("end create")
         return user
     
     def update(self, instance, validated_data):
-        print("user serializer full update")
+        # print("user serializer full update")
         data = validated_data.copy()
         profile_data = data.pop("profile")
         user = instance
         user.username = data.get("username", user.username)
         user.email = data.get("email", user.email)
         if "password" in data:
+            print(data["password"])
             user.set_password(data["password"])
         user.save()
         serializer = ProfileSerializer(user.profile, data=profile_data, partial=True, context=self.context)
         if serializer.is_valid():
+            # print("PROFILE INFO is valid:", serializer.validated_data)
             serializer.update(user.profile, serializer.validated_data)
         else:
             print(serializer.errors)
