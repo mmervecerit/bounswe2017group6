@@ -13,7 +13,7 @@ from user.models import UserProfile
 from group.models import InterestGroup
 from rest_framework.response import Response
 from components.models import TextComponent, LongTextComponent
-from .stats import get_recommended_users, get_recommended_groups
+from .recommenders import get_recommended_users, get_recommended_groups
 
 # Create your views here.
 class TagViewSet(viewsets.ModelViewSet):
