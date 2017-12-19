@@ -45,9 +45,6 @@ class SearchGroup(APIView):
     def get(self, request, format=None):
         user = request.user
         query = self.request.query_params.get('q', None)
-        # tag = self.request.query_params.get('tag', None)
-
-        # if tag is None:
         groups = InterestGroup.objects.filter(name__contains=query)
         return Response(InterestGroupSerializer(groups,context={'request':request}, many=True).data)
         
