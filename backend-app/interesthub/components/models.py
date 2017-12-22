@@ -26,8 +26,18 @@ class ImageComponent(models.Model):
 class DropdownComponent(models.Model):
     data = models.CharField(max_length=100, null=True)
 
+class DropdownItem(models.Model):
+    dropdown = models.ForeignKey(DropdownComponent, on_delete=models.CASCADE, null=True, related_name="items")
+    is_selected = models.BooleanField(default=False)
+    title = models.CharField(default="", max_length=40)
+
 class CheckBoxComponent(models.Model):
     data = models.CharField(max_length=100, null=True)
+
+class CheckBoxItem(models.Model):
+    checkbox = models.ForeignKey(CheckBoxComponent, on_delete=models.CASCADE, null=True, related_name="items")
+    is_selected = models.BooleanField(default=False)
+    title = models.CharField(default="", max_length=40)
 
 class Component(models.Model):
     

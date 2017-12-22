@@ -31,15 +31,41 @@ class ImageSerializer(serializers.HyperlinkedModelSerializer):
         model = ImageComponent
         fields = ('id', 'data')
 
+class DropdownItemSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = CheckBoxItem
+        fields = ('id', 'is_selected', 'title')
+
 class DropdownSerializer(serializers.HyperlinkedModelSerializer):
+    items = DropdownItemSerializer(many=True)
     class Meta:
         model = DropdownComponent
-        fields = ('id', 'data')
+        fields = ('id', 'data', 'items')
+
+    def create(self, validated_data):
+        data = validated_data.pop('items')
+        dropdown = DropdownComponent.objects.create(**validated_data)
+        for item in data:
+            DropdownItem.objects.create(dropdown = dropdown, **item)
+        return dropdown
+
+class CheckBoxItemSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = CheckBoxItem
+        fields = ('id', 'is_selected', 'title')
 
 class CheckBoxSerializer(serializers.HyperlinkedModelSerializer):
+    items = CheckBoxItemSerializer(many=True)
     class Meta:
         model = CheckBoxComponent
-        fields = ('id', 'data')
+        fields = ('id', 'data', 'items')
+    
+    def create(self, validated_data):
+        data = validated_data.pop('items')
+        checkbox = CheckBoxComponent.objects.create(**validated_data)
+        for item in data:
+            CheckBoxItem.objects.create(checkbox = checkbox, **item)
+        return checkbox
 
 class ComponentSerializer(serializers.ModelSerializer):
     class Meta:
