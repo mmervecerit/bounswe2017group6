@@ -14,6 +14,8 @@ from group.models import InterestGroup
 from rest_framework.response import Response
 from components.models import TextComponent, LongTextComponent
 from .recommenders import get_recommended_users, get_recommended_groups
+from .search import *
+from content.serializers import *
 
 # Create your views here.
 class TagViewSet(viewsets.ModelViewSet):
@@ -27,7 +29,7 @@ class RecommendUser(APIView):
     permission_classes = (IsAuthenticated,)
     def get(self, request, format=None):
         limit = int( request.GET.get("limit", 5) )
-        recom_users = get_recommended_users(request.user, limit)
+        recom_users = get_recommended_users(request.user, int(limit))
         return Response(UserSerializerFull(recom_users,context={'request':request}, many=True).data)
 
 
@@ -36,7 +38,7 @@ class RecommendGroup(APIView):
     permission_classes = (IsAuthenticated,)
     def get(self, request, format=None):
         limit = int( request.GET.get("limit", 5) )
-        recom_groups = get_recommended_groups(request.user, limit)
+        recom_groups = get_recommended_groups(request.user, int(limit))
         return Response(InterestGroupSerializer(recom_groups,context={'request':request}, many=True).data)
         
 class SearchGroup(APIView):
@@ -45,7 +47,8 @@ class SearchGroup(APIView):
     def get(self, request, format=None):
         user = request.user
         query = self.request.query_params.get('q', None)
-        groups = InterestGroup.objects.filter(name__contains=query)
+        limit = self.request.query_params.get('limit', 5)
+        groups = search_group(query, int(limit))
         return Response(InterestGroupSerializer(groups,context={'request':request}, many=True).data)
         
 
@@ -55,17 +58,34 @@ class SearchUser(APIView):
     def get(self, request, format=None):
         user = request.user
         query = self.request.query_params.get('q', None)
-        users = User.objects.filter(username__contains=query)
-        profiles = UserProfile.objects.filter(name__contains=query)
-        ids = []
-        for user in users:
-            ids.append(user.id)
-        for profile in profiles:
-            ids.append(profile.owner.id)
-        ids = list(set(ids))
-        users = User.objects.filter(pk__in=ids)
-        ids = ids[:10]
+        limit = self.request.query_params.get('limit', 5)
+        users = search_user(query, int(limit))
         return Response(UserSerializer(users,context={'request':request}, many=True).data)
+
+class SearchContent(APIView):
+    authentication_classes = (JSONWebTokenAuthentication, )
+    permission_classes = (IsAuthenticated,)
+    def get(self, request, format=None):
+        user = request.user
+        query = self.request.query_params.get('q', None)
+        limit = self.request.query_params.get('limit', 10)
+        contents = search_content(query, limit=int(limit))
+        return Response(ContentSerializer(contents, context={'request':request}, many=True).data)
+
+class SearchContentInGroup(APIView):
+    authentication_classes = (JSONWebTokenAuthentication, )
+    permission_classes = (IsAuthenticated,)
+    def get(self, request, pk, format=None):
+        group = None
+        try:
+            group = InterestGroup.objects.get(pk=pk)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)            
+        
+        query = self.request.query_params.get('q', None)
+        limit = self.request.query_params.get('limit', 10)
+        contents = search_content(query, limit=int(limit), group=group)
+        return Response(ContentSerializer(contents, context={'request':request}, many=True).data)
 
 
 # class SearchContent(APIView):
