@@ -51,6 +51,7 @@ urlpatterns = [
     url(r'group/(?P<pk>[0-9]+)/content-types/$', GroupContentTypeList.as_view()),
     url(r'group/(?P<pk>[0-9]+)/logo/$', GroupLogo.as_view()),
     url(r'group/(?P<pk>[0-9]+)/cover/$', GroupCover.as_view()),
+    url(r'group/(?P<pk>[0-9]+)/search/$', SearchContentInGroup.as_view()),
 
     url(r'content/(?P<pk>[0-9]+)/comments/$',ContentCommentList.as_view()),
     url(r'content/(?P<pk>[0-9]+)/votes/$',ContentVoteList.as_view()),
@@ -65,6 +66,8 @@ urlpatterns = [
     url(r'^recommendation/groups/$',RecommendGroup.as_view()),
     url(r'^search/groups/',SearchGroup.as_view()),
     url(r'^search/users/',SearchUser.as_view()),
+    url(r'^search/contents/',SearchContent.as_view()),
+    
 
     # url(r'^test/', TestView.as_view()),
     url(r'^login/$', obtain_jwt_token),

@@ -8,6 +8,7 @@ class UserProfile(models.Model):
 
     followers = models.ManyToManyField(User, related_name="followings")
     followings = models.ManyToManyField(User, related_name="followers")
+    follower_requests = models.ManyToManyField(User, related_name="following_requests")
 
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
