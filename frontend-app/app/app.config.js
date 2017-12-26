@@ -27,6 +27,8 @@
                     };
                 }
         ]);
+
+
     /*
         .run( function( $rootScope ) {
   // Load the facebook SDK asynchronously

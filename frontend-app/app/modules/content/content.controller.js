@@ -22,7 +22,10 @@
       	$scope.tab = {};
         $scope.posts = [];
         $scope.postComment = postComment;
+        $scope.loadContents = loadContents;
         posts = [];
+        
+
          /**
          * @ngdoc
          * @name init
@@ -40,8 +43,8 @@
 
         }
         
-
         init();
+
          /**
          * @ngdoc
          * @name remove

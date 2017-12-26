@@ -19,6 +19,7 @@
             getAllGroups: getAllGroups,
             getMembers: getMembers,
             joinGroup: joinGroup,
+            leaveGroup: leaveGroup,
 			uploadCover:uploadCover,
 			uploadLogo:uploadLogo
         };
@@ -188,6 +189,25 @@
          */ 
         function joinGroup(groupID){
             return $http.post('https://limitless-sands-55256.herokuapp.com/http://34.209.230.231:8000/group/'+groupID+'/members/', {},{
+                headers: {
+                    'Content-Type' : 'application/json',
+                    'Authorization': 'Bearer '+$localStorage.token
+                }
+            });
+        }
+         /**
+         * @ngdoc
+         * @name leaveGroup
+         * @methodOf GroupService
+         *
+         * @description
+         * Method to leave a group with given group id
+         * @param {int} groupId the id of the group will be leaved
+         * @returns {httpPromise} resolve with fetched data.
+         */ 
+        function leaveGroup(groupID){
+        
+            return $http.delete('https://limitless-sands-55256.herokuapp.com/http://34.209.230.231:8000/group/'+groupID+'/members/',{
                 headers: {
                     'Content-Type' : 'application/json',
                     'Authorization': 'Bearer '+$localStorage.token

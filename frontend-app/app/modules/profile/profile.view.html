@@ -8,7 +8,8 @@
                 <div class="inner-all" >
                     <ul class="list-unstyled">
                         <li class="text-center">
-                            <img data-no-retina="" class="img-circle img-responsive img-bordered-primary" src="https://scontent-frt3-2.xx.fbcdn.net/v/t1.0-9/16174471_10210225282420728_2157042507789656179_n.jpg?oh=55c32619210a9bcbd2342cdc0a001fa3&oe=5A6D079F" alt="John Doe">
+
+                            <img data-no-retina="" class="img-rounded img-responsive img-bordered-primary" ng-src= "http://34.209.230.231:8000/{{user.profile.photo}}">
                         </li>
                         <li class="text-center">
                             <h4 class="text-capitalize">{{user.profile.name}} {{user.profile.lastname}}</h4>
@@ -378,7 +379,10 @@
                        
                             <div class="clearfix"></div>
                             <hr style="margin:5px 0 5px 0;">
-                                
+                            <div class="col-sm-5 col-xs-6 tital " >Profile Photo:</div>
+                            <div class="col-sm-7">
+                                <input id="profile" type="file" accept="image/*" class="form-control" file-upload>
+                            </div>    
                                           
                             <div class="col-sm-5 col-xs-6 tital " >First Name:</div>
                             <div class="col-sm-7">
