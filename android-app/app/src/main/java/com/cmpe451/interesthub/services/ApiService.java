@@ -25,6 +25,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.HTTP;
 import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
@@ -139,13 +140,16 @@ public interface ApiService {
     @GET("user/{user_id}/followers/")
     Call<List<User>> getFollowingsOfSomeone(@Path(value ="user_id",encoded = true) long groupId);
 
-    @DELETE("followings/")
-    Call<List<User>> unfollowSomeone(@Body RequestBody template);
+    @HTTP(method = "DELETE", path = "/followings/", hasBody = true)
+    Call<User> unfollowSomeone(@Body RequestBody template);
+
+    @HTTP(method = "POST", path = "/followings/", hasBody = true)
+    Call<User> followSomeone(@Body RequestBody template);
 
     @POST("followers/")
-    Call<List<User>> approveFollowRequest(@Body RequestBody template);
+    Call<User> approveFollowRequest(@Body RequestBody template);
 
     @POST("followers/")
-    Call<List<User>> deleteFollowRequest(@Body RequestBody template);
+    Call<User> deleteFollowRequest(@Body RequestBody template);
 
 }

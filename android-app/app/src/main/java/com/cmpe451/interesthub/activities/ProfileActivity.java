@@ -22,10 +22,14 @@ import com.cmpe451.interesthub.activities.baseActivities.BaseActivity;
 import com.cmpe451.interesthub.adapters.UserProfileTabsAdapter;
 import com.cmpe451.interesthub.models.Interest;
 import com.cmpe451.interesthub.models.User;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -58,12 +62,45 @@ public class ProfileActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if(isfollowing){
+                    JsonObject innerObject = new JsonObject();
+                    innerObject.addProperty("id", userId);
+                    Gson gson = new Gson();
+                    String json = gson.toJson(innerObject);
+                    Log.d("JSON",json);
+                    RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), json);
 
+                    hub.getApiService().unfollowSomeone(requestBody).enqueue(new Callback<User>() {
+                        @Override
+                        public void onResponse(Call<User> call, Response<User> response) {
+                            startActivity(getIntent());
+                        }
+
+                        @Override
+                        public void onFailure(Call<User> call, Throwable t) {
+
+                        }
+                    });
 
                 }
                 else{
+                    JsonObject innerObject = new JsonObject();
+                    innerObject.addProperty("id", userId);
+                    Gson gson = new Gson();
+                    String json = gson.toJson(innerObject);
+                    Log.d("JSON",json);
+                    RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), json);
 
+                    hub.getApiService().followSomeone(requestBody).enqueue(new Callback<User>() {
+                        @Override
+                        public void onResponse(Call<User> call, Response<User> response) {
+                            startActivity(getIntent());
+                        }
 
+                        @Override
+                        public void onFailure(Call<User> call, Throwable t) {
+
+                        }
+                    });
                 }
             }
         });
