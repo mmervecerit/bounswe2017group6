@@ -31,41 +31,37 @@ class ImageSerializer(serializers.HyperlinkedModelSerializer):
         model = ImageComponent
         fields = ('id', 'data')
 
-class DropdownItemSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = CheckBoxItem
-        fields = ('id', 'is_selected', 'title')
-
-class DropdownSerializer(serializers.HyperlinkedModelSerializer):
-    items = DropdownItemSerializer(many=True)
+class DropdownSerializer(serializers.ModelSerializer):
+    selected = serializers.PrimaryKeyRelatedField(many=False, queryset=DropdownItem.objects)
+    # selected = ResourceRelatedField(
+    #     queryset=DropdownItem.objects,
+    #     many=False,
+    # )
+    # selected = serializers.SlugRelatedField(
+    #     many=False,
+    #     read_only=False,
+    #     slug_field='id',
+    #     queryset=DropdownItem.objects
+    # )
     class Meta:
         model = DropdownComponent
-        fields = ('id', 'data', 'items')
+        fields = ('id', 'data', 'selected')
 
-    def create(self, validated_data):
-        data = validated_data.pop('items')
-        dropdown = DropdownComponent.objects.create(**validated_data)
-        for item in data:
-            DropdownItem.objects.create(dropdown = dropdown, **item)
-        return dropdown
-
-class CheckBoxItemSerializer(serializers.HyperlinkedModelSerializer):
+class CheckboxSerializer(serializers.ModelSerializer):
+    # selecteds = serializers.SlugRelatedField(
+    #     many=True,
+    #     read_only=False,
+    #     slug_field='id',
+    #     queryset=CheckboxItem.objects
+    # )
+    # selecteds = ResourceRelatedField(
+    #     queryset=CheckboxItem.objects,
+    #     many=True
+    # )
+    selecteds = serializers.PrimaryKeyRelatedField(many=True, queryset=CheckboxItem.objects)
     class Meta:
-        model = CheckBoxItem
-        fields = ('id', 'is_selected', 'title')
-
-class CheckBoxSerializer(serializers.HyperlinkedModelSerializer):
-    items = CheckBoxItemSerializer(many=True)
-    class Meta:
-        model = CheckBoxComponent
-        fields = ('id', 'data', 'items')
-    
-    def create(self, validated_data):
-        data = validated_data.pop('items')
-        checkbox = CheckBoxComponent.objects.create(**validated_data)
-        for item in data:
-            CheckBoxItem.objects.create(checkbox = checkbox, **item)
-        return checkbox
+        model = CheckboxComponent
+        fields = ('id', 'data', 'selecteds')
 
 class ComponentSerializer(serializers.ModelSerializer):
     class Meta:
@@ -80,7 +76,7 @@ class ComponentSerializer2(ComponentSerializer):
         'datetime': DateTimeSerializer,
         'video': VideoSerializer,
         'image': ImageSerializer,
-        'checkbox': CheckBoxSerializer,
+        'checkbox': CheckboxSerializer,
         'dropdown': DropdownSerializer,
     }
 
@@ -95,12 +91,18 @@ class ComponentSerializer2(ComponentSerializer):
         data = data.copy()
         print("WTF")
         type_data = data.pop("type_data")
+        print("TYPE_DATA", type_data)
         validated_data = super(ComponentSerializer2, self).to_internal_value(data)
+        print('validated_data', validated_data)
+        print('type_data', type_data)
+        print(self.serializer_mapping[data['component_type']])
         serializer = self.serializer_mapping[data['component_type']](many=False, data=type_data)
-        print("WTF")
+        print("WTF2")
         if not serializer.is_valid():
+            print("NOT VALID")
+            print(serializer.errors)
             raise serializers.ValidationError(serializer.errors)
-        print("WTF")
+        print("WTF3")
         validated_data["type_data"] = serializer.validated_data
         print(validated_data)
         return validated_data
