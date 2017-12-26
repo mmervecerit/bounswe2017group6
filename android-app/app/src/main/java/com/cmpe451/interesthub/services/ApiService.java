@@ -89,10 +89,7 @@ public interface ApiService {
     @POST("group/{group_id}/members/")
     Call<Message> joinGroup(@Path(value ="group_id",encoded = true) long groupId);
 
-    @GET("user/{user_id}/followers/")
-    Call<List<User>> getuserfollowers();
-    @GET("user/{user_id}/followings/")
-    Call<List<User>> getuserfollowings();
+
     @GET("user/{user_id}/contents/")
     Call<List<Content>> getUserContents(@Path(value = "user_id",encoded = true) long userId);
 
@@ -123,6 +120,32 @@ public interface ApiService {
     @DELETE("group/{group_id}/members/")
     Call<Message> leaveGroup(@Path(value ="group_id",encoded = true) long groupId);
 
+    @GET("followers/")
+    Call<List<User>> getFollowers();
 
+    @GET("followings/")
+    Call<List<User>> getFollowings();
+
+    @GET("recommendation/users/")
+    Call<List<User>> getRecommUser();
+
+    @GET("recommendation/groups/")
+    Call<List<Group>> getRecommGroup();
+
+
+    @GET("user/{user_id}/followers/")
+    Call<List<User>> getFollowersOfSomeone(@Path(value ="user_id",encoded = true) long groupId);
+
+    @GET("user/{user_id}/followers/")
+    Call<List<User>> getFollowingsOfSomeone(@Path(value ="user_id",encoded = true) long groupId);
+
+    @DELETE("followings/")
+    Call<List<User>> unfollowSomeone(@Body RequestBody template);
+
+    @POST("followers/")
+    Call<List<User>> approveFollowRequest(@Body RequestBody template);
+
+    @POST("followers/")
+    Call<List<User>> deleteFollowRequest(@Body RequestBody template);
 
 }
