@@ -196,29 +196,53 @@
 
             user = JSON.parse(angular.toJson(user));
             console.log(JSON.parse(angular.toJson(user)));
+            delete user.profile.interests.id;
+            user.profile.birthdate;
             console.log(user.profile.interests);
-            editedUser = {"profile":  {
-                                "interests": user.profile.interests
+            interests = [];
+            for(var i =0 ; i<user.profile.interests.length;i++ ){
+                interest = {};
+                interest.label = user.profile.interests[i].label;
+                if (user.profile.interests[i].url.indexOf("http")==-1) {
+                    user.profile.interests[i].url = "http:" + user.profile.interests[i].url;
+                }
+                interest.url =  user.profile.interests[i].url;
+                interest.description = user.profile.interests[i].description;
+                console.log(interest);
+                interests.push(interest);
+            }
+            console.log(interests);
+            user.profile.interests = interests;
+            editedUser = {};
+            console.log(user.profile);
+            //interests = JSON.parse(angular.toJson(interests));
+            editedUser.profile = user.profile;
+            delete editedUser.profile.photo;/*{"profile":  {
+                                            "interests": interests
                             }
-                        };
-             for(i=0;i<$scope.files.length;i++){
-                var y=Object.keys($scope.files[i]);
-               
-                console.log("profile");
-                UserService
-                    .uploadProfile($scope.files[i][y[0]])
-                        .then(function(res){
-                            console.log(res.data);
-                        },handleError);
+                        };*/
+            console.log(editedUser);
+
+             
+            
+            UserService.updateUser($scope.user.id, angular.toJson(editedUser))
+                .then(handleSuccess,handleError);
+            for(i=0;i<$scope.files.length;i++){
+                if($scope.files[i] != null){
+                    var y=Object.keys($scope.files[i]);
+                   
+                    console.log("profile");
+                    UserService
+                        .uploadProfile($scope.files[i][y[0]])
+                            .then(function(res){
+                                console.log(res.data);
+                            },handleError);
                     
-                
+                }
             }
             console.log($scope.files);
             $scope.files=[];
-            
-            console.log(editedUser);
-            UserService.updateUser($scope.user.id, angular.toJson(editedUser))
-                .then(handleSuccess,handleError);
+            $scope.edit=false;
         }
         /**
          * @ngdoc

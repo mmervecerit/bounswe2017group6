@@ -83,9 +83,18 @@
          */
         function updateUser(userID, profile){
             console.log(profile);
-            return $http.patch('https://limitless-sands-55256.herokuapp.com/http://34.209.230.231:8000/users/'+userID, profile , {
+            /*console.log($http({
+                    url: 'https://limitless-sands-55256.herokuapp.com/http://34.209.230.231:8000/users/'+userID+"/",
+                    method: 'PATCH',
+                    data: profile,
+                    headers: {
+                        "Content-Type": "application/json",
+                        'Authorization': 'Bearer ' + $localStorage.token
+                    }
+                }));*/
+            return $http.patch('https://limitless-sands-55256.herokuapp.com/http://34.209.230.231:8000/users/'+userID+"/", profile , {
                 headers: {
-                    'Content-Type' : 'application/json-patch+json',
+                    'Content-Type' : 'application/json',
                     'Authorization': 'Bearer ' + $localStorage.token
                 }
             });
