@@ -82,8 +82,11 @@
                <div class="navbar-header">
                   <a class="navbar-brand" href="/timeline"> <img src="assets/logo.png" class="logo" alt="InterestHub"></a>
                </div>
-               <div class="input-group" style="margin:20px;" ng-controller="SearchCtrl">
-                 <input style="width:auto;" placeholder="Search" type="text" ng-model="selected" uib-typeahead="users.username as users.username for users in searchUser($viewValue)  | limitTo:8 " 
+               <div class="input-group" style="margin:20px;" >
+                
+                    <input type="text" class="form-control" ng-keydown="$event.keyCode === 13 && search(query)" placeholder="Search" name="q" ng-model="query">
+                    
+                 <!--<input style="width:auto;" placeholder="Search" type="text" ng-model="selected" uib-typeahead="users.username as users.username for users in searchUser($viewValue)  | limitTo:8 " 
                  class="form-control"  typeahead-loading="loadingLocations" typeahead-no-results="noResults">
                   <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
                   <div ng-show="noResults">
@@ -91,7 +94,7 @@
                   </div>
                   <span class="input-group-btn" style="position: absolute;margin-left: 180px;">
                       <button class="btn btn-success btn-default" ng-click="goToProfile(selected); selected='';">Go</button>
-                    </span>
+                    </span>-->
               </div>       
                </div>
                <div class="col-md-4">                   

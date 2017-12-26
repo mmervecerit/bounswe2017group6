@@ -15,7 +15,7 @@
     {
         console.log($location.path());
        
-
+        $scope.search = search;
         $scope.logout = logout;
         $scope.isLoggedIn = isLoggedIn;
 
@@ -27,6 +27,9 @@
         }
         console.log("isLogged: "+isLoggedIn());
         
+        function search(query){
+            $location.path('/search/'+query);
+        }
         /**
          * @ngdoc
          * @name logout
