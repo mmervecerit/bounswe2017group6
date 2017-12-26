@@ -165,7 +165,7 @@ class MeView(APIView):
     permission_classes = (IsAuthenticated,)
     def get(self, request, format=None):
         user = request.user
-        serializer = UserSerializerFull(user, many=False)
+        serializer = UserSerializerFull(user, many=False, context={'request': request})
         return Response(serializer.data)
     def post(self, request, format=None):
         profile = None
