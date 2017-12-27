@@ -167,5 +167,8 @@ public interface ApiService {
     @Multipart
     Call<Message> updateGroupIconPhoto(@Path(value ="group_id",encoded = true) long groupId,@Part MultipartBody.Part image);
 
+    @POST("upload_image/{comp_id}/")
+    @Multipart
+    Call<Message> updateComponentImage(@Path(value ="comp_id",encoded = true) long compId,@Part MultipartBody.Part image);
 
 }

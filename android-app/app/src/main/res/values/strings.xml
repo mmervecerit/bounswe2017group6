@@ -12,6 +12,8 @@
         <item>Video</item>
         <item>Date</item>
         <item>Number</item>
+        <item>Dropdown</item>
+        <item>Checkbox</item>
     </string-array>
 
     <!-- Strings related to login -->
