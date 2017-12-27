@@ -159,5 +159,13 @@ public interface ApiService {
     @Multipart
     Call<Message> updateProfilePhoto(@Part MultipartBody.Part image);
 
+    @POST("group/{group_id}/cover/")
+    @Multipart
+    Call<Message> updateGroupCoverPhoto(@Path(value ="group_id",encoded = true) long groupId,@Part MultipartBody.Part image);
+
+    @POST("group/{group_id}/logo/")
+    @Multipart
+    Call<Message> updateGroupIconPhoto(@Path(value ="group_id",encoded = true) long groupId,@Part MultipartBody.Part image);
+
 
 }
