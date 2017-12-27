@@ -1,7 +1,10 @@
 package com.cmpe451.interesthub.fragments;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +12,10 @@ import android.widget.ListView;
 
 import com.cmpe451.interesthub.InterestHub;
 import com.cmpe451.interesthub.R;
+import com.cmpe451.interesthub.activities.ProfileActivity;
+import com.cmpe451.interesthub.activities.UserActivity;
 import com.cmpe451.interesthub.adapters.UserAdapter;
+import com.cmpe451.interesthub.adapters.UserCardListAdapter;
 import com.cmpe451.interesthub.models.Following_Followers;
 import com.cmpe451.interesthub.models.User;
 
@@ -36,30 +42,13 @@ public class User_Following_Fragment extends Fragment {
     private String mParam2;
     List<User> userList;
     InterestHub hub;
-    ListView list;
+    RecyclerView list;
     private OnFragmentInteractionListener mListener;
-
-    public User_Following_Fragment() {
-        // Required empty public constructor
+    private long userid;
+    public User_Following_Fragment(long userid) {
+        this.userid=userid;
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment UserEvents.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static User_Following_Fragment newInstance(String param1, String param2) {
-        User_Following_Fragment fragment = new User_Following_Fragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -76,26 +65,57 @@ public class User_Following_Fragment extends Fragment {
         // Inflate the layout for this fragment
         //return inflater.inflate(R.layout.fragment_user_following, container, false);
         View  view =inflater.inflate(R.layout.fragment_user_following, container, false);
-        list = view.findViewById(R.id.groupUserList);
+        list = view.findViewById(R.id.userFollowingList);
         userList  = new ArrayList<User>();
         hub = (InterestHub) getActivity().getApplication();
-        hub.getApiService().getuserfollowings().enqueue(new Callback<List<User>>() {
-            @Override
-            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
-                if(response.body()!=null)
-                    for(User u : response.body())
-                        userList.add(u);
-                UserAdapter adapter = new UserAdapter(getContext(),android.R.layout.simple_list_item_1,userList);
-                list.setAdapter(adapter);
+        if(userid==0) {
+            hub.getApiService().getFollowings().enqueue(new Callback<List<User>>() {
+                @Override
+                public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+                    if (response != null && response.body() != null)
+                        userList = response.body();
+                    setAdapter();
+                }
 
-            }
+                @Override
+                public void onFailure(Call<List<User>> call, Throwable t) {
 
-            @Override
-            public void onFailure(Call<List<User>> call, Throwable t) {
+                }
+            });
+        }
+        else{
+            hub.getApiService().getFollowingsOfSomeone(userid).enqueue(new Callback<List<User>>() {
+                @Override
+                public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+                    if (response != null && response.body() != null)
+                        userList = response.body();
+                    setAdapter();
+                }
 
-            }
-        });
+                @Override
+                public void onFailure(Call<List<User>> call, Throwable t) {
+
+                }
+            });
+        }
         return view;
+    }
+    public void setAdapter(){
+        final LinearLayoutManager ll = new LinearLayoutManager( getActivity());
+        ll.setOrientation(LinearLayoutManager.VERTICAL);
+        list.setLayoutManager(ll);
+        UserCardListAdapter.OnItemClickListener listener = new UserCardListAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int pos) {
+                Intent intent = new Intent(getContext(), ProfileActivity.class);
+                intent.putExtra("userId", userList.get(pos).getId());
+                startActivity(intent);
+
+
+            }
+        };
+        final UserCardListAdapter adapter = new UserCardListAdapter(getContext(), userList, listener);
+        list.setAdapter(adapter);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

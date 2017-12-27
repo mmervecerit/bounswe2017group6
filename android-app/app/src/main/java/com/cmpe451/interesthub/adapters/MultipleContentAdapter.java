@@ -1,6 +1,7 @@
 package com.cmpe451.interesthub.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -24,8 +25,13 @@ import android.widget.VideoView;
 
 import com.cmpe451.interesthub.InterestHub;
 import com.cmpe451.interesthub.R;
+import com.cmpe451.interesthub.activities.ContentActivity;
+import com.cmpe451.interesthub.models.CheckboxItems;
 import com.cmpe451.interesthub.models.Component;
 import com.cmpe451.interesthub.models.Content;
+import com.cmpe451.interesthub.models.DropdownItems;
+import com.cmpe451.interesthub.models.SingleCheckboxItems;
+import com.cmpe451.interesthub.models.SingleDropdownItems;
 import com.cmpe451.interesthub.models.TypeData;
 import com.cmpe451.interesthub.models.UpDown;
 import com.google.gson.Gson;
@@ -118,6 +124,14 @@ public class MultipleContentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                    datetime.add((CalendarView) l.getChildAt(i));
 
                }
+               else if (s.equals("dropdown")){
+                   text.add((TextView) l.getChildAt(i));
+
+               }
+               else if (s.equals("checkbox")){
+                   text.add((TextView) l.getChildAt(i));
+
+               }
            }
         }
 
@@ -181,6 +195,14 @@ public class MultipleContentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                        l.addView((CalendarView) LayoutInflater.from(parent.getContext()).inflate(R.layout.post_component_datetime, null));
 
                    }
+                   else if(s.equals("dropdown")){
+                       l.addView((TextView) LayoutInflater.from(parent.getContext()).inflate(R.layout.post_component_text, null));
+
+                   }
+                   else if(s.equals("checkbox")){
+                       l.addView((TextView) LayoutInflater.from(parent.getContext()).inflate(R.layout.post_component_text, null));
+
+                   }
                }
                 rcv = new ViewHolder(def,list,viewType);
 
@@ -230,10 +252,12 @@ public class MultipleContentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 hub.getApiService().postVote(requestBody).enqueue(new Callback<UpDown>() {
                     @Override
                     public void onResponse(Call<UpDown> call, Response<UpDown> response) {
-                        Toast toast = Toast.makeText(context, "Liked",Toast.LENGTH_SHORT);
-                        toast.show();
-                        setLikersDislikers(hub,((ViewHolder)holder).likedtext, ((ViewHolder)holder).dislikedtext,
-                                ((ViewHolder)holder).likeButton,((ViewHolder)holder).dislikeButton,position);
+                        if(context!=null) {
+                            Toast toast = Toast.makeText(context, "Liked", Toast.LENGTH_SHORT);
+                            toast.show();
+                            setLikersDislikers(hub, ((ViewHolder) holder).likedtext, ((ViewHolder) holder).dislikedtext,
+                                    ((ViewHolder) holder).likeButton, ((ViewHolder) holder).dislikeButton, position);
+                        }
 
                     }
 
@@ -257,10 +281,12 @@ public class MultipleContentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 hub.getApiService().postVote(requestBody).enqueue(new Callback<UpDown>() {
                     @Override
                     public void onResponse(Call<UpDown> call, Response<UpDown> response) {
-                        Toast toast = Toast.makeText(context, "Disliked",Toast.LENGTH_SHORT);
-                        toast.show();
-                        setLikersDislikers(hub,((ViewHolder)holder).likedtext, ((ViewHolder)holder).dislikedtext,
-                                ((ViewHolder)holder).likeButton,((ViewHolder)holder).dislikeButton,position);
+                        if(context!=null) {
+                            Toast toast = Toast.makeText(context, "Disliked", Toast.LENGTH_SHORT);
+                            toast.show();
+                            setLikersDislikers(hub, ((ViewHolder) holder).likedtext, ((ViewHolder) holder).dislikedtext,
+                                    ((ViewHolder) holder).likeButton, ((ViewHolder) holder).dislikeButton, position);
+                        }
                     }
 
                     @Override
@@ -271,6 +297,16 @@ public class MultipleContentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             }
         });
 
+        ((ViewHolder)holder).commentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hub.setTempContent(contentList.get(position));
+                if(context!=null) {
+                    Intent intent = new Intent(context, ContentActivity.class);
+                    context.startActivity(intent);
+                }
+            }
+        });
 
 
         if(contentList.get(position).getComponents()!=null || contentList.get(position).getComponents().size()!=0 ){
@@ -319,9 +355,11 @@ public class MultipleContentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     if(data.getData().startsWith("image"))
                         url="http://34.209.230.231:8000/"+data.getData();
                     else url=data.getData();
-                    Picasso.with(context)
-                            .load(url)
-                            .resize(200,200).into(((ViewHolder)holder).image.get(imagei));
+                    if(context!=null) {
+                        Picasso.with(context)
+                                .load(url)
+                                .resize(200, 200).into(((ViewHolder) holder).image.get(imagei));
+                    }
                     imagei++;
                 }else if (c.getComponent_type().equals("video")) {
 
@@ -353,6 +391,37 @@ public class MultipleContentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
 
                 } else if(c.getComponent_type().equals("datetime")){
+                    ;
+                }
+                else if(c.getComponent_type().equals("dropdown"))
+                {
+                    for(int it=0; it<contentList.get(position).getContentType().getDropdowns().size();it++){
+                        DropdownItems dd = contentList.get(position).getContentType().getDropdowns().get(it);
+                        for(SingleDropdownItems sd:dd.getItems()){
+                            if(sd.getId()==data.getSelected()){
+                                ((ViewHolder)holder).text.get(texti).setText(sd.getTitle());
+                                texti++;
+                            }
+
+                        }
+                    }
+
+                }
+                else if(c.getComponent_type().equals("checkbox"))
+                {
+                    String checkboxtext="[";
+                    for(int it=0; it<contentList.get(position).getContentType().getCheckboxes().size();it++){
+                        CheckboxItems dd = contentList.get(position).getContentType().getCheckboxes().get(it);
+                        for(SingleCheckboxItems sd:dd.getItems()){
+                            for(Long selecteds: data.getSelecteds()){
+                                if(selecteds==sd.getId())
+                                    checkboxtext+=sd.getTitle()+",";
+                            }
+                        }
+                    }
+                    if(checkboxtext.length()>1) checkboxtext = checkboxtext.substring(0,checkboxtext.length()-1);
+                    ((ViewHolder)holder).text.get(texti).setText(checkboxtext+"]");
+                    texti++;
 
                 }
             }

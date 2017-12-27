@@ -1,6 +1,9 @@
 package com.cmpe451.interesthub.fragments;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -9,31 +12,39 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.cmpe451.interesthub.InterestHub;
 import com.cmpe451.interesthub.R;
+import com.cmpe451.interesthub.activities.LoginActivity;
 import com.cmpe451.interesthub.activities.UserActivity;
 import com.cmpe451.interesthub.adapters.UserFragmentsAdapter;
 import com.cmpe451.interesthub.adapters.UserGroupListAdapter;
 import com.cmpe451.interesthub.adapters.UserHomeGroupListAdapter;
 import com.cmpe451.interesthub.adapters.UserHomeListAdapter;
 import com.cmpe451.interesthub.adapters.UserProfileTabsAdapter;
+import com.cmpe451.interesthub.models.Interest;
 import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -51,7 +62,7 @@ public class UserProfile extends Fragment {
     InterestHub hub;
     Button userProfileGroups;
     Button userProfileTimeline;
-
+    Button logout;
     private ViewPager viewPager;
     private TabLayout tabLayout;
     private UserProfileTabsAdapter viewPagerAdapter;
@@ -105,6 +116,17 @@ public class UserProfile extends Fragment {
         View view = inflater.inflate(R.layout.fragment_user_profile, container, false);
         TextView userName = view.findViewById(R.id.user_name);
         userName.setText(hub.getSessionController().getUser().getUsername());
+        logout =  view.findViewById(R.id.logoutbutton);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hub.getSessionController().setGroups(null);
+                hub.getSessionController().setToken(null);
+                hub.getSessionController().setUser(null);
+                Intent intent = new Intent(getContext(), LoginActivity.class);
+                startActivity(intent);
+            }
+        });
         if (!hub.getSessionController().getUser().getEmail().equals(null)) {
             TextView userEmail = view.findViewById(R.id.user_email);
             userEmail.setText(hub.getSessionController().getUser().getEmail());
@@ -113,24 +135,47 @@ public class UserProfile extends Fragment {
             TextView userDesc = view.findViewById(R.id.user_desc);
             userDesc.setText(hub.getSessionController().getUser().getProfile().getAbout());
         }
-        /*if (!hub.getSessionController().getUser().getProfile().getInterests().equals(null)) {
+        if (!hub.getSessionController().getUser().getProfile().getInterests().equals(null)) {
             TextView userInterests = view.findViewById(R.id.user_interests);
-            userInterests.setText(hub.getSessionController().getUser().getProfile().getInterests().toString());
-        }*/
+            String interest="";
+            List<Interest> interestList =hub.getSessionController().getUser().getProfile().getInterests();
+            for(Interest i : interestList)
+                interest+= i .getLabel() +",";
+            if(interest.length()>2)
+                interest = interest.substring(0,interest.length()-1);
+            userInterests.setText(interest);
+        }
         //Print interests as list, tag adapter etc?
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        ImageView profileImg = view.findViewById(R.id.profile_image);
-        Picasso.with(getContext()).load("https://avatars1.githubusercontent.com/u/15267081?s=460&v=4").resize(200, 200).into(profileImg);
+        final ImageView profileImg = view.findViewById(R.id.profile_image);
+        profileImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UserActivity activiy = (UserActivity) getActivity();
+                Runnable ppload = new Runnable() {
+                    @Override
+                    public void run() {
+                        String a=hub.getSessionController().getUser().getProfile().getPhoto();
+                        if (a!=null){
+                            String img = hub.getSessionController().getUser().getProfile().getPhoto();
+                            Picasso.with(getContext()).load(img).resize(200, 200).into(profileImg);
+                        }
+                    }
+                };
+                activiy.pickImage(ppload);
+            }
+        });
+
+       // Picasso.with(getContext()).load("https://avatars1.githubusercontent.com/u/15267081?s=460&v=4").resize(200, 200).into(profileImg);
         a=hub.getSessionController().getUser().getProfile().getPhoto();
         if (a!=null){
-            img = "http://34.209.230.231:8000/"+hub.getSessionController().getUser().getProfile().getPhoto();
-             Picasso.with(getContext()).load(img).resize(200, 200).into(profileImg);}
-
-        //profile page can not be uploaded, then we cannot fetch it. If we can upload it it works!
+            img = hub.getSessionController().getUser().getProfile().getPhoto();
+             Picasso.with(getContext()).load(img).resize(200, 200).into(profileImg);
+        }
         tabLayout = (TabLayout) view.findViewById(R.id.TabLayoutProfile);
         viewPager = (ViewPager) view.findViewById(R.id.ViewPagerProfile);
-        viewPagerAdapter = new UserProfileTabsAdapter(getFragmentManager());
+        viewPagerAdapter = new UserProfileTabsAdapter(getFragmentManager(),0);
      
         tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
         viewPager.setAdapter(viewPagerAdapter);
@@ -150,7 +195,7 @@ public class UserProfile extends Fragment {
 
             }
         });
-
+        tabLayout.removeAllTabs();
         final TabLayout.Tab home = tabLayout.newTab();
         final TabLayout.Tab followers = tabLayout.newTab();
         final TabLayout.Tab following = tabLayout.newTab();
@@ -163,13 +208,6 @@ public class UserProfile extends Fragment {
         tabLayout.addTab(home,0);
         tabLayout.addTab(followers,1);
         tabLayout.addTab(following,2);
-        tabLayout.removeTabAt(3);
-
-        tabLayout.removeTabAt(3);
-
-        tabLayout.removeTabAt(3);
-
-        tabLayout.removeTabAt(3);
 
 
 
@@ -197,6 +235,9 @@ public class UserProfile extends Fragment {
         return view;
     }
 
+
+
+
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -215,6 +256,7 @@ public class UserProfile extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);

@@ -1,7 +1,13 @@
 package com.cmpe451.interesthub.activities;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -18,7 +24,19 @@ import com.cmpe451.interesthub.activities.baseActivities.BaseActivity;
 import com.cmpe451.interesthub.adapters.UserFragmentsAdapter;
 import com.cmpe451.interesthub.R;
 import com.cmpe451.interesthub.fragments.SearchFragment;
+import com.cmpe451.interesthub.models.Message;
 import com.cmpe451.interesthub.models.User;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class UserActivity extends BaseActivity {
 
@@ -26,7 +44,10 @@ public class UserActivity extends BaseActivity {
     private UserFragmentsAdapter viewPagerAdapter;
     private ViewPager viewPager;
     private FrameLayout search;
+    InterestHub hub;
+    private static final int PICK_PHOTO_FOR_AVATAR = 1;
     SearchFragment searchFragment;
+    Runnable ppload;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +55,7 @@ public class UserActivity extends BaseActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setLogo(R.mipmap.ic_launcher);
         getSupportActionBar().setDisplayUseLogoEnabled(true);
-        InterestHub hub = (InterestHub)getApplication();
+         hub = (InterestHub)getApplication();
 
         User user = hub.getSessionController().getUser();
         search = (FrameLayout) findViewById(R.id.search_frame);
@@ -68,17 +89,17 @@ public class UserActivity extends BaseActivity {
 
         final TabLayout.Tab home = tabLayout.newTab();
         final TabLayout.Tab group = tabLayout.newTab();
-        final TabLayout.Tab events = tabLayout.newTab();
+        final TabLayout.Tab recomm = tabLayout.newTab();
         final TabLayout.Tab profile = tabLayout.newTab();
 
         home.setText("Home");
         profile.setText("Profile");
         group.setText("Groups");
-        events.setText("Events");
+        recomm.setText("Recommendations");
 
         tabLayout.addTab(home,0);
         tabLayout.addTab(group,1);
-        tabLayout.addTab(events,2);
+        tabLayout.addTab(recomm,2);
         tabLayout.addTab(profile,3);
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -144,7 +165,56 @@ public class UserActivity extends BaseActivity {
 
         return true;
     }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_PHOTO_FOR_AVATAR && resultCode == Activity.RESULT_OK) {
+            if (data == null) {
+                //Display an error
+                return;
+            }
+
+            Uri uri = data.getData();
+            String realuri = getRealPathFromURI(uri);
+
+            File file = new File(realuri);
+            RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+
+            MultipartBody.Part body =
+                    MultipartBody.Part.createFormData("file", file.getName(), requestFile);
+
+            hub.getApiService().updateProfilePhoto(body).enqueue(new Callback<Message>() {
+                @Override
+                public void onResponse(Call<Message> call, Response<Message> response) {
+                    Log.d("response","SUCCESS IMAGE");
+                    hub.getSessionController().reloadUser(hub,ppload);
+
+                }
+
+                @Override
+                public void onFailure(Call<Message> call, Throwable t) {
+                    Log.d("response","fail IMAGE");
+                }
+            });
 
 
+        }
+    }
+
+    public void pickImage(Runnable ppload) {
+        Intent intent = new Intent(Intent.ACTION_PICK,MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        intent.setType("image/*");
+        this.ppload = ppload;
+        startActivityForResult(intent, PICK_PHOTO_FOR_AVATAR);
+    }
+    public String getRealPathFromURI(Uri uri) {
+        String[] projection = { MediaStore.Images.Media.DATA };
+        @SuppressWarnings("deprecation")
+        Cursor cursor = managedQuery(uri, projection, null, null, null);
+        int column_index = cursor
+                .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        return cursor.getString(column_index);
+    }
 
 }

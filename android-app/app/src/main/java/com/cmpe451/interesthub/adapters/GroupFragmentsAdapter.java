@@ -7,11 +7,6 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import com.cmpe451.interesthub.fragments.GroupInfo;
 import com.cmpe451.interesthub.fragments.GroupPosts;
 import com.cmpe451.interesthub.fragments.GroupUsers;
-import com.cmpe451.interesthub.fragments.UserEvents;
-import com.cmpe451.interesthub.fragments.UserGroups;
-import com.cmpe451.interesthub.fragments.UserProfile;
-import com.cmpe451.interesthub.fragments.UserTimelineFragment;
-import com.cmpe451.interesthub.models.Group;
 
 /**
  * Created by eren on 19.10.2017.

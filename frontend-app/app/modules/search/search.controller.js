@@ -76,8 +76,9 @@
         $scope.users=[];
         init();
         
+
         /**
-         }
+
          * @ngdoc
          * @name searchUser
          * @methodOf SearchCtrl

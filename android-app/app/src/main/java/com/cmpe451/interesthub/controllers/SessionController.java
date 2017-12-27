@@ -76,4 +76,20 @@ public class SessionController {
             }
         });
     }
+    public void reloadUser(InterestHub hub, final Runnable ppload){
+        hub.getApiService().getMe().enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if(response!=null && response.body()!=null)
+                    setUser(response.body());
+                ppload.run();
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+
+            }
+        });
+    }
+
 }

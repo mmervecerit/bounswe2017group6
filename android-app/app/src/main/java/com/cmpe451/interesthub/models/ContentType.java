@@ -15,6 +15,24 @@ public class ContentType {
 
 
     List<String> component_names;
+    List<DropdownItems> dropdowns;
+    List<CheckboxItems> checkboxes;
+
+    public List<DropdownItems> getDropdowns() {
+        return dropdowns;
+    }
+
+    public void setDropdowns(List<DropdownItems> dropdowns) {
+        this.dropdowns = dropdowns;
+    }
+
+    public List<CheckboxItems> getCheckboxes() {
+        return checkboxes;
+    }
+
+    public void setCheckboxes(List<CheckboxItems> checkboxes) {
+        this.checkboxes = checkboxes;
+    }
 
     public long getId() {
         return id;
