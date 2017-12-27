@@ -1,5 +1,7 @@
 package com.cmpe451.interesthub.activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -10,10 +12,12 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.Spinner;
@@ -55,12 +59,12 @@ public class GroupCreation extends AppCompatActivity {
         final InterestHub hub = (InterestHub) getApplication();
         final EditText groupName;
         final EditText groupDes;
-        final EditText groupTags;
         final EditText groupIcon;
+
+        final LinearLayout taglistParent = (LinearLayout) findViewById(R.id.taglistparent);
         groupName = (EditText)findViewById(R.id.group_name);
         groupDes = (EditText)findViewById(R.id.group_desc);
         groupIcon = (EditText)findViewById(R.id.group_icon);
-        groupTags = (EditText) findViewById(R.id.tagText);
         final Button addTag = (Button)findViewById(R.id.addTagButton);
         final ListView tags = (ListView) findViewById(R.id.tagList);
         final List<String> tagList = new ArrayList<>();
@@ -68,91 +72,97 @@ public class GroupCreation extends AppCompatActivity {
         final String tagUrl = "https://limitless-sands-55256.herokuapp.com/https://www.wikidata.org/w/api.php?action=wbsearchentities&format=json&language=en&type=item&continue=0&search=";
         final List<Search> myTags = new ArrayList<>();
         final List<Search> adapterTags = new ArrayList<>();
+
+        addTag.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(GroupCreation.this);
+                final View layout = getLayoutInflater().inflate(R.layout.add_interest_layout, null);
+                final Spinner spinner = layout.findViewById(R.id.interestSpinner);
+                final EditText text = layout.findViewById(R.id.interestEditText);
+                builder.setView(layout)
+                        .setTitle("My Interest")
+                        .setMessage("Write and choose from list");
+                builder.setNegativeButton("İPTAL", new DialogInterface.OnClickListener(){
+                    public void onClick(DialogInterface dialog, int id) {
+
+                        //İptal butonuna basılınca yapılacaklar.Sadece kapanması isteniyorsa boş bırakılacak
+
+                    }
+                });
+
+
+                builder.setPositiveButton("TAMAM", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Search s = (Search) spinner.getSelectedItem();
+                        myTags.add(s);
+                        TagAdapter arrayAdapter = new TagAdapter(getBaseContext(),android.R.layout.simple_list_item_1, myTags,myTags.size());
+                        tags.setAdapter(arrayAdapter);
+
+                        LinearLayout.LayoutParams mParam = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,100*myTags.size());
+                        taglistParent.setLayoutParams(mParam);
+
+
+                    }
+                });
+                text.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                        if(s.toString().length()<1) return;
+                        String url = tagUrl+s.toString();
+                        hub.getApiService().getTags(url).enqueue(new Callback<SearchResult>() {
+                            @Override
+                            public void onResponse(Call<SearchResult> call, Response<SearchResult> response) {
+                                if(response==null || response.body()==null ||response.body().getSearch()==null) return;
+                                adapterTags.clear();
+
+                                for(Search s : response.body().getSearch()){
+                                    adapterTags.add(s);
+
+                                }
+                                TagAdapter arrayAdapter = new TagAdapter(getBaseContext(),android.R.layout.simple_list_item_1, adapterTags,0);
+                                spinner.setAdapter(arrayAdapter);
+                                spinner.performClick();
+                            }
+
+                            @Override
+                            public void onFailure(Call<SearchResult> call, Throwable t) {
+
+                            }
+                        });
+                    }
+                });
+
+
+                builder.show();
+            }
+        });
         tags.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d("TAG", String.valueOf(position));
-                if(position<myTags.size()) return;
-                if(position<adapterTags.size()) {
 
-                    Search s = adapterTags.remove(position);
-                    adapterTags.add(myTags.size(),s);
-                    myTags.add(s);
-                    TagAdapter arrayAdapter = new TagAdapter(getBaseContext(), android.R.layout.simple_list_item_1, adapterTags, myTags.size());
-                    tags.setAdapter(arrayAdapter);
-                }
-            }
-        });
-
-        groupTags.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if(groupTags.getText().toString().equals("")) return;
-                String tag = groupTags.getText().toString();
-                String url = tagUrl+tag;
-                hub.getApiService().getTags(url).enqueue(new Callback<SearchResult>() {
-                    @Override
-                    public void onResponse(Call<SearchResult> call, Response<SearchResult> response) {
-                        if(response==null || response.body()==null) return;
-                        adapterTags.clear();
-                        int myTagsSize = myTags.size();
-                        for(Search s:myTags)
-                            adapterTags.add(s);
-
-                        for(Search s : response.body().getSearch()){
-                            adapterTags.add(s);
-
-                       }
-                        TagAdapter arrayAdapter = new TagAdapter(getBaseContext(),android.R.layout.simple_list_item_1, adapterTags,myTagsSize);
-                        tags.setAdapter(arrayAdapter);
-                    }
-
-                    @Override
-                    public void onFailure(Call<SearchResult> call, Throwable t) {
-
-                    }
-                });
-            }
-        });
-         /*addTag.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(groupTags.getText().toString().equals("")) return;
-                String tag = groupTags.getText().toString();
-                String url = tagUrl+tag;
-                hub.getApiService().getTags(url).enqueue(new Callback<SearchResult>() {
-                    @Override
-                    public void onResponse(Call<SearchResult> call, Response<SearchResult> response) {
-                        if(response==null || response.body()==null) return;
-                        for(Search s : response.body().getSearch()){
-                            if(s!=null)
-                                Log.d(s.getLabel(),s.getDescription());
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<SearchResult> call, Throwable t) {
-
-                    }
-                });
-                tagList.add(groupTags.getText().toString());
-                groupTags.setText("");
-
-                ArrayAdapter arrayAdapter = new ArrayAdapter(getBaseContext(),android.R.layout.simple_list_item_1, android.R.id.text1, tagList);
+                myTags.remove(position);
+                TagAdapter arrayAdapter = new TagAdapter(getBaseContext(),android.R.layout.simple_list_item_1, myTags,myTags.size());
                 tags.setAdapter(arrayAdapter);
 
+                LinearLayout.LayoutParams mParam = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,100*myTags.size());
+                taglistParent.setLayoutParams(mParam);
+
             }
-        });*/
+        });
+
+
         final Button createButton = (Button)findViewById(R.id.group_create_button);
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -175,8 +185,8 @@ public class GroupCreation extends AppCompatActivity {
                 g.setDesc(groupDes.getText().toString());
                 g.setIs_public(public_group.isChecked() ?true:false);
                 g.setName(groupName.getText().toString());
-                g.setLogo("http://cohenwoodworking.com/wp-content/uploads/2016/09/image-placeholder-500x500.jpg");
-                g.setCover_photo("http://cohenwoodworking.com/wp-content/uploads/2016/09/image-placeholder-500x500.jpg");
+                g.setLogo(null);
+                g.setCover_photo(null);
                 List<Tag> grouptaglist = new ArrayList<Tag>();
                 g.setId(null);
                 for(int i = 0;i<myTags.size();i++){
@@ -188,9 +198,6 @@ public class GroupCreation extends AppCompatActivity {
                 }
 
                 g.setTags(grouptaglist);
-                for(Tag t : grouptaglist){
-                    Log.d(t.getLabel(),"tag");
-                }
 
 
                 Gson gson = new GsonBuilder().create();

@@ -146,6 +146,7 @@ public class UserGroups extends Fragment {
                 intent.putExtra("groupName", String.valueOf(groupList.get(pos).getName()));
                 intent.putExtra("groupId", groupList.get(pos).getId());
                 intent.putExtra("groupImg", groupList.get(pos).getLogo());
+                intent.putExtra("groupCover", groupList.get(pos).getCover_photo());
                 Log.d("STARTACTIVITY", String.valueOf(groupList.get(pos).getName()) + " " + groupList.get(pos).getId());
                 startActivity(intent);
             }

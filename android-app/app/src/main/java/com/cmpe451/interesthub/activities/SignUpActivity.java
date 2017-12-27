@@ -4,14 +4,19 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -157,6 +162,9 @@ public class SignUpActivity extends BaseActivity {
                         myTags.add(s);
                         TagAdapter arrayAdapter = new TagAdapter(getBaseContext(),android.R.layout.simple_list_item_1, myTags,myTags.size());
                         interestList.setAdapter(arrayAdapter);
+                        LinearLayout.LayoutParams mParam = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,100*myTags.size());
+                        interestList.setLayoutParams(mParam);
+
 
                     }
                 });
