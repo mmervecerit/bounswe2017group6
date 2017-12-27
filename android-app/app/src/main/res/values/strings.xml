@@ -7,11 +7,13 @@
 
     <string-array name="template_components">
         <item>Text</item>
-        <item>Long Text</item>
+        <item>LongText</item>
         <item>Image</item>
         <item>Video</item>
-        <item>Date</item>
+        <item>Datetime</item>
         <item>Number</item>
+        <item>Dropdown</item>
+        <item>Checkbox</item>
     </string-array>
 
     <!-- Strings related to login -->

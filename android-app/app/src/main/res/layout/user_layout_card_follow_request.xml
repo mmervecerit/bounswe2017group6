@@ -6,7 +6,9 @@
     android:layout_height="wrap_content"
     card_view:cardUseCompatPadding="true"
     card_view:cardCornerRadius="8dp"
-    android:layout_marginBottom="16dp">
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:padding="3dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -57,6 +59,7 @@
                     android:id="@+id/approverequest"
                     android:layout_width="100dp"
                     android:layout_height="30dp"
+                    android:textSize="10sp"
 
                     android:text="Approve" />
 
@@ -64,7 +67,7 @@
                     android:id="@+id/cancelrequest"
                     android:layout_width="100dp"
                     android:layout_height="30dp"
-
+                    android:textSize="10sp"
                     android:text="Cancel" />
 
 

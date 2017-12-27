@@ -152,7 +152,7 @@ public interface ApiService {
     @POST("followers/")
     Call<User> approveFollowRequest(@Body RequestBody template);
 
-    @POST("followers/")
+    @DELETE("followers/")
     Call<User> deleteFollowRequest(@Body RequestBody template);
 
     @POST("me/")
@@ -167,5 +167,8 @@ public interface ApiService {
     @Multipart
     Call<Message> updateGroupIconPhoto(@Path(value ="group_id",encoded = true) long groupId,@Part MultipartBody.Part image);
 
+    @POST("upload_image/{comp_id}/")
+    @Multipart
+    Call<Message> updateComponentImage(@Path(value ="comp_id",encoded = true) long compId,@Part MultipartBody.Part image);
 
 }

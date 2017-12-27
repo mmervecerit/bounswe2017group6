@@ -27,6 +27,7 @@ import android.widget.TextView;
 
 import com.cmpe451.interesthub.InterestHub;
 import com.cmpe451.interesthub.R;
+import com.cmpe451.interesthub.activities.LoginActivity;
 import com.cmpe451.interesthub.activities.UserActivity;
 import com.cmpe451.interesthub.adapters.UserFragmentsAdapter;
 import com.cmpe451.interesthub.adapters.UserGroupListAdapter;
@@ -61,7 +62,7 @@ public class UserProfile extends Fragment {
     InterestHub hub;
     Button userProfileGroups;
     Button userProfileTimeline;
-
+    Button logout;
     private ViewPager viewPager;
     private TabLayout tabLayout;
     private UserProfileTabsAdapter viewPagerAdapter;
@@ -115,6 +116,17 @@ public class UserProfile extends Fragment {
         View view = inflater.inflate(R.layout.fragment_user_profile, container, false);
         TextView userName = view.findViewById(R.id.user_name);
         userName.setText(hub.getSessionController().getUser().getUsername());
+        logout =  view.findViewById(R.id.logoutbutton);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hub.getSessionController().setGroups(null);
+                hub.getSessionController().setToken(null);
+                hub.getSessionController().setUser(null);
+                Intent intent = new Intent(getContext(), LoginActivity.class);
+                startActivity(intent);
+            }
+        });
         if (!hub.getSessionController().getUser().getEmail().equals(null)) {
             TextView userEmail = view.findViewById(R.id.user_email);
             userEmail.setText(hub.getSessionController().getUser().getEmail());

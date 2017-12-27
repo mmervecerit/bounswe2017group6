@@ -65,6 +65,7 @@ public class GroupCreation extends AppCompatActivity {
         groupName = (EditText)findViewById(R.id.group_name);
         groupDes = (EditText)findViewById(R.id.group_desc);
         groupIcon = (EditText)findViewById(R.id.group_icon);
+        groupIcon.setVisibility(View.GONE);
         final Button addTag = (Button)findViewById(R.id.addTagButton);
         final ListView tags = (ListView) findViewById(R.id.tagList);
         final List<String> tagList = new ArrayList<>();
