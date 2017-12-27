@@ -23,6 +23,8 @@
         $scope.posts = [];
         $scope.postComment = postComment;
         posts = [];
+        
+
          /**
          * @ngdoc
          * @name init
@@ -40,8 +42,8 @@
 
         }
         
-
         init();
+
          /**
          * @ngdoc
          * @name remove
@@ -202,9 +204,10 @@
                 .then(function(response){
                     console.log(response.data);
                     $scope.posts[index].votes.push(response.data);
+
                 },handleError);
                 console.log($scope.posts[index].votes);
-
+                
         }
         /**
          * @ngdoc
@@ -227,6 +230,7 @@
                     //console.log(response.data);
 
                     $scope.posts[index].votes.push(response.data);
+
                 },handleError);
 
         }

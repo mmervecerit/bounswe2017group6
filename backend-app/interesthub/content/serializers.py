@@ -9,10 +9,70 @@ from django.contrib.auth.models import User
 from recommendation.serializers import TagSerializer
 from recommendation.models import Tag
 
+class DropdownItemSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = DropdownItem
+        fields = ('id', 'title')
+
+class DropdownDefinitionSerializer(serializers.HyperlinkedModelSerializer):
+    items = DropdownItemSerializer(many=True)
+    class Meta:
+        model = DropdownDefinition
+        fields = ('id', 'name', 'items')
+
+    def create(self, validated_data):
+        print("DROPDOWN CREATE", validated_data)
+        data = validated_data.pop('items')
+        dropdown = DropdownDefinition.objects.create(**validated_data)
+        for item in data:
+            DropdownItem.objects.create(dropdown = dropdown, **item)
+        return dropdown
+
+class CheckboxItemSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = CheckboxItem
+        fields = ('id', 'title')
+
+class CheckboxDefinitionSerializer(serializers.HyperlinkedModelSerializer):
+    items = CheckboxItemSerializer(many=True)
+    class Meta:
+        model = CheckboxDefinition
+        fields = ('id', 'name', 'items')
+
+    def create(self, validated_data):
+        print("CHECKBOX CREATE", validated_data)
+        data = validated_data.pop('items')
+        checkbox = CheckboxDefinition.objects.create(**validated_data)
+        for item in data:
+            CheckboxItem.objects.create(checkbox = checkbox, **item)
+        return checkbox
+
+
 class ContentTypeSerializer(serializers.HyperlinkedModelSerializer):
+    checkboxes = CheckboxDefinitionSerializer(many=True)
+    dropdowns = DropdownDefinitionSerializer(many=True)
     class Meta:
         model = ContentType
-        fields = ("id", "name", "components", "component_names",)
+        fields = ("id", "name", "components", "component_names", "checkboxes", "dropdowns")
+    
+    def create(self, validated_data):
+        print("CT", validated_data)
+        checkbox_data = validated_data.pop('checkboxes')
+        dropdown_data = validated_data.pop('dropdowns')
+        ct = ContentType.objects.create(**validated_data)
+        for checkbox in checkbox_data:
+            print(checkbox)
+            serializer = CheckboxDefinitionSerializer(data=checkbox, context=self.context)
+            if serializer.is_valid():
+                ct.checkboxes.add(serializer.create(serializer.validated_data))
+        
+        for dropdown in dropdown_data:
+            print(dropdown)
+            serializer = DropdownDefinitionSerializer(data=dropdown, context=self.context)
+            if serializer.is_valid():
+                ct.dropdowns.add(serializer.create(serializer.validated_data))
+        
+        return ct
 
 class ContentSerializer(serializers.HyperlinkedModelSerializer):
     components = ComponentSerializer2(many=True)
@@ -53,7 +113,8 @@ class ContentSerializer(serializers.HyperlinkedModelSerializer):
                     raise serializers.ValidationError("Order of the components does not match with content type")
 
                 print("end")
-                validated_data["components"].append(serializer.validated_data)
+                print("END BUT: ", serializer.validated_data)
+                validated_data["components"].append(component)
         
         except Exception as e:
             if not self.partial:

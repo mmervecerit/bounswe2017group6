@@ -1,9 +1,52 @@
 
 
 <div ng-controller="ListGroupsCtrl" class="container bootstrap snippets">
-        
+                
 
         <div class="row" style="margin-top:50px;">
+                    <div class="col-lg-3 col-md-3 col-sm-4" style="margin:20px;">
+                            <div ng-include src='"modules/group/grouppanel.view.html"' ng-controller='GroupCtrl'></div>
+                             <div ng-include src='"modules/recommendation/recommendation.view.html"' ng-controller='RecommendationCtrl'></div>
+
+
+                            <!--
+                            <div class="panel rounded shadow">
+                                <div class="panel-body">
+                                    <div class="inner-all" >
+                                       
+                                    </div>
+                                </div>
+                            </div>--><!-- /.panel -->
+                            <!--
+                            <div class="panel panel-theme rounded shadow" ng-controller="GroupCtrl">
+                               <div class="panel panel-info">
+                                <div class="panel-heading">
+                                    <div class="pull-left">
+                                        <h3 class="panel-title">Groups</h3>
+                                    </div>
+                                </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="panel-body no-padding rounded">
+                                    <ul class="list-group no-margin" ng-repeat="group in groups">
+
+                                         <li class="list-group-item"><a href="/group/{{group.id}}">{{group.name}}</a>
+                                        <img src="{{group.image}}" style="margin-left: 10px; width: auto; height: auto;max-width: 40x;max-height: 40px"/>                    
+                                        </li>
+
+
+                                       
+                                    </ul>
+                                     <ul class="list-group no-margin">
+                                        <li class="list-group-item"><a class="" href="/groupcreate"><i class="fa fa-plus"></i> Create New Group</a></li>
+                                   </ul>
+
+                                </div>
+                               
+                              
+                            </div>-->
+
+                        </div>
                     <div class="col-md-8">
                             
                             <div class="input-group" style="margin:20px;">
@@ -43,6 +86,7 @@
                     </div>
             
                 </div>
+                
     
                 </div>
 

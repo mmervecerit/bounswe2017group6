@@ -115,8 +115,9 @@ public class UserProfile extends Fragment {
             TextView userDesc = view.findViewById(R.id.user_desc);
             userDesc.setText(hub.getSessionController().getUser().getProfile().getAbout());
         }
-        if (!hub.getSessionController().getUser().getProfile().getInterests().equals(null)) {
+        /*if (!hub.getSessionController().getUser().getProfile().getInterests().equals(null)) {
             TextView userInterests = view.findViewById(R.id.user_interests);
+
             String interest="";
             List<Interest> interestList =hub.getSessionController().getUser().getProfile().getInterests();
             for(Interest i : interestList)
@@ -125,6 +126,7 @@ public class UserProfile extends Fragment {
                 interest = interest.substring(0,interest.length()-1);
             userInterests.setText(interest);
         }
+
         //Print interests as list, tag adapter etc?
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -134,9 +136,11 @@ public class UserProfile extends Fragment {
        // Picasso.with(getContext()).load("https://avatars1.githubusercontent.com/u/15267081?s=460&v=4").resize(200, 200).into(profileImg);
         a=hub.getSessionController().getUser().getProfile().getPhoto();
         if (a!=null){
+
             img = hub.getSessionController().getUser().getProfile().getPhoto();
              Picasso.with(getContext()).load(img).resize(200, 200).into(profileImg);
         }
+
         tabLayout = (TabLayout) view.findViewById(R.id.TabLayoutProfile);
         viewPager = (ViewPager) view.findViewById(R.id.ViewPagerProfile);
         viewPagerAdapter = new UserProfileTabsAdapter(getFragmentManager(),0);
