@@ -47,7 +47,7 @@ public class GroupInfo extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment UserEvents.
+     * @return A new instance of fragment UserRecommendations.
      */
     // TODO: Rename and change types and number of parameters
     public static GroupInfo newInstance(String param1, Long param2) {

@@ -1,5 +1,5 @@
 from django.db import models
-from content.models import Content, ContentType
+from content.models import Content, ContentType, CheckboxItem, DropdownItem
 
 # Create your models here.
 class TextComponent(models.Model):
@@ -25,9 +25,11 @@ class ImageComponent(models.Model):
 
 class DropdownComponent(models.Model):
     data = models.CharField(max_length=100, null=True)
+    selected = models.ForeignKey(DropdownItem, on_delete=models.CASCADE, null=True, related_name="selected_dropdowns")
 
-class CheckBoxComponent(models.Model):
+class CheckboxComponent(models.Model):
     data = models.CharField(max_length=100, null=True)
+    selecteds = models.ManyToManyField(CheckboxItem, related_name="selected_checkboxes")
 
 class Component(models.Model):
     
@@ -49,7 +51,7 @@ class Component(models.Model):
     video = models.OneToOneField(VideoComponent, on_delete=models.CASCADE, null=True, related_name="component")
     dropdown = models.OneToOneField(DropdownComponent, on_delete=models.CASCADE, null=True, related_name="component")
     image = models.OneToOneField(ImageComponent, on_delete=models.CASCADE, null=True, related_name="component")
-    checkbox = models.OneToOneField(CheckBoxComponent, on_delete=models.CASCADE, null=True, related_name="component")
+    checkbox = models.OneToOneField(CheckboxComponent, on_delete=models.CASCADE, null=True, related_name="component")
 
     content = models.ForeignKey(Content, on_delete=models.CASCADE, null=True, related_name="components")
 

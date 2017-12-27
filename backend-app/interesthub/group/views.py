@@ -5,6 +5,7 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from content.serializers import ContentSerializer, ContentTypeSerializer
+from content.models import *
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
 from rest_framework import status
@@ -47,6 +48,19 @@ class GroupContentList(APIView):
             return Response(ContentSerializer(content,context={'request':request}).data)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+    
+    def delete(self, request, pk, format=None):
+        try:
+            igroup = InterestGroup.objects.get(pk=pk)
+            data = request.data
+            content = Content.objects.get(pk=data["id"])
+            if content in igroup.contents.all():
+                igroup.contents.remove(content)
+                return Response({"message": "content is removed from the group."})
+            else:
+                return Response({"error": "content does not exist in this group."})
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 class GroupContentTypeList(APIView):
     authentication_classes = (JSONWebTokenAuthentication, )
@@ -68,6 +82,19 @@ class GroupContentTypeList(APIView):
                 igroup.content_types.add(s)
                 return Response(ContentTypeSerializer(s, many=False, context={"request": request}).data)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+    
+    def delete(self, request, pk, format=None):
+        try:
+            igroup = InterestGroup.objects.get(pk=pk)
+            data = request.data
+            content = ContentType.objects.get(pk=data["id"])
+            if content in igroup.content_types.all():
+                igroup.content_types.remove(content)
+                return Response({"message": "content type is removed from the group."})
+            else:
+                return Response({"error": "content type does not exist in this group."})
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 

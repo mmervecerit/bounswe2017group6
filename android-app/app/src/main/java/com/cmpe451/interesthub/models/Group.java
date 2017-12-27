@@ -18,11 +18,11 @@ public class Group {
     @SerializedName("description")
     String desc;
 
-    @SerializedName("logo")
+    @SerializedName("logo_img")
     String logo;
     @SerializedName("is_public")
     boolean is_public;
-    @SerializedName("cover_photo")
+    @SerializedName("cover_img")
     String cover_photo;
 
     List<Tag> tags;

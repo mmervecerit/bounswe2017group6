@@ -284,10 +284,22 @@
             $scope.posts = [];
             posts = response.data;
                         $q.all(posts.map(function (post) {
-                   
+                   UserService.getUser(post.owner.id)
+                        .then(function(response){
+                            post.owner = response.data;
+                        },handleError);
                     ContentService.getCommentsOfContent(post.id)
                             .then(function (response) {
                                 post.comments = response.data;
+                                 $q.all(post.comments.map(function (comment) {
+                                     UserService.getUser(comment.owner.id)
+                                        .then(function(response){
+                                            comment.owner = response.data;
+                                        },handleError);
+        
+                                })).then(function () {
+                                }); 
+
                             },handleError);
                     ContentService.getVotesOfContent(post.id)
                             .then(function (response) {
