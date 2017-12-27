@@ -47,7 +47,7 @@
                  controller: 'GroupTimelineCtrl',
                  requireAuth: true                 
              })
-             .when('/search', {
+             .when('/search/:q', {
                 templateUrl: 'modules/search/search.view.html',
                 controller: 'SearchCtrl',
                 requireAuth: true

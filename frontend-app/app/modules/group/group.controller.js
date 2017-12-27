@@ -10,7 +10,7 @@
      */
     angular
         .module("interestHub")
-		.directive('fileModel', ['$parse', function ($parse) {
+		.directive('fileUpload', ['$parse', function ($parse) {
 			  return {
 				  restrict: 'A',
 				  link: function(scope, element, attrs) {
@@ -130,7 +130,7 @@
                 .createGroup(group)
                 .then(handleSuccessGroup, handleError);    
             console.log("added");
-			
+		
             $scope.newgroup.tags = [];
 
 
@@ -169,6 +169,7 @@
 			console.log($scope.files);
 			$scope.files=[];
 			
+            $location.path('/group/'+response.data.id);
 
         }
 

@@ -2,16 +2,20 @@ from django.contrib import admin
 from .models import *
 from components.models import Component
 
+# class ComponentsInline(admin.TabularInline):
+#     model = Content.components.through
+#     verbose_name = "component"
+#     verbose_name_plural = "components"
 
-# Register your models here.
 class ContentAdmin(admin.ModelAdmin):
     fields = ["content_type", "owner"]
     readonly_fields = ("id", "created_date", "modified_date",)
     list_display = ["id", "content_type"]
+    # inlines = [ComponentsInline,]
 
 class ContentTypeAdmin(admin.ModelAdmin):
-    fields = ["name","components", "component_names"]
-    readonly_fields = ("id", "created_date", "modified_date",)
+    fields = ["name","components", "component_names", "is_default"]
+    readonly_fields = ("id", "created_date", "modified_date")
     list_display = ["id", "name"]
 
 class CommentAdmin(admin.ModelAdmin):

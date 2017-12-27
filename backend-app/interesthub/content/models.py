@@ -10,6 +10,7 @@ class ContentType(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
     name = models.CharField(max_length=40, blank=True, null=True)
+    is_default = models.BooleanField(default=False)
 
     TEXT = "text"
     LONGTEXT = "longtext"
@@ -41,9 +42,25 @@ class ContentType(models.Model):
         size=15,
         null=True
     )
-
+  
     def __str__(self):
         return self.name
+
+class DropdownDefinition(models.Model):
+    name = models.CharField(max_length=100, null=True)
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, null=True, related_name="dropdowns")
+
+class DropdownItem(models.Model):
+    dropdown = models.ForeignKey(DropdownDefinition, on_delete=models.CASCADE, null=True, related_name="items")
+    title = models.CharField(default="", max_length=40)
+
+class CheckboxDefinition(models.Model):
+    name = models.CharField(max_length=100, null=True)
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, null=True, related_name="checkboxes")
+
+class CheckboxItem(models.Model):
+    checkbox = models.ForeignKey(CheckboxDefinition, on_delete=models.CASCADE, null=True, related_name="items")
+    title = models.CharField(default="", max_length=40)
 
 class Content(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)

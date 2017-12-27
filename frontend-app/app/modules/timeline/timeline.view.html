@@ -59,7 +59,7 @@
                 <div ng-controller="ContentCtrl">
                     
 
-                <div infinite-scroll="init()">
+                <div >
                    <div class="panel panel-info" ng-repeat="post in posts " ng-init="postIndex = $index">
                         <div class="panel-heading">
                             <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="img-rounded">
@@ -69,7 +69,7 @@
                             <div><strong><a ng-href="/user/{{post.owner.id}}">{{post.owner.username}}</a></strong> shared on <strong><a href="/group/{{post.group.id}}">{{post.group.name}}</a></strong></div>
                             <!--<div class="small"><i class="fa fa-map-marker"></i> Medellin, Colombia</div>-->
                         </div>
-                        <div class="panel-body">
+                        <div class="panel-body" >
 
                                 <div id="components" class="col-lg-12 col-md-12 col-sm-12" ng-repeat="component in post.content_type.components track by $index " ng-init="comIndex= $index">
 
