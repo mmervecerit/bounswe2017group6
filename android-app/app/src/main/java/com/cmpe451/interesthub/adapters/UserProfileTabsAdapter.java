@@ -5,10 +5,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 
-import com.cmpe451.interesthub.fragments.UserEvents;
-import com.cmpe451.interesthub.fragments.UserGroups;
-import com.cmpe451.interesthub.fragments.UserProfile;
-import com.cmpe451.interesthub.fragments.UserTimelineFragment;
 import com.cmpe451.interesthub.fragments.User_Followers_Fragment;
 import com.cmpe451.interesthub.fragments.User_Following_Fragment;
 import com.cmpe451.interesthub.fragments.User_MyPosts_Fragment;
@@ -19,19 +15,20 @@ import com.cmpe451.interesthub.fragments.User_MyPosts_Fragment;
 
 public class UserProfileTabsAdapter extends FragmentStatePagerAdapter {
 
-
-    public UserProfileTabsAdapter(FragmentManager fm){
+    private long userid;
+    public UserProfileTabsAdapter(FragmentManager fm,long userid){
         super(fm);
+        this.userid = userid;
     }
     @Override
     public Fragment getItem(int position) {
-        if(position==0) return new User_MyPosts_Fragment();
-        else if (position==1) return new User_Followers_Fragment();
-        else return new User_Following_Fragment();
+        if(position==0) return new User_MyPosts_Fragment(userid);
+        else if (position==1) return new User_Followers_Fragment(userid);
+        else return new User_Following_Fragment(userid);
     }
 
     @Override
     public int getCount() {
-        return 4;
+        return 3;
     }
 }

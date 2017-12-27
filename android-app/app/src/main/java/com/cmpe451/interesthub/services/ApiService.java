@@ -7,6 +7,7 @@ import com.cmpe451.interesthub.models.Component;
 import com.cmpe451.interesthub.models.Content;
 import com.cmpe451.interesthub.models.ContentType;
 import com.cmpe451.interesthub.models.Dummy;
+import com.cmpe451.interesthub.models.FollowersList;
 import com.cmpe451.interesthub.models.Following_Followers;
 import com.cmpe451.interesthub.models.Group;
 import com.cmpe451.interesthub.models.Message;
@@ -25,6 +26,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.HTTP;
 import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
@@ -89,10 +91,7 @@ public interface ApiService {
     @POST("group/{group_id}/members/")
     Call<Message> joinGroup(@Path(value ="group_id",encoded = true) long groupId);
 
-    @GET("user/{user_id}/followers/")
-    Call<List<User>> getuserfollowers();
-    @GET("user/{user_id}/followings/")
-    Call<List<User>> getuserfollowings();
+
     @GET("user/{user_id}/contents/")
     Call<List<Content>> getUserContents(@Path(value = "user_id",encoded = true) long userId);
 
@@ -123,6 +122,35 @@ public interface ApiService {
     @DELETE("group/{group_id}/members/")
     Call<Message> leaveGroup(@Path(value ="group_id",encoded = true) long groupId);
 
+    @GET("followers/")
+    Call<FollowersList> getFollowers();
 
+    @GET("followings/")
+    Call<List<User>> getFollowings();
+
+    @GET("recommendation/users/")
+    Call<List<User>> getRecommUser();
+
+    @GET("recommendation/groups/")
+    Call<List<Group>> getRecommGroup();
+
+
+    @GET("user/{user_id}/followers/")
+    Call<List<User>> getFollowersOfSomeone(@Path(value ="user_id",encoded = true) long groupId);
+
+    @GET("user/{user_id}/followers/")
+    Call<List<User>> getFollowingsOfSomeone(@Path(value ="user_id",encoded = true) long groupId);
+
+    @HTTP(method = "DELETE", path = "/followings/", hasBody = true)
+    Call<User> unfollowSomeone(@Body RequestBody template);
+
+    @HTTP(method = "POST", path = "/followings/", hasBody = true)
+    Call<User> followSomeone(@Body RequestBody template);
+
+    @POST("followers/")
+    Call<User> approveFollowRequest(@Body RequestBody template);
+
+    @POST("followers/")
+    Call<User> deleteFollowRequest(@Body RequestBody template);
 
 }

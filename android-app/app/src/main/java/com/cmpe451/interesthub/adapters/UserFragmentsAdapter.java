@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.cmpe451.interesthub.fragments.UserEvents;
+import com.cmpe451.interesthub.fragments.UserRecommendations;
 import com.cmpe451.interesthub.fragments.UserGroups;
 import com.cmpe451.interesthub.fragments.UserProfile;
 import com.cmpe451.interesthub.fragments.UserTimelineFragment;
@@ -28,7 +28,7 @@ public class UserFragmentsAdapter extends FragmentStatePagerAdapter {
         else if (position==1)
             return new UserGroups();
         else if (position==2)
-            return new UserEvents();
+            return new UserRecommendations();
         else return new UserProfile();
 
     }

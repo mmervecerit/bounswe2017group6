@@ -44,28 +44,12 @@ public class User_MyPosts_Fragment extends Fragment {
     private String mParam3;
 
     private User_MyPosts_Fragment.OnFragmentInteractionListener mListener;
-
-    public User_MyPosts_Fragment() {
-        // Required empty public constructor
+    private long userid;
+    public User_MyPosts_Fragment(long userid) {
+        this.userid = userid;
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment UserEvents.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static User_MyPosts_Fragment newInstance(String param1, String param2) {
-        User_MyPosts_Fragment fragment = new User_MyPosts_Fragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM2, param1);
-        args.putString(ARG_PARAM3, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -77,7 +61,7 @@ public class User_MyPosts_Fragment extends Fragment {
     }
 
 
-Content a;
+    Content a;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_user_myposts, container, false);
@@ -85,22 +69,41 @@ Content a;
         hub = (InterestHub) getActivity().getApplication();
         final List<Content> contentList = new ArrayList<Content>();
         long my_id = hub.getSessionController().getUser().getId();
-        hub.getApiService().getUserContents(my_id).enqueue(new Callback<List<Content>>() {
-            @Override
-            public void onResponse(Call<List<Content>> call, Response<List<Content>> response) {
-               if(response.body()!=null)
-                for (Content c : response.body()){
-                    contentList.add(c);
+        if(userid==0) {
+            hub.getApiService().getUserContents(my_id).enqueue(new Callback<List<Content>>() {
+                @Override
+                public void onResponse(Call<List<Content>> call, Response<List<Content>> response) {
+                    if (response.body() != null)
+                        for (Content c : response.body()) {
+                            contentList.add(c);
 
-               }
-                setAdapter(contentList);
-            }
+                        }
+                    setAdapter(contentList);
+                }
 
-            @Override
-            public void onFailure(Call<List<Content>> call, Throwable t) {
-            }
-        });
+                @Override
+                public void onFailure(Call<List<Content>> call, Throwable t) {
+                }
+            });
+        }
+        else{
+            hub.getApiService().getUserContents(userid).enqueue(new Callback<List<Content>>() {
+                @Override
+                public void onResponse(Call<List<Content>> call, Response<List<Content>> response) {
+                    if (response.body() != null)
+                        for (Content c : response.body()) {
+                            contentList.add(c);
 
+                        }
+                    setAdapter(contentList);
+                }
+
+                @Override
+                public void onFailure(Call<List<Content>> call, Throwable t) {
+
+                }
+            });
+        }
         return view;
     }
         // TODO: Rename method, update argument and hook method into UI event
@@ -110,7 +113,7 @@ Content a;
         }
     }
     public void setAdapter(final List<Content> contentList){
-        final LinearLayoutManager ll = new LinearLayoutManager(((UserActivity)getActivity()));
+        final LinearLayoutManager ll = new LinearLayoutManager(getActivity());
         ll.setOrientation(LinearLayoutManager.VERTICAL);
         MultipleContentAdapter.OnItemClickListener listener = new MultipleContentAdapter.OnItemClickListener() {
             @Override

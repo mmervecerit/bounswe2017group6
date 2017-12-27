@@ -68,17 +68,17 @@ public class UserActivity extends BaseActivity {
 
         final TabLayout.Tab home = tabLayout.newTab();
         final TabLayout.Tab group = tabLayout.newTab();
-        final TabLayout.Tab events = tabLayout.newTab();
+        final TabLayout.Tab recomm = tabLayout.newTab();
         final TabLayout.Tab profile = tabLayout.newTab();
 
         home.setText("Home");
         profile.setText("Profile");
         group.setText("Groups");
-        events.setText("Events");
+        recomm.setText("Recommendations");
 
         tabLayout.addTab(home,0);
         tabLayout.addTab(group,1);
-        tabLayout.addTab(events,2);
+        tabLayout.addTab(recomm,2);
         tabLayout.addTab(profile,3);
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

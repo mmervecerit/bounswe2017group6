@@ -51,15 +51,8 @@ public class UserAdapter extends ArrayAdapter<User> {
         User p = getItem(position);
 
         if (p != null) {
-            TextView tt1 = (TextView) v.findViewById(R.id.user_layout_fullname);
             TextView tt2 = (TextView) v.findViewById(R.id.user_layout_username);
             ImageView img =(ImageView) v.findViewById(R.id.user_layout_pic);
-
-            if (tt1 != null && p.getProfile()!=null) {
-                tt1.setText(p.getProfile().getName() + " " + p.getProfile().getLastname());
-            }
-            else
-                tt1.setVisibility(View.GONE);
 
             if (tt2 != null) {
                 tt2.setText(p.getUsername());

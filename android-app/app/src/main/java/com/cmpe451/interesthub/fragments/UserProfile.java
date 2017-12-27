@@ -27,6 +27,7 @@ import com.cmpe451.interesthub.adapters.UserGroupListAdapter;
 import com.cmpe451.interesthub.adapters.UserHomeGroupListAdapter;
 import com.cmpe451.interesthub.adapters.UserHomeListAdapter;
 import com.cmpe451.interesthub.adapters.UserProfileTabsAdapter;
+import com.cmpe451.interesthub.models.Interest;
 import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
@@ -34,6 +35,7 @@ import org.w3c.dom.Text;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -115,22 +117,33 @@ public class UserProfile extends Fragment {
         }
         /*if (!hub.getSessionController().getUser().getProfile().getInterests().equals(null)) {
             TextView userInterests = view.findViewById(R.id.user_interests);
-            userInterests.setText(hub.getSessionController().getUser().getProfile().getInterests().toString());
-        }*/
+
+            String interest="";
+            List<Interest> interestList =hub.getSessionController().getUser().getProfile().getInterests();
+            for(Interest i : interestList)
+                interest+= i .getLabel() +",";
+            if(interest.length()>2)
+                interest = interest.substring(0,interest.length()-1);
+            userInterests.setText(interest);
+        }
+
         //Print interests as list, tag adapter etc?
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         ImageView profileImg = view.findViewById(R.id.profile_image);
-        Picasso.with(getContext()).load("https://avatars1.githubusercontent.com/u/15267081?s=460&v=4").resize(200, 200).into(profileImg);
+
+
+       // Picasso.with(getContext()).load("https://avatars1.githubusercontent.com/u/15267081?s=460&v=4").resize(200, 200).into(profileImg);
         a=hub.getSessionController().getUser().getProfile().getPhoto();
         if (a!=null){
-            img = "http://34.209.230.231:8000/"+hub.getSessionController().getUser().getProfile().getPhoto();
-             Picasso.with(getContext()).load(img).resize(200, 200).into(profileImg);}
 
-        //profile page can not be uploaded, then we cannot fetch it. If we can upload it it works!
+            img = hub.getSessionController().getUser().getProfile().getPhoto();
+             Picasso.with(getContext()).load(img).resize(200, 200).into(profileImg);
+        }
+
         tabLayout = (TabLayout) view.findViewById(R.id.TabLayoutProfile);
         viewPager = (ViewPager) view.findViewById(R.id.ViewPagerProfile);
-        viewPagerAdapter = new UserProfileTabsAdapter(getFragmentManager());
+        viewPagerAdapter = new UserProfileTabsAdapter(getFragmentManager(),0);
      
         tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
         viewPager.setAdapter(viewPagerAdapter);
@@ -150,7 +163,7 @@ public class UserProfile extends Fragment {
 
             }
         });
-
+        tabLayout.removeAllTabs();
         final TabLayout.Tab home = tabLayout.newTab();
         final TabLayout.Tab followers = tabLayout.newTab();
         final TabLayout.Tab following = tabLayout.newTab();
@@ -163,13 +176,6 @@ public class UserProfile extends Fragment {
         tabLayout.addTab(home,0);
         tabLayout.addTab(followers,1);
         tabLayout.addTab(following,2);
-        tabLayout.removeTabAt(3);
-
-        tabLayout.removeTabAt(3);
-
-        tabLayout.removeTabAt(3);
-
-        tabLayout.removeTabAt(3);
 
 
 
