@@ -6,7 +6,7 @@ package com.cmpe451.interesthub.models;
 
 public class Component {
 
-    long id;
+    Long id;
     String component_type;
     int order;
     TypeData type_data;
@@ -19,11 +19,11 @@ public class Component {
         this.type_data = type_data;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

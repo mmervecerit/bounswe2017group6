@@ -4,17 +4,20 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.cmpe451.interesthub.InterestHub;
 import com.cmpe451.interesthub.R;
 import com.cmpe451.interesthub.activities.GroupActivity;
+import com.cmpe451.interesthub.activities.ProfileActivity;
 import com.cmpe451.interesthub.adapters.CustomAdapter;
 import com.cmpe451.interesthub.adapters.SearchGroupAdapter;
 import com.cmpe451.interesthub.adapters.SearchUserAdapter;
@@ -117,6 +120,8 @@ public class SearchFragment extends Fragment {
             }
         });
         listView.setAdapter(groupAdapter);
+        Toolbar.LayoutParams params = new Toolbar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,20*groupAdapter.getCount());
+        listView.setLayoutParams(params);
 
 
 
@@ -128,6 +133,8 @@ public class SearchFragment extends Fragment {
         ListView listView = view.findViewById(R.id.list_view_search_users);
         userAdapter= new CustomAdapter(getContext(),android.R.layout.simple_list_item_1, android.R.id.text1, users);
         listView.setAdapter(userAdapter);
+        Toolbar.LayoutParams params = new Toolbar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,20*userAdapter.getCount());
+        listView.setLayoutParams(params);
 
     }
 
@@ -144,7 +151,10 @@ public class SearchFragment extends Fragment {
         userListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                User selected = userList.get(position);
+                Intent intent = new Intent(getContext(), ProfileActivity.class);
+                intent.putExtra("userId", selected.getId());
+                startActivity(intent);
             }
         });
         groupListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -201,7 +211,8 @@ public class SearchFragment extends Fragment {
                 SearchGroupAdapter adapter = new SearchGroupAdapter(getContext(),android.R.layout.simple_list_item_1,groupList);
 
                 groupListView.setAdapter(adapter);
-
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,20*adapter.getCount());
+                groupListView.setLayoutParams(params);
 
 
             }
@@ -221,6 +232,8 @@ public class SearchFragment extends Fragment {
                 SearchUserAdapter adapter = new SearchUserAdapter(getContext(),android.R.layout.simple_list_item_1,userList);
 
                 userListView.setAdapter(adapter);
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,20*adapter.getCount());
+                userListView.setLayoutParams(params);
 
             }
 

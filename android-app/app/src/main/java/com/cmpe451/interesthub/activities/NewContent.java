@@ -1,12 +1,14 @@
 package com.cmpe451.interesthub.activities;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,9 +17,9 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -28,10 +30,14 @@ import android.widget.Toast;
 import com.cmpe451.interesthub.InterestHub;
 import com.cmpe451.interesthub.R;
 import com.cmpe451.interesthub.adapters.TemplateListAdapter;
+import com.cmpe451.interesthub.models.CheckboxItems;
 import com.cmpe451.interesthub.models.Component;
 import com.cmpe451.interesthub.models.Content;
 import com.cmpe451.interesthub.models.ContentType;
+import com.cmpe451.interesthub.models.DropdownItems;
 import com.cmpe451.interesthub.models.Message;
+import com.cmpe451.interesthub.models.SingleCheckboxItems;
+import com.cmpe451.interesthub.models.SingleDropdownItems;
 import com.cmpe451.interesthub.models.Tag;
 import com.cmpe451.interesthub.models.TypeData;
 import com.google.gson.Gson;
@@ -61,7 +67,9 @@ public class NewContent extends AppCompatActivity {
     InterestHub hub;
     Button clickedButton = null;
     Content sendContent;
-
+    List<String> names = new ArrayList<String>();
+    List<String> fields = new ArrayList<String>();
+    List<String> values = new ArrayList<String>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -129,9 +137,13 @@ public class NewContent extends AppCompatActivity {
     }
 
     private void newTemplate() {
+         names = new ArrayList<String>();
+        fields = new ArrayList<String>();
+        values = new ArrayList<String>();
         template.removeAllViews();
         final LinearLayout l = (LinearLayout) getLayoutInflater().inflate(R.layout.template_creation_layout,null);
         final LinearLayout rowHolder = l.findViewById(R.id.template_row);
+        /*
         LinearLayout singleRow = (LinearLayout) getLayoutInflater().inflate(R.layout.template_creation_row,null);
         Spinner spinner = (Spinner) singleRow.findViewById(R.id.template_component_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -139,11 +151,12 @@ public class NewContent extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         rowHolder.addView(singleRow);
+        */
         Button button = l.findViewById(R.id.template_add_row_button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                LinearLayout singleRow = (LinearLayout) getLayoutInflater().inflate(R.layout.template_creation_row,null);
+            public void onClick(final View view) {
+               /* LinearLayout singleRow = (LinearLayout) getLayoutInflater().inflate(R.layout.template_creation_row,null);
                 rowHolder.addView(singleRow);
                 final Spinner spinner = (Spinner) singleRow.findViewById(R.id.template_component_spinner);
                 ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getBaseContext(),
@@ -152,6 +165,48 @@ public class NewContent extends AppCompatActivity {
                 spinner.setAdapter(adapter);
                 if(singleRow.getParent()!=null) ((ViewGroup)singleRow.getParent()).removeView(singleRow);
                 rowHolder.addView(singleRow);
+
+                */
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(NewContent.this);
+                alertDialog.setTitle("Field Type");
+
+                final Spinner spinner = new Spinner(NewContent.this);
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.MATCH_PARENT);
+                spinner.setLayoutParams(lp);
+                ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getBaseContext(),
+                        R.array.template_components, android.R.layout.simple_spinner_item);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinner.setAdapter(adapter);
+                alertDialog.setView(spinner);
+
+                alertDialog.setPositiveButton("Next",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                spinner.getSelectedItem().toString();
+                                if(spinner.getSelectedItem().toString().equals("Dropdown")){
+                                    createField(spinner.getSelectedItem().toString(),rowHolder).show();
+                                }
+                                else if(spinner.getSelectedItem().toString().equals("Checkbox")){
+                                    createField(spinner.getSelectedItem().toString(),rowHolder).show();
+                                }
+                                else{
+                                    createField(spinner.getSelectedItem().toString(),rowHolder).show();
+                                }
+
+                            }
+                        });
+
+                alertDialog.setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+
+                alertDialog.show();
+
             }
         });
         final Button button2 = l.findViewById(R.id.template_create);
@@ -159,38 +214,56 @@ public class NewContent extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
+                for(int i =0 ;i<names.size();i++){
+                    Log.d("name",names.get(i));
+                    Log.d("type",fields.get(i));
+                    Log.d("value",values.get(i));
+
+                }
                 button2.setEnabled(false);
                 ContentType newContentType = new ContentType();
                 newContentType.setName(((EditText)l.findViewById(R.id.template_name)).getText().toString());
-                List<String> names = new ArrayList<String>();
-                List<String> fields = new ArrayList<String>();
-                for(int i =0;i<rowHolder.getChildCount();i++){
-                    LinearLayout row = (LinearLayout) rowHolder.getChildAt(i);
-                    EditText t = (EditText) row.getChildAt(0);
-                    Spinner s = (Spinner) row.getChildAt(1);
 
-                    names.add(t.getText().toString());
-                    if(s.getSelectedItem().toString().equals("Text"))
-                        fields.add("text");
-                    else if(s.getSelectedItem().toString().equals("Long Text"))
-                        fields.add("longtext");
-                    else if(s.getSelectedItem().toString().equals("Image"))
-                        fields.add("image");
-                    else if(s.getSelectedItem().toString().equals("Video"))
-                        fields.add("video");
-                    else if(s.getSelectedItem().toString().equals("Date"))
-                        fields.add("datetime");
-                    else if(s.getSelectedItem().toString().equals("Number"))
-                        fields.add("number");
-                    else if(s.getSelectedItem().toString().equals("Dropdown"))
-                        fields.add("dropdown");
-                    else if(s.getSelectedItem().toString().equals("Checkbox"))
-                        fields.add("checkbox");
-
-
-                }
                 newContentType.setComponent_names(names);
                 newContentType.setComponents(fields);
+                List<CheckboxItems> checkboxlist = new ArrayList<CheckboxItems>();
+                for(int i=0;i<fields.size();i++){
+                    if(fields.get(i).equals("checkbox")) {
+                        CheckboxItems checkbox = new CheckboxItems();
+                        checkbox.setName(names.get(i));
+                        String[] items = values.get(i).split(",");
+                        List<SingleCheckboxItems> list = new ArrayList<SingleCheckboxItems>();
+                        for(String item:items){
+                            SingleCheckboxItems ss = new SingleCheckboxItems();
+                            ss.setTitle(item.trim());
+                            list.add(ss);
+                        }
+                        checkbox.setItems(list);
+                        checkboxlist.add(checkbox);
+
+                    }
+                }
+                newContentType.setCheckboxes(checkboxlist);
+                List<DropdownItems> dropdownlist = new ArrayList<DropdownItems>();
+
+                for(int i=0;i<fields.size();i++){
+                    if(fields.get(i).equals("dropdown")) {
+                        DropdownItems dropdown = new DropdownItems();
+                        dropdown.setName(names.get(i));
+                        String[] items = values.get(i).split(",");
+                        List<SingleDropdownItems> list = new ArrayList<SingleDropdownItems>();
+                        for(String item:items){
+                            SingleDropdownItems ss = new SingleDropdownItems();
+                            ss.setTitle(item.trim());
+                            list.add(ss);
+                        }
+                        dropdown.setItems(list);
+                        dropdownlist.add(dropdown);
+
+                    }
+                }
+                newContentType.setDropdowns(dropdownlist);
+
                 Gson gson = new Gson();
                 newContentType.setId(null);
                 String json = gson.toJson(newContentType);
@@ -233,21 +306,18 @@ public class NewContent extends AppCompatActivity {
         lay.setLayoutParams(param);
         final ContentType c = Clist.get(pos);
         lay.setOrientation(LinearLayout.VERTICAL);
-
+        int dropdowncount=0,checkboxcount=0;
         for(int i=0;i<c.getComponent_names().size();i++){
             String s = c.getComponent_names().get(i);
             LinearLayout l = new LinearLayout(getBaseContext());
             l.setOrientation(LinearLayout.HORIZONTAL);
             TextView t = new TextView(getBaseContext());
+            Toolbar.LayoutParams par = new Toolbar.LayoutParams(150, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+            t.setLayoutParams(par);
             t.setText(s);
             l.addView(t);
-            if(!c.getComponents().get(i).equals("image")) {
-                EditText e = new EditText(getBaseContext());
-                Toolbar.LayoutParams ll = new Toolbar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                e.setLayoutParams(ll);
-                l.addView(e);
-            }
-            else{
+            if(c.getComponents().get(i).equals("image")) {
                 Button button = new Button(getBaseContext());
                 button.setOnClickListener(new View.OnClickListener() {
 
@@ -261,6 +331,44 @@ public class NewContent extends AppCompatActivity {
                 button.setLayoutParams(ll);
                 button.setText("Choose Image");
                 l.addView(button);
+
+            }
+            else if(c.getComponents().get(i).equals("dropdown")){
+                Spinner spinner = new Spinner(getBaseContext());
+                List<String> items = new ArrayList<>();
+                for(SingleDropdownItems single: c.getDropdowns().get(dropdowncount++).getItems())
+                    items.add(single.getTitle());
+                ArrayAdapter adapter = new ArrayAdapter(getBaseContext(),android.R.layout.simple_spinner_item,items);
+                spinner.setAdapter(adapter);
+                spinner.setGravity(Gravity.RIGHT);
+                Toolbar.LayoutParams ll = new Toolbar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                spinner.setLayoutParams(ll);
+                l.addView(spinner);
+            }
+            else if(c.getComponents().get(i).equals("checkbox")){
+                LinearLayout linear = new LinearLayout(getBaseContext());
+                linear.setOrientation(LinearLayout.VERTICAL);
+
+
+                List<String> items = new ArrayList<>();
+                for(SingleCheckboxItems single: c.getCheckboxes().get(checkboxcount++).getItems()){
+                    CheckBox checkbox = new CheckBox(getBaseContext());
+                    checkbox.setText(single.getTitle());
+                    checkbox.setChecked(false);
+                    checkbox.setGravity(Gravity.RIGHT);
+                    linear.addView(checkbox);
+
+                }
+
+                Toolbar.LayoutParams ll = new Toolbar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                linear.setLayoutParams(ll);
+                l.addView(linear);
+            }
+            else{
+                EditText e = new EditText(getBaseContext());
+                Toolbar.LayoutParams ll = new Toolbar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                e.setLayoutParams(ll);
+                l.addView(e);
             }
             lay.addView(l);
         }
@@ -276,17 +384,58 @@ public class NewContent extends AppCompatActivity {
                 content.setContent_type_id(c.getId());
                 content.setOwner_id(content.getOwner().getId());
                 List<Component> clist = new ArrayList<Component>();
+                int dropdowncount=0,checkboxcount=0;
                 for(int i =0 ; i<c.getComponents().size(); i++){
                     EditText text = null;
-                    if(!c.getComponents().get(i).equals("image"))
-                       text = (EditText) ((LinearLayout)lay.getChildAt(i)).getChildAt(1);
                     Component comp = new Component();
-                    comp.setComponent_type(c.getComponents().get(i));
-                    comp.setOrder(i+1);
-                    TypeData t = new TypeData();
-                    if(!c.getComponents().get(i).equals("image"))
+                    if(c.getComponents().get(i).equals("text")) {
+                        text = (EditText) ((LinearLayout) lay.getChildAt(i)).getChildAt(1);
+                        comp.setComponent_type(c.getComponents().get(i));
+                        comp.setOrder(i + 1);
+                        TypeData t = new TypeData();
                         t.setData(text.getText().toString());
-                    comp.setType_data(t);
+                        comp.setType_data(t);
+                    }
+                    else if(c.getComponents().get(i).equals("image")){
+                        comp.setComponent_type(c.getComponents().get(i));
+                        comp.setOrder(i + 1);
+                        TypeData t = new TypeData();
+                        comp.setType_data(t);
+                    }
+                    else if(c.getComponents().get(i).equals("dropdown")){
+                        comp.setComponent_type(c.getComponents().get(i));
+                        comp.setOrder(i + 1);
+                        TypeData t = new TypeData();
+                        Spinner spinner = (Spinner) ((LinearLayout) lay.getChildAt(i)).getChildAt(1);
+                        t.setData("spinner");
+                        String spinnerText = spinner.getSelectedItem().toString();
+                        for(SingleDropdownItems s: c.getDropdowns().get(dropdowncount).getItems())
+                            if(s.getTitle().equals(spinnerText))
+                                t.setSelected(s.getId());
+                        dropdowncount++;
+                        comp.setType_data(t);
+                    }
+                    else if(c.getComponents().get(i).equals("checkbox")){
+                        comp.setComponent_type(c.getComponents().get(i));
+                        comp.setOrder(i + 1);
+                        TypeData t = new TypeData();
+                        t.setData("checkbox");
+                        List<Long> selectedscb = new ArrayList<Long>();
+                        LinearLayout clayout = (LinearLayout) ((LinearLayout) lay.getChildAt(i)).getChildAt(1);
+                        for(int it = 0;it<clayout.getChildCount();it++){
+                            CheckBox cb = (CheckBox) clayout.getChildAt(it);
+                            if(cb.isChecked()){
+                                for(SingleCheckboxItems scb:c.getCheckboxes().get(checkboxcount).getItems()){
+                                    if(scb.getTitle().equals(cb.getText().toString()))
+                                        selectedscb.add(scb.getId());
+                                }
+                            }
+                        }
+                        t.setSelecteds(selectedscb);
+                        checkboxcount++;
+
+                        comp.setType_data(t);
+                    }
                     clist.add(comp);
 
                 }
@@ -308,7 +457,7 @@ public class NewContent extends AppCompatActivity {
 
     private void sendPost(Content content) {
 
-        Gson gson = new GsonBuilder().serializeNulls().create();
+        Gson gson = new GsonBuilder().create();
 
         String json = gson.toJson(content);
         Log.d("JSON",json);
@@ -396,4 +545,96 @@ public class NewContent extends AppCompatActivity {
 
 
     }
+    public AlertDialog.Builder createField(final String type, final LinearLayout rowHolder){
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(NewContent.this);
+        alertDialog.setTitle("Name for "+type);
+
+        final EditText text = new EditText(NewContent.this);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+        text.setLayoutParams(lp);
+
+        alertDialog.setView(text);
+        alertDialog.setPositiveButton("Next",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        if(type.equals("Dropdown")){
+                            createValues(type,text.getText().toString(),rowHolder).show();
+                        }
+                        else if(type.equals("Checkbox")){
+                            createValues(type,text.getText().toString(),rowHolder).show();
+                        }
+                        else{
+
+                            names.add(text.getText().toString());
+                            fields.add(type.toLowerCase());
+                            values.add("");
+                            LinearLayout singleRow = (LinearLayout) getLayoutInflater().inflate(R.layout.template_creation_row,null);
+                            TextView tt1 = (TextView) singleRow.getChildAt(0);
+
+                            tt1.setText(text.getText().toString());
+                            TextView tt2 = (TextView) singleRow.getChildAt(1);
+
+                            tt2.setText(type);
+                            rowHolder.addView(singleRow);
+
+
+                        }
+                    }
+                });
+
+        alertDialog.setNegativeButton("Cancel",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        return alertDialog;
+    }
+    public AlertDialog.Builder createValues(final String type,final String name,final  LinearLayout rowHolder){
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(NewContent.this);
+        alertDialog.setTitle("Enter values for "+name+ " (seperate by comma)");
+
+        final EditText text = new EditText(NewContent.this);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+        text.setLayoutParams(lp);
+
+        alertDialog.setView(text);
+        alertDialog.setPositiveButton("Next",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        names.add(name);
+                        fields.add(type.toLowerCase());
+                        values.add(text.getText().toString());
+                        LinearLayout singleRow = (LinearLayout) getLayoutInflater().inflate(R.layout.template_creation_row_with_value,null);
+                        TextView tt1 = (TextView) singleRow.getChildAt(0);
+                        tt1.setText(text.getText().toString());
+
+                        TextView tt2 = (TextView) singleRow.getChildAt(2);
+                        tt2.setText(type);
+
+                        TextView tt3 = (TextView) singleRow.getChildAt(1);
+                        tt3.setGravity(Gravity.CENTER);
+                        String vals[] =  text.getText().toString().split(",");
+                        String ftext="";
+                        for(String vv:vals) ftext+=vv+"\n";
+                        tt3.setText(ftext);
+                        rowHolder.addView(singleRow);
+
+
+                    }
+                });
+
+        alertDialog.setNegativeButton("Cancel",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        return alertDialog;
+    }
+
 }
