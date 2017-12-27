@@ -152,7 +152,7 @@ public interface ApiService {
     @POST("followers/")
     Call<User> approveFollowRequest(@Body RequestBody template);
 
-    @POST("followers/")
+    @DELETE("followers/")
     Call<User> deleteFollowRequest(@Body RequestBody template);
 
     @POST("me/")

@@ -91,6 +91,7 @@ public class LoginActivity extends BaseActivity {
                               @Override
                               public void onResponse(Call<User> call, Response<User> response) {
                                   hub.getSessionController().setUser(response.body());
+
                                   Intent intent= new Intent(view.getContext(), UserActivity.class);
                                   startActivity(intent);
                                   return;

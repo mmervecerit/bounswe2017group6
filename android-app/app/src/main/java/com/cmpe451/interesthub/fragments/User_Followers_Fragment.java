@@ -24,10 +24,14 @@ import com.cmpe451.interesthub.adapters.UserFollowRequestCardListAdapter;
 import com.cmpe451.interesthub.models.FollowersList;
 import com.cmpe451.interesthub.models.Following_Followers;
 import com.cmpe451.interesthub.models.User;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -77,6 +81,10 @@ public class User_Followers_Fragment extends Fragment {
         requestbutton = view.findViewById(R.id.followrequestbutton);
         requestbutton.setVisibility(View.GONE);
         hub = (InterestHub) getActivity().getApplication();
+        refresh(userid);
+        return view;
+    }
+    public void refresh(long userid){
         if (userid==0) {
 
             hub.getApiService().getFollowers().enqueue(new Callback<FollowersList>() {
@@ -111,7 +119,7 @@ public class User_Followers_Fragment extends Fragment {
             });
 
         }
-        return view;
+
     }
     public void setAdapter(){
         final LinearLayoutManager ll = new LinearLayoutManager( getActivity());
@@ -138,7 +146,7 @@ public class User_Followers_Fragment extends Fragment {
             requestbutton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+                    final AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
                     LayoutInflater inflater = getLayoutInflater();
                     View convertView = (View) inflater.inflate(R.layout.alert_recycler, null);
                     alertDialog.setView(convertView);
@@ -156,16 +164,52 @@ public class User_Followers_Fragment extends Fragment {
                     lv.setLayoutManager(ll);
                     UserFollowRequestCardListAdapter.OnItemClickListener approveListener = new UserFollowRequestCardListAdapter.OnItemClickListener() {
                         @Override
-                        public void onItemClick(int pos) {
+                        public void onItemClick(final int pos) {
 
+                            JsonObject innerObject = new JsonObject();
+                            innerObject.addProperty("id", requestList.get(pos).getId());
+                            Gson gson = new Gson();
+                            String json = gson.toJson(innerObject);
+                            Log.d("JSON",json);
+                            RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), json);
+                            hub.getApiService().approveFollowRequest(requestBody).enqueue(new Callback<User>() {
+                                @Override
+                                public void onResponse(Call<User> call, Response<User> response) {
 
+                                    refresh(userid);
+
+                                }
+
+                                @Override
+                                public void onFailure(Call<User> call, Throwable t) {
+
+                                }
+                            });
 
                         }
                     };
                     UserFollowRequestCardListAdapter.OnItemClickListener cancelListener = new UserFollowRequestCardListAdapter.OnItemClickListener() {
                         @Override
                         public void onItemClick(int pos) {
+                            JsonObject innerObject = new JsonObject();
+                            innerObject.addProperty("id", requestList.get(pos).getId());
+                            Gson gson = new Gson();
+                            String json = gson.toJson(innerObject);
+                            Log.d("JSON",json);
+                            RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), json);
+                            hub.getApiService().deleteFollowRequest(requestBody).enqueue(new Callback<User>() {
+                                @Override
+                                public void onResponse(Call<User> call, Response<User> response) {
 
+                                    refresh(userid);
+
+                                }
+
+                                @Override
+                                public void onFailure(Call<User> call, Throwable t) {
+
+                                }
+                            });
 
                         }
                     };

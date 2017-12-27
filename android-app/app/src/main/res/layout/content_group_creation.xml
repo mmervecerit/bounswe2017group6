@@ -99,6 +99,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:text="Group Icon URL"
+                android:visibility="gone"
                 android:textSize="18sp" />
 
             <EditText

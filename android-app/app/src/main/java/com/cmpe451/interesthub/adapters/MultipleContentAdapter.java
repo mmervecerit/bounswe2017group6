@@ -252,10 +252,12 @@ public class MultipleContentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 hub.getApiService().postVote(requestBody).enqueue(new Callback<UpDown>() {
                     @Override
                     public void onResponse(Call<UpDown> call, Response<UpDown> response) {
-                        Toast toast = Toast.makeText(context, "Liked",Toast.LENGTH_SHORT);
-                        toast.show();
-                        setLikersDislikers(hub,((ViewHolder)holder).likedtext, ((ViewHolder)holder).dislikedtext,
-                                ((ViewHolder)holder).likeButton,((ViewHolder)holder).dislikeButton,position);
+                        if(context!=null) {
+                            Toast toast = Toast.makeText(context, "Liked", Toast.LENGTH_SHORT);
+                            toast.show();
+                            setLikersDislikers(hub, ((ViewHolder) holder).likedtext, ((ViewHolder) holder).dislikedtext,
+                                    ((ViewHolder) holder).likeButton, ((ViewHolder) holder).dislikeButton, position);
+                        }
 
                     }
 
@@ -279,10 +281,12 @@ public class MultipleContentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 hub.getApiService().postVote(requestBody).enqueue(new Callback<UpDown>() {
                     @Override
                     public void onResponse(Call<UpDown> call, Response<UpDown> response) {
-                        Toast toast = Toast.makeText(context, "Disliked",Toast.LENGTH_SHORT);
-                        toast.show();
-                        setLikersDislikers(hub,((ViewHolder)holder).likedtext, ((ViewHolder)holder).dislikedtext,
-                                ((ViewHolder)holder).likeButton,((ViewHolder)holder).dislikeButton,position);
+                        if(context!=null) {
+                            Toast toast = Toast.makeText(context, "Disliked", Toast.LENGTH_SHORT);
+                            toast.show();
+                            setLikersDislikers(hub, ((ViewHolder) holder).likedtext, ((ViewHolder) holder).dislikedtext,
+                                    ((ViewHolder) holder).likeButton, ((ViewHolder) holder).dislikeButton, position);
+                        }
                     }
 
                     @Override
@@ -297,9 +301,10 @@ public class MultipleContentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             @Override
             public void onClick(View v) {
                 hub.setTempContent(contentList.get(position));
-
-                Intent intent = new Intent(context, ContentActivity.class);
-                context.startActivity(intent);
+                if(context!=null) {
+                    Intent intent = new Intent(context, ContentActivity.class);
+                    context.startActivity(intent);
+                }
             }
         });
 
