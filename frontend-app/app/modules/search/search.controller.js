@@ -55,11 +55,11 @@
          }
          $scope.groupSec= true;
          $scope.peopleSec=true; 
-        $scope.users=[];
+         $scope.users=[];
          init();
-        
+                
         /**
-         }
+
          * @ngdoc
          * @name searchUser
          * @methodOf SearchCtrl
