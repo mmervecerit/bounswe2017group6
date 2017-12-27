@@ -22,7 +22,6 @@
       	$scope.tab = {};
         $scope.posts = [];
         $scope.postComment = postComment;
-        $scope.loadContents = loadContents;
         posts = [];
         
 
