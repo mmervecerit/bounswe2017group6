@@ -1,6 +1,9 @@
 package com.cmpe451.interesthub.fragments;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -9,13 +12,16 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -32,7 +38,9 @@ import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
@@ -130,8 +138,24 @@ public class UserProfile extends Fragment {
         //Print interests as list, tag adapter etc?
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        ImageView profileImg = view.findViewById(R.id.profile_image);
-
+        final ImageView profileImg = view.findViewById(R.id.profile_image);
+        profileImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UserActivity activiy = (UserActivity) getActivity();
+                Runnable ppload = new Runnable() {
+                    @Override
+                    public void run() {
+                        String a=hub.getSessionController().getUser().getProfile().getPhoto();
+                        if (a!=null){
+                            String img = hub.getSessionController().getUser().getProfile().getPhoto();
+                            Picasso.with(getContext()).load(img).resize(200, 200).into(profileImg);
+                        }
+                    }
+                };
+                activiy.pickImage(ppload);
+            }
+        });
 
        // Picasso.with(getContext()).load("https://avatars1.githubusercontent.com/u/15267081?s=460&v=4").resize(200, 200).into(profileImg);
         a=hub.getSessionController().getUser().getProfile().getPhoto();
@@ -203,6 +227,9 @@ public class UserProfile extends Fragment {
         return view;
     }
 
+
+
+
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -221,6 +248,7 @@ public class UserProfile extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);

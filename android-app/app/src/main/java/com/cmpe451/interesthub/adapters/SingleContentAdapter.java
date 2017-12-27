@@ -266,6 +266,8 @@ public class SingleContentAdapter extends RecyclerView.Adapter<RecyclerView.View
                     public void onResponse(Call<Comment> call, Response<Comment> response) {
                         Toast toast = Toast.makeText(context, "Comment added",Toast.LENGTH_SHORT);
                         toast.show();
+                        Intent intent = new Intent(context, ContentActivity.class);
+                        context.startActivity(intent);
                     }
 
                     @Override

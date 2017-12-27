@@ -119,31 +119,32 @@ public class ProfileActivity extends BaseActivity {
 
             }
         });
+        if(userId!=hub.getSessionController().getUser().getId()) { //if not me
+            hub.getApiService().getFollowings().enqueue(new Callback<List<User>>() {
+                @Override
+                public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+                    if (response != null && response.body() != null) {
+                        for (User u : response.body()) {
 
-        hub.getApiService().getFollowings().enqueue(new Callback<List<User>>() {
-            @Override
-            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
-                if(response!=null&& response.body()!=null){
-                    for(User u : response.body()){
-
-                        if(u.getId()==userId){
-                            button.setText("Unfollow");
-                            button.setVisibility(View.VISIBLE);
-                            isfollowing=true;
-                            return;
+                            if (u.getId() == userId) {
+                                button.setText("Unfollow");
+                                button.setVisibility(View.VISIBLE);
+                                isfollowing = true;
+                                return;
+                            }
                         }
+                        isfollowing = false;
+                        button.setText("Follow");
+                        button.setVisibility(View.VISIBLE);
                     }
-                    isfollowing=false;
-                    button.setText("Follow");
-                    button.setVisibility(View.VISIBLE);
                 }
-            }
 
-            @Override
-            public void onFailure(Call<List<User>> call, Throwable t) {
+                @Override
+                public void onFailure(Call<List<User>> call, Throwable t) {
 
-            }
-        });
+                }
+            });
+        }
 
 
 

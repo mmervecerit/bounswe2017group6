@@ -71,6 +71,10 @@ public class InterestHub extends Application {
     public  void authApiService(final String token){
 
         Log.d("API","auth");
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(new Interceptor() {
             @Override
             public Response intercept(Interceptor.Chain chain) throws IOException {
@@ -80,6 +84,7 @@ public class InterestHub extends Application {
                 return chain.proceed(newRequest);
             }
         }).build();
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://34.209.230.231:8000/")
                 .addConverterFactory(GsonConverterFactory.create())

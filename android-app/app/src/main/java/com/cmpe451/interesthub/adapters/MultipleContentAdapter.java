@@ -1,6 +1,7 @@
 package com.cmpe451.interesthub.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -24,6 +25,7 @@ import android.widget.VideoView;
 
 import com.cmpe451.interesthub.InterestHub;
 import com.cmpe451.interesthub.R;
+import com.cmpe451.interesthub.activities.ContentActivity;
 import com.cmpe451.interesthub.models.Component;
 import com.cmpe451.interesthub.models.Content;
 import com.cmpe451.interesthub.models.TypeData;
@@ -271,6 +273,15 @@ public class MultipleContentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             }
         });
 
+        ((ViewHolder)holder).commentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hub.setTempContent(contentList.get(position));
+
+                Intent intent = new Intent(context, ContentActivity.class);
+                context.startActivity(intent);
+            }
+        });
 
 
         if(contentList.get(position).getComponents()!=null || contentList.get(position).getComponents().size()!=0 ){
@@ -319,9 +330,11 @@ public class MultipleContentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     if(data.getData().startsWith("image"))
                         url="http://34.209.230.231:8000/"+data.getData();
                     else url=data.getData();
-                    Picasso.with(context)
-                            .load(url)
-                            .resize(200,200).into(((ViewHolder)holder).image.get(imagei));
+                    if(context!=null) {
+                        Picasso.with(context)
+                                .load(url)
+                                .resize(200, 200).into(((ViewHolder) holder).image.get(imagei));
+                    }
                     imagei++;
                 }else if (c.getComponent_type().equals("video")) {
 
