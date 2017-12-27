@@ -7,6 +7,15 @@ package com.cmpe451.interesthub.models;
 public class Message {
 
     String message;
+    String status;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public String getMessage() {
         return message;

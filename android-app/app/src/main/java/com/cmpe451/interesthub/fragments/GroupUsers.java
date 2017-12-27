@@ -1,8 +1,11 @@
 package com.cmpe451.interesthub.fragments;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +13,9 @@ import android.widget.ListView;
 
 import com.cmpe451.interesthub.InterestHub;
 import com.cmpe451.interesthub.R;
+import com.cmpe451.interesthub.activities.ProfileActivity;
 import com.cmpe451.interesthub.adapters.UserAdapter;
+import com.cmpe451.interesthub.adapters.UserCardListAdapter;
 import com.cmpe451.interesthub.models.User;
 
 import java.util.ArrayList;
@@ -41,7 +46,7 @@ public class GroupUsers extends Fragment {
     private OnFragmentInteractionListener mListener;
     List<User> userList;
     InterestHub hub;
-    ListView list;
+    RecyclerView list;
 
     public GroupUsers() {
         // Required empty public constructor
@@ -82,13 +87,26 @@ public class GroupUsers extends Fragment {
         View  view =inflater.inflate(R.layout.fragment_group_users, container, false);
         list = view.findViewById(R.id.groupUserList);
         userList  = new ArrayList<User>();
+        final UserCardListAdapter.OnItemClickListener listener = new UserCardListAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int pos) {
+                Intent intent = new Intent(getContext(), ProfileActivity.class);
+                intent.putExtra("userId", userList.get(pos).getId());
+                startActivity(intent);
+
+
+            }
+        };
+        final LinearLayoutManager ll = new LinearLayoutManager( getActivity());
+        ll.setOrientation(LinearLayoutManager.VERTICAL);
+        list.setLayoutManager(ll);
         hub.getApiService().getGroupMembers(mParam2).enqueue(new Callback<List<User>>() {
             @Override
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {
                 if(response.body()!=null)
                     for(User u : response.body())
                         userList.add(u);
-                UserAdapter adapter = new UserAdapter(getContext(),android.R.layout.simple_list_item_1,userList);
+                UserCardListAdapter adapter = new UserCardListAdapter(getContext(),userList,listener);
                 list.setAdapter(adapter);
 
             }
