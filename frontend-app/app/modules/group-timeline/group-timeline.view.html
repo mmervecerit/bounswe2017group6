@@ -239,7 +239,7 @@
 
                                 <div id="components" class="col-lg-12 col-md-12 col-sm-12" ng-repeat="component in post.content_type.components track by $index " ng-init="comIndex= $index">
 
-                                    <div  ng-if="component=='text'">
+                                    <div  component-id="{{post.components[comIndex].id}}" ng-if="component=='text'">
 
                                         <div class="col-lg-3 col-md-3 col-sm-4" ng-show="post.content_type.component_names[comIndex]">
                                             <strong><label>{{post.content_type.component_names[comIndex]}}:</label></strong>
@@ -248,13 +248,13 @@
                                            
                                         
                                     </div>
-                                    <div ng-if="component=='longtext'">
+                                    <div component-id="{{post.components[comIndex].id}}" ng-if="component=='longtext'">
                                         <div class="col-lg-3 col-md-3 col-sm-4" ng-show="post.content_type.component_names[comIndex]">
                                             <strong><label>{{post.content_type.component_names[comIndex]}}:</label></strong>
                                         </div>
                                             {{post.components[comIndex].type_data.data}} 
                                     </div>
-                                    <div ng-if="component=='number'">
+                                    <div component-id="{{post.components[comIndex].id}}" ng-if="component=='number'">
                                         <div class="col-lg-3 col-md-3 col-sm-4" ng-show="post.content_type.component_names[comIndex]">
                                             <strong><label>{{post.content_type.component_names[comIndex]}}:</label></strong>
                                         </div>
@@ -262,7 +262,7 @@
                                             {{post.components[comIndex].type_data.data | number : 2}}
                                            
                                     </div>
-                                    <div ng-if="component=='datetime'">                                        
+                                    <div component-id="{{post.components[comIndex].id}}" ng-if="component=='datetime'">                                        
                                         <div class="col-lg-3 col-md-3 col-sm-4" ng-show="post.content_type.component_names[comIndex]">
 
                                         
@@ -271,27 +271,27 @@
 
                                             {{post.components[comIndex].type_data.data|date:'medium'}} 
                                     </div>
-                                    <div ng-if="component=='video'">
+                                    <div component-id="{{post.components[comIndex].id}}" ng-if="component=='video'">
                                         <div class="col-lg-3 col-md-3 col-sm-4" ng-show="post.content_type.component_names[comIndex]">
 
                                             <strong><label>{{post.content_type.component_names[comIndex]}}</label></strong>:
                                         </div>
                                             <a ng-href="{{post.components[comIndex].type_data.data}}">{{post.components[comIndex].type_data.data}}</a> 
                                     </div>
-                                    <div ng-if="component=='image'">
+                                    <div component-id="{{post.components[comIndex].id}}" ng-if="component=='image'">
                                         <div class="col-lg-3 col-md-3 col-sm-4" ng-show="post.content_type.component_names[comIndex]">
                                             <strong><label>{{post.content_type.component_names[comIndex]}}</label></strong>
                                         </div >
                                             <img  style="text-align:center; vertical-align:middle; max-width:440px;  max-height:440px;" ng-src="http://34.209.230.231:8000/{{post.components[comIndex].type_data.data}}"></p> 
 											
                                     </div>
-                                    <div ng-if="component=='dropdown'">
+                                    <div component-id="{{post.components[comIndex].id}}" ng-if="component=='dropdown'">
                                          <p>
                                             <strong><label>{{post.content_type.component_names[comIndex]}}</label></strong>:
                                             {{post.components[comIndex].type_data.data}} 
                                         </p>
                                     </div>
-                                    <div ng-if="component=='radiobutton'">
+                                    <div component-id="{{post.components[comIndex].id}}" ng-if="component=='checkbox'">
                                          <p>
                                             <strong><label>{{post.content_type.component_names[comIndex]}}</label></strong>:
                                             {{post.components[comIndex].type_data.data}} 
