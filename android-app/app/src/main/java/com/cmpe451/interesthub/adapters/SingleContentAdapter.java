@@ -377,7 +377,7 @@ public class SingleContentAdapter extends RecyclerView.Adapter<RecyclerView.View
                     numberi++;
                 } else if (c.getComponent_type().equals("image") ) {
                     Picasso.with(context)
-                            .load(data.getData())
+                            .load("http://34.209.230.231:8000/"+data.getData())
                             .resize(200,200).into(((ViewHolder)holder).image.get(imagei));
                     imagei++;
                 }else if (c.getComponent_type().equals("video")) {

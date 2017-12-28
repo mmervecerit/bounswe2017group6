@@ -92,6 +92,7 @@ public class User_MyPosts_Fragment extends Fragment {
                 public void onResponse(Call<List<Content>> call, Response<List<Content>> response) {
                     if (response.body() != null)
                         for (Content c : response.body()) {
+
                             contentList.add(c);
 
                         }
