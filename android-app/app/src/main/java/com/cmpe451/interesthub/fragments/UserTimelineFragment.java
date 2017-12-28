@@ -75,7 +75,7 @@ public class UserTimelineFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_user_timeline, container, false);
-        postList = (RecyclerView)view.findViewById(R.id.recycler_view);
+        postList = (RecyclerView)view.findViewById(R.id.recycler_view_user);
         hub = (InterestHub) getActivity().getApplication();
         hub.getApiService().getUserGroups(hub.getSessionController().getUser().getId()).enqueue(new Callback<List<Group>>() {
             @Override

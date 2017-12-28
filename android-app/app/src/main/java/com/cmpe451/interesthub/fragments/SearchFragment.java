@@ -211,7 +211,7 @@ public class SearchFragment extends Fragment {
                 SearchGroupAdapter adapter = new SearchGroupAdapter(getContext(),android.R.layout.simple_list_item_1,groupList);
 
                 groupListView.setAdapter(adapter);
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,20*adapter.getCount());
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,60*adapter.getCount());
                 groupListView.setLayoutParams(params);
 
 
@@ -232,7 +232,7 @@ public class SearchFragment extends Fragment {
                 SearchUserAdapter adapter = new SearchUserAdapter(getContext(),android.R.layout.simple_list_item_1,userList);
 
                 userListView.setAdapter(adapter);
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,20*adapter.getCount());
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,60*adapter.getCount());
                 userListView.setLayoutParams(params);
 
             }

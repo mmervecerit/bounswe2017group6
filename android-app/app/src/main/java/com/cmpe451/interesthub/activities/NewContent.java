@@ -436,6 +436,38 @@ public class NewContent extends AppCompatActivity {
 
                         comp.setType_data(t);
                     }
+                    else if(c.getComponents().get(i).equals("longtext")) {
+                        text = (EditText) ((LinearLayout) lay.getChildAt(i)).getChildAt(1);
+                        comp.setComponent_type(c.getComponents().get(i));
+                        comp.setOrder(i + 1);
+                        TypeData t = new TypeData();
+                        t.setData(text.getText().toString());
+                        comp.setType_data(t);
+                    }
+                    else if(c.getComponents().get(i).equals("number")) {
+                        text = (EditText) ((LinearLayout) lay.getChildAt(i)).getChildAt(1);
+                        comp.setComponent_type(c.getComponents().get(i));
+                        comp.setOrder(i + 1);
+                        TypeData t = new TypeData();
+                        t.setData(text.getText().toString());
+                        comp.setType_data(t);
+                    }
+                    else if(c.getComponents().get(i).equals("title")) {
+                        text = (EditText) ((LinearLayout) lay.getChildAt(i)).getChildAt(1);
+                        comp.setComponent_type(c.getComponents().get(i));
+                        comp.setOrder(i + 1);
+                        TypeData t = new TypeData();
+                        t.setData(text.getText().toString());
+                        comp.setType_data(t);
+                    }
+                    else if(c.getComponents().get(i).equals("video")) {
+                        text = (EditText) ((LinearLayout) lay.getChildAt(i)).getChildAt(1);
+                        comp.setComponent_type(c.getComponents().get(i));
+                        comp.setOrder(i + 1);
+                        TypeData t = new TypeData();
+                        t.setData(text.getText().toString());
+                        comp.setType_data(t);
+                    }
                     clist.add(comp);
 
                 }
@@ -468,10 +500,26 @@ public class NewContent extends AppCompatActivity {
             public void onResponse(Call<Content> call, Response<Content> response) {
                 if(response!=null && response.body()!=null) {
                     sendContent = response.body();
-                    for(int i =0;i<sendContent.getContentType().getComponents().size();i++){
+
+                    for(int i=0;i<sendContent.getComponents().size();i++){
+                        if(sendContent.getComponents().get(i).getComponent_type().equals("image")){
+                            hub.getApiService().updateComponentImage(sendContent.getComponents().get(i).getId(),uploadedimageList.get(imagecounter++)).enqueue(new Callback<Message>() {
+                                @Override
+                                public void onResponse(Call<Message> call, Response<Message> response) {
+
+                                }
+
+                                @Override
+                                public void onFailure(Call<Message> call, Throwable t) {
+
+                                }
+                            });
+                        }
+                    }
+                    /*for(int i =0;i<sendContent.getContentType().getComponents().size();i++){
                         if(sendContent.getContentType().getComponents().get(i).equals("image")){
                             if(uploadedimageList.size()<1) return;
-                           hub.getApiService().updateComponentImage(sendContent.getComponents().get(i).getId(),uploadedimageList.get(imagecounter++)).enqueue(new Callback<Message>() {
+                              hub.getApiService().updateComponentImage(sendContent.getComponents().get(i).getId(),uploadedimageList.get(imagecounter++)).enqueue(new Callback<Message>() {
                                @Override
                                public void onResponse(Call<Message> call, Response<Message> response) {
 
@@ -484,7 +532,7 @@ public class NewContent extends AppCompatActivity {
                                }
                            });
                         }
-                    }
+                    }*/
                     Intent intent = new Intent(getBaseContext(), GroupActivity.class);
                     intent.putExtra("groupName", groupName);
                     intent.putExtra("groupId", groupId);
